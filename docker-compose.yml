@@ -1,0 +1,46 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: "file:./prisma/dev.db"
+      NEXTAUTH_SECRET: "change-me-in-production"
+      NEXTAUTH_URL: "http://localhost:3001"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3001"
+      AI_PROVIDER: "ollama"
+      OLLAMA_HOST: "http://ollama:11434"
+      SYNC_INTERVAL: "0 * * * *"
+      SYNC_MEDIA_DIR: "public/uploads/sync"
+    volumes:
+      - sqldata:/app/prisma
+      - uploads:/app/public/uploads
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        ollama serve &
+        sleep 3
+        ollama pull qwen2.5:7b
+        wait
+
+volumes:
+  ollama_data:
+  sqldata:
+  uploads:

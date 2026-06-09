@@ -1,0 +1,31 @@
+=== Facebook API Diagnosis ===
+Date: 2026-06-07T12:13:30.117Z
+Configured Page ID: 122140430793137164
+Token Preview: EAGFhafBZCX2wBR...DFZAZBvdpbc1OAU
+
+1. Token identity (/me):
+{
+  "id": "122140430793137164",
+  "name": "الجـالـية السورية في هـولندا"
+}
+
+2. Token Debug Info (/debug_token):
+{
+  "error": {
+    "message": "Error validating application. Cannot get application info due to a system error.",
+    "type": "OAuthException",
+    "code": 190,
+    "fbtrace_id": "AYUc08cqAx1tr-Jsk4rHhKw"
+  }
+}
+
+3. Page Posts (/122140430793137164/posts):
+{
+  "data": []
+}
+
+4. Page Feed (/122140430793137164/feed):
+{
+  "data": []
+}
+

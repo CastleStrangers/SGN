@@ -1,0 +1,389 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("member")
+  roleId        String?
+  bio           String?
+  phone         String?
+  location      String?
+  website       String?
+  createdAt     DateTime  @default(now())
+  roleRel       Role?     @relation(fields: [roleId], references: [id])
+  accounts      Account[]
+  sessions      Session[]
+  posts         Post[]
+  favorites     Favorite[]
+  pushTokens    PushToken[]
+  permissions   UserPermission[]
+  members       Member[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String?  @unique
+  content   String
+  excerpt   String?
+  image     String?
+  videoId   String?  // YouTube video ID (for youtube source)
+  category  String   @default("أخبار الجالية")
+  tags      String?
+  source    String?  @default("الجالية السورية في هولندا")
+  featured  Boolean  @default(false)
+  views     Int      @default(0)
+  published Boolean  @default(true)
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+  comments  Comment[]
+  favorites Favorite[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([published, createdAt])
+  @@index([category, published, createdAt])
+  @@index([source, published])
+  @@index([featured, published])
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  status      String   @default("pending")
+  priority    String   @default("medium")
+  assignedTo  String?
+  createdBy   String?
+  dueDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id        String      @id @default(cuid())
+  postId    String
+  author    String
+  content   String
+  userId    String?
+  parentId  String?
+  likes     Int         @default(0)
+  approved  Boolean     @default(true)
+  createdAt DateTime    @default(now())
+  post      Post        @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parent    Comment?    @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   Comment[]   @relation("CommentReplies")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  date        DateTime
+  location    String?
+  image       String?
+  category    String   @default("فعالية")
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model Volunteer {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  phone      String?
+  skills     String?
+  availability String?
+  message    String?
+  createdAt  DateTime @default(now())
+}
+
+model Member {
+  id           String   @id @default(cuid())
+  memberNumber Int?     @unique
+  nameAr       String
+  nameNl       String
+  birthYear    Int
+  gender       String
+  originCity   String
+  whatsapp     String
+  email        String?
+  avatar       String?
+  nlProvincie  String
+  nlCity       String
+  expNl        String?
+  expOutside   String?
+  educationLevel String?
+  profession   String?
+  skills       String?
+  maritalStatus String?
+  agreed       Boolean  @default(true)
+  status       String   @default("pending")
+  notes        String?
+  showInPublicProfile Boolean @default(true)
+  userId       String?  @unique
+  user         User?    @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model AppSetting {
+  key   String @id
+  value String
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String?
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  memberId  String
+  action    String
+  details   String?
+  userId    String?
+  createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expires   DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model OtpCode {
+  id         String   @id @default(cuid())
+  identifier String
+  code       String
+  expiresAt  DateTime
+  used       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([identifier, code])
+}
+
+model Survey {
+  id          String         @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime?
+  endDate     DateTime?
+  active      Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  options     SurveyOption[]
+  votes       SurveyVote[]
+}
+
+model SurveyOption {
+  id       String       @id @default(cuid())
+  surveyId String
+  text     String
+  votes    Int          @default(0)
+  survey   Survey       @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+}
+
+model SurveyVote {
+  id        String   @id @default(cuid())
+  surveyId  String
+  optionId  String
+  userId    String
+  createdAt DateTime @default(now())
+  survey    Survey   @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+
+  @@unique([surveyId, userId])
+}
+
+model Ad {
+  id        String   @id @default(cuid())
+  title     String
+  image     String
+  link      String?
+  position  String   @default("sidebar")
+  startDate DateTime?
+  endDate   DateTime?
+  clicks    Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+}
+
+model PushToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  permissions String   @default("[]")
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]
+}
+
+model UserPermission {
+  id         String @id @default(cuid())
+  userId     String
+  permission String
+  granted    Boolean @default(true)
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, permission])
+}
+
+model ChatMessage {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  message    String
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([senderId, receiverId])
+  @@index([receiverId, read])
+}
+
+model ChatAISession {
+  id        String   @id @default(cuid())
+  userId    String
+  messages  ChatAIMessage[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model ChatAIMessage {
+  id        String   @id @default(cuid())
+  sessionId String
+  session   ChatAISession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role      String   // "user" | "assistant"
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([sessionId, createdAt])
+}
+
+model Donation {
+  id          String   @id @default(cuid())
+  memberId    String?
+  name        String
+  email       String?
+  phone       String?
+  amount      Float
+  currency    String   @default("EUR")
+  message     String?
+  paymentMethod String? @default("bank")
+  status      String   @default("pending")
+  paidAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model LandingPage {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  subtitle    String?
+  heroImage   String?
+  heroHeadline String?
+  heroSubheadline String?
+  content     String   @default("")
+  ctaText     String?
+  ctaLink     String?
+  features    String?
+  themeColor  String   @default("#1a5632")
+  metaTitle   String?
+  metaDescription String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

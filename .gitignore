@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+build/
+V/
+Antigravity/
+*.mp4
+*.exe
+.env

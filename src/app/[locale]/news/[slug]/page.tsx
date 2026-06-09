@@ -1,0 +1,120 @@
+import { Metadata } from "next";
+import { prisma } from "@/lib/db";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
+import { Calendar, Clock, Eye, User, ChevronRight, ArrowLeft } from "lucide-react";
+import { ArticleActions } from "@/components/article-actions";
+import { CommentSection } from "@/components/comment-section";
+
+interface Props { params: Promise<{ slug: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const decodedSlug = decodeURIComponent(slug);
+  const post = await prisma.post.findUnique({ where: { slug: decodedSlug, published: true } });
+  if (!post) return { title: "المقال غير موجود" };
+  return {
+    title: post.title,
+    description: post.excerpt || post.title,
+    openGraph: {
+      type: "article", title: post.title, description: post.excerpt || post.title,
+      images: post.image ? [{ url: post.image }] : [],
+      publishedTime: post.createdAt.toISOString(),
+      authors: [post.author?.name || "الجالية السورية"],
+    },
+    twitter: { card: "summary_large_image", title: post.title, description: post.excerpt || post.title },
+    alternates: { canonical: `https://sy-nl.org/news/${slug}` },
+  };
+}
+
+export default async function ArticlePage({ params }: Props) {
+  const t = useTranslations('newsDetail');
+  const { slug } = await params;
+  const decodedSlug = decodeURIComponent(slug);
+  const post = await prisma.post.findUnique({
+    where: { slug: decodedSlug, published: true },
+    include: { author: { select: { name: true } } },
+  });
+
+  if (!post) return (
+    <div dir="rtl" className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('notFound')}</h2>
+        <Link href="/news" className="text-[#1a5632] hover:underline">{t('backToNews')}</Link>
+      </div>
+    </div>
+  );
+
+  // Increment view count asynchronously to avoid blocking page render/SQL locks
+  prisma.post.update({ where: { id: post.id }, data: { views: { increment: 1 } } }).catch(() => {});
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image,
+    datePublished: post.createdAt.toISOString(),
+    dateModified: post.updatedAt.toISOString(),
+    author: [{ "@type": "Person", name: post.author?.name || t('defaultAuthor') }],
+    publisher: { "@type": "Organization", name: t('publisher') },
+    articleSection: post.category,
+  };
+
+  const contentHtml = post.content.replace(/\n/g, "<br/>");
+
+  return (
+    <div dir="rtl" className="min-h-screen bg-gray-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <Link href="/news" className="inline-flex items-center gap-2 text-[#1a5632] hover:text-[#0f3d23] mb-6 text-sm">
+          <ArrowLeft className="w-4 h-4" />
+          <span>{t('backToNews')}</span>
+        </Link>
+
+        <article className="bg-white rounded-2xl overflow-hidden border shadow-sm">
+          {post.image && !post.content.includes("youtube.com/embed") && (
+            <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="w-full h-64 md:h-96 object-cover" />
+          )}
+
+          <div className="p-6 md:p-8">
+            <div className="flex items-center flex-wrap gap-2 mb-4">
+              <Link href={`/news/category/${post.category.replace(/\s+/g, "-")}`} className="bg-[#1a5632] text-white text-xs font-bold px-2.5 py-1 rounded hover:bg-[#0f3d23] transition-colors">{post.category}</Link>
+              {post.tags?.split(",").map((t: string) => (
+                <span key={t} className="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded">{t.trim()}</span>
+              ))}
+            </div>
+
+            <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">{post.title}</h1>
+
+            <div className="flex items-center flex-wrap gap-4 text-sm text-gray-500 mb-6 pb-6 border-b">
+              <span className="flex items-center gap-1.5"><User className="w-4 h-4" />{post.author?.name || t('defaultAuthor')}</span>
+              <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{new Date(post.createdAt).toLocaleDateString("ar")}</span>
+              <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" />{t('readTime', { minutes: Math.ceil(post.content.length / 500) })}</span>
+              <span className="flex items-center gap-1.5"><Eye className="w-4 h-4" />{t('views', { count: post.views || 0 })}</span>
+            </div>
+
+            {post.excerpt && (
+              <p className="text-lg text-gray-600 mb-6 font-medium leading-relaxed border-r-4 border-[#c8a84e] pr-4">{post.excerpt}</p>
+            )}
+
+            <div className="text-gray-800 leading-8 text-base md:text-lg space-y-4" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+
+            {post.source && (
+              <p className="mt-8 text-sm text-gray-400 pt-4 border-t">{t('source')} {post.source}</p>
+            )}
+
+            <ArticleActions title={post.title} />
+            <CommentSection postId={post.id} />
+          </div>
+        </article>
+
+        <div className="mt-8 text-center">
+          <Link href="/news" className="inline-flex items-center gap-2 text-[#1a5632] hover:underline text-sm">
+            <ChevronRight className="w-4 h-4" /> {t('allNews')}
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

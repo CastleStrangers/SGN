@@ -1,0 +1,15 @@
+declare module "next-intl";
+declare module "next-intl/server";
+declare module "next-intl/client";
+declare module "next-intl/navigation";
+declare module "next-intl/routing";
+declare module "next-intl/middleware";
+declare module "next-intl/plugin";
+declare module "next-auth";
+declare module "next-auth/react";
+declare module "next-auth/providers/credentials";
+declare module "next-auth/providers/google";
+declare module "next-auth/providers/facebook";
+declare module "@prisma/client";
+declare module "nodemailer";
+declare module "@next-auth/prisma-adapter";

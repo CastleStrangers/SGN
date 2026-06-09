@@ -1,0 +1,183 @@
+{
+  "app": {
+    "name": "الجالية السورية في هولندا",
+    "version": "الإصدار 1.0.0"
+  },
+  "tabs": {
+    "news": "الأخبار",
+    "favorites": "المفضلة",
+    "events": "الفعاليات",
+    "messages": "الرسائل",
+    "profile": "حسابي"
+  },
+  "home": {
+    "searchPlaceholder": "بحث عن أخبار...",
+    "all": "الكل",
+    "noResults": "لا توجد نتائج",
+    "loading": "جاري التحميل...",
+    "source": "المصدر"
+  },
+  "favorites": {
+    "empty": "لا توجد مقالات في المفضلة",
+    "loginRequired": "يرجى تسجيل الدخول أولاً",
+    "removeError": "خطأ في الإزالة"
+  },
+  "profile": {
+    "welcome": "مرحباً بك",
+    "loginPrompt": "سجل الدخول للاستفادة من جميع الميزات",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "logoutConfirm": "هل تريد تسجيل الخروج؟",
+    "cancel": "إلغاء",
+    "logoutAction": "تسجيل الخروج",
+    "user": "المستخدم",
+    "favorites": "المفضلة",
+    "settings": "الإعدادات"
+  },
+  "login": {
+    "title": "الجالية السورية",
+    "subtitle": "تسجيل الدخول إلى حسابك",
+    "emailPlaceholder": "البريد الإلكتروني",
+    "passwordPlaceholder": "كلمة المرور",
+    "submit": "تسجيل الدخول",
+    "noAccount": "ليس لديك حساب؟ إنشاء حساب جديد",
+    "success": "تم تسجيل الدخول",
+    "error": "فشل تسجيل الدخول",
+    "validation": "يرجى إدخال البريد الإلكتروني وكلمة المرور"
+  },
+  "register": {
+    "title": "إنشاء حساب جديد",
+    "namePlaceholder": "الاسم الكامل",
+    "emailPlaceholder": "البريد الإلكتروني",
+    "passwordPlaceholder": "كلمة المرور",
+    "submit": "إنشاء حساب",
+    "hasAccount": "لديك حساب؟ تسجيل الدخول",
+    "success": "تم إنشاء الحساب بنجاح، يمكنك تسجيل الدخول الآن",
+    "error": "فشل إنشاء الحساب",
+    "validation": "يرجى ملء جميع الحقول"
+  },
+  "news": {
+    "detail": {
+      "notFound": "لم يتم العثور على المقال",
+      "source": "المصدر",
+      "favoriteAddRequired": "يرجى تسجيل الدخول لإضافة المفضلة",
+      "error": "خطأ"
+    }
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "pushNotifications": "الإشعارات الفورية",
+    "loginRequired": "يرجى تسجيل الدخول أولاً",
+    "pushSuccess": "تم تفعيل الإشعارات",
+    "pushError": "فشل تفعيل الإشعارات",
+    "language": "اللغة",
+    "arabic": "العربية",
+    "dutch": "الهولندية",
+    "english": "الإنجليزية",
+    "appInfo": "تطبيق الجالية السورية في هولندا"
+  },
+  "chat": {
+    "aiTitle": "المساعد الذكي",
+    "aiPlaceholder": "اسأل المساعد الذكي...",
+    "aiWelcome": "مرحباً! أنا المساعد الذكي للجالية السورية في هولندا. كيف يمكنني مساعدتك؟",
+    "aiError": "عذراً، حدث خطأ. حاول مرة أخرى.",
+    "aiThinking": "جارٍ كتابة الرد...",
+    "aiClear": "محادثة جديدة",
+    "send": "إرسال",
+    "title": "الرسائل",
+    "noMessages": "لا توجد رسائل بعد",
+    "loading": "جاري التحميل..."
+  },
+  "common": {
+    "ok": "موافق",
+    "cancel": "إلغاء",
+    "error": "خطأ",
+    "success": "نجاح",
+    "loading": "جاري التحميل..."
+  },
+  "events": {
+    "list": {
+      "title": "الفعاليات",
+      "upcoming": "الفعاليات القادمة",
+      "all": "جميع الفعاليات",
+      "noEvents": "لا توجد فعاليات قادمة",
+      "loading": "جاري تحميل الفعاليات..."
+    },
+    "detail": {
+      "date": "التاريخ",
+      "time": "الوقت",
+      "location": "المكان",
+      "category": "التصنيف",
+      "description": "الوصف"
+    }
+  },
+  "donate": {
+    "title": "تبرع",
+    "nameLabel": "الاسم الكامل",
+    "emailLabel": "البريد الإلكتروني",
+    "phoneLabel": "رقم الهاتف",
+    "amountLabel": "المبلغ (€)",
+    "messageLabel": "رسالة (اختياري)",
+    "paymentMethod": "طريقة الدفع",
+    "bankTransfer": "تحويل بنكي",
+    "mollie": "دفع إلكتروني",
+    "submit": "تبرع الآن",
+    "success": "شكراً لك على تبرعك!",
+    "bankDetails": "بيانات الحساب للتحويل",
+    "iban": "رقم IBAN",
+    "bankName": "البنك",
+    "accountHolder": "صاحب الحساب",
+    "amountRequired": "يجب أن يكون المبلغ أكبر من 0",
+    "nameRequired": "الاسم مطلوب",
+    "error": "فشلت عملية التبرع"
+  },
+  "surveys": {
+    "title": "الاستبيانات",
+    "vote": "تصويت",
+    "results": "عرض النتائج",
+    "alreadyVoted": "لقد قمت بالتصويت مسبقاً",
+    "noActiveSurvey": "لا يوجد استبيان نشط حالياً",
+    "totalVotes": "إجمالي الأصوات",
+    "loading": "جاري تحميل الاستبيان...",
+    "submitVote": "إرسال التصويت",
+    "voteSuccess": "تم تسجيل صوتك",
+    "voteError": "فشل إرسال التصويت",
+    "backToSurvey": "العودة للاستبيان"
+  },
+  "volunteer": {
+    "title": "التسجيل للتطوع",
+    "nameLabel": "الاسم الكامل",
+    "emailLabel": "البريد الإلكتروني",
+    "phoneLabel": "رقم الهاتف (اختياري)",
+    "skillsLabel": "المهارات (اختياري)",
+    "availabilityLabel": "الأوقات المتاحة (اختياري)",
+    "messageLabel": "رسالة (اختياري)",
+    "submit": "سجل كمتطوع",
+    "success": "شكراً لتسجيلك! سنتواصل معك قريباً.",
+    "error": "فشل التسجيل",
+    "nameRequired": "الاسم مطلوب",
+    "emailRequired": "البريد الإلكتروني مطلوب"
+  },
+  "gallery": {
+    "title": "معرض الصور",
+    "noImages": "لا توجد صور",
+    "loading": "جاري تحميل الصور..."
+  },
+  "more": {
+    "title": "المزيد",
+    "donate": "تبرع",
+    "volunteer": "تطوع",
+    "surveys": "استبيانات",
+    "gallery": "معرض الصور",
+    "dashboard": "لوحة الإحصائيات",
+    "community": "المجتمع"
+  },
+  "dashboard": {
+    "title": "لوحة الإحصائيات",
+    "posts": "المقالات",
+    "users": "المستخدمين",
+    "events": "الفعاليات",
+    "totalViews": "إجمالي المشاهدات",
+    "loading": "جاري تحميل الإحصائيات..."
+  }
+}

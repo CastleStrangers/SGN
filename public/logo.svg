@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="100" cy="100" r="95" fill="#1a5632"/>
+  <circle cx="100" cy="100" r="95" stroke="#c8a84e" stroke-width="4"/>
+  <!-- Star (Syrian symbol) -->
+  <polygon points="100,40 112,75 150,75 118,95 127,130 100,110 73,130 82,95 50,75 88,75" fill="#c8a84e"/>
+  <!-- Tulip (Netherlands symbol) -->
+  <path d="M100 110 C85 130 75 150 100 170 C125 150 115 130 100 110Z" fill="#c8a84e" opacity="0.8"/>
+  <!-- Text circle -->
+  <path d="M100 180 A80 80 0 1 1 100 20" fill="none" stroke="white" stroke-width="0"/>
+</svg>

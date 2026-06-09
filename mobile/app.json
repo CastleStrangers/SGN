@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "الجالية السورية في هولندا",
+    "slug": "sy-nl",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "sy-nl",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#1a5632"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "org.synl.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#1a5632"
+      },
+      "package": "org.synl.mobile"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#1a5632"
+        }
+      ],
+      "expo-router"
+    ]
+  }
+}

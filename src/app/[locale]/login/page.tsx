@@ -1,0 +1,235 @@
+"use client";
+
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { Link } from "@/i18n/routing";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
+import { useForm } from "react-hook-form";
+import Image from "next/image";
+import { createFieldRules } from "@/lib/validations";
+
+export default function LoginPage() {
+  const locale = useLocale();
+  const fieldRules = createFieldRules(locale);
+  const t = useTranslations("auth");
+  const router = useRouter();
+  const [show, setShow] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [socialLoading, setSocialLoading] = useState<"google" | "facebook" | null>(null);
+
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+
+  const onSubmit = async (data: any) => {
+    setAuthError("");
+    const res = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+    if (res?.error) {
+      setAuthError(t("loginError"));
+    } else {
+      router.push("/dashboard");
+    }
+  };
+
+  const handleSocialLogin = async (provider: "google" | "facebook") => {
+    setSocialLoading(provider);
+    await signIn(provider, { callbackUrl: "/dashboard" });
+  };
+
+  return (
+    <div className="min-h-screen flex" dir="rtl">
+      {/* الجانب الأيمن: الخلفية الزخرفية */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#0f3d23] via-[#1a5632] to-[#2d7a4a] flex-col items-center justify-center p-12 relative overflow-hidden">
+        {/* دوائر زخرفية */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/5 rounded-full translate-x-1/2 translate-y-1/2" />
+        <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-[#c8a84e]/20 rounded-full -translate-x-1/2 -translate-y-1/2" />
+
+        <div className="relative z-10 text-center text-white">
+          <div className="w-24 h-24 bg-white/10 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-8 border border-white/20">
+            <Image src="/logo.png" alt="Logo" width={60} height={60} className="w-14 h-14" />
+          </div>
+          <h2 className="text-3xl font-bold mb-4">الجالية السورية في هولندا</h2>
+          <p className="text-white/70 text-lg leading-relaxed max-w-sm mx-auto">
+            منصتك للتواصل والمشاركة مع أبناء الجالية السورية في المملكة الهولندية
+          </p>
+          <div className="mt-12 grid grid-cols-3 gap-6 text-center">
+            {[
+              { num: "+5000", label: "عضو نشط" },
+              { num: "+200", label: "فعالية" },
+              { num: "+100", label: "متطوع" },
+            ].map((s) => (
+              <div key={s.label} className="bg-white/10 rounded-2xl p-4 border border-white/10">
+                <div className="text-2xl font-bold text-[#c8a84e]">{s.num}</div>
+                <div className="text-white/70 text-sm mt-1">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* الجانب الأيسر: نموذج الدخول */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-gray-50">
+        <div className="w-full max-w-md">
+          {/* رأس الصفحة على الموبايل */}
+          <div className="lg:hidden text-center mb-8">
+            <Image src="/logo.png" alt="Logo" width={56} height={56} className="w-14 h-14 mx-auto mb-3" />
+            <h1 className="text-xl font-bold text-[#1a5632]">الجالية السورية في هولندا</h1>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+            <div className="mb-8">
+              <h1 className="text-2xl font-bold text-gray-900">{t("login")}</h1>
+              <p className="text-gray-500 text-sm mt-1">{t("loginDesc")}</p>
+            </div>
+
+            {/* أزرار الدخول الاجتماعي */}
+            <div className="space-y-3 mb-6">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSocialLogin("google");
+                }}
+                disabled={!!socialLoading}
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-sm font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed group"
+              >
+                {socialLoading === "google" ? (
+                  <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                ) : (
+                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                  </svg>
+                )}
+                المتابعة باستخدام Google
+              </button>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSocialLogin("facebook");
+                }}
+                disabled={!!socialLoading}
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-all text-sm font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {socialLoading === "facebook" ? (
+                  <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                ) : (
+                  <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg>
+                )}
+                المتابعة باستخدام Facebook
+              </button>
+            </div>
+
+            {/* فاصل */}
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-white px-4 text-xs text-gray-400 uppercase tracking-wider">أو بالبريد الإلكتروني</span>
+              </div>
+            </div>
+
+            {/* نموذج الدخول */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">{t("email")}</label>
+                <div className="relative">
+                  <Mail className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input
+                    type="email"
+                    {...register("email", fieldRules.email)}
+                    placeholder="example@email.com"
+                    className="w-full pr-10 pl-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632] focus:border-transparent transition-all text-sm"
+                  />
+                </div>
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message as string}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">{t("password")}</label>
+                <div className="relative">
+                  <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input
+                    type={show ? "text" : "password"}
+                    {...register("password", fieldRules.password)}
+                    placeholder="••••••••"
+                    className="w-full pr-10 pl-10 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632] focus:border-transparent transition-all text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShow(!show)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message as string}</p>}
+              </div>
+
+              <div className="flex justify-between items-center">
+                <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+                  <input type="checkbox" className="rounded border-gray-300 text-[#1a5632]" />
+                  تذكرني
+                </label>
+                <Link href="/forgot-password" className="text-sm text-[#1a5632] hover:text-[#0f3d23] font-medium hover:underline">
+                  نسيت كلمة المرور؟
+                </Link>
+              </div>
+
+              {authError && (
+                <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-xl text-sm flex items-center gap-2">
+                  <span className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0" />
+                  {authError}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-[#1a5632] hover:bg-[#0f3d23] text-white font-bold py-3.5 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-[#1a5632]/20 hover:shadow-xl hover:shadow-[#1a5632]/30"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    {t("loggingIn")}
+                  </>
+                ) : (
+                  <>
+                    {t("loginButton")}
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <p className="text-center text-sm text-gray-500 mt-6">
+              {t("noAccount")}{" "}
+              <Link href="/signup" className="text-[#1a5632] font-bold hover:underline">
+                {t("signupButton")}
+              </Link>
+            </p>
+          </div>
+
+          <p className="text-center text-xs text-gray-400 mt-6">
+            بتسجيل الدخول، أنت توافق على{" "}
+            <Link href="/about" className="text-[#1a5632] hover:underline">سياسة الخصوصية</Link>
+            {" "}و{" "}
+            <Link href="/about" className="text-[#1a5632] hover:underline">شروط الاستخدام</Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

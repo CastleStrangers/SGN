@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <circle cx="256" cy="256" r="250" fill="#1a5632"/>
+  <circle cx="256" cy="256" r="250" stroke="#c8a84e" stroke-width="10"/>
+  <!-- Star -->
+  <polygon points="256,100 280,180 360,180 295,225 318,305 256,260 194,305 217,225 152,180 232,180" fill="#c8a84e"/>
+  <!-- Tulip -->
+  <path d="M256 280 C230 320 200 360 256 430 C312 360 282 320 256 280Z" fill="#c8a84e" opacity="0.8"/>
+  <!-- Text arc would be added in the browser; for now just the icon -->
+</svg>

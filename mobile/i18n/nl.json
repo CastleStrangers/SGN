@@ -1,0 +1,183 @@
+{
+  "app": {
+    "name": "Syrische Gemeenschap in Nederland",
+    "version": "Versie 1.0.0"
+  },
+  "tabs": {
+    "news": "Nieuws",
+    "favorites": "Favorieten",
+    "events": "Evenementen",
+    "messages": "Berichten",
+    "profile": "Mijn Account"
+  },
+  "home": {
+    "searchPlaceholder": "Zoek nieuws...",
+    "all": "Alles",
+    "noResults": "Geen resultaten gevonden",
+    "loading": "Laden...",
+    "source": "Bron"
+  },
+  "favorites": {
+    "empty": "Geen favoriete artikelen",
+    "loginRequired": "Log eerst in",
+    "removeError": "Fout bij verwijderen"
+  },
+  "profile": {
+    "welcome": "Welkom",
+    "loginPrompt": "Log in om alle functies te gebruiken",
+    "login": "Inloggen",
+    "logout": "Uitloggen",
+    "logoutConfirm": "Weet u zeker dat u wilt uitloggen?",
+    "cancel": "Annuleren",
+    "logoutAction": "Uitloggen",
+    "user": "Gebruiker",
+    "favorites": "Favorieten",
+    "settings": "Instellingen"
+  },
+  "login": {
+    "title": "Syrische Gemeenschap",
+    "subtitle": "Inloggen op uw account",
+    "emailPlaceholder": "E-mail",
+    "passwordPlaceholder": "Wachtwoord",
+    "submit": "Inloggen",
+    "noAccount": "Nog geen account? Maak er een aan",
+    "success": "Inloggen gelukt",
+    "error": "Inloggen mislukt",
+    "validation": "Voer e-mail en wachtwoord in"
+  },
+  "register": {
+    "title": "Nieuw Account Aanmaken",
+    "namePlaceholder": "Volledige Naam",
+    "emailPlaceholder": "E-mail",
+    "passwordPlaceholder": "Wachtwoord",
+    "submit": "Account Aanmaken",
+    "hasAccount": "Al een account? Inloggen",
+    "success": "Account aangemaakt, u kunt nu inloggen",
+    "error": "Account aanmaken mislukt",
+    "validation": "Vul alle velden in"
+  },
+  "news": {
+    "detail": {
+      "notFound": "Artikel niet gevonden",
+      "source": "Bron",
+      "favoriteAddRequired": "Log in om favorieten toe te voegen",
+      "error": "Fout"
+    }
+  },
+  "settings": {
+    "title": "Instellingen",
+    "pushNotifications": "Pushmeldingen",
+    "loginRequired": "Log eerst in",
+    "pushSuccess": "Meldingen ingeschakeld",
+    "pushError": "Meldingen inschakelen mislukt",
+    "language": "Taal",
+    "arabic": "Arabisch",
+    "dutch": "Nederlands",
+    "english": "Engels",
+    "appInfo": "Syrische Gemeenschap in Nederland App"
+  },
+  "chat": {
+    "aiTitle": "AI Assistent",
+    "aiPlaceholder": "Vraag de AI-assistent...",
+    "aiWelcome": "Hallo! Ik ben de AI-assistent voor de Syrische gemeenschap in Nederland. Hoe kan ik u helpen?",
+    "aiError": "Sorry, er is een fout opgetreden. Probeer het opnieuw.",
+    "aiThinking": "Assistent typt...",
+    "aiClear": "Nieuw gesprek",
+    "send": "Verzenden",
+    "title": "Berichten",
+    "noMessages": "Nog geen berichten",
+    "loading": "Laden..."
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Annuleren",
+    "error": "Fout",
+    "success": "Succes",
+    "loading": "Laden..."
+  },
+  "events": {
+    "list": {
+      "title": "Evenementen",
+      "upcoming": "Aankomende Evenementen",
+      "all": "Alle Evenementen",
+      "noEvents": "Geen aankomende evenementen",
+      "loading": "Evenementen laden..."
+    },
+    "detail": {
+      "date": "Datum",
+      "time": "Tijd",
+      "location": "Locatie",
+      "category": "Categorie",
+      "description": "Beschrijving"
+    }
+  },
+  "donate": {
+    "title": "Doneren",
+    "nameLabel": "Volledige Naam",
+    "emailLabel": "E-mail",
+    "phoneLabel": "Telefoon",
+    "amountLabel": "Bedrag (€)",
+    "messageLabel": "Bericht (optioneel)",
+    "paymentMethod": "Betaalmethode",
+    "bankTransfer": "Bankoverschrijving",
+    "mollie": "Online Betaling",
+    "submit": "Nu Doneren",
+    "success": "Bedankt voor uw donatie!",
+    "bankDetails": "Bankgegevens voor Overschrijving",
+    "iban": "IBAN",
+    "bankName": "Bank",
+    "accountHolder": "Rekeninghouder",
+    "amountRequired": "Bedrag moet groter zijn dan 0",
+    "nameRequired": "Naam is verplicht",
+    "error": "Donatie mislukt"
+  },
+  "surveys": {
+    "title": "Enquêtes",
+    "vote": "Stem",
+    "results": "Bekijk Resultaten",
+    "alreadyVoted": "U heeft al gestemd",
+    "noActiveSurvey": "Geen actieve enquête op dit moment",
+    "totalVotes": "Totaal stemmen",
+    "loading": "Enquête laden...",
+    "submitVote": "Stem Verzenden",
+    "voteSuccess": "Uw stem is geregistreerd",
+    "voteError": "Stemmen mislukt",
+    "backToSurvey": "Terug naar Enquête"
+  },
+  "volunteer": {
+    "title": "Vrijwilligersregistratie",
+    "nameLabel": "Volledige Naam",
+    "emailLabel": "E-mail",
+    "phoneLabel": "Telefoon (optioneel)",
+    "skillsLabel": "Vaardigheden (optioneel)",
+    "availabilityLabel": "Beschikbaarheid (optioneel)",
+    "messageLabel": "Bericht (optioneel)",
+    "submit": "Registreer als Vrijwilliger",
+    "success": "Bedankt voor uw registratie! We nemen spoedig contact met u op.",
+    "error": "Registratie mislukt",
+    "nameRequired": "Naam is verplicht",
+    "emailRequired": "E-mail is verplicht"
+  },
+  "gallery": {
+    "title": "Galerij",
+    "noImages": "Geen afbeeldingen gevonden",
+    "loading": "Afbeeldingen laden..."
+  },
+  "more": {
+    "title": "Meer",
+    "donate": "Doneren",
+    "volunteer": "Vrijwilliger",
+    "surveys": "Enquêtes",
+    "gallery": "Galerij",
+    "dashboard": "Dashboard",
+    "community": "Gemeenschap"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "posts": "Nieuwsartikelen",
+    "users": "Gebruikers",
+    "events": "Evenementen",
+    "totalViews": "Totaal Weergaven",
+    "loading": "Statistieken laden..."
+  }
+}

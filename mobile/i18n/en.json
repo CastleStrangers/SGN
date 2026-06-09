@@ -1,0 +1,183 @@
+{
+  "app": {
+    "name": "Syrian Community in the Netherlands",
+    "version": "Version 1.0.0"
+  },
+  "tabs": {
+    "news": "News",
+    "favorites": "Favorites",
+    "events": "Events",
+    "messages": "Messages",
+    "profile": "My Account"
+  },
+  "home": {
+    "searchPlaceholder": "Search news...",
+    "all": "All",
+    "noResults": "No results found",
+    "loading": "Loading...",
+    "source": "Source"
+  },
+  "favorites": {
+    "empty": "No favorite articles",
+    "loginRequired": "Please login first",
+    "removeError": "Error removing"
+  },
+  "profile": {
+    "welcome": "Welcome",
+    "loginPrompt": "Login to access all features",
+    "login": "Login",
+    "logout": "Logout",
+    "logoutConfirm": "Are you sure you want to logout?",
+    "cancel": "Cancel",
+    "logoutAction": "Logout",
+    "user": "User",
+    "favorites": "Favorites",
+    "settings": "Settings"
+  },
+  "login": {
+    "title": "Syrian Community",
+    "subtitle": "Login to your account",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "submit": "Login",
+    "noAccount": "Don't have an account? Create one",
+    "success": "Login successful",
+    "error": "Login failed",
+    "validation": "Please enter email and password"
+  },
+  "register": {
+    "title": "Create New Account",
+    "namePlaceholder": "Full Name",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "submit": "Create Account",
+    "hasAccount": "Already have an account? Login",
+    "success": "Account created successfully, you can now login",
+    "error": "Account creation failed",
+    "validation": "Please fill all fields"
+  },
+  "news": {
+    "detail": {
+      "notFound": "Article not found",
+      "source": "Source",
+      "favoriteAddRequired": "Please login to add favorites",
+      "error": "Error"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "pushNotifications": "Push Notifications",
+    "loginRequired": "Please login first",
+    "pushSuccess": "Notifications enabled",
+    "pushError": "Failed to enable notifications",
+    "language": "Language",
+    "arabic": "Arabic",
+    "dutch": "Dutch",
+    "english": "English",
+    "appInfo": "Syrian Community in the Netherlands App"
+  },
+  "chat": {
+    "aiTitle": "AI Assistant",
+    "aiPlaceholder": "Ask the AI assistant...",
+    "aiWelcome": "Hello! I'm the AI assistant for the Syrian community in the Netherlands. How can I help you?",
+    "aiError": "Sorry, an error occurred. Please try again.",
+    "aiThinking": "Assistant is typing...",
+    "aiClear": "New conversation",
+    "send": "Send",
+    "title": "Messages",
+    "noMessages": "No messages yet",
+    "loading": "Loading..."
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "error": "Error",
+    "success": "Success",
+    "loading": "Loading..."
+  },
+  "events": {
+    "list": {
+      "title": "Events",
+      "upcoming": "Upcoming Events",
+      "all": "All Events",
+      "noEvents": "No upcoming events",
+      "loading": "Loading events..."
+    },
+    "detail": {
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "category": "Category",
+      "description": "Description"
+    }
+  },
+  "donate": {
+    "title": "Donate",
+    "nameLabel": "Full Name",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "amountLabel": "Amount (€)",
+    "messageLabel": "Message (optional)",
+    "paymentMethod": "Payment Method",
+    "bankTransfer": "Bank Transfer",
+    "mollie": "Online Payment",
+    "submit": "Donate Now",
+    "success": "Thank you for your donation!",
+    "bankDetails": "Bank Details for Transfer",
+    "iban": "IBAN",
+    "bankName": "Bank",
+    "accountHolder": "Account Holder",
+    "amountRequired": "Amount must be greater than 0",
+    "nameRequired": "Name is required",
+    "error": "Donation failed"
+  },
+  "surveys": {
+    "title": "Surveys",
+    "vote": "Vote",
+    "results": "View Results",
+    "alreadyVoted": "You have already voted",
+    "noActiveSurvey": "No active survey at the moment",
+    "totalVotes": "Total votes",
+    "loading": "Loading survey...",
+    "submitVote": "Submit Vote",
+    "voteSuccess": "Your vote has been recorded",
+    "voteError": "Failed to submit vote",
+    "backToSurvey": "Back to Survey"
+  },
+  "volunteer": {
+    "title": "Volunteer Registration",
+    "nameLabel": "Full Name",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone (optional)",
+    "skillsLabel": "Skills (optional)",
+    "availabilityLabel": "Availability (optional)",
+    "messageLabel": "Message (optional)",
+    "submit": "Register as Volunteer",
+    "success": "Thank you for registering! We will contact you soon.",
+    "error": "Registration failed",
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "noImages": "No images found",
+    "loading": "Loading images..."
+  },
+  "more": {
+    "title": "More",
+    "donate": "Donate",
+    "volunteer": "Volunteer",
+    "surveys": "Surveys",
+    "gallery": "Gallery",
+    "dashboard": "Dashboard",
+    "community": "Community"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "posts": "News Articles",
+    "users": "Users",
+    "events": "Events",
+    "totalViews": "Total Views",
+    "loading": "Loading stats..."
+  }
+}
