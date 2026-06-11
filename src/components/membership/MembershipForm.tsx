@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { CheckCircle, Camera, WandSparkles, Sparkles, Badge, Loader2, Check } from "lucide-react";
+import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
 interface FormData {
   nameAr: string;
@@ -307,7 +308,11 @@ export default function MembershipForm() {
       <div className="max-w-4xl mx-auto">
         <div className="bg-emerald-800 h-48 w-full rounded-[2rem] mb-20 relative flex flex-col items-center justify-center text-center px-6">
           <Logo />
-          <h1 className="text-2xl md:text-3xl font-black text-white leading-tight">{t("title")}</h1>
+          <div className="flex items-center gap-2 justify-center" dir="rtl">
+            <FreeSyrianFlag className="w-6 h-4 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
+            <h1 className="text-2xl md:text-3xl font-black text-white leading-tight">{t("title")}</h1>
+            <DutchFlag className="w-6 h-4 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
+          </div>
           <p className="text-emerald-100/60 text-xs mt-2 max-w-lg leading-relaxed">{t("subtitle")}</p>
         </div>
 
