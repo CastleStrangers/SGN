@@ -10,6 +10,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import NextImage from "next/image";
 import { NotificationBell } from "@/components/notification-bell";
 import { NotificationToaster } from "@/components/notification-toaster";
+import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
@@ -71,7 +72,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <NextImage src="/logo.png" alt="" width={36} height={36} className="w-9 h-9" priority />
-              <span className="font-bold text-gray-900 text-sm">{t("shortTitle")}</span>
+              <div className="flex items-center gap-1" dir="rtl">
+                <FreeSyrianFlag className="w-4 h-2.5 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
+                <span className="font-bold text-gray-900 text-xs sm:text-sm">{t("shortTitle")}</span>
+                <DutchFlag className="w-4 h-2.5 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
+              </div>
             </div>
             <button onClick={() => setOpen(false)} className="lg:hidden p-1 hover:bg-gray-100 rounded"><X className="w-5 h-5" /></button>
           </div>
