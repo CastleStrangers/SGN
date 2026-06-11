@@ -31,6 +31,31 @@ const secondaryNav = [
 
 const allNav = [...mainNav, ...secondaryNav];
 
+function FreeSyrianFlag({ className }: { className?: string }) {
+  return (
+    <svg width="24" height="16" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <rect width="24" height="5.33" fill="#007A3D" />
+      <rect y="5.33" width="24" height="5.33" fill="#FFFFFF" />
+      <rect y="10.66" width="24" height="5.34" fill="#000000" />
+      <g fill="#E30613">
+        <path d="M 7.5,6.8 L 7.84,7.55 L 8.66,7.55 L 8.01,8.02 L 8.26,8.8 L 7.5,8.32 L 6.74,8.8 L 6.99,8.02 L 6.34,7.55 L 7.16,7.55 Z" />
+        <path d="M 12,6.8 L 12.34,7.55 L 13.16,7.55 L 12.51,8.02 L 12.76,8.8 L 12,8.32 L 11.24,8.8 L 11.49,8.02 L 10.84,7.55 L 11.66,7.55 Z" />
+        <path d="M 16.5,6.8 L 16.84,7.55 L 17.66,7.55 L 17.01,8.02 L 17.26,8.8 L 16.5,8.32 L 15.74,8.8 L 15.99,8.02 L 15.34,7.55 L 16.16,7.55 Z" />
+      </g>
+    </svg>
+  );
+}
+
+function DutchFlag({ className }: { className?: string }) {
+  return (
+    <svg width="24" height="16" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <rect width="24" height="5.33" fill="#AE1C28" />
+      <rect y="5.33" width="24" height="5.33" fill="#FFFFFF" />
+      <rect y="10.66" width="24" height="5.34" fill="#21468B" />
+    </svg>
+  );
+}
+
 export function SiteHeader() {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
@@ -44,11 +69,13 @@ export function SiteHeader() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0" dir="rtl">
+            <FreeSyrianFlag className="w-6 h-4 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
             <Image src="/logo.png" alt={t("site.title")} width={40} height={40} className="w-10 h-10 flex-shrink-0" priority />
             <span className="text-sm sm:text-base font-bold text-[#1a5632] whitespace-nowrap">
               {t("site.shortTitle")}
             </span>
+            <DutchFlag className="w-6 h-4 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
           </Link>
 
           <div className="flex items-center gap-1 sm:gap-2">
@@ -116,16 +143,9 @@ export function SiteHeader() {
       <div className="hidden lg:block border-t bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <nav className="flex items-center gap-0.5 overflow-x-auto py-1.5" dir="auto">
-            {mainItems.slice(0, 9).map(c => (
+            {mainItems.map(c => (
               <Link key={c.label} href={c.href}
                 className="px-2.5 py-1.5 text-sm text-gray-700 hover:text-[#1a5632] hover:bg-white rounded-lg transition-colors font-medium whitespace-nowrap flex-shrink-0">
-                {c.label}
-              </Link>
-            ))}
-            <span className="mx-0.5 w-px h-5 bg-gray-300 flex-shrink-0" />
-            {secondaryItems.map(c => (
-              <Link key={c.label} href={c.href}
-                className="px-2.5 py-1.5 text-sm text-gray-500 hover:text-[#1a5632] hover:bg-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0">
                 {c.label}
               </Link>
             ))}
