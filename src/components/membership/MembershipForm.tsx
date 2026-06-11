@@ -347,7 +347,7 @@ export default function MembershipForm() {
                     </div>
                   </div>
                   <div className="w-full sm:w-auto">
-                    <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleIdUpload} />
+                    <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleIdUpload} title={t("aiScannerTitle")} aria-label={t("aiScannerTitle")} placeholder={t("aiScannerTitle")} />
                     <button type="button" onClick={() => fileRef.current?.click()} disabled={scanning}
                       className="w-full sm:w-auto bg-violet-600 hover:bg-violet-700 disabled:bg-violet-400 text-white px-5 py-3 rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-2">
                       {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
@@ -403,7 +403,7 @@ export default function MembershipForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-slate-700 mr-2">{t("originCity")}</label>
-                    <select value={form.originCity} onChange={e => updateField("originCity", e.target.value)} required className={selectClass}>
+                    <select value={form.originCity} onChange={e => updateField("originCity", e.target.value)} required className={selectClass} title={t("originCity")}>
                       <option value="">{t("originCityPlaceholder")}</option>
                       {SYRIAN_GOVERNORATES.map(g => <option key={g}>{g}</option>)}
                     </select>
@@ -418,7 +418,7 @@ export default function MembershipForm() {
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-slate-700 mr-2">{t("nlProvincie")}</label>
-                    <select value={form.nlProvincie} onChange={e => updateField("nlProvincie", e.target.value)} required className={selectClass}>
+                    <select value={form.nlProvincie} onChange={e => updateField("nlProvincie", e.target.value)} required className={selectClass} title={t("nlProvincie")}>
                       <option value="">{t("nlProvinciePlaceholder")}</option>
                       {NL_PROVINCES.map(p => <option key={p}>{p}</option>)}
                     </select>
@@ -432,7 +432,7 @@ export default function MembershipForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-slate-700 mr-2">{t("educationLevel")}</label>
-                    <select value={form.educationLevel || ""} onChange={e => updateField("educationLevel", e.target.value)} className={selectClass}>
+                    <select value={form.educationLevel || ""} onChange={e => updateField("educationLevel", e.target.value)} className={selectClass} title={t("educationLevel")}>
                       <option value="">{t("educationLevelPlaceholder")}</option>
                       <option>أمي</option>
                       <option>ابتدائي</option>
@@ -446,7 +446,7 @@ export default function MembershipForm() {
                   {isEnabled("maritalStatus") && (
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-slate-700 mr-2">{t("maritalStatus")}</label>
-                    <select value={form.maritalStatus || ""} onChange={e => updateField("maritalStatus", e.target.value)} className={selectClass}>
+                    <select value={form.maritalStatus || ""} onChange={e => updateField("maritalStatus", e.target.value)} className={selectClass} title={t("maritalStatus")}>
                       <option value="">{t("maritalStatusPlaceholder")}</option>
                       <option>أعزب</option>
                       <option>متزوج</option>
