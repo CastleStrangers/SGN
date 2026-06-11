@@ -69,13 +69,15 @@ export function SiteHeader() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0" dir="rtl">
-            <FreeSyrianFlag className="w-6 h-4 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <Image src="/logo.png" alt={t("site.title")} width={40} height={40} className="w-10 h-10 flex-shrink-0" priority />
-            <span className="text-sm sm:text-base font-bold text-[#1a5632] whitespace-nowrap">
-              {t("site.shortTitle")}
-            </span>
-            <DutchFlag className="w-6 h-4 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
+            <div className="flex items-center gap-1.5" dir="rtl">
+              <FreeSyrianFlag className="w-6 h-4 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
+              <span className="text-sm sm:text-base font-bold text-[#1a5632] whitespace-nowrap">
+                {t("site.shortTitle")}
+              </span>
+              <DutchFlag className="w-6 h-4 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
+            </div>
           </Link>
 
           <div className="flex items-center gap-1 sm:gap-2">
