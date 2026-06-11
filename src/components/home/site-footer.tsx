@@ -8,11 +8,11 @@ import { TikTok } from "@/components/tiktok-icon";
 import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
 const socials = [
-  { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61584301535331" },
-  { icon: Instagram, href: "https://www.instagram.com/sgn_syria/" },
-  { icon: Youtube, href: "https://www.youtube.com/@SY-NL" },
-  { icon: Twitter, href: "https://x.com/SGN2098551" },
-  { icon: TikTok, href: "https://www.tiktok.com/@sgn_syria" },
+  { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61584301535331", label: "Facebook" },
+  { icon: Instagram, href: "https://www.instagram.com/sgn_syria/", label: "Instagram" },
+  { icon: Youtube, href: "https://www.youtube.com/@SY-NL", label: "YouTube" },
+  { icon: Twitter, href: "https://x.com/SGN2098551", label: "Twitter" },
+  { icon: TikTok, href: "https://www.tiktok.com/@sgn_syria", label: "TikTok" },
 ];
 
 const quickLinks = [
@@ -72,7 +72,7 @@ export function SiteFooter() {
             </div>
             <div className="flex gap-2 mt-4">
               {socials.map(s => (
-                <a key={s.href} href={s.href} target="_blank" className="w-9 h-9 bg-white/10 hover:bg-[#c8a84e] rounded-full flex items-center justify-center transition-colors"><s.icon className="w-4 h-4" /></a>
+                <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-white/10 hover:bg-[#c8a84e] rounded-full flex items-center justify-center transition-colors" title={s.label} aria-label={s.label}><s.icon className="w-4 h-4" /></a>
               ))}
             </div>
           </div>
