@@ -3,6 +3,7 @@ import { extractFacebook } from "./facebook"
 
 async function fetchPage(url: string): Promise<string> {
   const res = await fetch(url, {
+    signal: AbortSignal.timeout(15000),
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; SYNL-SyncBot/1.0; +https://sy-nl.org)",
       Accept: "text/html,application/xhtml+xml",

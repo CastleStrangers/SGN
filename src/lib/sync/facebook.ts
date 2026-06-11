@@ -62,6 +62,7 @@ async function fetchPostsPage(
 
   const url = `${GRAPH_API}/${pageId}/posts?${params.toString()}`
   const res = await fetch(url, {
+    signal: AbortSignal.timeout(15000),
     headers: { "User-Agent": "SGN-SyncBot/1.0" },
     next: { revalidate: 0 },
   })
