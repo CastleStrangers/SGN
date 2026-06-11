@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Calendar, Clock, Eye, User, ChevronRight, ArrowLeft } from "lucide-react";
 import { ArticleActions } from "@/components/article-actions";
 import { CommentSection } from "@/components/comment-section";
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ArticlePage({ params }: Props) {
-  const t = useTranslations('newsDetail');
+  const t = await getTranslations('newsDetail');
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
   const post = await prisma.post.findUnique({
