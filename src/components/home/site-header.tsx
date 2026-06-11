@@ -112,7 +112,7 @@ export function SiteHeader() {
                 {t("nav.login")}
               </Link>
             )}
-            <button className="lg:hidden p-2" onClick={() => setOpen(!open)}>
+            <button className="lg:hidden p-2" onClick={() => setOpen(!open)} title={open ? "Close Menu" : "Open Menu"} aria-label={open ? "Close Menu" : "Open Menu"}>
               {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
