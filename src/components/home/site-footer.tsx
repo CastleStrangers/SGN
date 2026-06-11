@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 import { TikTok } from "@/components/tiktok-icon";
+import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
 const socials = [
   { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61584301535331" },
@@ -39,7 +40,14 @@ export function SiteFooter() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <Image src="/logo.png" alt={t("site.shortTitle")} width={40} height={40} className="w-10 h-10" priority />
-              <div><h3 className="font-bold">{t("site.shortTitle")}</h3><p className="text-sm text-gray-400">{t("site.title")}</p></div>
+              <div>
+                <div className="flex items-center gap-1.5" dir="rtl">
+                  <FreeSyrianFlag className="w-5 h-3.5 rounded shadow-sm border border-gray-600/30 flex-shrink-0 object-cover" />
+                  <h3 className="font-bold text-white leading-none">{t("site.shortTitle")}</h3>
+                  <DutchFlag className="w-5 h-3.5 rounded shadow-sm border border-gray-600/30 flex-shrink-0 object-cover" />
+                </div>
+                <p className="text-xs text-gray-400 mt-1.5">{t("site.title")}</p>
+              </div>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed">{t("footer.description")}</p>
           </div>
