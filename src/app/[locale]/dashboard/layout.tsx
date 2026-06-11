@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <DutchFlag className="w-4 h-2.5 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
               </div>
             </div>
-            <button onClick={() => setOpen(false)} className="lg:hidden p-1 hover:bg-gray-100 rounded"><X className="w-5 h-5" /></button>
+            <button onClick={() => setOpen(false)} className="lg:hidden p-1 hover:bg-gray-100 rounded" title="Close Menu" aria-label="Close Menu"><X className="w-5 h-5" /></button>
           </div>
         </div>
         <nav className="p-3 space-y-1">
@@ -102,7 +102,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Main */}
       <div className="flex-1 min-h-screen">
         <header className="bg-white border-b px-4 lg:px-6 h-16 flex items-center justify-between sticky top-0 z-20">
-          <button onClick={() => setOpen(true)} className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"><Menu className="w-5 h-5" /></button>
+          <button onClick={() => setOpen(true)} className="lg:hidden p-2 hover:bg-gray-100 rounded-lg" title="Open Menu" aria-label="Open Menu"><Menu className="w-5 h-5" /></button>
           <h2 className="text-lg font-bold text-gray-900 hidden sm:block">{t("title")}</h2>
           <div className="flex items-center gap-3">
             <NotificationBell />
