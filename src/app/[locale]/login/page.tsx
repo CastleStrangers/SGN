@@ -9,11 +9,13 @@ import { useTranslations, useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { createFieldRules } from "@/lib/validations";
+import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
 export default function LoginPage() {
   const locale = useLocale();
   const fieldRules = createFieldRules(locale);
   const t = useTranslations("auth");
+  const tSite = useTranslations("site");
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [authError, setAuthError] = useState("");
@@ -53,8 +55,12 @@ export default function LoginPage() {
           <div className="w-24 h-24 bg-white/10 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-8 border border-white/20">
             <Image src="/logo.png" alt="Logo" width={60} height={60} className="w-14 h-14" />
           </div>
-          <h2 className="text-3xl font-bold mb-4">الجالية السورية في هولندا</h2>
-          <p className="text-white/70 text-lg leading-relaxed max-w-sm mx-auto">
+          <div className="flex items-center gap-2 justify-center mb-4" dir="rtl">
+            <FreeSyrianFlag className="w-7 h-5 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
+            <h2 className="text-2xl sm:text-3xl font-bold text-white leading-none">{tSite("shortTitle")}</h2>
+            <DutchFlag className="w-7 h-5 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
+          </div>
+          <p className="text-white/70 text-base sm:text-lg leading-relaxed max-w-sm mx-auto">
             منصتك للتواصل والمشاركة مع أبناء الجالية السورية في المملكة الهولندية
           </p>
           <div className="mt-12 grid grid-cols-3 gap-6 text-center">
@@ -78,7 +84,11 @@ export default function LoginPage() {
           {/* رأس الصفحة على الموبايل */}
           <div className="lg:hidden text-center mb-8">
             <Image src="/logo.png" alt="Logo" width={56} height={56} className="w-14 h-14 mx-auto mb-3" />
-            <h1 className="text-xl font-bold text-[#1a5632]">الجالية السورية في هولندا</h1>
+            <div className="flex items-center gap-1.5 justify-center" dir="rtl">
+              <FreeSyrianFlag className="w-6 h-4 rounded shadow-sm border border-gray-200 flex-shrink-0 object-cover" />
+              <h1 className="text-lg sm:text-xl font-bold text-[#1a5632] leading-none">{tSite("shortTitle")}</h1>
+              <DutchFlag className="w-6 h-4 rounded shadow-sm border border-gray-200 flex-shrink-0 object-cover" />
+            </div>
           </div>
 
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
