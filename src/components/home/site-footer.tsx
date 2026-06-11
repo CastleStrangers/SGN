@@ -39,7 +39,7 @@ export function SiteFooter() {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <Image src="/logo.png" alt={t("site.shortTitle")} width={40} height={40} className="w-10 h-10 flex-shrink-0" priority />
+              <Image src="/logo.png" alt={t("site.shortTitle")} width={56} height={56} className="w-14 h-14 flex-shrink-0" priority />
               <div className="flex items-center gap-1.5" dir="rtl">
                 <FreeSyrianFlag className="w-5 h-3.5 rounded shadow-sm border border-gray-600/30 flex-shrink-0 object-cover" />
                 <h3 className="font-bold text-white leading-none whitespace-nowrap">{t("site.shortTitle")}</h3>
