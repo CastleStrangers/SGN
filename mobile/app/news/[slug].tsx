@@ -6,11 +6,12 @@ import { getNewsDetail, addFavorite, removeFavorite } from "../../lib/news";
 import { Ionicons } from "@expo/vector-icons";
 import { getToken } from "../../lib/api";
 import { useI18n } from "../../lib/i18n-context";
+import { formatDate } from "../../lib/date";
 
 export default function NewsDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const router = useRouter();
-  const { t, isRTL } = useI18n();
+  const { t, isRTL, locale } = useI18n();
   const [post, setPost] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isFavorited, setIsFavorited] = useState(false);
@@ -89,7 +90,7 @@ export default function NewsDetailScreen() {
         </Text>
 
         <Text style={{ fontSize: 13, color: COLORS.textSecondary, marginBottom: 16 }}>
-          {new Date(post.createdAt).toLocaleDateString(isRTL ? "ar-SA" : "en-US", { year: "numeric", month: "long", day: "numeric" })}
+          {formatDate(post.createdAt, locale, { year: "numeric", month: "long", day: "numeric" })}
         </Text>
 
         <View style={{ width: "100%", height: 1, backgroundColor: COLORS.border, marginBottom: 16 }} />
