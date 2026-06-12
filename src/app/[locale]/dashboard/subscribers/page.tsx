@@ -48,7 +48,7 @@ export default function SubscribersPage() {
                   </td>
                   <td className="px-4 py-3 text-gray-500">{formatDate(s.createdAt, locale)}</td>
                   <td className="px-4 py-3">
-                    <button onClick={() => remove(s.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500">
+                    <button onClick={() => remove(s.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500" title="إلغاء الاشتراك" aria-label="إلغاء الاشتراك">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </td>

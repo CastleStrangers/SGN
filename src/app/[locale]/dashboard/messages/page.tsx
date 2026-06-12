@@ -50,7 +50,7 @@ export default function MessagesPage() {
                   <p className="text-xs text-gray-400 mt-1">{formatDate(m.createdAt, locale)}</p>
                 </div>
               </div>
-              <button onClick={(e) => { e.stopPropagation(); deleteMsg(m.id); }} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500 flex-shrink-0">
+              <button onClick={(e) => { e.stopPropagation(); deleteMsg(m.id); }} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500 flex-shrink-0" title="حذف" aria-label="حذف">
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
