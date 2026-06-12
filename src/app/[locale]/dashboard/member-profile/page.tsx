@@ -192,9 +192,18 @@ export default function MemberProfilePage() {
             </span>
           </div>
           {member.status === "accepted" && (
-            <Link href={`/member/${member.id}`} className="mr-auto flex items-center gap-1.5 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-sm font-medium transition">
-              <Eye className="w-4 h-4" /> {t('viewPublicProfile')}
-            </Link>
+            <div className="mr-auto flex flex-col sm:flex-row gap-2">
+              <Link href={`/member/${member.id}`} className="flex items-center gap-1.5 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-sm font-medium transition">
+                <Eye className="w-4 h-4" /> {t('viewPublicProfile')}
+              </Link>
+              <a
+                href={`/api/members/${member.id}/pdf`}
+                download
+                className="flex items-center gap-1.5 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-sm font-medium border transition cursor-pointer"
+              >
+                <FileText className="w-4 h-4 text-emerald-800" /> {t('downloadPdf')}
+              </a>
+            </div>
           )}
         </div>
 
