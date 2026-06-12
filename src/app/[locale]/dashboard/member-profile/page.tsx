@@ -42,6 +42,8 @@ export default function MemberProfilePage() {
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
   const [form, setForm] = useState<Record<string, any>>({});
+  const [registrations, setRegistrations] = useState<any[]>([]);
+  const [taskApplications, setTaskApplications] = useState<any[]>([]);
 
   useEffect(() => {
     if (sessionStatus === "unauthenticated") {
@@ -70,6 +72,16 @@ export default function MemberProfilePage() {
         setLoading(false);
       })
       .catch(() => setLoading(false));
+
+    fetch("/api/events/register")
+      .then(r => r.ok ? r.json() : [])
+      .then(setRegistrations)
+      .catch(() => {});
+
+    fetch("/api/tasks/apply")
+      .then(r => r.ok ? r.json() : [])
+      .then(setTaskApplications)
+      .catch(() => {});
   }, [session, sessionStatus, router]);
 
   if (sessionStatus === "loading" || loading) {
