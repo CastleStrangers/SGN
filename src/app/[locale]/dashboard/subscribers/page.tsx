@@ -3,13 +3,15 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Mail, Trash2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 
 interface Subscriber { id: string; email: string; createdAt: string; }
 
 export default function SubscribersPage() {
   const { status } = useSession();
   const t = useTranslations("dashboard");
+  const locale = useLocale();
   const [subs, setSubs] = useState<Subscriber[]>([]);
 
   const loadSubs = async () => {
@@ -44,7 +46,7 @@ export default function SubscribersPage() {
                     <Mail className="w-4 h-4 text-gray-400" />
                     <span>{s.email}</span>
                   </td>
-                  <td className="px-4 py-3 text-gray-500">{new Date(s.createdAt).toLocaleDateString("ar")}</td>
+                  <td className="px-4 py-3 text-gray-500">{formatDate(s.createdAt, locale)}</td>
                   <td className="px-4 py-3">
                     <button onClick={() => remove(s.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500">
                       <Trash2 className="w-4 h-4" />

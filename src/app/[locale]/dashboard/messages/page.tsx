@@ -3,13 +3,15 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Mail, Trash2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 
 interface Contact { id: string; name: string; email: string; subject: string; message: string; read: boolean; createdAt: string; }
 
 export default function MessagesPage() {
   const { status } = useSession();
   const t = useTranslations("dashboard.messagesPage");
+  const locale = useLocale();
   const [msgs, setMsgs] = useState<Contact[]>([]);
 
   const fetchMessages = async () => {
@@ -45,7 +47,7 @@ export default function MessagesPage() {
                   <p className="text-sm text-gray-500">{m.email}</p>
                   <p className="text-sm font-medium text-gray-700 mt-1">{m.subject}</p>
                   <p className="text-sm text-gray-600 mt-1 line-clamp-2">{m.message}</p>
-                  <p className="text-xs text-gray-400 mt-1">{new Date(m.createdAt).toLocaleDateString()}</p>
+                  <p className="text-xs text-gray-400 mt-1">{formatDate(m.createdAt, locale)}</p>
                 </div>
               </div>
               <button onClick={(e) => { e.stopPropagation(); deleteMsg(m.id); }} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500 flex-shrink-0">
