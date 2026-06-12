@@ -12,12 +12,16 @@ function t(_req: Request, key: string) {
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
-  if (!session?.user || session.user.role !== "admin") {
+  if (!session?.user) {
     return NextResponse.json({ error: t(_req, 'api.unauthorized') }, { status: 401 });
   }
   const { id } = await params;
   const member = await prisma.member.findUnique({ where: { id } });
   if (!member) return NextResponse.json({ error: t(_req, 'api.memberNotFound') }, { status: 404 });
+
+  if (session.user.role !== "admin" && member.userId !== session.user.id) {
+    return NextResponse.json({ error: t(_req, 'api.unauthorized') }, { status: 401 });
+  }
 
   const doc = new PDFDocument({ size: "A4", margins: { top: 40, bottom: 40, left: 40, right: 40 } });
   const buffers: Buffer[] = [];
