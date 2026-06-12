@@ -275,7 +275,7 @@ export default function MemberProfilePage() {
                         <p className="text-gray-500 mt-0.5">📍 {reg.event.location || "—"} | 📅 {new Date(reg.event.date).toLocaleDateString("ar")}</p>
                       </div>
                       <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">
-                        مسجل
+                        {t('registered')}
                       </span>
                     </div>
                   ))}
@@ -302,7 +302,7 @@ export default function MemberProfilePage() {
                         app.status === "accepted" ? "bg-emerald-100 text-emerald-800" :
                         app.status === "rejected" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"
                       }`}>
-                        {app.status === "accepted" ? "مقبول" : app.status === "rejected" ? "مرفوض" : "قيد المراجعة"}
+                        {app.status === "accepted" ? t('accepted') : app.status === "rejected" ? t('rejected') : t('pending')}
                       </span>
                     </div>
                   ))}
