@@ -36,7 +36,7 @@ const STATUS_MAP: Record<string, { color: string; icon: any }> = {
 export default function MemberProfilePage() {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
-  const t = useTranslations("memberProfile");
+  const t = useTranslations('dashboard.memberProfilePage');
   const locale = useLocale();
   const [member, setMember] = useState<MemberData | null>(null);
   const [loading, setLoading] = useState(true);

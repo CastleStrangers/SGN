@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft, CheckSquare, Clock, AlertCircle, Flag, Check } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 import { useSession } from "next-auth/react";
 
 interface Task {
@@ -12,6 +13,7 @@ interface Task {
 
 export default function TasksPage() {
   const t = useTranslations("tasksPublic");
+  const locale = useLocale();
   const { data: session } = useSession();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,7 +81,7 @@ export default function TasksPage() {
                         <Flag className="w-3 h-3 inline ml-1" />
                         {task.priority === "high" ? t('priorityHigh') : task.priority === "low" ? t('priorityLow') : t('priorityMedium')}
                       </span>
-                      <span className="text-xs text-gray-400"><Clock className="w-3 h-3 inline ml-1" />{new Date(task.createdAt).toLocaleDateString("ar")}</span>
+                      <span className="text-xs text-gray-400"><Clock className="w-3 h-3 inline ml-1" />{formatDate(task.createdAt, locale)}</span>
                     </div>
                     <h3 className="font-bold text-gray-900">{task.title}</h3>
                     {task.description && <p className="text-sm text-gray-600 mt-1 line-clamp-2">{task.description}</p>}

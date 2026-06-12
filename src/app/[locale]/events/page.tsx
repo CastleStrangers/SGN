@@ -2,13 +2,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft, Calendar, MapPin, Clock, Check } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 import { useSession } from "next-auth/react";
 
 interface Event { id: string; title: string; description: string | null; date: string; location: string | null; image: string | null; category: string; }
 
 export default function EventsPage() {
   const t = useTranslations('events');
+  const locale = useLocale();
   const { data: session } = useSession();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,7 +83,7 @@ export default function EventsPage() {
                   <div className="flex items-start gap-4">
                     <div className="shrink-0 w-16 h-16 bg-[#1a5632] text-white rounded-xl flex flex-col items-center justify-center">
                       <span className="text-lg font-bold">{new Date(event.date).getDate()}</span>
-                      <span className="text-xs">{new Date(event.date).toLocaleDateString("ar", { month: "short" })}</span>
+                      <span className="text-xs">{formatDate(event.date, locale, { month: "short" })}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -92,7 +94,7 @@ export default function EventsPage() {
                       <h3 className="font-bold text-gray-900 text-lg">{event.title}</h3>
                       {event.description && <p className="text-sm text-gray-600 mt-1 line-clamp-2">{event.description}</p>}
                       <div className="flex items-center gap-4 mt-3 text-xs text-gray-500">
-                        <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{new Date(event.date).toLocaleDateString("ar", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
+                        <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{formatDate(event.date, locale, { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
                         {event.location && <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{event.location}</span>}
                       </div>
                       {session && (
