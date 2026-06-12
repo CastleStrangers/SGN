@@ -28,6 +28,14 @@ export async function POST(req: Request) {
   const event = await prisma.event.create({
     data: { title, description, date: new Date(date), location, image, category: category || t(req, 'events.categoryEvent') },
   });
+
+  // Trigger Expo push notification for all users
+  sendPushNotifications({
+    title: "فعالية جديدة قادمة!",
+    body: event.title,
+    data: { link: "/events" },
+  }).catch(err => console.error("Error sending push notification for event:", err));
+
   return NextResponse.json(event);
 }
 
