@@ -5,10 +5,11 @@ import { COLORS } from "../../constants/colors";
 import { getNews } from "../../lib/news";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
+import { formatDate } from "../../lib/date";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { t, isRTL } = useI18n();
+  const { t, isRTL, locale } = useI18n();
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("");
@@ -124,7 +125,7 @@ export default function HomeScreen() {
                 )}
                 <View style={{ flexDirection: isRTL ? "row-reverse" : "row", justifyContent: "space-between", alignItems: "center" }}>
                   <Text style={{ fontSize: 11, color: COLORS.textSecondary }}>
-                    {item.author?.name} • {new Date(item.createdAt).toLocaleDateString(isRTL ? "ar-SA" : "en-US")}
+                    {item.author?.name} • {formatDate(item.createdAt, locale)}
                   </Text>
                   <Ionicons name="eye-outline" size={16} color={COLORS.textSecondary} />
                 </View>

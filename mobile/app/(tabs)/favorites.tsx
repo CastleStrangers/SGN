@@ -6,10 +6,11 @@ import { getFavorites, removeFavorite } from "../../lib/news";
 import { getToken } from "../../lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
+import { formatDate } from "../../lib/date";
 
 export default function FavoritesScreen() {
   const router = useRouter();
-  const { t, isRTL } = useI18n();
+  const { t, isRTL, locale } = useI18n();
   const [favorites, setFavorites] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -87,7 +88,7 @@ export default function FavoritesScreen() {
                 {item.post.title}
               </Text>
               <Text style={{ fontSize: 11, color: COLORS.textSecondary }}>
-                {item.post.category} • {new Date(item.createdAt).toLocaleDateString(isRTL ? "ar-SA" : "en-US")}
+                {item.post.category} • {formatDate(item.createdAt, locale)}
               </Text>
               <TouchableOpacity onPress={() => handleRemove(item.postId)} style={{ marginTop: 8, alignSelf: "flex-start" }}>
                 <Ionicons name="trash-outline" size={18} color={COLORS.error} />
