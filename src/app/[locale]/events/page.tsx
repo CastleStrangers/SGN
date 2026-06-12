@@ -99,7 +99,7 @@ export default function EventsPage() {
                         <div className="mt-4 border-t pt-3 flex justify-end">
                           {registeredIds.has(event.id) ? (
                             <span className="inline-flex items-center gap-1.5 text-xs text-emerald-800 font-bold bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
-                              <Check className="w-3.5 h-3.5" /> تم تسجيل الحضور
+                              <Check className="w-3.5 h-3.5" /> {t('registered')}
                             </span>
                           ) : (
                             <button
@@ -113,12 +113,12 @@ export default function EventsPage() {
                                   setRegisteredIds(new Set([...registeredIds, event.id]));
                                 } else {
                                   const data = await res.json();
-                                  alert(data.error || "فشل التسجيل");
+                                  alert(data.error || t('registerFailed'));
                                 }
                               }}
                               className="px-4 py-1.5 bg-[#1a5632] hover:bg-[#0f3d23] text-white text-xs font-bold rounded-lg transition-colors cursor-pointer"
                             >
-                              سجل حضورك
+                              {t('rsvpBtn')}
                             </button>
                           )}
                         </div>

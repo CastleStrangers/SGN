@@ -87,7 +87,7 @@ export default function TasksPage() {
                       <div className="mt-3 flex justify-start">
                         {appliedIds.has(task.id) ? (
                           <span className="inline-flex items-center gap-1 text-[11px] text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                            <Check className="w-3.5 h-3.5" /> تم تقديم طلب التطوع
+                            <Check className="w-3.5 h-3.5" /> {t('applied')}
                           </span>
                         ) : (
                           <button
@@ -101,12 +101,12 @@ export default function TasksPage() {
                                 setAppliedIds(new Set([...appliedIds, task.id]));
                               } else {
                                 const data = await res.json();
-                                alert(data.error || "فشل تقديم الطلب");
+                                alert(data.error || t('applyFailed'));
                               }
                             }}
                             className="px-3 py-1 bg-emerald-800 hover:bg-emerald-950 text-white text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
                           >
-                            تطوع لهذه المهمة
+                            {t('applyBtn')}
                           </button>
                         )}
                       </div>
