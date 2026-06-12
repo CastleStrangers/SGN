@@ -217,22 +217,24 @@ async function main() {
       {
         nameAr: "عبد المنعم الشامان",
         nameEn: "Abdul Munim Al Chaman",
-        image: "/images/board/chairman.png",
+        image: "/images/board/abdulmunim.jpg",
         titleAr: "رئيس مجلس الإدارة",
         titleEn: "Chairman of the Board",
         isFounder: true,
         isLicensing: true,
         committees: JSON.stringify(["مجلس الإدارة", "لجنة الترخيص"]),
         bioPoints: JSON.stringify([
-          "قنصل فخري سابق لسوريا في هولندا 1993 - 2014، يتمتع بخبرة واسعة في الدبلوماسية والأعمال والقيادة المجتمعية.",
+          "قنصل فخري سابق لسوريا في هولندا 1993 - 2014، ويتمتع بخبرة واسعة في الدبلوماسية والأعمال والقيادة المجتمعية.",
           "مؤسس ورئيس تنفيذي لمجموعة مراقبة جودة الحلال (HQC) أكبر شركة إصدار الجودة والحلال في العالم.",
           "راعي ومساهم في العديد من المبادرات المجتمعية لأبناء الجالية السورية في هولندا وفي الداخل السوري."
-        ])
+        ]),
+        website: "https://www.sy-nl.org/",
+        kvkNumber: "96718943"
       },
       {
         nameAr: "خالد فيصل الطويل",
         nameEn: "Khaled Faisal Altawil",
-        image: "/images/board/secretary.png",
+        image: "/images/board/khaled.jpg",
         titleAr: "الأمين العام للجالية",
         titleEn: "Secretary General",
         isFounder: true,
@@ -242,12 +244,14 @@ async function main() {
           "ناشط سياسي وثوري مقيم في هولندا منذ 2014، انشق سابقاً عن عمله في وزارة الداخلية (رئيس قسم معلوماتية).",
           "يحمل شهادة بكالوريوس في تكنولوجيا المعلومات BIT وكان مشروع تخرجه رائداً للحفاظ على اللغة الآرامية السريانية.",
           "شاعر ومهتم باللغة العربية، ومن الرواد في تأسيس أوائل مدارس اللغة العربية في هولندا للحفاظ على الهوية."
-        ])
+        ]),
+        website: "https://www.sy-nl.org/",
+        kvkNumber: "96718943"
       },
       {
         nameAr: "محمد سليم عزيزة",
         nameEn: "Mohammad Salim Aziza",
-        image: "/images/board/director.png",
+        image: "/images/board/mohammad.jpg",
         titleAr: "عضو مكتب الأمانة العامة - المسؤول التقني",
         titleEn: "Technical Director - General Secretariat",
         isFounder: true,
@@ -258,11 +262,81 @@ async function main() {
           "مؤسس ومالك شركة عزيزة في سوريا، تركيا، وهولندا لتجارة أجهزة الكمبيوتر والموبايل والتطوير العقاري والخدمات اللوجستية.",
           "عضو جمعية الصحفيين الهولنديين (NVJ) وفي المنظمة الدولية للصحافة والإعلام في هولندا (IPMO).",
           "عمل مع عدة منظمات إنسانية في هولندا وآخرها منظمة 'لكل الناس' رئيسًا للقسم التقني."
-        ])
+        ]),
+        website: "https://www.sy-nl.org/",
+        kvkNumber: "96718943"
+      },
+      {
+        nameAr: "محمد سعيد كيوان",
+        nameEn: "Mohammad Said Kaywan",
+        image: "/images/board/said.jpg",
+        titleAr: "أمين الصندوق",
+        titleEn: "Treasurer",
+        isFounder: true,
+        isLicensing: true,
+        committees: JSON.stringify(["مجلس الإدارة", "المكتب المالي", "لجنة الترخيص"]),
+        bioPoints: JSON.stringify([
+          "رجل أعمال سوري ناجح مقيم في هولندا منذ سنوات، يمتلك خبرة واسعة في الإدارة المالية وإدارة الأعمال.",
+          "يتولى الإشراف على الشؤون المالية للجالية وضمان الشفافية في استخدام الموارد.",
+          "مساهم فعّال في دعم مشاريع الجالية وتطوير خططها الاستراتيجية."
+        ]),
+        website: "https://www.sy-nl.org/",
+        kvkNumber: "96718943"
+      },
+      {
+        nameAr: "وائل عيسى",
+        nameEn: "Wael Issa",
+        image: "/images/board/wael.jpg",
+        titleAr: "مسؤول العلاقات العامة والإعلام",
+        titleEn: "Public Relations & Media Officer",
+        isFounder: true,
+        isLicensing: false,
+        committees: JSON.stringify(["المكتب الإعلامي", "لجنة العلاقات العامة"]),
+        bioPoints: JSON.stringify([
+          "متخصص في مجال الإعلام والاتصال، ويعمل على تعزيز صورة الجالية السورية في الإعلام الهولندي.",
+          "يدير العلاقات مع وسائل الإعلام المحلية والدولية وينسق التغطية الإعلامية لفعاليات الجالية.",
+          "يسعى لبناء جسور التواصل بين الجالية السورية والمجتمع الهولندي عبر منصات التواصل الاجتماعي والإعلام."
+        ]),
+        website: "https://www.sy-nl.org/",
+        kvkNumber: "96718943"
+      },
+      {
+        nameAr: "أيمن الحلاق",
+        nameEn: "Ayman Al-Hallaq",
+        image: "/images/board/ayman.jpg",
+        titleAr: "مسؤول الشؤون الاجتماعية والإنسانية",
+        titleEn: "Social & Humanitarian Affairs Officer",
+        isFounder: false,
+        isLicensing: false,
+        committees: JSON.stringify(["لجنة الشؤون الاجتماعية", "لجنة العمل الإنساني"]),
+        bioPoints: JSON.stringify([
+          "ناشط اجتماعي وإنساني يعمل على تقديم الدعم والمساعدة لأبناء الجالية السورية في هولندا.",
+          "ينسق مع المنظمات الإنسانية والجمعيات المحلية لتوفير الخدمات الاجتماعية للمحتاجين.",
+          "يشرف على برامج الإغاثة والدعم النفسي والاجتماعي لأبناء الجالية."
+        ]),
+        website: "https://www.sy-nl.org/",
+        kvkNumber: "96718943"
+      },
+      {
+        nameAr: "سمر قطيش",
+        nameEn: "Samar Qatish",
+        image: "/images/board/samar.jpg",
+        titleAr: "مسؤولة شؤون المرأة والأسرة",
+        titleEn: "Women & Family Affairs Officer",
+        isFounder: false,
+        isLicensing: false,
+        committees: JSON.stringify(["لجنة شؤون المرأة والأسرة", "لجنة التعليم والثقافة"]),
+        bioPoints: JSON.stringify([
+          "ناشطة في مجال حقوق المرأة وتمكينها، وتعمل على دعم المرأة السورية في هولندا.",
+          "تنظم برامج وورش عمل لدعم الأمهات والأسر السورية في التكيف مع الحياة في هولندا.",
+          "تساهم في تطوير برامج تعليمية وثقافية للأطفال والشباب السوري."
+        ]),
+        website: "https://www.sy-nl.org/",
+        kvkNumber: "96718943"
       }
     ]
   });
-  console.log("Board members seeded");
+  console.log("7 board members seeded");
 }
 
 function getRoleDesc(name) {
