@@ -109,7 +109,7 @@ export default function PagesPage() {
             <input value={image} onChange={e => setImage(e.target.value)} placeholder={t("imagePlaceholder")} className="flex-1 px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
             <label className="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm cursor-pointer transition-colors">
               <Upload className="w-4 h-4" />
-              <input type="file" accept="image/*" className="hidden" onChange={async e => {
+              <input type="file" accept="image/*" title="Upload Image File" aria-label="Upload Image File" className="hidden" onChange={async e => {
                 const f = e.target.files?.[0]; if (!f) return;
                 const fd = new FormData(); fd.set("file", f);
                 const res = await fetch("/api/upload", { method: "POST", body: fd });
@@ -120,7 +120,7 @@ export default function PagesPage() {
           </div>
         </div>
         <div className="grid md:grid-cols-3 gap-3">
-          <select value={category} onChange={e => setCategory(e.target.value)} className="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1a5632]">
+          <select value={category} onChange={e => setCategory(e.target.value)} title="Category" aria-label="Category" className="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1a5632]">
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
           <input value={tags} onChange={e => setTags(e.target.value)} placeholder={t("tagsPlaceholder")} className="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
@@ -191,9 +191,9 @@ export default function PagesPage() {
               </p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0 mr-3">
-              {p.slug && <a href={`/news/${p.slug}`} target="_blank" className="p-1.5 hover:bg-gray-100 rounded text-gray-400"><ExternalLink className="w-4 h-4" /></a>}
-              <button onClick={() => editPage(p)} className="p-1.5 hover:bg-gray-100 rounded text-gray-400"><Edit3 className="w-4 h-4" /></button>
-              <button onClick={() => deletePage(p.id)} className="p-1.5 hover:bg-red-50 rounded text-gray-400 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
+              {p.slug && <a href={`/news/${p.slug}`} target="_blank" title="View Page" aria-label="View Page" className="p-1.5 hover:bg-gray-100 rounded text-gray-400"><ExternalLink className="w-4 h-4" /></a>}
+              <button onClick={() => editPage(p)} title="Edit" aria-label="Edit" className="p-1.5 hover:bg-gray-100 rounded text-gray-400"><Edit3 className="w-4 h-4" /></button>
+              <button onClick={() => deletePage(p.id)} title="Delete" aria-label="Delete" className="p-1.5 hover:bg-red-50 rounded text-gray-400 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
             </div>
           </div>
         ))}
