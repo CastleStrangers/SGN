@@ -3,13 +3,15 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Plus, Trash2, Calendar } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 
 interface Event { id: string; title: string; description: string | null; date: string; location: string | null; image: string | null; category: string; published: boolean; }
 
 export default function EventsPage() {
   const { status } = useSession();
   const t = useTranslations("dashboard.eventsPage");
+  const locale = useLocale();
   const [events, setEvents] = useState<Event[]>([]);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -66,7 +68,7 @@ export default function EventsPage() {
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-[#1a5632]" />
                 <p className="font-medium text-gray-900">{e.title}</p>
-                <span className="text-xs text-gray-400">— {new Date(e.date).toLocaleDateString("ar")}</span>
+                <span className="text-xs text-gray-400">— {formatDate(e.date, locale)}</span>
               </div>
               {(e.description || e.location) && <p className="text-sm text-gray-500 mt-1">{e.location && `${e.location} — `}{e.description}</p>}
             </div>

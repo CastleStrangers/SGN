@@ -3,7 +3,8 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Trash2, CheckCircle, XCircle, Reply } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 
 interface Comment { id: string; postId: string; author: string; content: string; approved: boolean; likes: number; createdAt: string; parentId?: string | null; replies?: Comment[]; }
 
@@ -54,6 +55,7 @@ export default function CommentsPage() {
 function CommentRow({ comment, replies, onToggle, onDelete, t }: {
   comment: Comment; replies: Comment[]; onToggle: (id: string, approved: boolean) => void; onDelete: (id: string) => void; t: any;
 }) {
+  const locale = useLocale();
   return (
     <div className="bg-white rounded-xl border p-4">
       <div className="flex items-start justify-between gap-3">
@@ -65,7 +67,7 @@ function CommentRow({ comment, replies, onToggle, onDelete, t }: {
             </span>
           </div>
           <p className="text-gray-600 text-sm mt-1">{comment.content}</p>
-          <p className="text-xs text-gray-400 mt-1">{new Date(comment.createdAt).toLocaleDateString()}</p>
+          <p className="text-xs text-gray-400 mt-1">{formatDate(comment.createdAt, locale)}</p>
         </div>
         <div className="flex items-center gap-1 flex-shrink-0">
           <button onClick={() => onToggle(comment.id, !comment.approved)} className="p-1.5 hover:bg-gray-100 rounded text-gray-400">
