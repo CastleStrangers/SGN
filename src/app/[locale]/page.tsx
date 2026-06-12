@@ -94,7 +94,6 @@ export default function Home() {
         <Newsletter />
       </main>
 
-      <SiteFooter />
     </div>
   );
 }

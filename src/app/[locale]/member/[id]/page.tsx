@@ -6,7 +6,6 @@ import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
-import { SiteFooter } from "@/components/home/site-footer";
 
 interface MemberProfile {
   id: string; memberNumber?: number | null;
@@ -48,7 +47,7 @@ export default function MemberPage() {
         <main className="max-w-2xl mx-auto px-4 py-20 flex justify-center">
           <Loader2 className="w-8 h-8 animate-spin text-emerald-800" />
         </main>
-        <SiteFooter />
+        
       </div>
     );
   }
@@ -61,7 +60,7 @@ export default function MemberPage() {
           <User className="w-16 h-16 mx-auto mb-4 text-gray-300" />
           <p className="text-lg font-medium text-gray-500">{t('notFound')}</p>
         </main>
-        <SiteFooter />
+        
       </div>
     );
   }
@@ -183,7 +182,7 @@ export default function MemberPage() {
           </p>
         </div>
       </main>
-      <SiteFooter />
+      
     </div>
   );
 }

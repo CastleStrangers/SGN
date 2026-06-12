@@ -194,7 +194,6 @@ export default function MembersDirectoryPage() {
           </>
         )}
       </main>
-      <SiteFooter />
     </div>
   );
 }
