@@ -311,7 +311,7 @@ export default function MembershipForm() {
         <div className="mb-6 flex">
           <button
             onClick={() => {
-              if (typeof window !== "undefined" && window.history.length > 1) {
+              if (typeof window !== "undefined" && document.referrer && document.referrer.includes(window.location.host)) {
                 router.back();
               } else {
                 router.push("/");
