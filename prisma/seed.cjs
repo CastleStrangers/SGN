@@ -209,6 +209,60 @@ async function main() {
     });
   }
   console.log(`5 default roles seeded`);
+
+  // Seed board members
+  await prisma.boardMember.deleteMany();
+  await prisma.boardMember.createMany({
+    data: [
+      {
+        nameAr: "عبد المنعم الشامان",
+        nameEn: "Abdul Munim Al Chaman",
+        image: "/images/board/chairman.png",
+        titleAr: "رئيس مجلس الإدارة",
+        titleEn: "Chairman of the Board",
+        isFounder: true,
+        isLicensing: true,
+        committees: JSON.stringify(["مجلس الإدارة", "لجنة الترخيص"]),
+        bioPoints: JSON.stringify([
+          "قنصل فخري سابق لسوريا في هولندا 1993 - 2014، يتمتع بخبرة واسعة في الدبلوماسية والأعمال والقيادة المجتمعية.",
+          "مؤسس ورئيس تنفيذي لمجموعة مراقبة جودة الحلال (HQC) أكبر شركة إصدار الجودة والحلال في العالم.",
+          "راعي ومساهم في العديد من المبادرات المجتمعية لأبناء الجالية السورية في هولندا وفي الداخل السوري."
+        ])
+      },
+      {
+        nameAr: "خالد فيصل الطويل",
+        nameEn: "Khaled Faisal Altawil",
+        image: "/images/board/secretary.png",
+        titleAr: "الأمين العام للجالية",
+        titleEn: "Secretary General",
+        isFounder: true,
+        isLicensing: true,
+        committees: JSON.stringify(["الأمانة العامة", "مكتب التنظيم", "المكتب المالي"]),
+        bioPoints: JSON.stringify([
+          "ناشط سياسي وثوري مقيم في هولندا منذ 2014، انشق سابقاً عن عمله في وزارة الداخلية (رئيس قسم معلوماتية).",
+          "يحمل شهادة بكالوريوس في تكنولوجيا المعلومات BIT وكان مشروع تخرجه رائداً للحفاظ على اللغة الآرامية السريانية.",
+          "شاعر ومهتم باللغة العربية، ومن الرواد في تأسيس أوائل مدارس اللغة العربية في هولندا للحفاظ على الهوية."
+        ])
+      },
+      {
+        nameAr: "محمد سليم عزيزة",
+        nameEn: "Mohammad Salim Aziza",
+        image: "/images/board/director.png",
+        titleAr: "عضو مكتب الأمانة العامة - المسؤول التقني",
+        titleEn: "Technical Director - General Secretariat",
+        isFounder: true,
+        isLicensing: false,
+        committees: JSON.stringify(["الأمانة العامة", "المكتب الإعلامي", "قسم تقنية المعلومات IT"]),
+        bioPoints: JSON.stringify([
+          "حاصل على دبلوم في علوم وبرمجة الحاسب من جامعة يرفان بأرمينيا عام 2006.",
+          "مؤسس ومالك شركة عزيزة في سوريا، تركيا، وهولندا لتجارة أجهزة الكمبيوتر والموبايل والتطوير العقاري والخدمات اللوجستية.",
+          "عضو جمعية الصحفيين الهولنديين (NVJ) وفي المنظمة الدولية للصحافة والإعلام في هولندا (IPMO).",
+          "عمل مع عدة منظمات إنسانية في هولندا وآخرها منظمة 'لكل الناس' رئيسًا للقسم التقني."
+        ])
+      }
+    ]
+  });
+  console.log("Board members seeded");
 }
 
 function getRoleDesc(name) {
