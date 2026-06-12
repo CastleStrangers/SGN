@@ -1,9 +1,9 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/routing";
-import { ArrowLeft, CheckSquare, Clock, AlertCircle, Flag } from "lucide-react";
+import { ArrowLeft, CheckSquare, Clock, AlertCircle, Flag, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 
 interface Task {
   id: string; title: string; description: string | null;
