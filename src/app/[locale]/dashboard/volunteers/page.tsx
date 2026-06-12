@@ -1,10 +1,12 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useEffect, useState } from "react";
+import { formatDate } from "@/lib/date";
 
 export default function VolunteersPage() {
   const t = useTranslations('dashboard.volunteersPage');
+  const locale = useLocale();
   const [volunteers, setVolunteers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +33,7 @@ export default function VolunteersPage() {
                   <h3 className="font-bold text-gray-900">{v.name}</h3>
                   <p className="text-sm text-gray-500">{v.email}{v.phone ? ` - ${v.phone}` : ""}</p>
                 </div>
-                <span className="text-xs text-gray-400">{new Date(v.createdAt).toLocaleDateString("ar")}</span>
+                <span className="text-xs text-gray-400">{formatDate(v.createdAt, locale)}</span>
               </div>
               {v.skills && <div className="mt-2"><span className="text-xs text-gray-500">{t('skills')}</span><span className="text-sm text-gray-700">{v.skills}</span></div>}
               {v.availability && <div><span className="text-xs text-gray-500">{t('duration')}</span><span className="text-sm text-gray-700">{v.availability}</span></div>}
