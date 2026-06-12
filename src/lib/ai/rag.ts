@@ -48,6 +48,24 @@ export async function buildRAGContext(question: string, locale: string): Promise
 
   const parts: string[] = [];
 
+  // Search guides (Guide)
+  const guides = await prisma.guide.findMany({
+    where: {
+      OR: buildKeywordOR(keywords, ["titleAr", "titleNl", "titleEn", "contentAr", "contentNl", "contentEn", "tags"]),
+    },
+    take: 5,
+    select: { titleAr: true, titleNl: true, titleEn: true, contentAr: true, contentNl: true, contentEn: true, category: true },
+  });
+
+  if (guides.length > 0) {
+    parts.push("=== أدلة الاندماج والتعليمات ===");
+    for (const g of guides) {
+      const title = locale === "ar" ? g.titleAr : locale === "nl" ? g.titleNl : g.titleEn;
+      const content = locale === "ar" ? g.contentAr : locale === "nl" ? g.contentNl : g.contentEn;
+      parts.push(`- ${title} (التصنيف: ${g.category}): ${content.slice(0, 300)}...`);
+    }
+  }
+
   // Search news (Post)
   const news = await prisma.post.findMany({
     where: {
