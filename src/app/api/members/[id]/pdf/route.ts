@@ -88,7 +88,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     doc.moveTo(40, doc.y).lineTo(550, doc.y).strokeColor("#e5e7eb").stroke().moveDown(1);
     const statusLabels: Record<string, string> = { pending: "قيد المراجعة", accepted: "مقبول", rejected: "مرفوض" };
     doc.font("Helvetica").fontSize(8).fillColor(labelColor)
-      .text(`تاريخ التقديم: ${new Date(member.createdAt).toLocaleDateString("ar")}`, 40, doc.y, { width: colW });
+      .text(`تاريخ التقديم: ${new Date(member.createdAt).toLocaleDateString("ar-EG-u-nu-arab")}`, 40, doc.y, { width: colW });
     doc.text(`الحالة: ${statusLabels[member.status || "pending"] || member.status}`, rightX, doc.y - 10, { width: colW });
 
     if (member.notes) {
