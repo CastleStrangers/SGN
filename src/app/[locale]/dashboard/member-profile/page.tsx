@@ -258,6 +258,57 @@ export default function MemberProfilePage() {
                 </div>
               )}
             </div>
+
+            {/* Registered Events Section */}
+            <div className="pt-6 border-t mt-6">
+              <h3 className="font-bold text-gray-900 text-sm mb-3 flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-emerald-800" /> {t('registeredEvents')}
+              </h3>
+              {registrations.length === 0 ? (
+                <p className="text-xs text-gray-500">{t('noRegisteredEvents')}</p>
+              ) : (
+                <div className="space-y-2">
+                  {registrations.map((reg) => (
+                    <div key={reg.id} className="p-3 bg-gray-50 rounded-xl flex justify-between items-center text-xs">
+                      <div>
+                        <p className="font-bold text-gray-800">{reg.event.title}</p>
+                        <p className="text-gray-500 mt-0.5">📍 {reg.event.location || "—"} | 📅 {new Date(reg.event.date).toLocaleDateString("ar")}</p>
+                      </div>
+                      <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">
+                        مسجل
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Applied Tasks Section */}
+            <div className="pt-6 border-t mt-6">
+              <h3 className="font-bold text-gray-900 text-sm mb-3 flex items-center gap-2">
+                <CheckSquare className="w-4 h-4 text-emerald-800" /> {t('appliedTasks')}
+              </h3>
+              {taskApplications.length === 0 ? (
+                <p className="text-xs text-gray-500">{t('noAppliedTasks')}</p>
+              ) : (
+                <div className="space-y-2">
+                  {taskApplications.map((app) => (
+                    <div key={app.id} className="p-3 bg-gray-50 rounded-xl flex justify-between items-center text-xs">
+                      <div>
+                        <p className="font-bold text-gray-800">{app.task.title}</p>
+                        <p className="text-gray-500 mt-0.5">📅 {new Date(app.task.createdAt).toLocaleDateString("ar")}</p>
+                      </div>
+                      <span className={`px-2.5 py-1 rounded-full font-bold text-[10px] ${
+                        app.status === "accepted" ? "bg-emerald-100 text-emerald-800" :
+                        app.status === "rejected" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"
+                      }`}>
+                        {app.status === "accepted" ? "مقبول" : app.status === "rejected" ? "مرفوض" : "قيد المراجعة"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSave} className="space-y-5">
