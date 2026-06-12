@@ -54,6 +54,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { label: t("ai"), href: "/dashboard/ai", icon: Sparkles },
     { label: t("tasks"), href: "/dashboard/tasks", icon: CheckSquare },
     { label: t("members"), href: "/dashboard/members", icon: Users },
+    { label: "مجلس الإدارة", href: "/dashboard/board", icon: Building2, admin: true },
     { label: t("memberProfile"), href: "/dashboard/member-profile", icon: User },
     { label: t("statsLink"), href: "/dashboard/stats", icon: BarChart3 },
     { label: t("membershipSettings"), href: "/dashboard/membership-settings", icon: CheckSquare },
