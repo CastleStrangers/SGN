@@ -469,7 +469,11 @@
       "choose": "اختر...",
       "saving": "جاري الحفظ...",
       "saveChanges": "حفظ التغييرات",
-      "cancel": "إلغاء"
+      "cancel": "إلغاء",
+      "pending": "قيد المراجعة",
+      "accepted": "مقبول",
+      "rejected": "مرفوض",
+      "registered": "مسجل"
     },
     "rolesPage": {
       "title": "الأدوار والصلاحيات",
@@ -705,7 +709,10 @@
     "categoryMeeting": "اجتماع",
     "categoryWorkshop": "ورشة عمل",
     "categoryLecture": "محاضرة",
-    "categoryCelebration": "احتفال"
+    "categoryCelebration": "احتفال",
+    "rsvpBtn": "سجل حضورك",
+    "registered": "تم تسجيل الحضور",
+    "registerFailed": "فشل التسجيل"
   },
   "gallery": {
     "backToHome": "العودة إلى الرئيسية",
@@ -815,7 +822,10 @@
     "priorityLow": "منخفضة",
     "priorityMedium": "متوسطة",
     "statusInProgress": "قيد التنفيذ",
-    "statusPending": "معلق"
+    "statusPending": "معلق",
+    "applyBtn": "تطوع لهذه المهمة",
+    "applied": "تم تقديم طلب التطوع",
+    "applyFailed": "فشل تقديم الطلب"
   },
   "landing": {
     "backToHome": "العودة إلى الرئيسية",
@@ -1151,5 +1161,20 @@
     "statusPending": "قيد المراجعة",
     "registrationDate": "تاريخ التسجيل",
     "sheetName": "الأعضاء"
+  },
+  "newsDetail": {
+    "notFound": "المقال غير موجود",
+    "backToNews": "العودة للأخبار",
+    "defaultAuthor": "الجالية السورية",
+    "publisher": "الجالية السورية في هولندا",
+    "readTime": "وقت القراءة: {minutes} دقائق",
+    "views": "المشاهدات: {count}",
+    "source": "المصدر: ",
+    "allNews": "كل الأخبار",
+    "relatedEvent": "الفعالية ذات الصلة",
+    "relatedEventRegister": "سجل للتعرف والمشاركة",
+    "relatedTask": "فرصة تطوعية ذات صلة",
+    "relatedTaskDesc": "المهمة معروضة حالياً وتحتاج لدعمكم ومساهمتكم كمتطوعين.",
+    "volunteerNow": "تطوع الآن"
   }
 }

@@ -469,7 +469,11 @@
       "choose": "Choose...",
       "saving": "Saving...",
       "saveChanges": "Save Changes",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "pending": "Pending Review",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "registered": "Registered"
     },
     "rolesPage": {
       "title": "Roles & Permissions",
@@ -705,7 +709,10 @@
     "categoryMeeting": "Meeting",
     "categoryWorkshop": "Workshop",
     "categoryLecture": "Lecture",
-    "categoryCelebration": "Celebration"
+    "categoryCelebration": "Celebration",
+    "rsvpBtn": "Register/RSVP",
+    "registered": "Registered to attend",
+    "registerFailed": "Registration failed"
   },
   "gallery": {
     "backToHome": "Back to Home",
@@ -815,7 +822,10 @@
     "priorityLow": "Low",
     "priorityMedium": "Medium",
     "statusInProgress": "In Progress",
-    "statusPending": "Pending"
+    "statusPending": "Pending",
+    "applyBtn": "Volunteer for Task",
+    "applied": "Volunteer application submitted",
+    "applyFailed": "Application failed"
   },
   "landing": {
     "backToHome": "Back to Home",
@@ -1151,5 +1161,20 @@
     "statusPending": "Pending review",
     "registrationDate": "Registration Date",
     "sheetName": "Members"
+  },
+  "newsDetail": {
+    "notFound": "Article not found",
+    "backToNews": "Back to News",
+    "defaultAuthor": "Syrian Community",
+    "publisher": "Syrian Community in the Netherlands",
+    "readTime": "Read time: {minutes} mins",
+    "views": "Views: {count}",
+    "source": "Source: ",
+    "allNews": "All News",
+    "relatedEvent": "Related Event",
+    "relatedEventRegister": "Register to attend",
+    "relatedTask": "Related Volunteer Opportunity",
+    "relatedTaskDesc": "This volunteer task is currently active and needs your support.",
+    "volunteerNow": "Volunteer Now"
   }
 }

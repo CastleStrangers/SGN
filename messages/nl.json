@@ -469,7 +469,11 @@
       "choose": "Kies...",
       "saving": "Bezig met opslaan...",
       "saveChanges": "Wijzigingen Opslaan",
-      "cancel": "Annuleren"
+      "cancel": "Annuleren",
+      "pending": "In Beoordeling",
+      "accepted": "Geaccepteerd",
+      "rejected": "Geweigerd",
+      "registered": "Geregistreerd"
     },
     "rolesPage": {
       "title": "Rollen & Rechten",
@@ -705,7 +709,10 @@
     "categoryMeeting": "Bijeenkomst",
     "categoryWorkshop": "Workshop",
     "categoryLecture": "Lezing",
-    "categoryCelebration": "Viering"
+    "categoryCelebration": "Viering",
+    "rsvpBtn": "Aanmelden",
+    "registered": "Aangemeld voor deelname",
+    "registerFailed": "Aanmelden mislukt"
   },
   "gallery": {
     "backToHome": "Terug naar Home",
@@ -815,7 +822,10 @@
     "priorityLow": "Laag",
     "priorityMedium": "Medium",
     "statusInProgress": "Bezig",
-    "statusPending": "Wachtend"
+    "statusPending": "Wachtend",
+    "applyBtn": "Meld je aan voor deze taak",
+    "applied": "Aanmelding voor vrijwilligerswerk ingediend",
+    "applyFailed": "Aanmelding mislukt"
   },
   "landing": {
     "backToHome": "Terug naar Home",
@@ -1151,5 +1161,20 @@
     "statusPending": "In behandeling",
     "registrationDate": "Registratiedatum",
     "sheetName": "Leden"
+  },
+  "newsDetail": {
+    "notFound": "Artikel niet gevonden",
+    "backToNews": "Terug naar Nieuws",
+    "defaultAuthor": "Syrische Gemeenschap",
+    "publisher": "Syrische Gemeenschap in Nederland",
+    "readTime": "Leestijd: {minutes} min",
+    "views": "Weergaven: {count}",
+    "source": "Bron: ",
+    "allNews": "Al het nieuws",
+    "relatedEvent": "Gerelateerd Evenement",
+    "relatedEventRegister": "Meld je aan voor deelname",
+    "relatedTask": "Gerelateerde Vrijwilligerskans",
+    "relatedTaskDesc": "Deze vrijwilligerstaak is momenteel actief en heeft uw steun nodig.",
+    "volunteerNow": "Nu vrijwilliger worden"
   }
 }
