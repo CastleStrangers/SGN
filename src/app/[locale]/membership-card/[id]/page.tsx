@@ -2,7 +2,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Loader2, Printer } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
 import { SiteFooter } from "@/components/home/site-footer";
@@ -19,6 +20,7 @@ interface CardData {
 export default function MembershipCardPage() {
   const { id } = useParams<{ id: string }>();
   const t = useTranslations("membershipCard");
+  const locale = useLocale();
   const [data, setData] = useState<CardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -107,7 +109,7 @@ export default function MembershipCardPage() {
             </div>
             <div className="flex justify-between pt-1">
               <span className="text-gray-500">{t('membershipDate')}</span>
-              <span className="font-bold">{new Date(data.createdAt).toLocaleDateString("ar")}</span>
+              <span className="font-bold">{formatDate(data.createdAt, locale)}</span>
             </div>
           </div>
 
