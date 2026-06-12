@@ -5,8 +5,9 @@ import { getTranslations } from "next-intl/server";
 import { Calendar, Clock, Eye, User, ChevronRight, ArrowLeft } from "lucide-react";
 import { ArticleActions } from "@/components/article-actions";
 import { CommentSection } from "@/components/comment-section";
+import { formatDate } from "@/lib/date";
 
-interface Props { params: Promise<{ slug: string }> }
+interface Props { params: Promise<{ locale: string; slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticlePage({ params }: Props) {
   const t = await getTranslations('newsDetail');
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
   const post = await prisma.post.findUnique({
     where: { slug: decodedSlug, published: true },
@@ -96,7 +97,7 @@ export default async function ArticlePage({ params }: Props) {
 
             <div className="flex items-center flex-wrap gap-4 text-sm text-gray-500 mb-6 pb-6 border-b">
               <span className="flex items-center gap-1.5"><User className="w-4 h-4" />{post.author?.name || t('defaultAuthor')}</span>
-              <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{new Date(post.createdAt).toLocaleDateString("ar")}</span>
+              <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{formatDate(post.createdAt, locale)}</span>
               <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" />{t('readTime', { minutes: Math.ceil(post.content.length / 500) })}</span>
               <span className="flex items-center gap-1.5"><Eye className="w-4 h-4" />{t('views', { count: post.views || 0 })}</span>
             </div>
@@ -117,7 +118,7 @@ export default async function ArticlePage({ params }: Props) {
                 <div>
                   <span className="text-[10px] uppercase tracking-wider text-emerald-800 font-bold bg-emerald-100/50 px-2 py-0.5 rounded">{t('relatedEvent')}</span>
                   <h4 className="font-bold text-gray-900 mt-2">{relatedEvent.title}</h4>
-                  <p className="text-xs text-gray-500 mt-1">📍 {relatedEvent.location || "—"} | 📅 {new Date(relatedEvent.date).toLocaleDateString("ar")}</p>
+                  <p className="text-xs text-gray-500 mt-1">📍 {relatedEvent.location || "—"} | 📅 {formatDate(relatedEvent.date, locale)}</p>
                 </div>
                 <Link
                   href="/events"
