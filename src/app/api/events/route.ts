@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { requireAuthorize } from "@/lib/auth-helpers";
 import { getApiMessage } from "@/lib/api-messages";
+import { sendPushNotifications } from "@/lib/notifications/push";
 
 function t(req: Request, key: string) {
   const locale = (req as any).cookies?.get?.('NEXT_LOCALE')?.value || 'ar';
