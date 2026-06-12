@@ -9,8 +9,10 @@ interface Event { id: string; title: string; description: string | null; date: s
 
 export default function EventsPage() {
   const t = useTranslations('events');
+  const { data: session } = useSession();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [registeredIds, setRegisteredIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetch("/api/events?upcoming=true")
@@ -18,6 +20,17 @@ export default function EventsPage() {
       .then(data => { setEvents(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (session) {
+      fetch("/api/events/register")
+        .then(r => r.ok ? r.json() : [])
+        .then((data: any[]) => {
+          setRegisteredIds(new Set(data.map(r => r.eventId)));
+        })
+        .catch(() => {});
+    }
+  }, [session]);
 
   const categoryColors: Record<string, string> = {
     "فعالية": "bg-green-100 text-green-700",
