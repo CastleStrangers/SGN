@@ -95,6 +95,34 @@ export default function EventsPage() {
                         <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{new Date(event.date).toLocaleDateString("ar", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
                         {event.location && <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{event.location}</span>}
                       </div>
+                      {session && (
+                        <div className="mt-4 border-t pt-3 flex justify-end">
+                          {registeredIds.has(event.id) ? (
+                            <span className="inline-flex items-center gap-1.5 text-xs text-emerald-800 font-bold bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
+                              <Check className="w-3.5 h-3.5" /> تم تسجيل الحضور
+                            </span>
+                          ) : (
+                            <button
+                              onClick={async () => {
+                                const res = await fetch("/api/events/register", {
+                                  method: "POST",
+                                  headers: { "Content-Type": "application/json" },
+                                  body: JSON.stringify({ eventId: event.id }),
+                                });
+                                if (res.ok) {
+                                  setRegisteredIds(new Set([...registeredIds, event.id]));
+                                } else {
+                                  const data = await res.json();
+                                  alert(data.error || "فشل التسجيل");
+                                }
+                              }}
+                              className="px-4 py-1.5 bg-[#1a5632] hover:bg-[#0f3d23] text-white text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                            >
+                              سجل حضورك
+                            </button>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
