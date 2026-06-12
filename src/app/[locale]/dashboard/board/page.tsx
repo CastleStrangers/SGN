@@ -106,6 +106,8 @@ function ImageUploader({
         type="file"
         accept="image/jpeg,image/jpg,image/png,image/webp"
         className="hidden"
+        title="اختر صورة العضو"
+        aria-label="اختر صورة العضو"
         onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
       />
 
@@ -181,6 +183,8 @@ function ListEditor({
         <button
           type="button"
           onClick={add}
+          title="إضافة"
+          aria-label="إضافة عنصر"
           className="px-3 py-1.5 bg-[#1a5632] text-white text-sm rounded-lg hover:bg-[#0f3d23] transition-colors"
         >
           <Plus className="w-4 h-4" />
@@ -261,13 +265,15 @@ function MemberForm({
       {/* الأسماء */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">الاسم (عربي) *</label>
-          <input value={form.nameAr} onChange={(e) => set("nameAr", e.target.value)}
+          <label htmlFor="field-nameAr" className="block text-sm font-semibold text-gray-700 mb-1">الاسم (عربي) *</label>
+          <input id="field-nameAr" value={form.nameAr} onChange={(e) => set("nameAr", e.target.value)}
+            placeholder="مثال: أحمد الخطيب"
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a5632]" required />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">Name (English)</label>
-          <input value={form.nameEn} onChange={(e) => set("nameEn", e.target.value)} dir="ltr"
+          <label htmlFor="field-nameEn" className="block text-sm font-semibold text-gray-700 mb-1">Name (English)</label>
+          <input id="field-nameEn" value={form.nameEn} onChange={(e) => set("nameEn", e.target.value)} dir="ltr"
+            placeholder="e.g. Ahmad Al-Khatib"
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
         </div>
       </div>
@@ -275,21 +281,24 @@ function MemberForm({
       {/* المناصب */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">المنصب (عربي) *</label>
-          <input value={form.titleAr} onChange={(e) => set("titleAr", e.target.value)}
+          <label htmlFor="field-titleAr" className="block text-sm font-semibold text-gray-700 mb-1">المنصب (عربي) *</label>
+          <input id="field-titleAr" value={form.titleAr} onChange={(e) => set("titleAr", e.target.value)}
+            placeholder="مثال: رئيس مجلس الإدارة"
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a5632]" required />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">Title (English)</label>
-          <input value={form.titleEn} onChange={(e) => set("titleEn", e.target.value)} dir="ltr"
+          <label htmlFor="field-titleEn" className="block text-sm font-semibold text-gray-700 mb-1">Title (English)</label>
+          <input id="field-titleEn" value={form.titleEn} onChange={(e) => set("titleEn", e.target.value)} dir="ltr"
+            placeholder="e.g. Chairman of the Board"
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
         </div>
       </div>
 
       {/* رقم KVK */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1">رقم KVK</label>
-        <input value={form.kvkNumber} onChange={(e) => set("kvkNumber", e.target.value)} dir="ltr"
+        <label htmlFor="field-kvk" className="block text-sm font-semibold text-gray-700 mb-1">رقم KVK</label>
+        <input id="field-kvk" value={form.kvkNumber} onChange={(e) => set("kvkNumber", e.target.value)} dir="ltr"
+          placeholder="96718943"
           className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
       </div>
 
@@ -448,7 +457,7 @@ export default function DashboardBoardPage() {
             <h2 className="font-bold text-gray-900 text-lg">
               {editingId === "new" ? "إضافة عضو جديد" : "تعديل بيانات العضو"}
             </h2>
-            <button onClick={() => setEditingId(null)} className="p-1.5 hover:bg-gray-100 rounded-lg">
+            <button onClick={() => setEditingId(null)} aria-label="إغلاق النموذج" title="إغلاق" className="p-1.5 hover:bg-gray-100 rounded-lg">
               <X className="w-5 h-5 text-gray-500" />
             </button>
           </div>
@@ -513,6 +522,8 @@ export default function DashboardBoardPage() {
                 </button>
                 <button
                   onClick={() => setDeleteId(m.id)}
+                  aria-label={`حذف ${m.nameAr}`}
+                  title="حذف العضو"
                   className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors border border-red-200"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
