@@ -115,7 +115,7 @@ export default async function ArticlePage({ params }: Props) {
             {relatedEvent && (
               <div className="mt-8 p-6 bg-emerald-50 rounded-2xl border border-emerald-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-emerald-800 font-bold bg-emerald-100/50 px-2 py-0.5 rounded">الفعالية ذات الصلة</span>
+                  <span className="text-[10px] uppercase tracking-wider text-emerald-800 font-bold bg-emerald-100/50 px-2 py-0.5 rounded">{t('relatedEvent')}</span>
                   <h4 className="font-bold text-gray-900 mt-2">{relatedEvent.title}</h4>
                   <p className="text-xs text-gray-500 mt-1">📍 {relatedEvent.location || "—"} | 📅 {new Date(relatedEvent.date).toLocaleDateString("ar")}</p>
                 </div>
@@ -123,7 +123,7 @@ export default async function ArticlePage({ params }: Props) {
                   href="/events"
                   className="px-5 py-2.5 bg-emerald-800 hover:bg-emerald-950 text-white font-bold rounded-xl text-xs transition-colors shrink-0"
                 >
-                  سجل للتعرف والمشاركة
+                  {t('relatedEventRegister')}
                 </Link>
               </div>
             )}
@@ -132,15 +132,15 @@ export default async function ArticlePage({ params }: Props) {
             {relatedTask && (
               <div className="mt-8 p-6 bg-amber-50/70 rounded-2xl border border-amber-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-amber-800 font-bold bg-amber-100/50 px-2 py-0.5 rounded">فرصة تطوعية ذات صلة</span>
+                  <span className="text-[10px] uppercase tracking-wider text-amber-800 font-bold bg-amber-100/50 px-2 py-0.5 rounded">{t('relatedTask')}</span>
                   <h4 className="font-bold text-gray-900 mt-2">{relatedTask.title}</h4>
-                  <p className="text-xs text-gray-500 mt-1">المهمة معروضة حالياً وتحتاج لدعمكم ومساهمتكم كمتطوعين.</p>
+                  <p className="text-xs text-gray-500 mt-1">{t('relatedTaskDesc')}</p>
                 </div>
                 <Link
                   href="/tasks"
                   className="px-5 py-2.5 bg-amber-800 hover:bg-amber-950 text-white font-bold rounded-xl text-xs transition-colors shrink-0"
                 >
-                  تطوع الآن
+                  {t('volunteerNow')}
                 </Link>
               </div>
             )}
