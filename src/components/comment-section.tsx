@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { MessageCircle, Send, Clock, Heart, Reply } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 
 interface Comment {
   id: string; author: string; content: string; createdAt: string; userId?: string | null; likes: number;
@@ -12,6 +13,7 @@ interface Comment {
 
 export function CommentSection({ postId }: { postId: string }) {
   const t = useTranslations('comments');
+  const locale = useLocale();
   const { data: session } = useSession();
   const [comments, setComments] = useState<Comment[]>([]);
   const [content, setContent] = useState("");
@@ -99,7 +101,7 @@ function CommentItem({ comment, onReply, onLike, replyTo }: {
       <div className="flex items-center justify-between mb-2">
         <span className="font-bold text-gray-900 text-sm">{comment.author}</span>
         <span className="text-xs text-gray-400 flex items-center gap-1">
-          <Clock className="w-3 h-3" />{new Date(comment.createdAt).toLocaleDateString("ar")}
+          <Clock className="w-3 h-3" />{formatDate(comment.createdAt, locale)}
         </span>
       </div>
       <p className="text-gray-700 text-sm">{comment.content}</p>
@@ -117,7 +119,7 @@ function CommentItem({ comment, onReply, onLike, replyTo }: {
             <div key={r.id} className="bg-white rounded-lg p-3 border">
               <div className="flex items-center justify-between mb-1">
                 <span className="font-bold text-gray-900 text-xs">{r.author}</span>
-                <span className="text-[10px] text-gray-400">{new Date(r.createdAt).toLocaleDateString("ar")}</span>
+                <span className="text-[10px] text-gray-400">{formatDate(r.createdAt, locale)}</span>
               </div>
               <p className="text-gray-700 text-sm">{r.content}</p>
               <button onClick={() => onLike(r.id)} className="flex items-center gap-1 text-xs text-gray-400 hover:text-red-500 transition-colors mt-1">
