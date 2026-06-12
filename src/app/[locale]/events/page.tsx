@@ -1,9 +1,9 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/routing";
-import { ArrowLeft, Calendar, MapPin, Clock } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Clock, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 
 interface Event { id: string; title: string; description: string | null; date: string; location: string | null; image: string | null; category: string; }
 
