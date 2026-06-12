@@ -45,6 +45,13 @@ export default async function ArticlePage({ params }: Props) {
     </div>
   );
 
+  const relatedEvent = post.relatedEventId
+    ? await prisma.event.findUnique({ where: { id: post.relatedEventId, published: true } })
+    : null;
+  const relatedTask = post.relatedTaskId
+    ? await prisma.task.findUnique({ where: { id: post.relatedTaskId } })
+    : null;
+
   // Increment view count asynchronously to avoid blocking page render/SQL locks
   prisma.post.update({ where: { id: post.id }, data: { views: { increment: 1 } } }).catch(() => {});
 
