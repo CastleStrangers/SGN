@@ -345,7 +345,7 @@ export default function MembersPage() {
           <div className="bg-white rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto p-6" onClick={e => e.stopPropagation()} dir="rtl">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold">سجل النشاط</h2>
-              <button onClick={() => setShowActivity(null)} className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+              <button onClick={() => setShowActivity(null)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             {activityLogs.length === 0 ? (
               <p className="text-gray-500 text-sm">لا يوجد نشاط مسجل</p>
@@ -370,12 +370,12 @@ export default function MembersPage() {
           <div className="bg-white rounded-2xl max-w-lg w-full p-6" onClick={e => e.stopPropagation()} dir="rtl">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold">إرسال بريد جماعي</h2>
-              <button onClick={() => setShowEmail(false)} className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+              <button onClick={() => setShowEmail(false)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             <div className="space-y-3">
               <p className="text-sm text-gray-500">الحالة المحددة: {filter === "all" ? "الكل" : filter}</p>
-              <input type="text" value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder="الموضوع" className="w-full p-2.5 border rounded-xl text-sm" />
-              <textarea value={emailMessage} onChange={e => setEmailMessage(e.target.value)} placeholder="الرسالة (HTML)" className="w-full p-2.5 border rounded-xl text-sm h-40 resize-none" />
+              <input type="text" value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder="الموضوع" title="الموضوع" aria-label="الموضوع" className="w-full p-2.5 border rounded-xl text-sm" />
+              <textarea value={emailMessage} onChange={e => setEmailMessage(e.target.value)} placeholder="الرسالة (HTML)" title="الرسالة (HTML)" aria-label="الرسالة (HTML)" className="w-full p-2.5 border rounded-xl text-sm h-40 resize-none" />
               {emailResult && <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl text-sm">{emailResult}</div>}
               <button onClick={sendEmail} disabled={emailSending} className="w-full py-3 bg-emerald-800 text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition disabled:opacity-50">
                 {emailSending ? "جاري الإرسال..." : "إرسال"}
@@ -391,11 +391,11 @@ export default function MembersPage() {
           <div className="bg-white rounded-2xl max-w-lg w-full p-6" onClick={e => e.stopPropagation()} dir="rtl">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold">إرسال واتساب جماعي</h2>
-              <button onClick={() => setShowWhatsApp(false)} className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+              <button onClick={() => setShowWhatsApp(false)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             <div className="space-y-3">
               <p className="text-sm text-gray-500">الحالة المحددة: {filter === "all" ? "الكل" : filter}</p>
-              <textarea value={whatsAppMessage} onChange={e => setWhatsAppMessage(e.target.value)} placeholder="الرسالة (نص فقط)" className="w-full p-2.5 border rounded-xl text-sm h-40 resize-none" />
+              <textarea value={whatsAppMessage} onChange={e => setWhatsAppMessage(e.target.value)} placeholder="الرسالة (نص فقط)" title="الرسالة (نص فقط)" aria-label="الرسالة (نص فقط)" className="w-full p-2.5 border rounded-xl text-sm h-40 resize-none" />
               <p className="text-xs text-gray-400">ملاحظة: يستخدم { '{name}' } لاسم العضو (مثلاً: مرحباً { '{name}' })</p>
               {whatsAppResult && <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl text-sm">{whatsAppResult}</div>}
               <button onClick={sendWhatsApp} disabled={whatsAppSending} className="w-full py-3 bg-emerald-800 text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition disabled:opacity-50">
@@ -412,80 +412,80 @@ export default function MembersPage() {
           <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4" onClick={e => e.stopPropagation()} dir="rtl">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold text-gray-900">{t("editTitle")}</h2>
-              <button onClick={() => setEditing(null)} className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+              <button onClick={() => setEditing(null)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">رقم العضوية</label>
-                <input type="number" value={editForm.memberNumber} onChange={e => setEditForm(f => ({ ...f, memberNumber: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
+                <label htmlFor="edit-memberNumber" className="text-xs font-bold text-gray-600">رقم العضوية</label>
+                <input id="edit-memberNumber" type="number" value={editForm.memberNumber} onChange={e => setEditForm(f => ({ ...f, memberNumber: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("nameAr")}</label>
-                <input type="text" value={editForm.nameAr} onChange={e => setEditForm(f => ({ ...f, nameAr: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
+                <label htmlFor="edit-nameAr" className="text-xs font-bold text-gray-600">{t("nameAr")}</label>
+                <input id="edit-nameAr" type="text" value={editForm.nameAr} onChange={e => setEditForm(f => ({ ...f, nameAr: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("nameNl")}</label>
-                <input type="text" value={editForm.nameNl} onChange={e => setEditForm(f => ({ ...f, nameNl: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" dir="ltr" />
+                <label htmlFor="edit-nameNl" className="text-xs font-bold text-gray-600">{t("nameNl")}</label>
+                <input id="edit-nameNl" type="text" value={editForm.nameNl} onChange={e => setEditForm(f => ({ ...f, nameNl: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" dir="ltr" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("whatsapp")}</label>
-                <input type="text" value={editForm.whatsapp} onChange={e => setEditForm(f => ({ ...f, whatsapp: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" dir="ltr" />
+                <label htmlFor="edit-whatsapp" className="text-xs font-bold text-gray-600">{t("whatsapp")}</label>
+                <input id="edit-whatsapp" type="text" value={editForm.whatsapp} onChange={e => setEditForm(f => ({ ...f, whatsapp: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" dir="ltr" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("email")}</label>
-                <input type="text" value={editForm.email} onChange={e => setEditForm(f => ({ ...f, email: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" dir="ltr" />
+                <label htmlFor="edit-email" className="text-xs font-bold text-gray-600">{t("email")}</label>
+                <input id="edit-email" type="text" value={editForm.email} onChange={e => setEditForm(f => ({ ...f, email: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" dir="ltr" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("originCity")}</label>
-                <select value={editForm.originCity} onChange={e => setEditForm(f => ({ ...f, originCity: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl">
+                <label htmlFor="edit-originCity" className="text-xs font-bold text-gray-600">{t("originCity")}</label>
+                <select id="edit-originCity" value={editForm.originCity} onChange={e => setEditForm(f => ({ ...f, originCity: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl">
                   {SYRIAN_GOVERNORATES.map(g => <option key={g}>{g}</option>)}
                 </select>
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("nlProvincie")}</label>
-                <select value={editForm.nlProvincie} onChange={e => setEditForm(f => ({ ...f, nlProvincie: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl">
+                <label htmlFor="edit-nlProvincie" className="text-xs font-bold text-gray-600">{t("nlProvincie")}</label>
+                <select id="edit-nlProvincie" value={editForm.nlProvincie} onChange={e => setEditForm(f => ({ ...f, nlProvincie: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl">
                   {NL_PROVINCES.map(p => <option key={p}>{p}</option>)}
                 </select>
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("nlCity")}</label>
-                <input type="text" value={editForm.nlCity} onChange={e => setEditForm(f => ({ ...f, nlCity: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
+                <label htmlFor="edit-nlCity" className="text-xs font-bold text-gray-600">{t("nlCity")}</label>
+                <input id="edit-nlCity" type="text" value={editForm.nlCity} onChange={e => setEditForm(f => ({ ...f, nlCity: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("expNl")}</label>
-                <textarea value={editForm.expNl} onChange={e => setEditForm(f => ({ ...f, expNl: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl h-16 resize-none" />
+                <label htmlFor="edit-expNl" className="text-xs font-bold text-gray-600">{t("expNl")}</label>
+                <textarea id="edit-expNl" value={editForm.expNl} onChange={e => setEditForm(f => ({ ...f, expNl: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl h-16 resize-none" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("expOutside")}</label>
-                <textarea value={editForm.expOutside} onChange={e => setEditForm(f => ({ ...f, expOutside: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl h-16 resize-none" />
+                <label htmlFor="edit-expOutside" className="text-xs font-bold text-gray-600">{t("expOutside")}</label>
+                <textarea id="edit-expOutside" value={editForm.expOutside} onChange={e => setEditForm(f => ({ ...f, expOutside: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl h-16 resize-none" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("educationLevel")}</label>
-                <select value={editForm.educationLevel} onChange={e => setEditForm(f => ({ ...f, educationLevel: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl">
+                <label htmlFor="edit-educationLevel" className="text-xs font-bold text-gray-600">{t("educationLevel")}</label>
+                <select id="edit-educationLevel" value={editForm.educationLevel} onChange={e => setEditForm(f => ({ ...f, educationLevel: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl">
                   <option value=""></option>
                   <option>أمي</option><option>ابتدائي</option><option>إعدادي</option>
                   <option>ثانوي</option><option>معهد متوسط</option><option>جامعي</option><option>دراسات عليا</option>
                 </select>
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("profession")}</label>
-                <input type="text" value={editForm.profession} onChange={e => setEditForm(f => ({ ...f, profession: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
+                <label htmlFor="edit-profession" className="text-xs font-bold text-gray-600">{t("profession")}</label>
+                <input id="edit-profession" type="text" value={editForm.profession} onChange={e => setEditForm(f => ({ ...f, profession: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("skills")}</label>
-                <input type="text" value={editForm.skills} onChange={e => setEditForm(f => ({ ...f, skills: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
+                <label htmlFor="edit-skills" className="text-xs font-bold text-gray-600">{t("skills")}</label>
+                <input id="edit-skills" type="text" value={editForm.skills} onChange={e => setEditForm(f => ({ ...f, skills: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-600">{t("maritalStatus")}</label>
-                <select value={editForm.maritalStatus} onChange={e => setEditForm(f => ({ ...f, maritalStatus: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl">
+                <label htmlFor="edit-maritalStatus" className="text-xs font-bold text-gray-600">{t("maritalStatus")}</label>
+                <select id="edit-maritalStatus" value={editForm.maritalStatus} onChange={e => setEditForm(f => ({ ...f, maritalStatus: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl">
                   <option value=""></option>
                   <option>أعزب</option><option>متزوج</option><option>مطلق</option><option>أرمل</option>
                 </select>
               </div>
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-600">{t("notesLabel")}</label>
-              <textarea value={editForm.notes} onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl h-20 resize-none" />
+              <label htmlFor="edit-notes" className="text-xs font-bold text-gray-600">{t("notesLabel")}</label>
+              <textarea id="edit-notes" value={editForm.notes} onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl h-20 resize-none" />
             </div>
             <div className="flex gap-3 pt-2">
               <button onClick={() => setEditing(null)} className="flex-1 py-3 border rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition">{t("cancel")}</button>
