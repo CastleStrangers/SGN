@@ -26,6 +26,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
   }, [status, session, router]);
 
+  // Force body background to be light gray in dashboard to match the layout
+  useEffect(() => {
+    const originalBg = document.body.style.backgroundColor;
+    document.body.style.backgroundColor = "#f9fafb"; 
+    
+    return () => {
+      document.body.style.backgroundColor = originalBg;
+    };
+  }, []);
+
   if (status === "loading") {
     return <div className="min-h-screen bg-gray-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-[#1a5632] border-t-transparent rounded-full" /></div>;
   }
@@ -66,8 +76,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar - positioned on the right for RTL */}
-      <aside className={`fixed lg:sticky top-0 right-0 z-40 w-64 h-screen bg-white border-l transform transition-transform duration-200 ${open ? "translate-x-0" : "translate-x-full lg:translate-x-0"}`}>
+      {/* Sidebar - positioned on the right for RTL with overflow-y-auto */}
+      <aside className={`fixed lg:sticky top-0 right-0 z-40 w-64 h-screen bg-white border-l overflow-y-auto transform transition-transform duration-200 ${open ? "translate-x-0" : "translate-x-full lg:translate-x-0"}`}>
         <div className="p-4 border-b">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
