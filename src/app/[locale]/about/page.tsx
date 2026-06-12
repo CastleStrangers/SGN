@@ -1,67 +1,31 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft, Target, Eye, MessageCircle, Heart, Users, Shield } from "lucide-react";
 import AboutUsBoard, { BoardMember } from "@/components/about-us-board";
 
-const boardMembers: BoardMember[] = [
-  {
-    id: "chairman",
-    nameAr: "د. أحمد السعيد",
-    nameEn: "Dr. Ahmad Al-Said",
-    titleAr: "رئيس مجلس الإدارة",
-    image: "/images/board/chairman.png",
-    bioPoints: [
-      "دكتوراه في العلاقات الدولية والتنمية البشرية.",
-      "خبرة تزيد عن 15 عاماً في إدارة المنظمات غير الربحية وتفعيل دور الجاليات السورية.",
-      "عضو مؤسس للجالية السورية في هولندا ومساهم رئيسي في بناء جسور التواصل مع البلديات الهولندية."
-    ],
-    kvkNumber: "96718943"
-  },
-  {
-    id: "secretary",
-    nameAr: "أ. سارة المرعشلي",
-    nameEn: "Sarah Al-Marashli",
-    titleAr: "أمين السر",
-    image: "/images/board/secretary.png",
-    bioPoints: [
-      "ماجستير في إدارة الأعمال والاتصال المؤسسي.",
-      "خبرة طويلة في تنظيم الفعاليات المجتمعية وتوثيق وتنسيق المشاريع التنموية.",
-      "مسؤولة عن التنسيق الداخلي والتوثيق الإداري لقرارات مجلس الإدارة."
-    ],
-    kvkNumber: "96718943"
-  },
-  {
-    id: "treasurer",
-    nameAr: "أ. خالد اليوسف",
-    nameEn: "Khaled Al-Youssef",
-    titleAr: "أمين الصندوق",
-    image: "/images/board/treasurer.png",
-    bioPoints: [
-      "بكالوريوس في العلوم المالية والمحاسبية من جامعة دمشق.",
-      "خبرة تفوق 10 سنوات في التدقيق المالي وإدارة الميزانيات للمؤسسات الأهلية.",
-      "مشرف على إدارة الموارد المالية والتدقيق لضمان أقصى درجات الشفافية والمسؤولية المالية."
-    ],
-    kvkNumber: "96718943"
-  },
-  {
-    id: "director",
-    nameAr: "م. طارق العلي",
-    nameEn: "Eng. Tariq Al-Ali",
-    titleAr: "مدير المشاريع والتعاون الدولي",
-    image: "/images/board/director.png",
-    bioPoints: [
-      "مهندس أنظمة وحاصل على شهادة إدارة المشاريع الـ PMP.",
-      "مسؤول عن تطوير وتنفيذ البرامج التعليمية والتمكين الأكاديمي والمهني للشباب.",
-      "منسق الشراكات مع البلديات الهولندية والمنظمات الشريكة لدعم الاندماج والتعليم."
-    ],
-    kvkNumber: "96718943"
-  }
-];
-
 export default function AboutPage() {
   const t = useTranslations("about");
+  const [members, setMembers] = useState<BoardMember[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetch("/api/board")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setMembers(data);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch board members:", err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -120,7 +84,11 @@ export default function AboutPage() {
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <AboutUsBoard members={boardMembers} />
+        {loading ? (
+          <div className="text-center py-20 text-gray-500 font-medium">جاري تحميل بيانات مجلس الإدارة...</div>
+        ) : (
+          <AboutUsBoard members={members} />
+        )}
       </div>
     </div>
   );
