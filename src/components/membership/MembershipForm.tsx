@@ -336,14 +336,14 @@ export default function MembershipForm() {
             )}
           </button>
         </div>
-        <div className="bg-emerald-800 h-48 w-full rounded-[2rem] mb-20 relative flex flex-col items-center justify-center text-center px-6">
+        <div className="bg-emerald-800 py-10 md:py-12 w-full rounded-[2rem] mb-16 relative flex flex-col items-center justify-center text-center px-6 shadow-md">
           <Logo />
           <div className="flex items-center gap-2 justify-center" dir="rtl">
             <FreeSyrianFlag className="w-6 h-4 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
             <h1 className="text-2xl md:text-3xl font-black text-white leading-tight">{t("title")}</h1>
             <DutchFlag className="w-6 h-4 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
           </div>
-          <p className="text-emerald-100/60 text-xs mt-2 max-w-lg leading-relaxed">{t("subtitle")}</p>
+          <p className="text-emerald-100/80 text-xs md:text-sm mt-3 max-w-xl leading-relaxed">{t("subtitle")}</p>
         </div>
 
         <div className="bg-white/95 backdrop-blur rounded-[2rem] shadow-2xl p-8 md:p-16 relative border border-white/50">
