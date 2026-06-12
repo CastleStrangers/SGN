@@ -12,8 +12,10 @@ interface Task {
 
 export default function TasksPage() {
   const t = useTranslations("tasksPublic");
+  const { data: session } = useSession();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [appliedIds, setAppliedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetch("/api/tasks/public")
@@ -21,6 +23,17 @@ export default function TasksPage() {
       .then(data => { setTasks(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (session) {
+      fetch("/api/tasks/apply")
+        .then(r => r.ok ? r.json() : [])
+        .then((data: any[]) => {
+          setAppliedIds(new Set(data.map(a => a.taskId)));
+        })
+        .catch(() => {});
+    }
+  }, [session]);
 
   const priorityColors: Record<string, string> = {
     high: "text-red-600 bg-red-50",
@@ -70,6 +83,34 @@ export default function TasksPage() {
                     </div>
                     <h3 className="font-bold text-gray-900">{task.title}</h3>
                     {task.description && <p className="text-sm text-gray-600 mt-1 line-clamp-2">{task.description}</p>}
+                    {session && (
+                      <div className="mt-3 flex justify-start">
+                        {appliedIds.has(task.id) ? (
+                          <span className="inline-flex items-center gap-1 text-[11px] text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                            <Check className="w-3.5 h-3.5" /> تم تقديم طلب التطوع
+                          </span>
+                        ) : (
+                          <button
+                            onClick={async () => {
+                              const res = await fetch("/api/tasks/apply", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ taskId: task.id }),
+                              });
+                              if (res.ok) {
+                                setAppliedIds(new Set([...appliedIds, task.id]));
+                              } else {
+                                const data = await res.json();
+                                alert(data.error || "فشل تقديم الطلب");
+                              }
+                            }}
+                            className="px-3 py-1 bg-emerald-800 hover:bg-emerald-950 text-white text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
+                          >
+                            تطوع لهذه المهمة
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <span className={`shrink-0 text-xs font-bold px-3 py-1 rounded-full ${task.status === "in_progress" ? "bg-blue-50 text-blue-600" : "bg-gray-50 text-gray-500"}`}>
                     {task.status === "in_progress" ? t('statusInProgress') : t('statusPending')}
