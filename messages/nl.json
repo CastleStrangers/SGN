@@ -307,7 +307,15 @@
       "draft": "Concept",
       "viewsSuffix": "weergaven",
       "noPages": "Geen pagina's",
-      "confirmDelete": "Bevestig verwijdering?"
+      "confirmDelete": "Bevestig verwijdering?",
+      "socialShareTitle": "Publiceren op Sociale Media",
+      "shareFacebook": "Publiceren op Facebook-pagina",
+      "shareInstagram": "Publiceren op Instagram",
+      "shareX": "Publiceren op X (Twitter)",
+      "shareTelegram": "Publiceren op Telegram-kanaal",
+      "shareWhatsApp": "Publiceren op WhatsApp Business",
+      "shareYouTube": "Publiceren op YouTube",
+      "shareTikTok": "Publiceren op TikTok"
     },
     "adsPage": {
       "title": "Advertenties",

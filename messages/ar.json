@@ -307,7 +307,15 @@
       "draft": "مسودة",
       "viewsSuffix": "مشاهدة",
       "noPages": "لا توجد صفحات",
-      "confirmDelete": "تأكيد الحذف؟"
+      "confirmDelete": "تأكيد الحذف؟",
+      "socialShareTitle": "النشر على شبكات التواصل الاجتماعي",
+      "shareFacebook": "نشر على صفحة فيسبوك",
+      "shareInstagram": "نشر على إنستغرام",
+      "shareX": "نشر على منصة X",
+      "shareTelegram": "نشر على قناة تليجرام",
+      "shareWhatsApp": "نشر على واتساب بيزنس",
+      "shareYouTube": "نشر على يوتيوب",
+      "shareTikTok": "نشر على تيك توك"
     },
     "adsPage": {
       "title": "الإعلانات",

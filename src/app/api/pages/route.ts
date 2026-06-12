@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { requireAuthorize } from "@/lib/auth-helpers";
 import { getApiMessage } from "@/lib/api-messages";
+import { triggerSocialShare } from "@/lib/sync/social-share";
 
 function t(req: Request, key: string) {
   const locale = (req as any).cookies?.get?.('NEXT_LOCALE')?.value || 'ar';
@@ -20,7 +21,7 @@ export async function GET() {
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || !(await requireAuthorize(session.user.id, "pages.create"))) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const { title, content, excerpt, image, category, tags, source, featured, slug } = await req.json();
+  const { title, content, excerpt, image, category, tags, source, featured, slug, publishTo } = await req.json();
   const post = await prisma.post.create({
     data: {
       title,
@@ -35,6 +36,12 @@ export async function POST(req: Request) {
       authorId: (session.user as any).id,
     },
   });
+
+  // Trigger social media sharing webhook if platforms are selected
+  if (publishTo && Array.isArray(publishTo) && publishTo.length > 0) {
+    triggerSocialShare(post, publishTo);
+  }
+
   return NextResponse.json(post);
 }
 

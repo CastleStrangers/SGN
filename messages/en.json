@@ -307,7 +307,15 @@
       "draft": "Draft",
       "viewsSuffix": "views",
       "noPages": "No pages",
-      "confirmDelete": "Confirm deletion?"
+      "confirmDelete": "Confirm deletion?",
+      "socialShareTitle": "Publish to Social Media",
+      "shareFacebook": "Publish to Facebook Page",
+      "shareInstagram": "Publish to Instagram",
+      "shareX": "Publish to X (Twitter)",
+      "shareTelegram": "Publish to Telegram Channel",
+      "shareWhatsApp": "Publish to WhatsApp Business",
+      "shareYouTube": "Publish to YouTube",
+      "shareTikTok": "Publish to TikTok"
     },
     "adsPage": {
       "title": "Ads",
