@@ -71,8 +71,8 @@ export function SiteFooter() {
               <ul className="space-y-3 text-xs text-gray-300">
                 <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
                   <span>📍</span>
-                  <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="underline decoration-dotted">
-                    المقر الرئيسي: Den Haag, Netherlands
+                  <a href="https://maps.google.com/?q=Laan+van+Meerdervoort+53-D+2517+AE+Den+Haag" target="_blank" rel="noreferrer" className="underline decoration-dotted">
+                    Laan van Meerdervoort 53-D, 2517 AE Den Haag
                   </a>
                 </li>
                 <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
