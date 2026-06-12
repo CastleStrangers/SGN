@@ -70,10 +70,10 @@ function CommentRow({ comment, replies, onToggle, onDelete, t }: {
           <p className="text-xs text-gray-400 mt-1">{formatDate(comment.createdAt, locale)}</p>
         </div>
         <div className="flex items-center gap-1 flex-shrink-0">
-          <button onClick={() => onToggle(comment.id, !comment.approved)} className="p-1.5 hover:bg-gray-100 rounded text-gray-400">
+          <button onClick={() => onToggle(comment.id, !comment.approved)} className="p-1.5 hover:bg-gray-100 rounded text-gray-400" title={comment.approved ? "إلغاء الموافقة" : "موافقة"}>
             {comment.approved ? <XCircle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
           </button>
-          <button onClick={() => onDelete(comment.id)} className="p-1.5 hover:bg-red-50 rounded text-gray-400 hover:text-red-500">
+          <button onClick={() => onDelete(comment.id)} className="p-1.5 hover:bg-red-50 rounded text-gray-400 hover:text-red-500" title="حذف">
             <Trash2 className="w-4 h-4" />
           </button>
         </div>
@@ -93,10 +93,10 @@ function CommentRow({ comment, replies, onToggle, onDelete, t }: {
                 <p className="text-gray-600 text-xs mt-0.5">{r.content}</p>
               </div>
               <div className="flex items-center gap-1">
-                <button onClick={() => onToggle(r.id, !r.approved)} className="p-1 hover:bg-gray-100 rounded text-gray-400">
+                <button onClick={() => onToggle(r.id, !r.approved)} className="p-1 hover:bg-gray-100 rounded text-gray-400" title={r.approved ? "إلغاء الموافقة" : "موافقة"}>
                   {r.approved ? <XCircle className="w-3.5 h-3.5" /> : <CheckCircle className="w-3.5 h-3.5" />}
                 </button>
-                <button onClick={() => onDelete(r.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500">
+                <button onClick={() => onDelete(r.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500" title="حذف">
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>

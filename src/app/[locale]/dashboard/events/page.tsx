@@ -43,13 +43,13 @@ export default function EventsPage() {
 
       <form onSubmit={create} className="bg-white rounded-2xl border p-4 mb-6 space-y-3">
         <div className="grid md:grid-cols-2 gap-3">
-          <input value={title} onChange={e => setTitle(e.target.value)} placeholder={t("titlePlaceholder")} className="w-full px-4 py-2.5 border rounded-xl text-sm" />
-          <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full px-4 py-2.5 border rounded-xl text-sm" />
+          <input value={title} onChange={e => setTitle(e.target.value)} placeholder={t("titlePlaceholder")} aria-label={t("titlePlaceholder")} title={t("titlePlaceholder")} className="w-full px-4 py-2.5 border rounded-xl text-sm" />
+          <input type="date" value={date} onChange={e => setDate(e.target.value)} title="التاريخ" aria-label="التاريخ" className="w-full px-4 py-2.5 border rounded-xl text-sm" />
         </div>
-        <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder={t("descPlaceholder")} rows={3} className="w-full px-4 py-2.5 border rounded-xl text-sm" />
+        <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder={t("descPlaceholder")} aria-label={t("descPlaceholder")} title={t("descPlaceholder")} rows={3} className="w-full px-4 py-2.5 border rounded-xl text-sm" />
         <div className="grid md:grid-cols-2 gap-3">
-          <input value={location} onChange={e => setLocation(e.target.value)} placeholder={t("locationPlaceholder")} className="w-full px-4 py-2.5 border rounded-xl text-sm" />
-          <select value={category} onChange={e => setCategory(e.target.value)} className="w-full px-4 py-2.5 border rounded-xl text-sm bg-white">
+          <input value={location} onChange={e => setLocation(e.target.value)} placeholder={t("locationPlaceholder")} aria-label={t("locationPlaceholder")} title={t("locationPlaceholder")} className="w-full px-4 py-2.5 border rounded-xl text-sm" />
+          <select value={category} onChange={e => setCategory(e.target.value)} title="الفئة" aria-label="الفئة" className="w-full px-4 py-2.5 border rounded-xl text-sm bg-white">
             <option value="فعالية">فعالية</option>
             <option value="اجتماع">اجتماع</option>
             <option value="ورشة عمل">ورشة عمل</option>
@@ -72,7 +72,7 @@ export default function EventsPage() {
               </div>
               {(e.description || e.location) && <p className="text-sm text-gray-500 mt-1">{e.location && `${e.location} — `}{e.description}</p>}
             </div>
-            <button onClick={() => remove(e.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
+            <button onClick={() => remove(e.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500" title="حذف" aria-label="حذف"><Trash2 className="w-4 h-4" /></button>
           </div>
         ))}
         {events.length === 0 && <p className="text-center text-gray-400 py-8">{t("noEvents")}</p>}
