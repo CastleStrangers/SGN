@@ -96,6 +96,7 @@ function CommentItem({ comment, onReply, onLike, replyTo }: {
   comment: Comment; onReply: (id: string | null) => void; onLike: (id: string) => void; replyTo: string | null;
 }) {
   const t = useTranslations('comments');
+  const locale = useLocale();
   return (
     <div className="bg-gray-50 rounded-xl p-4">
       <div className="flex items-center justify-between mb-2">
