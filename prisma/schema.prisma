@@ -436,3 +436,22 @@ model TaskApplication {
   
   @@unique([taskId, memberId])
 }
+
+model BoardMember {
+  id            String   @id @default(uuid())
+  nameAr        String
+  nameEn        String
+  image         String
+  titleAr       String
+  titleEn       String
+  isFounder     Boolean  @default(true)
+  isLicensing   Boolean  @default(false)
+  committees    String   // Stringified JSON array of committees
+  bioPoints     String   // Stringified JSON array of bio points
+  website       String?  @default("https://www.sy-nl.org/")
+  kvkNumber     String   @default("96718943")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("board_members")
+}
