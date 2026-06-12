@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Loader2, Search, MapPin, User, Calendar, X, Users } from "lucide-react";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
-import { SiteFooter } from "@/components/home/site-footer";
+
 
 const SYRIAN_GOVERNORATES = [
   "دمشق", "ريف دمشق", "حلب", "حمص", "حماة", "اللاذقية", "طرطوس",

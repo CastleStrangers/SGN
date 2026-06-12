@@ -7,7 +7,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
-import { SiteFooter } from "@/components/home/site-footer";
+
 
 interface UserProfile {
   id: string; name: string | null; image: string | null; bio: string | null;

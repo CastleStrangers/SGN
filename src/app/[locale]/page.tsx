@@ -12,7 +12,7 @@ import { Sidebar } from "@/components/home/sidebar";
 import { MoreNews } from "@/components/home/more-news";
 import { LatestVideos } from "@/components/home/latest-videos";
 import { Newsletter } from "@/components/home/newsletter";
-import { SiteFooter } from "@/components/home/site-footer";
+
 import { Ads } from "@/components/ads";
 import { CommunityStats } from "@/components/community-stats";
 
