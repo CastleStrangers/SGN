@@ -90,6 +90,8 @@ export default function UsersPage() {
                     <select
                       value={u.role}
                       onChange={e => updateRole(u.id, e.target.value)}
+                      title="تغيير الدور"
+                      aria-label="تغيير الدور"
                       className="text-xs border rounded-lg px-2 py-1 bg-white"
                     >
                       <option value="member">member</option>
@@ -103,6 +105,8 @@ export default function UsersPage() {
                     <select
                       value={u.roleId || ""}
                       onChange={e => assignRole(u.id, e.target.value || null)}
+                      title="تعيين الدور"
+                      aria-label="تعيين الدور"
                       className="text-xs border rounded-lg px-2 py-1 bg-white"
                     >
                       <option value="">—</option>
@@ -114,7 +118,7 @@ export default function UsersPage() {
                   <td className="px-4 py-3 text-gray-400 text-xs">{formatDate(u.createdAt, locale)}</td>
                   <td className="px-4 py-3">
                     {u.id !== currentId && (
-                      <button onClick={() => deleteUser(u.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500">
+                      <button onClick={() => deleteUser(u.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500" title="حذف المستخدم" aria-label="حذف المستخدم">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     )}

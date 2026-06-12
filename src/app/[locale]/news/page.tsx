@@ -173,7 +173,7 @@ function NewsPageInner() {
                     { icon: Twitter, label: t('twitter'), color: "bg-gray-800", href: "https://x.com/SGN2098551" },
                     { icon: TikTok, label: t('tiktok'), color: "bg-gray-900", href: "https://www.tiktok.com/@sgn_syria" },
                   ].map((s) => (
-                  <a key={s.label} href={s.href} target="_blank"
+                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                     className={`${s.color} text-white rounded-xl px-3 py-2 flex items-center gap-1.5 text-xs hover:opacity-90 transition-opacity`}
                   >
                     <s.icon className="w-3.5 h-3.5" /> {s.label}
@@ -187,7 +187,7 @@ function NewsPageInner() {
               <Sparkles className="w-7 h-7 text-[#c8a84e] mx-auto mb-2" />
               <h3 className="font-bold text-sm mb-1">{t('joinTitle')}</h3>
               <p className="text-xs text-gray-300 mb-3">{t('joinDesc')}</p>
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSckV1utDGcCXjB4Lg8p9hiYtJjgHwUJyTZb2waISC9dBZdKJw/viewform" target="_blank"
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSckV1utDGcCXjB4Lg8p9hiYtJjgHwUJyTZb2waISC9dBZdKJw/viewform" target="_blank" rel="noopener noreferrer"
                 className="inline-block bg-[#c8a84e] hover:bg-[#b8973f] text-[#1a1a2e] font-bold px-4 py-2 rounded-xl text-xs transition-colors"
               >
                 {t('joinButton')}
@@ -271,6 +271,7 @@ function NewsPageInner() {
                 {totalPages > 1 && (
                   <div className="flex items-center justify-center gap-2 mt-8">
                     <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
+                      title="الصفحة السابقة" aria-label="الصفحة السابقة"
                       className="p-2 rounded-xl border hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <ChevronRight className="w-4 h-4" />
@@ -285,6 +286,7 @@ function NewsPageInner() {
                       </button>
                     ))}
                     <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1}
+                      title="الصفحة التالية" aria-label="الصفحة التالية"
                       className="p-2 rounded-xl border hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <ChevronLeft className="w-4 h-4" />
