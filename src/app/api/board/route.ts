@@ -1,13 +1,30 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
+interface DbBoardMember {
+  id: string;
+  nameAr: string;
+  nameEn: string;
+  image: string;
+  titleAr: string;
+  titleEn: string;
+  isFounder: boolean;
+  isLicensing: boolean;
+  committees: string;
+  bioPoints: string;
+  website: string | null;
+  kvkNumber: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export async function GET() {
   try {
-    const members = await prisma.boardMember.findMany({
+    const members = await (prisma as any).boardMember.findMany({
       orderBy: { createdAt: 'asc' }
-    });
+    }) as DbBoardMember[];
 
-    const parsedMembers = members.map(m => {
+    const parsedMembers = members.map((m: DbBoardMember) => {
       let committees: string[] = [];
       let bioPoints: string[] = [];
 
@@ -47,7 +64,7 @@ export async function POST(request: Request) {
       bioPoints: Array.isArray(body.bioPoints) ? JSON.stringify(body.bioPoints) : body.bioPoints || "[]",
     };
 
-    const newMember = await prisma.boardMember.create({
+    const newMember = await (prisma as any).boardMember.create({
       data: formattedData
     });
 
