@@ -16,6 +16,7 @@
     "videos": "Videos",
     "events": "Events",
     "about": "About Us",
+    "regulations": "Internal Regulations",
     "volunteer": "Volunteer Now",
     "contact": "Contact Us",
     "login": "Login",
@@ -26,6 +27,7 @@
   },
   "topbar": {
     "about": "About Us",
+    "regulations": "Internal Regulations",
     "contact": "Contact Us",
     "login": "Login"
   },
@@ -120,6 +122,23 @@
     "goal2": "Promoting cultural identity and the Arabic language",
     "goal3": "Academic and professional empowerment of students and immigrants",
     "goal4": "Social and humanitarian solidarity for the most needy groups"
+  },
+  "regulations": {
+    "title": "Internal Regulations",
+    "backToHome": "Back to Home",
+    "description": "The internal regulations document defines the identity, objectives, working mechanisms, and administrative structure of the Syrian Community in the Netherlands.",
+    "body": "The internal regulations document defines the identity, objectives, working mechanisms, and administrative structure of the Syrian Community in the Netherlands. It reflects our commitment to transparency, neutrality, and organized collective work, and serves as a fundamental reference for all members and affiliates in understanding their rights and duties.",
+    "identity": "Community Identity",
+    "identityDesc": "Defines the vision, mission, and values of the Syrian Community in the Netherlands.",
+    "governance": "Administrative Structure",
+    "governanceDesc": "Mechanisms for forming the board of directors, working committees, and distribution of administrative responsibilities.",
+    "rights": "Rights and Duties",
+    "rightsDesc": "Clarifies the rights and duties of affiliated members and officials in the community.",
+    "membership": "Membership Process",
+    "membershipDesc": "Terms and procedures for registration, withdrawal, and voting in the general assembly.",
+    "downloadTitle": "Download Internal Regulations",
+    "downloadDesc": "To promote transparency and provide an opportunity for all members, candidates, and those wishing to join, you can view and download the full internal regulations of the Syrian Community in the Netherlands in PDF format.",
+    "downloadBtn": "📄 Download Internal Regulations (PDF)"
   },
   "contact": {
     "title": "Contact Us",

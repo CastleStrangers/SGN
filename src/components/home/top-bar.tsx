@@ -23,6 +23,7 @@ export function TopBar() {
         <span>{t("site.date")}</span>
         <div className="flex items-center gap-4">
           <Link href="/about" className="hover:text-[#c8a84e] transition-colors">{t("topbar.about")}</Link>
+          <Link href="/regulations" className="hover:text-[#c8a84e] transition-colors">{t("topbar.regulations")}</Link>
           <Link href="/volunteer" className="hover:text-[#c8a84e] transition-colors">{t("nav.volunteer")}</Link>
           <Link href="/donate" className="hover:text-[#c8a84e] transition-colors">{t("nav.donate")}</Link>
           <Link href="/contact" className="hover:text-[#c8a84e] transition-colors">{t("topbar.contact")}</Link>

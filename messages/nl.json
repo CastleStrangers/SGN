@@ -16,6 +16,7 @@
     "videos": "Video's",
     "events": "Evenementen",
     "about": "Over Ons",
+    "regulations": "Intern Reglement",
     "volunteer": "Word Vrijwilliger",
     "contact": "Contacteer Ons",
     "login": "Inloggen",
@@ -26,6 +27,7 @@
   },
   "topbar": {
     "about": "Over Ons",
+    "regulations": "Intern Reglement",
     "contact": "Contacteer Ons",
     "login": "Inloggen"
   },
@@ -120,6 +122,23 @@
     "goal2": "Bevordering van culturele identiteit en de Arabische taal",
     "goal3": "Academische en professionele empowerment van studenten en immigranten",
     "goal4": "Sociale en humanitaire solidariteit voor de meest behoeftige groepen"
+  },
+  "regulations": {
+    "title": "Intern Reglement",
+    "backToHome": "Terug naar Home",
+    "description": "Het interne reglement definieert de identiteit, doelstellingen, werkingsmechanismen en administratieve structuur van de Syrische Gemeenschap in Nederland.",
+    "body": "Het interne reglement definieert de identiteit, doelstellingen, werkingsmechanismen en administratieve structuur van de Syrische Gemeenschap in Nederland. Het weerspiegelt onze toewijding aan transparantie, neutraliteit en georganiseerd collectief werk, en dient als een fundamentele referentie voor alle leden en aangeslotenen bij het begrijpen van hun rechten en plichten.",
+    "identity": "Gemeenschapsidentiteit",
+    "identityDesc": "Bepaalt de visie, missie en waarden van de Syrische Gemeenschap in Nederland.",
+    "governance": "Bestuursstructuur",
+    "governanceDesc": "Mechanismen voor het vormen van het bestuur, werkcommissies en verdeling van administratieve verantwoordelijkheden.",
+    "rights": "Rechten en Plichten",
+    "rightsDesc": "Verduidelijkt de rechten en plichten van aangesloten leden en functionarissen in de gemeenschap.",
+    "membership": "Lidmaatschapsproces",
+    "membershipDesc": "Voorwaarden en procedures voor registratie, terugtrekking en stemmen in de algemene vergadering.",
+    "downloadTitle": "Download Intern Reglement",
+    "downloadDesc": "Om transparantie te bevorderen en alle leden, kandidaten en geïnteresseerden de kans te geven, kunt u het volledige interne reglement van de Syrische Gemeenschap in Nederland in PDF-formaat bekijken en downloaden.",
+    "downloadBtn": "📄 Download Intern Reglement (PDF)"
   },
   "contact": {
     "title": "Contacteer Ons",

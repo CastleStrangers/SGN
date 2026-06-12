@@ -90,6 +90,7 @@ export function SiteFooter() {
 
             <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-gray-800 text-center text-[11px]">
               <Link href="/about" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">من نحن</Link>
+              <Link href="/regulations" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">النظام الداخلي</Link>
               <Link href="/contact" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">اتصل بنا</Link>
             </div>
           </div>
