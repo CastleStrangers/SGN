@@ -1,14 +1,12 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
 import { put } from "@vercel/blob";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user || (session.user as any).role !== "admin") {
-    return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
+    return NextResponse.json({ error: "يجب تسجيل الدخول كمسؤول" }, { status: 403 });
   }
 
   try {
@@ -34,20 +32,26 @@ export async function POST(req: Request) {
       );
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
+    const arrayBuf = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuf);
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      const blob = await put(`board/${fileName}`, buffer, { access: "public" });
-      return NextResponse.json({ url: blob.url });
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      return NextResponse.json(
+        { error: "الرفع إلى التخزين السحابي غير متاح حالياً" },
+        { status: 500 }
+      );
     }
 
-    const dir = path.join(process.cwd(), "public", "images", "board");
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, fileName), buffer);
-    return NextResponse.json({ url: `/images/board/${fileName}` });
-  } catch (error) {
-    console.error("[Board Upload] error:", error);
-    return NextResponse.json({ error: "فشل رفع الصورة" }, { status: 500 });
+    const blob = await put(`board/${fileName}`, buffer, {
+      access: "public",
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    });
+
+    return NextResponse.json({ url: blob.url });
+  } catch (error: any) {
+    return NextResponse.json({
+      error: `فشل رفع الصورة: ${error?.message || error || "خطأ غير معروف"}`,
+    }, { status: 500 });
   }
 }
