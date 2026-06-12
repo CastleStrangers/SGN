@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 import { Check, X, Search, Loader2, Trash2, Download, Edit3, ExternalLink, FileText, Badge, CreditCard, Upload, Mail, Square, CheckSquare, History } from "lucide-react";
 
 interface Member {
@@ -25,6 +26,7 @@ const NL_PROVINCES = ["Zuid-Holland", "Noord-Holland", "Utrecht", "Gelderland", 
 
 export default function MembersPage() {
   const t = useTranslations("membersDashboard");
+  const locale = useLocale();
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -298,7 +300,7 @@ export default function MembersPage() {
                     {m.expOutside && <p className="text-gray-600"><span className="text-gray-400">{t("expOutside")}:</span> {m.expOutside}</p>}
                     {m.notes && <p className="text-gray-600 mt-1"><span className="text-gray-400">{t("notes")}:</span> {m.notes}</p>}
                   </div>
-                  <div className="text-[10px] text-gray-400 mt-2 mr-6">{new Date(m.createdAt).toLocaleDateString("ar")}</div>
+                  <div className="text-[10px] text-gray-400 mt-2 mr-6">{formatDate(m.createdAt, locale)}</div>
                 </div>
                 <div className="flex gap-2 shrink-0 flex-col sm:flex-row">
                   <div className="flex gap-2">
