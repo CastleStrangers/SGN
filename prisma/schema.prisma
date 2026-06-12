@@ -83,6 +83,10 @@ model Post {
   author    User      @relation(fields: [authorId], references: [id])
   comments  Comment[]
   favorites Favorite[]
+  province  String?
+  city      String?
+  relatedEventId String?
+  relatedTaskId  String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
@@ -101,6 +105,9 @@ model Task {
   assignedTo  String?
   createdBy   String?
   dueDate     DateTime?
+  province    String?
+  city        String?
+  applications TaskApplication[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -139,6 +146,9 @@ model Event {
   image       String?
   category    String   @default("فعالية")
   published   Boolean  @default(true)
+  province    String?
+  city        String?
+  registrations EventRegistration[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -185,6 +195,8 @@ model Member {
   showInPublicProfile Boolean @default(true)
   userId       String?  @unique
   user         User?    @relation(fields: [userId], references: [id])
+  registrations EventRegistration[]
+  taskApplications TaskApplication[]
   createdAt    DateTime @default(now())
 }
 
@@ -386,4 +398,41 @@ model LandingPage {
   published   Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Guide {
+  id          String   @id @default(cuid())
+  titleAr     String
+  titleNl     String
+  titleEn     String
+  contentAr   String
+  contentNl   String
+  contentEn   String
+  category    String   // "education" | "housing" | "work" | "law"
+  tags        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model EventRegistration {
+  id        String   @id @default(cuid())
+  eventId   String
+  memberId  String
+  createdAt DateTime @default(now())
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  
+  @@unique([eventId, memberId])
+}
+
+model TaskApplication {
+  id        String   @id @default(cuid())
+  taskId    String
+  memberId  String
+  status    String   @default("pending") // "pending" | "accepted" | "rejected"
+  createdAt DateTime @default(now())
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  
+  @@unique([taskId, memberId])
 }
