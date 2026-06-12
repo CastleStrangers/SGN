@@ -13,7 +13,7 @@ export async function sendPushNotifications(msg: PushMessage) {
 
   if (pushTokens.length === 0) return;
 
-  const messages = pushTokens.map((pt) => ({
+  const messages = pushTokens.map((pt: { token: string }) => ({
     to: pt.token,
     title: msg.title,
     body: msg.body,

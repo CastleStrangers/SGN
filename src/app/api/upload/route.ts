@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { requireAuthorize } from "@/lib/auth-helpers";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import { put } from "@vercel/blob";
 import { getApiMessage } from "@/lib/api-messages";
 
 function t(req: Request, key: string) {
@@ -27,10 +28,15 @@ export async function POST(req: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(fileName, buffer, { access: "public" });
+      return NextResponse.json({ url: blob.url });
+    }
+
     const dir = path.join(process.cwd(), "public", "uploads");
     await mkdir(dir, { recursive: true });
     await writeFile(path.join(dir, fileName), buffer);
-
     return NextResponse.json({ url: `/uploads/${fileName}` });
   } catch {
     return NextResponse.json({ error: t(req, 'api.internalError') }, { status: 500 });

@@ -23,7 +23,7 @@ if (!mode || !["dev", "prod"].includes(mode)) {
 }
 
 const PRODUCTION_URL = "https://sy-nl.org";
-const DEV_URL = "http://localhost:3001";
+const DEV_URL = "http://localhost:3000";
 const targetUrl = mode === "prod" ? PRODUCTION_URL : DEV_URL;
 
 let content = fs.readFileSync(CONFIG_PATH, "utf-8");

@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { writeFile, mkdir, unlink } from "fs/promises";
 import path from "path";
+import { put, del } from "@vercel/blob";
 import { getApiMessage } from "@/lib/api-messages";
 
 function t(req: Request, key: string) {
@@ -31,13 +32,19 @@ export async function POST(req: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const fileName = `avatar-${member.id}-${Date.now()}.${ext}`;
-    const dir = path.join(process.cwd(), "public", "uploads", "avatars");
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, fileName), buffer);
+    let url: string;
 
-    const url = `/uploads/avatars/${fileName}`;
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(`avatars/${fileName}`, buffer, { access: "public" });
+      url = blob.url;
+    } else {
+      const dir = path.join(process.cwd(), "public", "uploads", "avatars");
+      await mkdir(dir, { recursive: true });
+      await writeFile(path.join(dir, fileName), buffer);
+      url = `/uploads/avatars/${fileName}`;
+    }
+
     await prisma.member.update({ where: { id: member.id }, data: { avatar: url } });
-
     return NextResponse.json({ url });
   } catch {
     return NextResponse.json({ error: t(req, 'api.internalError') }, { status: 500 });
@@ -54,8 +61,12 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: t(req, 'api.noImage') }, { status: 404 });
   }
   try {
-    const filePath = path.join(process.cwd(), "public", member.avatar);
-    await unlink(filePath).catch(() => {});
+    if (process.env.BLOB_READ_WRITE_TOKEN && member.avatar.startsWith("http")) {
+      await del(member.avatar).catch(() => {});
+    } else {
+      const filePath = path.join(process.cwd(), "public", member.avatar);
+      await unlink(filePath).catch(() => {});
+    }
     await prisma.member.update({ where: { id: member.id }, data: { avatar: null } });
     return NextResponse.json({ message: t(req, 'api.imageDeleted') });
   } catch {
