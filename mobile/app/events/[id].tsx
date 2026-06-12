@@ -3,9 +3,10 @@ import { useLocalSearchParams } from "expo-router";
 import { COLORS } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
+import { formatDate, formatTime } from "../../lib/date";
 
 export default function EventDetailScreen() {
-  const { t, isRTL } = useI18n();
+  const { t, isRTL, locale } = useI18n();
   const params = useLocalSearchParams();
 
   const event = {
@@ -26,10 +27,10 @@ export default function EventDetailScreen() {
   }
 
   const date = new Date(event.date);
-  const dateStr = date.toLocaleDateString(isRTL ? "ar-SA" : "en-US", {
+  const dateStr = formatDate(date, locale, {
     weekday: "long", year: "numeric", month: "long", day: "numeric",
   });
-  const timeStr = date.toLocaleTimeString(isRTL ? "ar-SA" : "en-US", {
+  const timeStr = formatTime(date, locale, {
     hour: "2-digit", minute: "2-digit",
   });
 
