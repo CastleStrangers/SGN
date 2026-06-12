@@ -25,9 +25,9 @@ const mainNav = [
 const secondaryNav = [
   { key: "nav.about", href: "/about" },
   { key: "nav.regulations", href: "/regulations" },
-  { key: "nav.donate", href: "/donate" },
   { key: "nav.volunteer", href: "/volunteer" },
   { key: "nav.contact", href: "/contact" },
+  { key: "nav.donate", href: "/donate" },
 ];
 
 const allNav = [...mainNav, ...secondaryNav];

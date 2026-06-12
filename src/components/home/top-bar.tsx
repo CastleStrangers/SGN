@@ -25,8 +25,8 @@ export function TopBar() {
           <Link href="/about" className="hover:text-[#c8a84e] transition-colors">{t("topbar.about")}</Link>
           <Link href="/regulations" className="hover:text-[#c8a84e] transition-colors">{t("topbar.regulations")}</Link>
           <Link href="/volunteer" className="hover:text-[#c8a84e] transition-colors">{t("nav.volunteer")}</Link>
-          <Link href="/donate" className="hover:text-[#c8a84e] transition-colors">{t("nav.donate")}</Link>
           <Link href="/contact" className="hover:text-[#c8a84e] transition-colors">{t("topbar.contact")}</Link>
+          <Link href="/donate" className="hover:text-[#c8a84e] transition-colors">{t("nav.donate")}</Link>
           <div className="flex items-center gap-2 mr-4 pr-4 border-r border-white/20">
             {socials.map(s => (
               <a key={s.href} href={s.href} target="_blank" className="hover:text-[#c8a84e] transition-colors"><s.icon className="w-3.5 h-3.5" /></a>
