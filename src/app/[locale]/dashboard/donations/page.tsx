@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 import { Search, CheckCircle, XCircle, Clock, DollarSign, Heart } from "lucide-react";
 
 interface Donation {
@@ -20,6 +21,7 @@ interface Donation {
 
 export default function DonationsPage() {
   const t = useTranslations("dashboard.donationsPage");
+  const locale = useLocale();
   const [donations, setDonations] = useState<Donation[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -181,7 +183,7 @@ export default function DonationsPage() {
                 {filtered.map((d) => (
                   <tr key={d.id} className="border-b last:border-0 hover:bg-gray-50">
                     <td className="p-3 text-gray-600 whitespace-nowrap text-xs">
-                      {new Date(d.createdAt).toLocaleDateString("ar-SA")}
+                      {formatDate(d.createdAt, locale)}
                     </td>
                     <td className="p-3">
                       <div className="font-bold text-gray-900">{d.name}</div>
@@ -228,7 +230,7 @@ export default function DonationsPage() {
                       )}
                       {d.status === "completed" && (
                         <span className="text-xs text-gray-400">
-                          {d.paidAt ? new Date(d.paidAt).toLocaleDateString("ar-SA") : ""}
+                          {d.paidAt ? formatDate(d.paidAt, locale) : ""}
                         </span>
                       )}
                     </td>

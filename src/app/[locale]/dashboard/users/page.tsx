@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Shield, Trash2, ChevronDown, UserCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 
 interface User { id: string; name: string | null; email: string | null; role: string; roleId: string | null; createdAt: string; }
 interface Role { id: string; name: string; description: string | null; isSystem: boolean; }
@@ -11,6 +13,7 @@ interface Role { id: string; name: string; description: string | null; isSystem:
 export default function UsersPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const locale = useLocale();
   const [users, setUsers] = useState<User[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
 
@@ -108,7 +111,7 @@ export default function UsersPage() {
                       ))}
                     </select>
                   </td>
-                  <td className="px-4 py-3 text-gray-400 text-xs">{new Date(u.createdAt).toLocaleDateString()}</td>
+                  <td className="px-4 py-3 text-gray-400 text-xs">{formatDate(u.createdAt, locale)}</td>
                   <td className="px-4 py-3">
                     {u.id !== currentId && (
                       <button onClick={() => deleteUser(u.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500">

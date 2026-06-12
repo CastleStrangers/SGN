@@ -3,8 +3,9 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Plus, Edit3, Trash2, ExternalLink, Upload } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { RichTextEditor } from "@/components/rich-text-editor";
+import { formatDate } from "@/lib/date";
 
 interface Page { id: string; title: string; slug: string; content: string; excerpt: string; image: string; category: string; tags: string; source: string; featured: boolean; published: boolean; createdAt: string; views?: number; }
 
@@ -13,6 +14,7 @@ const CATEGORIES = ["أخبار الجالية", "أخبار هولندا", "أ�
 export default function PagesPage() {
   const { data: session, status } = useSession();
   const t = useTranslations("dashboard.pagesPage");
+  const locale = useLocale();
   const [pages, setPages] = useState<Page[]>([]);
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -187,7 +189,7 @@ export default function PagesPage() {
                 {!p.published && <span className="bg-gray-100 text-gray-500 text-xs px-2 py-0.5 rounded">{t("draft")}</span>}
               </div>
               <p className="text-xs text-gray-400">
-                {p.category} — {new Date(p.createdAt).toLocaleDateString()} — {p.views || 0} {t("viewsSuffix")}
+                {p.category} — {formatDate(p.createdAt, locale)} — {p.views || 0} {t("viewsSuffix")}
               </p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0 mr-3">
