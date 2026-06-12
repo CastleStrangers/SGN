@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { requireAuthorize } from "@/lib/auth-helpers";
 import { getApiMessage } from "@/lib/api-messages";
 import { triggerSocialShare } from "@/lib/sync/social-share";
+import { sendPushNotifications } from "@/lib/notifications/push";
 
 function t(req: Request, key: string) {
   const locale = (req as any).cookies?.get?.('NEXT_LOCALE')?.value || 'ar';
@@ -40,6 +41,15 @@ export async function POST(req: Request) {
   // Trigger social media sharing webhook if platforms are selected
   if (publishTo && Array.isArray(publishTo) && publishTo.length > 0) {
     triggerSocialShare(post, publishTo);
+  }
+
+  // Trigger Expo push notification for all users
+  if (post.featured) {
+    sendPushNotifications({
+      title: "خبر هام من الجالية",
+      body: post.title,
+      data: { link: `/news/${post.slug}` },
+    }).catch(err => console.error("Error sending push notification for post:", err));
   }
 
   return NextResponse.json(post);
