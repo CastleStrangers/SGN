@@ -5,10 +5,11 @@ import { COLORS } from "../../constants/colors";
 import { getEvents } from "../../lib/events";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
+import { formatDate } from "../../lib/date";
 
 export default function EventsScreen() {
   const router = useRouter();
-  const { t, isRTL } = useI18n();
+  const { t, isRTL, locale } = useI18n();
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showUpcoming, setShowUpcoming] = useState(true);
@@ -83,7 +84,7 @@ export default function EventsScreen() {
                 <View style={{ flexDirection: isRTL ? "row-reverse" : "row", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
                   <Text style={{ fontSize: 11, color: COLORS.accent, fontWeight: "600" }}>{item.category}</Text>
                   <Text style={{ fontSize: 11, color: COLORS.textSecondary }}>
-                    {new Date(item.date).toLocaleDateString(isRTL ? "ar-SA" : "en-US")}
+                    {formatDate(item.date, locale)}
                   </Text>
                 </View>
                 <Text style={{ fontSize: 16, fontWeight: "bold", color: COLORS.text, marginBottom: 4 }}>{item.title}</Text>
