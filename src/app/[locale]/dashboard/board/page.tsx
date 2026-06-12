@@ -73,14 +73,12 @@ function ImageUploader({
     try {
       const res = await fetch("/api/board/upload", { method: "POST", body: fd });
       const data = await res.json();
-      console.log("[Upload Response]", res.status, data);
       if (!res.ok) throw new Error(data.error || "فشل الرفع");
       setPreview(data.url);
       onUploaded(data.url);
     } catch (e: any) {
       console.error("[Upload Error]", e);
       setError(e.message);
-      alert("خطأ: " + e.message);
       setPreview(currentUrl);
     } finally {
       setUploading(false);

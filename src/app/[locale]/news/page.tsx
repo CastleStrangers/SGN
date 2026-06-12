@@ -238,7 +238,7 @@ function NewsPageInner() {
                             loading="lazy"
                             decoding="async"
                             onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER; }}
-                            className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                           {isVideo && (
                             <span className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">

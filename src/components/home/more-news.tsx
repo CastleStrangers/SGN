@@ -32,7 +32,7 @@ export function MoreNews({ posts }: { posts: Post[] }) {
                   loading="lazy"
                   decoding="async"
                   onError={handleImgError}
-                  className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 {isVideo && (
                   <span className="absolute inset-0 flex items-center justify-center bg-black/20">

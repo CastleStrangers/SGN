@@ -106,7 +106,7 @@ export default function CategoryPage() {
                   }
                   return (
                     <div className="overflow-hidden">
-                      <img src={p.image || "https://images.unsplash.com/photo-1504711434969-e33886168d6c?auto=format&fit=crop&w=400&h=240"} alt="" loading="lazy" decoding="async" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={p.image || "https://images.unsplash.com/photo-1504711434969-e33886168d6c?auto=format&fit=crop&w=400&h=240"} alt="" loading="lazy" decoding="async" className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                   );
                 })()}

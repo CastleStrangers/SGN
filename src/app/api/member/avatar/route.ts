@@ -32,17 +32,15 @@ export async function POST(req: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const fileName = `avatar-${member.id}-${Date.now()}.${ext}`;
-    let url: string;
-
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      const blob = await put(`avatars/${fileName}`, buffer, { access: "public" });
-      url = blob.url;
-    } else {
-      const dir = path.join(process.cwd(), "public", "uploads", "avatars");
-      await mkdir(dir, { recursive: true });
-      await writeFile(path.join(dir, fileName), buffer);
-      url = `/uploads/avatars/${fileName}`;
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      return NextResponse.json({ error: "التخزين السحابي غير متاح" }, { status: 500 });
     }
+
+    const blob = await put(`avatars/${fileName}`, buffer, {
+      access: "public",
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    });
+    const url = blob.url;
 
     await prisma.member.update({ where: { id: member.id }, data: { avatar: url } });
     return NextResponse.json({ url });

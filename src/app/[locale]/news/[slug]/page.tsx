@@ -82,7 +82,7 @@ export default async function ArticlePage({ params }: Props) {
 
         <article className="bg-white rounded-2xl overflow-hidden border shadow-sm">
           {post.image && !post.content.includes("youtube.com/embed") && (
-            <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="w-full h-64 md:h-96 object-cover" />
+            <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="w-full aspect-video max-h-[70vh] object-cover" />
           )}
 
           <div className="p-6 md:p-8">
