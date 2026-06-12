@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { MapPin, Globe, Newspaper, Calendar, User } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
 import { SiteFooter } from "@/components/home/site-footer";
@@ -19,6 +20,7 @@ interface UserProfile {
 export default function ProfilePage() {
   const { id } = useParams<{ id: string }>();
   const t = useTranslations("userProfile");
+  const locale = useLocale();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -68,7 +70,7 @@ export default function ProfilePage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="font-bold text-gray-900">{t('membershipTitle')}</h3>
-                    <p className="text-sm text-gray-500 mt-1">{t('submittedSince')} {new Date(user.member.createdAt).toLocaleDateString("ar")}</p>
+                    <p className="text-sm text-gray-500 mt-1">{t('submittedSince')} {formatDate(user.member.createdAt, locale)}</p>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                     user.member.status === "accepted" ? "bg-emerald-100 text-emerald-800" :
@@ -90,7 +92,7 @@ export default function ProfilePage() {
                       <div className="flex items-center justify-between">
                         <h3 className="font-bold text-gray-900 truncate">{post.title}</h3>
                         <span className="text-xs text-gray-400 shrink-0 mr-4">
-                          {new Date(post.createdAt).toLocaleDateString("ar")}
+                          {formatDate(post.createdAt, locale)}
                         </span>
                       </div>
                       <span className="text-xs text-[#1a5632] mt-1 block">{post.category}</span>
