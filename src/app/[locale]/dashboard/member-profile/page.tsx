@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Loader2, Save, User, Phone, MapPin, Mail, BadgeCheck, Clock, XCircle, Eye, Pencil, Camera, Badge, EyeOff } from "lucide-react";
+import { Loader2, Save, User, Phone, MapPin, Mail, BadgeCheck, Clock, XCircle, Eye, Pencil, Camera, Badge, EyeOff, FileText, Calendar, CheckSquare, Flag } from "lucide-react";
 import { Link } from "@/i18n/routing";
 
 interface MemberData {
