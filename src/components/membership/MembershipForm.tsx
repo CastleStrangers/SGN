@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "@/i18n/routing";
 import { CheckCircle, Camera, WandSparkles, Sparkles, Badge, Loader2, Check } from "lucide-react";
 import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
@@ -54,6 +55,7 @@ function Logo() {
 export default function MembershipForm() {
   const t = useTranslations("membership");
   const locale = useLocale();
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormData>(emptyForm);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -307,26 +309,32 @@ export default function MembershipForm() {
     <div className={`min-h-screen bg-gradient-to-br from-stone-50 to-gray-100 py-12 px-4 ${isRtl ? "font-[Noto_Kufi_Arabic,sans-serif]" : ""}`} dir={isRtl ? "rtl" : "ltr"}>
       <div className="max-w-4xl mx-auto">
         <div className="mb-6 flex">
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 border rounded-xl text-sm font-bold text-gray-700 hover:text-emerald-800 transition-colors shadow-sm"
+          <button
+            onClick={() => {
+              if (typeof window !== "undefined" && window.history.length > 1) {
+                router.back();
+              } else {
+                router.push("/");
+              }
+            }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 border rounded-xl text-sm font-bold text-gray-700 hover:text-emerald-800 transition-colors shadow-sm cursor-pointer"
           >
             {isRtl ? (
               <>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
-                <span>{t("backHome")}</span>
+                <span>{t("back")}</span>
               </>
             ) : (
               <>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
-                <span>{t("backHome")}</span>
+                <span>{t("back")}</span>
               </>
             )}
-          </a>
+          </button>
         </div>
         <div className="bg-emerald-800 h-48 w-full rounded-[2rem] mb-20 relative flex flex-col items-center justify-center text-center px-6">
           <Logo />

@@ -605,6 +605,7 @@
     "successTitle": "Application Received!",
     "successMsg": "Your data will be reviewed and we will contact you soon",
     "backHome": "Back to Home",
+    "back": "Go Back",
     "connectionError": "Connection error occurred",
     "privacy": "Privacy Policy",
     "terms": "Terms & Conditions",
