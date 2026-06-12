@@ -30,7 +30,7 @@ export async function GET(req: Request) {
     [tReq(req, 'export.expNl')]: m.expNl || "",
     [tReq(req, 'export.expOutside')]: m.expOutside || "",
     [tReq(req, 'export.status')]: m.status === "accepted" ? tReq(req, 'export.statusAccepted') : m.status === "rejected" ? tReq(req, 'export.statusRejected') : tReq(req, 'export.statusPending'),
-    [tReq(req, 'export.registrationDate')]: new Date(m.createdAt).toLocaleDateString(locale === 'ar' ? 'ar' : locale === 'nl' ? 'nl' : 'en'),
+    [tReq(req, 'export.registrationDate')]: new Date(m.createdAt).toLocaleDateString(locale === 'ar' ? 'ar-EG-u-nu-arab' : locale === 'nl' ? 'nl-NL' : 'en-US'),
   }));
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.json_to_sheet(rows);
