@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Loader2, Save, User, Phone, MapPin, Mail, BadgeCheck, Clock, XCircle, Eye, Pencil, Camera, Badge, EyeOff, FileText, Calendar, CheckSquare, Flag } from "lucide-react";
 import { Link } from "@/i18n/routing";
+import { formatDate } from "@/lib/date";
 
 interface MemberData {
   id: string; memberNumber?: number | null;
@@ -33,9 +34,10 @@ const STATUS_MAP: Record<string, { color: string; icon: any }> = {
 };
 
 export default function MemberProfilePage() {
-  const t = useTranslations('dashboard.memberProfilePage');
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
+  const t = useTranslations("memberProfile");
+  const locale = useLocale();
   const [member, setMember] = useState<MemberData | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -240,7 +242,7 @@ export default function MemberProfilePage() {
               </div>
             )}
             <div className="sm:col-span-2 text-xs text-gray-400 pt-4 border-t mt-2 space-y-1">
-              <span>{t('appliedDate')}{new Date(member.createdAt).toLocaleDateString("ar")}</span>
+              <span>{t('appliedDate')}{formatDate(member.createdAt, locale)}</span>
               {member.status === "accepted" && (
                 <div className="flex items-center gap-2 mt-2">
                   <button onClick={async () => {
@@ -272,7 +274,7 @@ export default function MemberProfilePage() {
                     <div key={reg.id} className="p-3 bg-gray-50 rounded-xl flex justify-between items-center text-xs">
                       <div>
                         <p className="font-bold text-gray-800">{reg.event.title}</p>
-                        <p className="text-gray-500 mt-0.5">📍 {reg.event.location || "—"} | 📅 {new Date(reg.event.date).toLocaleDateString("ar")}</p>
+                        <p className="text-gray-500 mt-0.5">📍 {reg.event.location || "—"} | 📅 {formatDate(reg.event.date, locale)}</p>
                       </div>
                       <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">
                         {t('registered')}
@@ -296,7 +298,7 @@ export default function MemberProfilePage() {
                     <div key={app.id} className="p-3 bg-gray-50 rounded-xl flex justify-between items-center text-xs">
                       <div>
                         <p className="font-bold text-gray-800">{app.task.title}</p>
-                        <p className="text-gray-500 mt-0.5">📅 {new Date(app.task.createdAt).toLocaleDateString("ar")}</p>
+                        <p className="text-gray-500 mt-0.5">📅 {formatDate(app.task.createdAt, locale)}</p>
                       </div>
                       <span className={`px-2.5 py-1 rounded-full font-bold text-[10px] ${
                         app.status === "accepted" ? "bg-emerald-100 text-emerald-800" :
