@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const result = await ollamaGenerate([{ text }], systemPrompt);
     return NextResponse.json({ result });
   } catch (e: any) {
-    console.error("Gemini polish-text error:", e);
+    console.error("AI polish-text error:", e);
     return NextResponse.json({ error: e.message || "AI processing failed" }, { status: 500 });
   }
 }

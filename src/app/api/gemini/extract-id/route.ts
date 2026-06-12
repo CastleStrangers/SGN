@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const data = JSON.parse(text);
     return NextResponse.json(data);
   } catch (e: any) {
-    console.error("Gemini extract-id error:", e);
+    console.error("AI extract-id error:", e);
     return NextResponse.json({ error: e.message || "Extraction failed" }, { status: 500 });
   }
 }
