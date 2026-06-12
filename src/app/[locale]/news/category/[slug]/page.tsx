@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { Clock, ArrowLeft, Newspaper, ChevronRight } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 
 interface Post {
   id: string; title: string; excerpt: string; image: string;
@@ -40,6 +41,7 @@ const CATEGORY_KEYS: Record<string, string> = {
 export default function CategoryPage() {
   const t = useTranslations('newsCategory');
   const tc = useTranslations('categories');
+  const locale = useLocale();
   const { slug } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -114,7 +116,7 @@ export default function CategoryPage() {
                   {p.excerpt && <p className="text-sm text-gray-500 line-clamp-2">{p.excerpt}</p>}
                   <div className="flex items-center gap-2 mt-3 text-xs text-gray-400">
                     <Clock className="w-3 h-3" />
-                    <span>{new Date(p.createdAt).toLocaleDateString("ar")}</span>
+                    <span>{formatDate(p.createdAt, locale)}</span>
                     {p.author?.name && <><span>•</span><span>{p.author.name}</span></>}
                   </div>
                 </div>
