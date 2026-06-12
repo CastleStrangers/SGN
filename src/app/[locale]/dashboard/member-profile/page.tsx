@@ -160,7 +160,7 @@ export default function MemberProfilePage() {
                 member.nameAr.charAt(0)
               )}
             </div>
-            <button onClick={() => document.getElementById("avatarInput")?.click()} className="absolute -bottom-1 -left-1 w-6 h-6 bg-white border rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-700 transition shadow-sm">
+            <button onClick={() => document.getElementById("avatarInput")?.click()} title={t('editBtn')} aria-label={t('editBtn')} className="absolute -bottom-1 -left-1 w-6 h-6 bg-white border rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-700 transition shadow-sm">
               <Camera className="w-3.5 h-3.5" />
             </button>
             {member.avatar && (
@@ -171,7 +171,7 @@ export default function MemberProfilePage() {
                 ✕
               </button>
             )}
-            <input id="avatarInput" type="file" accept="image/*" className="hidden" onChange={async e => {
+            <input id="avatarInput" type="file" accept="image/*" title="Avatar File Input" aria-label="Avatar File Input" className="hidden" onChange={async e => {
               const file = e.target.files?.[0]; if (!file) return;
               const fd = new FormData(); fd.append("file", file);
               const res = await fetch("/api/member/avatar", { method: "POST", body: fd });
@@ -330,12 +330,12 @@ export default function MemberProfilePage() {
               <Select label={t('maritalStatus')} value={form.maritalStatus} onChange={v => setForm({...form, maritalStatus: v})} options={[t('single'), t('married'), t('divorced'), t('widowed')]} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('expNl')}</label>
-              <textarea value={form.expNl} onChange={e => setForm({...form, expNl: e.target.value})} className="w-full border rounded-xl px-4 py-2.5 text-sm h-24 resize-none" />
+              <label htmlFor="expNl" className="block text-sm font-medium text-gray-700 mb-1">{t('expNl')}</label>
+              <textarea id="expNl" aria-label={t('expNl')} value={form.expNl} onChange={e => setForm({...form, expNl: e.target.value})} className="w-full border rounded-xl px-4 py-2.5 text-sm h-24 resize-none" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('expOutside')}</label>
-              <textarea value={form.expOutside} onChange={e => setForm({...form, expOutside: e.target.value})} className="w-full border rounded-xl px-4 py-2.5 text-sm h-24 resize-none" />
+              <label htmlFor="expOutside" className="block text-sm font-medium text-gray-700 mb-1">{t('expOutside')}</label>
+              <textarea id="expOutside" aria-label={t('expOutside')} value={form.expOutside} onChange={e => setForm({...form, expOutside: e.target.value})} className="w-full border rounded-xl px-4 py-2.5 text-sm h-24 resize-none" />
             </div>
             <div className="flex gap-3">
               <button type="submit" disabled={saving} className="flex items-center gap-2 px-6 py-2.5 bg-emerald-800 text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition disabled:opacity-50">
@@ -364,10 +364,11 @@ function Field({ label, value, icon: Icon }: { label: string; value: string; ico
 }
 
 function Input({ label, value, onChange, required, dir, type }: { label: string; value: any; onChange: (v: string) => void; required?: boolean; dir?: string; type?: string }) {
+  const inputId = `input-${label.replace(/\s+/g, '-').toLowerCase()}`;
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-      <input type={type || "text"} value={value} onChange={e => onChange(e.target.value)} required={required} dir={dir || "auto"}
+      <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <input id={inputId} aria-label={label} type={type || "text"} value={value} onChange={e => onChange(e.target.value)} required={required} dir={dir || "auto"}
         className="w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600/20 focus:border-emerald-600" />
     </div>
   );
@@ -375,10 +376,11 @@ function Input({ label, value, onChange, required, dir, type }: { label: string;
 
 function Select({ label, value, onChange, options, required }: { label: string; value: any; onChange: (v: string) => void; options: string[]; required?: boolean }) {
   const t = useTranslations("dashboard.memberProfilePage");
+  const selectId = `select-${label.replace(/\s+/g, '-').toLowerCase()}`;
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-      <select value={value} onChange={e => onChange(e.target.value)} required={required}
+      <label htmlFor={selectId} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <select id={selectId} aria-label={label} value={value} onChange={e => onChange(e.target.value)} required={required}
         className="w-full border rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600/20 focus:border-emerald-600">
         <option value="">{t('choose')}</option>
         {options.map(o => <option key={o} value={o}>{o}</option>)}
