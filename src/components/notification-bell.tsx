@@ -2,7 +2,8 @@
 
 import { Bell } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatDate } from "@/lib/date";
 
 interface Notification {
   id: string;
@@ -15,6 +16,7 @@ interface Notification {
 
 export function NotificationBell() {
   const t = useTranslations('notifications');
+  const locale = useLocale();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -63,7 +65,7 @@ export function NotificationBell() {
             <div key={n.id} className={`p-3 border-b last:border-0 hover:bg-gray-50 transition-colors ${!n.read ? "bg-blue-50" : ""}`}>
               <p className="text-sm font-medium text-gray-900">{n.title}</p>
               {n.message && <p className="text-xs text-gray-500 mt-0.5">{n.message}</p>}
-              <p className="text-[10px] text-gray-400 mt-1">{new Date(n.createdAt).toLocaleDateString("ar")}</p>
+              <p className="text-[10px] text-gray-400 mt-1">{formatDate(n.createdAt, locale)}</p>
             </div>
           ))}
         </div>
