@@ -295,7 +295,7 @@ export default function MembershipForm() {
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("successTitle")}</h2>
             <p className="text-gray-600 mb-8 leading-relaxed">{msg}</p>
-            <a href="/" className="inline-block bg-emerald-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-emerald-900 transition-colors">{t("backHome")}</a>
+            <button onClick={() => router.push("/")} className="inline-block bg-emerald-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-emerald-900 transition-colors cursor-pointer">{t("backHome")}</button>
           </div>
         </div>
       </div>
