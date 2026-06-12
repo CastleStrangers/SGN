@@ -3,9 +3,10 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Clock, Search, ArrowLeft, Newspaper, TrendingUp, Filter, ChevronLeft, ChevronRight, Sparkles, Heart, Eye, Facebook, Instagram, Youtube, Twitter, Play } from "lucide-react";
 import { TikTok } from "@/components/tiktok-icon";
+import { formatDate } from "@/lib/date";
 
 interface Post {
   id: string; title: string; excerpt: string; image: string;
@@ -30,6 +31,7 @@ function getThumb(post: Post): string {
 
 function NewsPageInner() {
   const t = useTranslations('newsPage');
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const urlCategory = searchParams.get("category");
 
@@ -253,7 +255,7 @@ function NewsPageInner() {
                           <div className="flex items-center justify-between mt-3 text-xs text-gray-400 mt-auto">
                             <div className="flex items-center gap-2">
                               <Clock className="w-3 h-3" />
-                              <span>{new Date(p.createdAt).toLocaleDateString("ar")}</span>
+                              <span>{formatDate(p.createdAt, locale)}</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <Eye className="w-3 h-3" /> {p.views || 0}
