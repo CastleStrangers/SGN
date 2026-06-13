@@ -347,6 +347,7 @@ model ChatMessage {
 model ChatAISession {
   id        String   @id @default(cuid())
   userId    String
+  persona   String   @default("general")
   messages  ChatAIMessage[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
