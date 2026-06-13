@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import { Link } from "@/i18n/routing";
 import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
@@ -12,6 +14,14 @@ const socials = [
 ];
 
 export function SiteFooter() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("NL90 ABNA 0148 7498 95");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <footer className="bg-[#0B132B] text-white pt-16 pb-8 border-t-2 border-[#CCAA00]" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,6 +99,28 @@ export function SiteFooter() {
               <span className="text-[#CCAA00] font-mono font-bold text-xs block tracking-wider text-left">
                 NL90 ABNA 0148 7498 95
               </span>
+              <div className="flex gap-2 mt-2">
+                <Link
+                  href="/donate"
+                  className="flex-1 bg-[#CCAA00] hover:bg-yellow-500 text-black font-bold py-1.5 px-2 rounded-lg text-center text-[10px] transition-colors flex items-center justify-center gap-1"
+                >
+                  <span>❤️</span> تبرع الآن
+                </Link>
+                <button
+                  onClick={handleCopy}
+                  className="flex-1 bg-[#1C2541] hover:bg-gray-800 text-gray-200 border border-gray-700 py-1.5 px-2 rounded-lg text-center text-[10px] transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                >
+                  {copied ? (
+                    <>
+                      <span>✓</span> تم النسخ
+                    </>
+                  ) : (
+                    <>
+                      <span>📋</span> نسخ الحساب
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
