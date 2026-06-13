@@ -870,7 +870,17 @@
     "aiThinking": "Assistent typt...",
     "aiWelcome": "Hallo! Ik ben de AI-assistent voor de Syrische gemeenschap in Nederland. Hoe kan ik u vandaag helpen?",
     "aiClear": "Nieuw gesprek",
-    "aiSuggested": "Voorgestelde vragen"
+    "aiSuggested": "Voorgestelde vragen",
+    "personaGeneral": "Algemene Assistent",
+    "personaLegal": "Juridisch & Asieladviseur",
+    "personaIntegration": "Integratie- & Taalgids",
+    "personaSpokesperson": "Woordvoerder van de gemeenschap",
+    "choosePersona": "Kies AI-assistent specialisme:",
+    "analyzeDocument": "Officiële Brief Analyseren",
+    "uploadDocument": "Upload brief foto om uit te leggen",
+    "analyzing": "Brief analyseren en lezen...",
+    "analysisResult": "Brief Analyseresultaat",
+    "close": "Sluiten"
   },
   "comments": {
     "visitor": "Bezoeker",
