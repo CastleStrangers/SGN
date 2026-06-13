@@ -70,7 +70,7 @@ export default function ProfileScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.background, padding: 16 }}>
-      <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 24, alignItems: "center", marginBottom: 16 }}>
+      <View style={{ backgroundColor: COLORS.card, borderRadius: 24, padding: 24, alignItems: "center", marginBottom: 16 }}>
         <Ionicons name="person-circle" size={72} color={COLORS.primary} />
         <Text style={{ fontSize: 18, fontWeight: "bold", color: COLORS.text, marginTop: 8 }}>{t("profile.user")}</Text>
       </View>
@@ -80,7 +80,7 @@ export default function ProfileScreen() {
           key={index}
           onPress={() => router.push(item.route as any)}
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: COLORS.card,
             borderRadius: 16,
             padding: 16,
             flexDirection: isRTL ? "row-reverse" : "row",
@@ -108,7 +108,7 @@ export default function ProfileScreen() {
           key={index}
           onPress={() => router.push(item.route as any)}
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: COLORS.card,
             borderRadius: 16,
             padding: 16,
             flexDirection: isRTL ? "row-reverse" : "row",
@@ -127,7 +127,7 @@ export default function ProfileScreen() {
 
       <TouchableOpacity
         onPress={handleLogout}
-        style={{ backgroundColor: "#fff", borderRadius: 16, padding: 16, flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", gap: 12, marginTop: 8 }}
+        style={{ backgroundColor: COLORS.card, borderRadius: 16, padding: 16, flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", gap: 12, marginTop: 8 }}
       >
         <Ionicons name="log-out-outline" size={22} color={COLORS.error} />
         <Text style={{ fontSize: 15, color: COLORS.error }}>{t("profile.logout")}</Text>

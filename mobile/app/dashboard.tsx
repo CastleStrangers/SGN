@@ -39,7 +39,7 @@ export default function DashboardScreen() {
     <ScrollView style={{ flex: 1, backgroundColor: COLORS.background }} contentContainerStyle={{ padding: 16, gap: 12 }}>
       <View style={{ flexDirection: isRTL ? "row-reverse" : "row", flexWrap: "wrap", gap: 12 }}>
         {cards.map((card, index) => (
-          <View key={index} style={{ width: "47%", backgroundColor: "#fff", borderRadius: 16, padding: 20, alignItems: "center", gap: 8 }}>
+          <View key={index} style={{ width: "47%", backgroundColor: COLORS.card, borderRadius: 16, padding: 20, alignItems: "center", gap: 8 }}>
             <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: `${card.color}15`, justifyContent: "center", alignItems: "center" }}>
               <Ionicons name={card.icon} size={24} color={card.color} />
             </View>
