@@ -34,8 +34,9 @@ export async function GET(req: NextRequest) {
 
     // 2. Prepare notifications for the AI prompt
     const notificationsText = unread
-      .map((n, i) => `${i + 1}. [${n.title}] ${n.message || ""}`)
+      .map((n: any, i: number) => `${i + 1}. [${n.title}] ${n.message || ""}`)
       .join("\n");
+
 
     const languageNames: Record<string, string> = {
       ar: "باللغة العربية الفصحى",

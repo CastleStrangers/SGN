@@ -289,5 +289,15 @@
     "relatedTask": "Related Volunteer Opportunity",
     "relatedTaskDesc": "This volunteer task is currently active and needs your support.",
     "volunteerNow": "Volunteer Now"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "aiSummary": "AI Summary",
+    "aiSummaryLoading": "Generating smart summary...",
+    "aiSummaryTitle": "AI Summary of Missed Notifications",
+    "markAllRead": "Mark all as read",
+    "empty": "No notifications yet",
+    "loginRequired": "Please log in to view notifications",
+    "close": "Close"
   }
 }
