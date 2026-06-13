@@ -50,6 +50,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   const nav = [
+    { label: t("viewSite"), href: "/", icon: Globe },
     { label: t("title"), href: "/dashboard", icon: LayoutDashboard },
     { label: t("ai"), href: "/dashboard/ai", icon: Sparkles },
     { label: t("tasks"), href: "/dashboard/tasks", icon: CheckSquare },
