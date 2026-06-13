@@ -47,7 +47,7 @@ export default function DonateScreen() {
   if (result) {
     return (
       <ScrollView style={{ flex: 1, backgroundColor: COLORS.background }} contentContainerStyle={{ padding: 24, alignItems: "center", justifyContent: "center", flexGrow: 1 }}>
-        <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 32, width: "100%", alignItems: "center" }}>
+        <View style={{ backgroundColor: COLORS.card, borderRadius: 24, padding: 32, width: "100%", alignItems: "center" }}>
           <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: "#d1fae5", justifyContent: "center", alignItems: "center", marginBottom: 16 }}>
             <Text style={{ fontSize: 32 }}>✓</Text>
           </View>
@@ -74,7 +74,7 @@ export default function DonateScreen() {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: COLORS.background }} contentContainerStyle={{ padding: 16, gap: 12 }}>
-      <View style={{ backgroundColor: "#fff", borderRadius: 16, padding: 16, gap: 12 }}>
+      <View style={{ backgroundColor: COLORS.card, borderRadius: 16, padding: 16, gap: 12 }}>
         <Text style={{ fontSize: 13, color: COLORS.textSecondary }}>{t("donate.nameLabel")}</Text>
         <TextInput value={name} onChangeText={setName} style={{ borderWidth: 1, borderColor: COLORS.border, borderRadius: 12, padding: 12, fontSize: 14, textAlign: isRTL ? "right" : "left" }} />
         <Text style={{ fontSize: 13, color: COLORS.textSecondary }}>{t("donate.emailLabel")}</Text>
@@ -87,10 +87,10 @@ export default function DonateScreen() {
         <TextInput value={message} onChangeText={setMessage} multiline numberOfLines={3} style={{ borderWidth: 1, borderColor: COLORS.border, borderRadius: 12, padding: 12, fontSize: 14, textAlign: isRTL ? "right" : "left", minHeight: 80 }} />
         <Text style={{ fontSize: 13, color: COLORS.textSecondary }}>{t("donate.paymentMethod")}</Text>
         <View style={{ flexDirection: isRTL ? "row-reverse" : "row", gap: 8 }}>
-          <TouchableOpacity onPress={() => setPaymentMethod("bank")} style={{ flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: "center", backgroundColor: paymentMethod === "bank" ? COLORS.primary : "#fff", borderWidth: 1, borderColor: COLORS.border }}>
+          <TouchableOpacity onPress={() => setPaymentMethod("bank")} style={{ flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: "center", backgroundColor: paymentMethod === "bank" ? COLORS.primary : COLORS.card, borderWidth: 1, borderColor: COLORS.border }}>
             <Text style={{ color: paymentMethod === "bank" ? "#fff" : COLORS.text, fontWeight: "600", fontSize: 13 }}>{t("donate.bankTransfer")}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setPaymentMethod("mollie")} style={{ flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: "center", backgroundColor: paymentMethod === "mollie" ? COLORS.primary : "#fff", borderWidth: 1, borderColor: COLORS.border }}>
+          <TouchableOpacity onPress={() => setPaymentMethod("mollie")} style={{ flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: "center", backgroundColor: paymentMethod === "mollie" ? COLORS.primary : COLORS.card, borderWidth: 1, borderColor: COLORS.border }}>
             <Text style={{ color: paymentMethod === "mollie" ? "#fff" : COLORS.text, fontWeight: "600", fontSize: 13 }}>{t("donate.mollie")}</Text>
           </TouchableOpacity>
         </View>
