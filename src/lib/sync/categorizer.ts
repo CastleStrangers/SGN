@@ -48,8 +48,8 @@ export async function categorizeWithAI(article: ExtractedArticle): Promise<strin
 
   try {
     const suggested = await generateText(
-      `العنوان: ${article.title}\nالمحتوى: ${article.excerpt}\nالوسوم: ${article.tags.join(", ")}`,
-      `أنت مصنف أخبار. اختر التصنيف الأنسب من القائمة التالية:\n${categories.join("\n")}\nأجب فقط باسم التصنيف.`,
+      `العنوان: ${article.title}\nالمقتطف/الوصف: ${article.excerpt}\nالوسوم المرفقة: ${article.tags.join(", ")}`,
+      `أنت مصنف محتوى ذكي وخبير في تصنيف الأخبار للجالية السورية في هولندا. مهمتك هي اختيار التصنيف الأنسب بدقة تامة من بين هذه القائمة المعتمدة فقط:\n${categories.join("\n")}\n\nشروط التصنيف:\n- يجب أن تختار تصنيفاً واحداً فقط من القائمة أعلاه.\n- لا تضف أي نص آخر أو مقدمات أو علامات ترقيم أو شرح. أجب باسم التصنيف حرفياً فقط (مثال: اقتصاد).`,
       { responseFormat: "text" }
     )
     const cleaned = suggested.replace(/[\.\n\r]/g, "").trim()

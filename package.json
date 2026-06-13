@@ -16,6 +16,7 @@
     "db:migrate": "prisma migrate dev",
     "sync": "npx tsx scripts/sync.ts",
     "sync:once": "npx tsx scripts/sync.ts",
+    "reclassify": "npx tsx scripts/reclassify.ts",
     "db:reset-sync": "npx tsx scripts/reset-and-sync.ts",
     "sync:cron": "pm2 start ecosystem.config.js --only sy-nl-sync",
     "import:facebook": "npx tsx scripts/import-facebook.ts",
