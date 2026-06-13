@@ -16,6 +16,7 @@ const FACEBOOK_SOURCE = {
   url: "https://www.facebook.com/DeSyrischeGemeenschapInNederland",
   enabled: true,
   category: "أخبار الجالية",
+  since: "2026-05-14",
 }
 
 export async function GET(req: Request) {
