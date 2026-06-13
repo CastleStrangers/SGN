@@ -67,7 +67,7 @@ export default function HomeScreen() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }}
         style={{ maxHeight: 44, marginBottom: 8 }}
-        renderItem={({ item }) => (
+        renderItem={({ item }: { item: string }) => (
           <TouchableOpacity
             onPress={() => setCategory(item === t("home.all") ? "" : item)}
             style={{
@@ -84,7 +84,7 @@ export default function HomeScreen() {
             </Text>
           </TouchableOpacity>
         )}
-        keyExtractor={item => item}
+        keyExtractor={(item: string) => item}
       />
 
       {/* News list */}
