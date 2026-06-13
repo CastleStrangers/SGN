@@ -1,27 +1,32 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
-// Revalidate public stats every 60 seconds to optimize DB queries
-export const revalidate = 60;
+// Revalidate public stats every 10 seconds to make it feel live and real
+export const revalidate = 10;
 
 export async function GET() {
   try {
-    const [posts, users, events] = await Promise.all([
-      prisma.post.count(),
+    const [postsCount, membersCount, usersCount, eventsCount] = await Promise.all([
+      prisma.post.count({ where: { published: true } }),
+      prisma.member.count(),
       prisma.user.count(),
-      prisma.event.count(),
+      prisma.event.count({ where: { published: true } }),
     ]);
 
     const viewsResult = await prisma.post.aggregate({
+      where: { published: true },
       _sum: {
         views: true,
       },
     });
 
+    // Registered members should be from Member table, but fallback to User count if no members are registered yet (e.g. fresh dev DB)
+    const members = membersCount > 0 ? membersCount : usersCount;
+
     return NextResponse.json({
-      posts,
-      users,
-      events,
+      posts: postsCount,
+      users: members,
+      events: eventsCount,
       totalViews: viewsResult._sum.views || 0,
     });
   } catch (error) {
