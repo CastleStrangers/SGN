@@ -870,7 +870,17 @@
     "aiThinking": "جارٍ كتابة الرد...",
     "aiWelcome": "مرحباً! أنا المساعد الذكي للجالية السورية في هولندا. كيف يمكنني مساعدتك اليوم؟",
     "aiClear": "محادثة جديدة",
-    "aiSuggested": "أسئلة مقترحة"
+    "aiSuggested": "أسئلة مقترحة",
+    "personaGeneral": "المساعد العام",
+    "personaLegal": "المستشار القانوني واللجوء",
+    "personaIntegration": "مرشد الاندماج واللغة",
+    "personaSpokesperson": "الناطق الإعلامي للجالية",
+    "choosePersona": "اختر تخصص المساعد الذكي:",
+    "analyzeDocument": "تحليل خطاب رسمي",
+    "uploadDocument": "ارفع صورة الخطاب لتفسيرها",
+    "analyzing": "جاري تحليل وقراءة الخطاب...",
+    "analysisResult": "نتيجة تحليل الخطاب",
+    "close": "إغلاق"
   },
   "comments": {
     "visitor": "زائر",
