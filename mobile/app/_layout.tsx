@@ -2,9 +2,11 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { COLORS } from "../constants/colors";
 import { useEffect, useMemo, useState } from "react";
-import { Appearance } from "react-native";
+import { Appearance, LogBox } from "react-native";
 import * as Notifications from "expo-notifications";
 import { I18nProvider, useI18n } from "../lib/i18n-context";
+
+LogBox.ignoreLogs(["expo-notifications: Android Push notifications"]);
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
