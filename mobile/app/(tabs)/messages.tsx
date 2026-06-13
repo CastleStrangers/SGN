@@ -96,7 +96,7 @@ export default function MessagesScreen() {
       keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
     >
       {/* Header */}
-      <View style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: COLORS.border, backgroundColor: "#fff" }}>
+      <View style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: COLORS.border, backgroundColor: COLORS.card }}>
         <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: COLORS.primary, alignItems: "center", justifyContent: "center", marginEnd: 10 }}>
           <Ionicons name="chatbubble-ellipses" size={20} color="#fff" />
         </View>
@@ -152,7 +152,7 @@ export default function MessagesScreen() {
       {/* Summary Modal */}
       <Modal visible={showSummary} transparent animationType="fade" onRequestClose={() => setShowSummary(false)}>
         <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "center", padding: 24 }}>
-          <View style={{ backgroundColor: "#fff", borderRadius: 16, padding: 20 }}>
+          <View style={{ backgroundColor: COLORS.card, borderRadius: 16, padding: 20 }}>
             <Text style={{ fontSize: 16, fontWeight: "700", color: COLORS.text, marginBottom: 8, textAlign: "center" }}>📋 ملخص المحادثة</Text>
             <ScrollView style={{ maxHeight: 300 }}>
               <Text style={{ fontSize: 14, lineHeight: 22, color: COLORS.text }}>{summary}</Text>
@@ -189,7 +189,7 @@ export default function MessagesScreen() {
                     style={{
                       flexDirection: isRTL ? "row-reverse" : "row",
                       alignItems: "center",
-                      backgroundColor: "#fff",
+                      backgroundColor: COLORS.card,
                       paddingHorizontal: 12,
                       paddingVertical: 8,
                       borderRadius: 12,
@@ -233,7 +233,7 @@ export default function MessagesScreen() {
         ListFooterComponent={
           loading ? (
             <View style={{ alignItems: "flex-start", marginBottom: 10 }}>
-              <View style={{ backgroundColor: "#fff", borderRadius: 16, borderBottomLeftRadius: 4, paddingHorizontal: 16, paddingVertical: 12, borderWidth: 1, borderColor: COLORS.border }}>
+              <View style={{ backgroundColor: COLORS.card, borderRadius: 16, borderBottomLeftRadius: 4, paddingHorizontal: 16, paddingVertical: 12, borderWidth: 1, borderColor: COLORS.border }}>
                 <View style={{ flexDirection: "row", gap: 4 }}>
                   {[0, 1, 2].map((i) => (
                     <View key={i} style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: COLORS.textSecondary, opacity: 0.5 + i * 0.2 }}>
@@ -248,7 +248,7 @@ export default function MessagesScreen() {
       />
 
       {/* Input */}
-      <View style={{ padding: 12, borderTopWidth: 1, borderTopColor: COLORS.border, backgroundColor: "#fff" }}>
+      <View style={{ padding: 12, borderTopWidth: 1, borderTopColor: COLORS.border, backgroundColor: COLORS.card }}>
         <View style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", gap: 8 }}>
           <TextInput
             value={input}

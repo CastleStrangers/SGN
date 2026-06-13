@@ -48,7 +48,7 @@ export default function HomeScreen() {
     <View style={{ flex: 1, backgroundColor: COLORS.background }}>
       {/* Search bar */}
       <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
-        <View style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", backgroundColor: "#fff", borderRadius: 12, borderWidth: 1, borderColor: COLORS.border, paddingHorizontal: 12 }}>
+        <View style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", backgroundColor: COLORS.card, borderRadius: 12, borderWidth: 1, borderColor: COLORS.border, paddingHorizontal: 12 }}>
           <Ionicons name="search" size={20} color={COLORS.textSecondary} />
           <TextInput
             value={search}
@@ -74,7 +74,7 @@ export default function HomeScreen() {
               paddingHorizontal: 16,
               paddingVertical: 8,
               borderRadius: 20,
-              backgroundColor: (item === t("home.all") && !category) || category === item ? COLORS.primary : "#fff",
+              backgroundColor: (item === t("home.all") && !category) || category === item ? COLORS.primary : COLORS.card,
               borderWidth: 1,
               borderColor: COLORS.border,
             }}
@@ -98,7 +98,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               onPress={() => router.push(`/news/${item.slug}`)}
               style={{
-                backgroundColor: "#fff",
+                backgroundColor: COLORS.card,
                 borderRadius: 16,
                 overflow: "hidden",
                 shadowColor: "#000",
