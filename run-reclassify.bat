@@ -1,15 +1,14 @@
 @echo off
-chcp 65001 > nul
-title إعادة تصنيف الأخبار بالذكاء الاصطناعي - SGN
+title SGN News Re-classification - SGN
 echo =======================================================
 echo   SGN NEWS RE-CLASSIFICATION WITH LOCAL OLLAMA AI
-echo   جاري فرز وتصنيف الأخبار تلقائيا بالذكاء الاصطناعي...
+echo   Running AI re-classification script...
 echo =======================================================
 echo.
 cd /d "%~dp0"
 call npm run reclassify
 echo.
 echo =======================================================
-echo   اكتملت العملية بنجاح!
+echo   Done!
 echo =======================================================
 pause
