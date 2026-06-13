@@ -36,7 +36,8 @@ export default async function ArticlePage({ params }: Props) {
   const { locale, slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
   const session = await getServerSession(authOptions);
-  const isL  const post = await prisma.post.findUnique({
+  const isLoggedIn = !!session?.user;
+  const post = await prisma.post.findUnique({
     where: { slug: decodedSlug, published: true },
     include: { author: { select: { name: true } } },
   });
@@ -159,10 +160,6 @@ export default async function ArticlePage({ params }: Props) {
             <ChevronRight className="w-4 h-4" /> {t('allNews')}
           </Link>
         </div>
-      </div>
-    </div>
-  );
-}>
       </div>
     </div>
   );
