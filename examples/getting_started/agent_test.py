@@ -12,7 +12,7 @@ async def main():
     print("🤖 Starting the Antigravity Agent...")
     config = LocalAgentConfig(
         system_instructions="You are an expert assistant for codebase navigation.",
-        # api_key is picked up from os.environ["GEMINI_API_KEY"] automatically
+        api_key=os.environ["GEMINI_API_KEY"],
     )
     
     async with Agent(config) as agent:
