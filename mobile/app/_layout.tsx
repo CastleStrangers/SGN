@@ -134,7 +134,7 @@ export default function RootLayout() {
   useEffect(() => {
     Notifications.requestPermissionsAsync();
 
-    const subscription = Appearance.addChangeListener((prefs) => {
+    const subscription = Appearance.addChangeListener((prefs: any) => {
       setColorScheme(prefs.colorScheme);
     });
     return () => subscription.remove();
