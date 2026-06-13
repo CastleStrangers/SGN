@@ -79,6 +79,7 @@ model Post {
   featured  Boolean  @default(false)
   views     Int      @default(0)
   published Boolean  @default(true)
+  membersOnly Boolean  @default(false)
   authorId  String
   author    User      @relation(fields: [authorId], references: [id])
   comments  Comment[]
