@@ -2,12 +2,13 @@ import { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
-import { Calendar, Clock, Eye, User, ChevronRight, ArrowLeft, Lock } from "lucide-react";
+import { Calendar, Clock, Eye, User, ChevronRight, ArrowLeft } from "lucide-react";
 import { ArticleActions } from "@/components/article-actions";
 import { CommentSection } from "@/components/comment-section";
 import { formatDate } from "@/lib/date";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { ArticleContent } from "@/components/article-content";
 
 interface Props { params: Promise<{ locale: string; slug: string }> }
 
