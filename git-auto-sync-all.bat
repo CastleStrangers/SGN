@@ -4,8 +4,9 @@ echo   AUTOMATED GIT SYNC & DEPLOYMENT TOOL (SGN + PARENT)
 echo =======================================================
 echo.
 
-:: Create desktop shortcut if it doesn't exist
-powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Git Auto Sync.lnk'); if (-not (Test-Path $desktop)) { $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~f0'; $s.WorkingDirectory = '%~dp0'; $s.Save(); Write-Host '✓ Desktop shortcut created!' -ForegroundColor Green }"
+:: Create desktop shortcuts if they don't exist
+powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Git Auto Sync.lnk'); if (-not (Test-Path $desktop)) { $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~f0'; $s.WorkingDirectory = '%~dp0'; $s.Save(); Write-Host '✓ Git Sync desktop shortcut created!' -ForegroundColor Green }"
+powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Start SGN Server.lnk'); $vbs = [System.IO.Path]::Combine('%~dp0', 'تشغيل.vbs'); if (-not (Test-Path $desktop)) { $s = $ws.CreateShortcut($desktop); $s.TargetPath = $vbs; $s.WorkingDirectory = '%~dp0'; $s.Save(); Write-Host '✓ Start Server desktop shortcut created!' -ForegroundColor Green }"
 
 :: Option to set mobile environment
 echo Select Mobile App URL Config:
