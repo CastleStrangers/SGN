@@ -86,7 +86,17 @@
     "send": "Verzenden",
     "title": "Berichten",
     "noMessages": "Nog geen berichten",
-    "loading": "Laden..."
+    "loading": "Laden...",
+    "personaGeneral": "Algemene Assistent",
+    "personaLegal": "Juridisch & Asieladviseur",
+    "personaIntegration": "Integratie- & Taalgids",
+    "personaSpokesperson": "Woordvoerder van de gemeenschap",
+    "choosePersona": "Kies AI-assistent specialisme:",
+    "analyzeDocument": "Officiële Brief Analyseren",
+    "uploadDocument": "Upload brief foto om uit te leggen",
+    "analyzing": "Brief analyseren en lezen...",
+    "analysisResult": "Brief Analyseresultaat",
+    "close": "Sluiten"
   },
   "common": {
     "ok": "OK",
