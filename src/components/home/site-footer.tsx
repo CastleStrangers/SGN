@@ -18,24 +18,21 @@ export function SiteFooter() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
 
-          <div className="bg-[#1C2541] p-6 rounded-2xl border border-gray-800 shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <img src="/logo.png" alt="SGN Logo" className="w-12 h-12 object-contain" />
-                <div>
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <FreeSyrianFlag className="w-5 h-3 rounded shadow-sm border border-white/10 flex-shrink-0 object-cover" />
-                    <h3 className="font-bold text-sm text-white tracking-wide">الجالية السورية في هولندا</h3>
-                    <DutchFlag className="w-5 h-3 rounded shadow-sm border border-white/10 flex-shrink-0 object-cover" />
-                  </div>
-                  <p className="text-[10px] text-gray-400 font-mono">Syrische Gemeenschap in Nederland</p>
+          <div className="bg-[#1C2541] p-6 rounded-2xl border border-gray-800 shadow-sm flex flex-col justify-between items-center text-center">
+            <div className="w-full flex flex-col items-center">
+              <div className="flex flex-col items-center mb-4">
+                <img src="/logo.png" alt="SGN Logo" className="w-16 h-16 object-contain mb-3 hover:scale-105 transition-transform duration-300" />
+                <div className="flex items-center gap-2 justify-center">
+                  <FreeSyrianFlag className="w-5 h-3 rounded shadow-sm border border-white/10 flex-shrink-0 object-cover" />
+                  <h3 className="font-bold text-sm text-white tracking-wide">الجالية السورية في هولندا</h3>
+                  <DutchFlag className="w-5 h-3 rounded shadow-sm border border-white/10 flex-shrink-0 object-cover" />
                 </div>
               </div>
-              <p className="text-xs text-gray-400 leading-relaxed">
+              <p className="text-xs text-gray-400 leading-relaxed text-center">
                 واجهة اجتماعية اعتبارية ومؤسسة غير ربحية تعنى بشؤون المغتربين وتخدم مصالحهم عبر قنوات التواصل الرسمية مع بلد الإقامة.
               </p>
               
-              <div className="flex items-center gap-3 mt-4" dir="ltr">
+              <div className="flex items-center justify-center gap-3 mt-4" dir="ltr">
                 {socials.map((s, idx) => (
                   <a
                     key={idx}
@@ -51,8 +48,10 @@ export function SiteFooter() {
                 ))}
               </div>
             </div>
-            <div className="pt-4 border-t border-gray-800 mt-4 flex gap-3 text-xs text-gray-400">
-              <span className="flex items-center gap-1">www.sy-nl.org</span>
+            <div className="pt-4 border-t border-gray-800 mt-4 w-full flex justify-center text-xs text-gray-400">
+              <span className="flex items-center gap-1 font-mono hover:text-[#CCAA00] transition-colors">
+                <a href="https://www.sy-nl.org" target="_blank" rel="noopener noreferrer">www.sy-nl.org</a>
+              </span>
             </div>
           </div>
 
