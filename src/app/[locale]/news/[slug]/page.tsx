@@ -6,7 +6,7 @@ import { Calendar, Clock, Eye, User, ChevronRight, ArrowLeft, Lock } from "lucid
 import { ArticleActions } from "@/components/article-actions";
 import { CommentSection } from "@/components/comment-section";
 import { formatDate } from "@/lib/date";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 interface Props { params: Promise<{ locale: string; slug: string }> }
