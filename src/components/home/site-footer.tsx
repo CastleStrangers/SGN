@@ -65,94 +65,104 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="bg-[#1C2541] p-6 rounded-2xl border border-gray-800 shadow-sm space-y-3">
-            <h4 className="text-[#CCAA00] font-bold text-xs uppercase tracking-wider flex items-center gap-2 mb-2">
-              <span className="w-1.5 h-3 bg-[#CCAA00] rounded-sm"></span>
-              التسجيل والشفافية القانونية
-            </h4>
-            <div className="space-y-2 text-xs">
-              <div className="flex justify-between items-center bg-[#0B132B] p-2.5 rounded-xl border border-gray-900">
-                <span className="text-gray-400">رقم السجل التجاري KvK:</span>
-                <span className="font-mono text-[#CCAA00] font-bold">96718943</span>
+          <div className="bg-[#1C2541] p-6 rounded-2xl border border-gray-800 shadow-sm flex flex-col justify-between items-center text-center">
+            <div className="w-full flex flex-col items-center">
+              <h4 className="text-[#CCAA00] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 mb-4 w-full">
+                <span className="w-1.5 h-3 bg-[#CCAA00] rounded-sm"></span>
+                التسجيل والشفافية القانونية
+              </h4>
+              <div className="space-y-2.5 text-xs w-full">
+                <div className="flex flex-col items-center bg-[#0B132B] p-3 rounded-xl border border-gray-900/60">
+                  <span className="text-gray-400 mb-1 text-[11px]">رقم السجل التجاري KvK</span>
+                  <span className="font-mono text-[#CCAA00] font-bold text-sm">96718943</span>
+                </div>
+                <div className="flex flex-col items-center bg-[#0B132B] p-3 rounded-xl border border-gray-900/60">
+                  <span className="text-gray-400 mb-1 text-[11px]">الرقم الضريبي RSIN</span>
+                  <span className="font-mono text-gray-300 text-sm">867730286</span>
+                </div>
+                <div className="flex flex-col items-center bg-[#0B132B] p-3 rounded-xl border border-gray-900/60">
+                  <span className="text-gray-400 mb-1 text-[11px]">الصفة القانونية</span>
+                  <span className="text-emerald-400 font-bold">جمعية مسجلة أصولاً</span>
+                </div>
               </div>
-              <div className="flex justify-between items-center bg-[#0B132B] p-2.5 rounded-xl border border-gray-900">
-                <span className="text-gray-400">الرقم الضريبي RSIN:</span>
-                <span className="font-mono text-gray-300">867730286</span>
-              </div>
-              <div className="flex justify-between items-center bg-[#0B132B] p-2.5 rounded-xl border border-gray-900">
-                <span className="text-gray-400">الصفة القانونية:</span>
-                <span className="text-emerald-400 font-medium">جمعية مسجلة أصولاً</span>
-              </div>
+            </div>
+            <div className="pt-4 border-t border-gray-800 mt-4 w-full flex justify-center text-xs text-gray-400">
+              <span className="text-gray-500 text-[10px]">مؤسسة خاضعة للرقابة والشفافية</span>
             </div>
           </div>
 
-          <div className="bg-[#1C2541] p-6 rounded-2xl border border-gray-800 shadow-sm space-y-3">
-            <h4 className="text-[#CCAA00] font-bold text-xs uppercase tracking-wider flex items-center gap-2 mb-2">
-              <span className="w-1.5 h-3 bg-[#CCAA00] rounded-sm"></span>
-              الحساب البنكي المعتمد (ANBI)
-            </h4>
-            <p className="text-[11px] text-gray-400 leading-normal">
-              تُوجه جميع الاشتراكات والمساهمات لدعم الأنشطة التعليمية، الطبية، والإنسانية للجالية.
-            </p>
-            <div className="bg-[#0B132B] p-3 rounded-xl border border-gray-900 space-y-1">
-              <span className="text-[10px] text-gray-500 block uppercase font-mono">Official Bank Account (IBAN)</span>
-              <span className="text-[#CCAA00] font-mono font-bold text-xs block tracking-wider text-left">
-                NL90 ABNA 0148 7498 95
-              </span>
-              <div className="flex gap-2 mt-2">
-                <Link
-                  href="/donate"
-                  className="flex-1 bg-[#CCAA00] hover:bg-yellow-500 text-black font-bold py-1.5 px-2 rounded-lg text-center text-[10px] transition-colors flex items-center justify-center gap-1"
-                >
-                  <span>❤️</span> تبرع الآن
-                </Link>
-                <button
-                  onClick={handleCopy}
-                  className="flex-1 bg-[#1C2541] hover:bg-gray-800 text-gray-200 border border-gray-700 py-1.5 px-2 rounded-lg text-center text-[10px] transition-colors flex items-center justify-center gap-1 cursor-pointer"
-                >
-                  {copied ? (
-                    <>
-                      <span>✓</span> تم النسخ
-                    </>
-                  ) : (
-                    <>
-                      <span>📋</span> نسخ الحساب
-                    </>
-                  )}
-                </button>
+          <div className="bg-[#1C2541] p-6 rounded-2xl border border-gray-800 shadow-sm flex flex-col justify-between items-center text-center">
+            <div className="w-full flex flex-col items-center">
+              <h4 className="text-[#CCAA00] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 mb-4 w-full">
+                <span className="w-1.5 h-3 bg-[#CCAA00] rounded-sm"></span>
+                الحساب البنكي المعتمد (ANBI)
+              </h4>
+              <p className="text-[11px] text-gray-400 leading-relaxed text-center mb-4">
+                تُوجه جميع الاشتراكات والمساهمات لدعم الأنشطة التعليمية، الطبية، والإنسانية للجالية.
+              </p>
+              <div className="bg-[#0B132B] p-3 rounded-xl border border-gray-900/60 w-full space-y-1">
+                <span className="text-[10px] text-gray-500 block uppercase font-mono text-center">Official Bank Account (IBAN)</span>
+                <span className="text-[#CCAA00] font-mono font-bold text-sm block tracking-wider text-center py-1">
+                  NL90 ABNA 0148 7498 95
+                </span>
+                <div className="flex gap-2 mt-2 w-full">
+                  <Link
+                    href="/donate"
+                    className="flex-1 bg-[#CCAA00] hover:bg-yellow-500 text-black font-bold py-1.5 px-2 rounded-lg text-center text-[10px] transition-all duration-300 flex items-center justify-center gap-1 hover:scale-[1.03]"
+                  >
+                    <span>❤️</span> تبرع الآن
+                  </Link>
+                  <button
+                    onClick={handleCopy}
+                    className="flex-1 bg-[#1C2541] hover:bg-gray-800 text-gray-200 border border-gray-700 py-1.5 px-2 rounded-lg text-center text-[10px] transition-all duration-300 flex items-center justify-center gap-1 cursor-pointer hover:scale-[1.03]"
+                  >
+                    {copied ? (
+                      <>
+                        <span>✓</span> تم النسخ
+                      </>
+                    ) : (
+                      <>
+                        <span>📋</span> نسخ الحساب
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
+            </div>
+            <div className="pt-4 border-t border-gray-800 mt-4 w-full flex justify-center text-xs text-gray-400">
+              <span className="text-gray-500 text-[10px]">مؤسسة ذات منفعة عامة معفاة من الضرائب</span>
             </div>
           </div>
 
-          <div className="bg-[#1C2541] p-6 rounded-2xl border border-gray-800 shadow-sm flex flex-col justify-between">
-            <div>
-              <h4 className="text-[#CCAA00] font-bold text-xs uppercase tracking-wider flex items-center gap-2 mb-4">
+          <div className="bg-[#1C2541] p-6 rounded-2xl border border-gray-800 shadow-sm flex flex-col justify-between items-center text-center">
+            <div className="w-full flex flex-col items-center">
+              <h4 className="text-[#CCAA00] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 mb-4 w-full">
                 <span className="w-1.5 h-3 bg-[#CCAA00] rounded-sm"></span>
                 روابط سريعة ومعلومات الاتصال
               </h4>
-              <ul className="space-y-3 text-xs text-gray-300">
-                <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
-                  <span>✉️</span>
-                  <a href="mailto:info@sy-nl.org" className="font-mono">info@sy-nl.org</a>
+              <ul className="space-y-2.5 text-xs text-gray-300 w-full flex flex-col items-center">
+                <li className="flex items-center justify-center gap-2 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full">
+                  <span className="text-base leading-none">✉️</span>
+                  <a href="mailto:info@sy-nl.org" className="font-mono text-[11px]">info@sy-nl.org</a>
                 </li>
-                <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
-                  <span>💬</span>
-                  <a href="https://wa.me/31684603406" target="_blank" rel="noopener noreferrer" dir="ltr" className="font-mono">+31 6 84 60 34 06</a>
+                <li className="flex items-center justify-center gap-2 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full">
+                  <span className="text-base leading-none">💬</span>
+                  <a href="https://wa.me/31684603406" target="_blank" rel="noopener noreferrer" dir="ltr" className="font-mono text-[11px]">+31 6 84 60 34 06</a>
                 </li>
-                <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
-                  <span>📍</span>
-                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted">
-                    Laan van Meerdervoort 53-D, 2517 AE Den Haag
+                <li className="flex flex-col items-center justify-center gap-1 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full text-center">
+                  <span className="text-base leading-none">📍</span>
+                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted text-[11px] leading-snug">
+                    Laan van Meerdervoort 53-D<br />2517 AE Den Haag
                   </a>
                 </li>
               </ul>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-gray-800 text-center text-[11px]">
-              <Link href="/about" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">من نحن</Link>
-              <Link href="/regulations" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">النظام الداخلي</Link>
-              <Link href="/volunteer" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">تطوع الآن</Link>
-              <Link href="/contact" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">اتصل بنا</Link>
+            <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-gray-800 text-center text-[10px] w-full">
+              <Link href="/about" className="bg-[#0B132B] hover:bg-black py-1.5 rounded-lg text-gray-300 transition-colors border border-gray-900/40">من نحن</Link>
+              <Link href="/regulations" className="bg-[#0B132B] hover:bg-black py-1.5 rounded-lg text-gray-300 transition-colors border border-gray-900/40">النظام الداخلي</Link>
+              <Link href="/volunteer" className="bg-[#0B132B] hover:bg-black py-1.5 rounded-lg text-gray-300 transition-colors border border-gray-900/40">تطوع الآن</Link>
+              <Link href="/contact" className="bg-[#0B132B] hover:bg-black py-1.5 rounded-lg text-gray-300 transition-colors border border-gray-900/40">اتصل بنا</Link>
             </div>
           </div>
 
