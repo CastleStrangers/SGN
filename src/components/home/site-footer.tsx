@@ -100,12 +100,6 @@ export function SiteFooter() {
               </h4>
               <ul className="space-y-3 text-xs text-gray-300">
                 <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
-                  <span>📍</span>
-                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted">
-                    Laan van Meerdervoort 53-D, 2517 AE Den Haag
-                  </a>
-                </li>
-                <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
                   <span>✉️</span>
                   <a href="mailto:info@sy-nl.org" className="font-mono">info@sy-nl.org</a>
                 </li>
@@ -114,9 +108,9 @@ export function SiteFooter() {
                   <a href="https://wa.me/31684603406" target="_blank" rel="noopener noreferrer" dir="ltr" className="font-mono">+31 6 84 60 34 06</a>
                 </li>
                 <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
-                  <span>👥</span>
-                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted">
-                    الصفحة الرسمية على فيسبوك
+                  <span>📍</span>
+                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted">
+                    Laan van Meerdervoort 53-D, 2517 AE Den Haag
                   </a>
                 </li>
               </ul>
@@ -125,6 +119,7 @@ export function SiteFooter() {
             <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-gray-800 text-center text-[11px]">
               <Link href="/about" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">من نحن</Link>
               <Link href="/regulations" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">النظام الداخلي</Link>
+              <Link href="/volunteer" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">تطوع الآن</Link>
               <Link href="/contact" className="bg-[#0B132B] hover:bg-black p-1.5 rounded-lg text-gray-300 transition-colors">اتصل بنا</Link>
             </div>
           </div>
