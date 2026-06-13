@@ -69,7 +69,7 @@ export default function FavoritesScreen() {
           <TouchableOpacity
             onPress={() => router.push(`/news/${item.post.slug}`)}
             style={{
-              backgroundColor: "#fff",
+              backgroundColor: COLORS.card,
               borderRadius: 16,
               overflow: "hidden",
               shadowColor: "#000",

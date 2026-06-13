@@ -36,7 +36,7 @@ export default function EventsScreen() {
           onPress={() => setShowUpcoming(true)}
           style={{
             flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: "center",
-            backgroundColor: showUpcoming ? COLORS.primary : "#fff",
+            backgroundColor: showUpcoming ? COLORS.primary : COLORS.card,
             borderWidth: 1, borderColor: COLORS.border,
           }}
         >
@@ -48,7 +48,7 @@ export default function EventsScreen() {
           onPress={() => setShowUpcoming(false)}
           style={{
             flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: "center",
-            backgroundColor: !showUpcoming ? COLORS.primary : "#fff",
+            backgroundColor: !showUpcoming ? COLORS.primary : COLORS.card,
             borderWidth: 1, borderColor: COLORS.border,
           }}
         >
@@ -73,7 +73,7 @@ export default function EventsScreen() {
             <TouchableOpacity
               onPress={() => router.push({ pathname: `/events/${item.id}`, params: { id: item.id, title: item.title, description: item.description || "", date: item.date, location: item.location || "", image: item.image || "", category: item.category || "" } })}
               style={{
-                backgroundColor: "#fff", borderRadius: 16, overflow: "hidden",
+                backgroundColor: COLORS.card, borderRadius: 16, overflow: "hidden",
                 shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 3,
               }}
             >
