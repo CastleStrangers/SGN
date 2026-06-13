@@ -80,7 +80,11 @@ export async function POST(req: Request) {
 
   if (action === "sync") {
     try {
-      const results = await runSync([FACEBOOK_SOURCE])
+      const source = { ...FACEBOOK_SOURCE }
+      if (body.since) {
+        source.since = body.since
+      }
+      const results = await runSync([source])
       const r = results[0]
       return NextResponse.json({
         success: r.success,
