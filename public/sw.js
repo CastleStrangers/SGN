@@ -37,7 +37,14 @@ self.addEventListener("fetch", (event) => {
           }
           return response;
         })
-        .catch(() => cached || caches.match("/"));
+        .catch(() => {
+          if (cached) return cached;
+          // Only fall back to '/' for page navigation requests (HTML) to avoid CSS/JS MIME type errors
+          if (event.request.headers.get("accept")?.includes("text/html")) {
+            return caches.match("/");
+          }
+          return Promise.reject("Network error");
+        });
 
       return cached || fetchPromise;
     })
