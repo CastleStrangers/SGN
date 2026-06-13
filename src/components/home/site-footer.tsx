@@ -96,7 +96,7 @@ export function SiteFooter() {
             <div>
               <h4 className="text-[#CCAA00] font-bold text-xs uppercase tracking-wider flex items-center gap-2 mb-4">
                 <span className="w-1.5 h-3 bg-[#CCAA00] rounded-sm"></span>
-                قنوات التواصل والموقع الجغرافي
+                روابط سريعة ومعلومات الاتصال
               </h4>
               <ul className="space-y-3 text-xs text-gray-300">
                 <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
