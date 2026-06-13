@@ -115,6 +115,40 @@ export default function MessagesScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* Persona Scroll Row */}
+      <View style={{ backgroundColor: "#f9fafb", borderBottomWidth: 1, borderBottomColor: COLORS.border, paddingVertical: 8 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, flexDirection: isRTL ? "row-reverse" : "row", gap: 8 }}>
+          {[
+            { id: "general", label: t("chat.personaGeneral") || "عام", icon: "🤖" },
+            { id: "legal", label: t("chat.personaLegal") || "لجوء", icon: "⚖️" },
+            { id: "integration", label: t("chat.personaIntegration") || "اندماج", icon: "🎓" },
+            { id: "spokesperson", label: t("chat.personaSpokesperson") || "إعلام", icon: "📢" },
+          ].map((p) => {
+            const active = persona === p.id;
+            return (
+              <TouchableOpacity
+                key={p.id}
+                onPress={() => setPersona(p.id)}
+                style={{
+                  flexDirection: isRTL ? "row-reverse" : "row",
+                  alignItems: "center",
+                  backgroundColor: active ? COLORS.primary : "#fff",
+                  borderColor: active ? COLORS.primary : COLORS.border,
+                  borderWidth: 1,
+                  borderRadius: 20,
+                  paddingHorizontal: 12,
+                  paddingVertical: 6,
+                  gap: 6
+                }}
+              >
+                <Text style={{ fontSize: 13 }}>{p.icon}</Text>
+                <Text style={{ fontSize: 11, fontWeight: "600", color: active ? "#fff" : COLORS.text }}>{p.label}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </View>
+
       {/* Summary Modal */}
       <Modal visible={showSummary} transparent animationType="fade" onRequestClose={() => setShowSummary(false)}>
         <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "center", padding: 24 }}>
@@ -138,14 +172,35 @@ export default function MessagesScreen() {
         contentContainerStyle={{ padding: 16, flexGrow: 1 }}
         ListEmptyComponent={
           showSuggestions ? (
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center", paddingTop: 40 }}>
-              <Ionicons name="chatbubble-ellipses" size={48} color={COLORS.primary} style={{ opacity: 0.5, marginBottom: 12 }} />
-              <Text style={{ fontSize: 15, fontWeight: "600", color: COLORS.text, marginBottom: 4 }}>{t("chat.aiTitle")}</Text>
-              <Text style={{ fontSize: 13, color: COLORS.textSecondary, textAlign: "center", marginBottom: 20, paddingHorizontal: 20 }}>{t("chat.aiWelcome")}</Text>
-              <View style={{ flexDirection: isRTL ? "row-reverse" : "row", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
-                {SUGGESTED.map((q) => (
-                  <TouchableOpacity key={q} onPress={() => handleSend(q)} style={{ backgroundColor: "#f0f7f2", paddingHorizontal: 14, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: COLORS.border }}>
-                    <Text style={{ fontSize: 12, color: COLORS.text }}>{q}</Text>
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center", paddingTop: 20, paddingBottom: 20 }}>
+              <Ionicons name="chatbubble-ellipses" size={40} color={COLORS.primary} style={{ opacity: 0.5, marginBottom: 8 }} />
+              <Text style={{ fontSize: 14, fontWeight: "600", color: COLORS.text, marginBottom: 2 }}>{t("chat.aiTitle")}</Text>
+              <Text style={{ fontSize: 12, color: COLORS.textSecondary, textAlign: "center", marginBottom: 16, paddingHorizontal: 20 }}>{t("chat.aiWelcome")}</Text>
+              
+              {/* Quick Action Suggested Grid */}
+              <View style={{ flexDirection: isRTL ? "row-reverse" : "row", flexWrap: "wrap", justifyContent: "center", gap: 8, paddingHorizontal: 16 }}>
+                {SUGGESTED_CARDS.map((card, idx) => (
+                  <TouchableOpacity
+                    key={idx}
+                    onPress={() => {
+                      setPersona(card.persona);
+                      handleSend(card.text, card.persona);
+                    }}
+                    style={{
+                      flexDirection: isRTL ? "row-reverse" : "row",
+                      alignItems: "center",
+                      backgroundColor: "#fff",
+                      paddingHorizontal: 12,
+                      paddingVertical: 8,
+                      borderRadius: 12,
+                      borderWidth: 1,
+                      borderColor: COLORS.border,
+                      gap: 6,
+                      minWidth: "45%"
+                    }}
+                  >
+                    <Text style={{ fontSize: 13 }}>{card.icon}</Text>
+                    <Text style={{ fontSize: 11, color: COLORS.text, fontWeight: "500" }}>{card.text}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
