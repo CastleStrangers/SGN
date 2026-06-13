@@ -116,3 +116,89 @@ export async function sendAIMessage(
 
   return reply;
 }
+
+const LETTER_ANALYSIS_PROMPT = `أنت خبير محترف ومترجم قانوني هولندي-عربي. مهمتك هي تحليل صور الخطابات والوثائق الرسمية المرسلة من الدوائر الحكومية الهولندية (مثل IND, Belastingdienst, Gemeente, UWV, CAK) وتفسيرها للاجئين السوريين باللغة العربية.
+
+يرجى استخراج وتوضيح المعلومات التالية بدقة واختصار:
+1. **الجهة المرسلة (Sender):** من هي المؤسسة التي أرسلت الخطاب؟
+2. **الموضوع العام (Subject):** ما هو موضوع الخطاب باختصار؟
+3. **الملخص (Summary):** تلخيص مبسط للنقاط الأساسية في الخطاب.
+4. **الإجراء المطلوب (Action Required):** ما الذي يجب على المستخدم فعله بدقة؟ (مثال: دفع مبلغ، إرسال وثيقة، حضور مقابلة).
+5. **الموعد النهائي (Deadline):** ما هو آخر موعد للإجراء؟ (حدده بشكل بارز باليوم والتاريخ والشارح إذا وجد).
+6. **الخطوات التالية المقترحة (Next Steps):** كيف يجب أن يتصرف؟
+
+تنبيه مهم: تحدّث بالعربية الفصحى البسيطة والمهنية، وحافظ على تنسيق جميل ونقاط واضحة.`;
+
+async function imageUrlToBase64(url: string): Promise<{ mimeType: string; data: string }> {
+  if (url.startsWith("data:")) {
+    const match = url.match(/^data:([^;]+);base64,(.+)$/);
+    if (match) {
+      return { mimeType: match[1], data: match[2] };
+    }
+  }
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed to fetch image");
+  const arrayBuffer = await res.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const mimeType = res.headers.get("content-type") || "image/jpeg";
+  const data = buffer.toString("base64");
+  return { mimeType, data };
+}
+
+export async function analyzeDocument(imageUrl: string, locale: string): Promise<string> {
+  const systemPrompt = LETTER_ANALYSIS_PROMPT;
+  const userPrompt = locale === "nl"
+    ? "Analyseer deze brief en leg het uit."
+    : locale === "en"
+      ? "Analyze this letter and explain it."
+      : "من فضلك قم بتحليل وقراءة هذه الرسالة وشرح الإجراءات المطلوبة مني.";
+
+  const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
+  const provider = process.env.AI_PROVIDER || (isProd ? "openai" : "ollama");
+
+  if (provider === "openai") {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) throw new Error("OPENAI_API_KEY is required for OpenAI provider");
+
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: process.env.OPENAI_MODEL || "gpt-4o-mini",
+        messages: [
+          { role: "system", content: systemPrompt },
+          {
+            role: "user",
+            content: [
+              { type: "text", text: userPrompt },
+              { type: "image_url", image_url: { url: imageUrl } }
+            ]
+          }
+        ],
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`OpenAI vision error ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    return data.choices[0]?.message?.content || "";
+  } else {
+    const { ollamaGenerate } = await import("./ollama");
+    const { mimeType, data } = await imageUrlToBase64(imageUrl);
+    return ollamaGenerate(
+      [
+        { text: userPrompt },
+        { inlineData: { mimeType, data } }
+      ],
+      systemPrompt
+    );
+  }
+}
+
