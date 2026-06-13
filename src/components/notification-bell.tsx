@@ -96,9 +96,10 @@ export function NotificationBell() {
 
       {open && (
         <div
-          className="absolute left-0 lg:left-auto lg:right-0 mt-2 w-80 sm:w-96 bg-card border border-border text-card-foreground rounded-2xl shadow-xl z-50 overflow-hidden max-h-[480px] flex flex-col"
+          className="fixed left-4 right-4 top-16 sm:absolute sm:top-auto sm:left-auto sm:right-0 mt-2 sm:w-80 md:w-96 bg-card border border-border text-card-foreground rounded-2xl shadow-xl z-50 overflow-hidden max-h-[480px] flex flex-col"
           dir="rtl"
         >
+
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-border bg-card sticky top-0 z-10">
             <span className="text-sm font-bold text-foreground">{t("title")}</span>
