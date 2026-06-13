@@ -1,6 +1,6 @@
 @echo off
 echo =======================================================
-echo   AUTOMATED GIT SYNC (SGN + PARENT)
+echo   AUTOMATED GIT SYNC and VERCEL DEPLOY (SGN + PARENT)
 echo =======================================================
 echo.
 
@@ -9,7 +9,7 @@ powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [Syst
 powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Start SGN Server.lnk'); $vbs = [System.IO.Path]::Combine('%~dp0', 'تشغيل.vbs'); if (-not (Test-Path $desktop)) { $s = $ws.CreateShortcut($desktop); $s.TargetPath = $vbs; $s.WorkingDirectory = '%~dp0'; $s.Save() }"
 
 :: 1. Sync SGN (Child)
-echo [1/2] Syncing SGN repository...
+echo [1/3] Syncing SGN repository...
 git add .
 git diff-index --quiet HEAD --
 if %errorlevel% neq 0 (
@@ -23,7 +23,7 @@ git push origin main
 
 :: 2. Sync Parent
 echo.
-echo [2/2] Syncing Parent repository...
+echo [2/3] Syncing Parent repository...
 cd ..
 git add .
 git diff-index --quiet HEAD --
@@ -35,14 +35,19 @@ if %errorlevel% neq 0 (
 )
 cd SGN
 
-:: 3. Open Staging Site Preview
+:: 3. Deploy to Vercel
+echo.
+echo [3/3] Deploying directly to Vercel staging...
+call vercel . --prod
+
+:: 4. Open Staging Site Preview
 echo.
 echo - Opening Staging/Preview website in your browser...
 start https://sgn-indol.vercel.app
 
-:: 4. Verification & Auto Exit
+:: 5. Verification & Auto Exit
 echo.
 echo =======================================================
-echo   SUCCESS: All repositories synced and clean!
+echo   SUCCESS: All repositories synced, deployed, and clean!
 echo =======================================================
-timeout /t 3
+timeout /t 5
