@@ -5,11 +5,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
 import { sendAIMessage, translateMessage, summarizeConversation, type AIMessage } from "../../lib/chat";
 
-const SUGGESTED = [
-  "ما هي أخبار الجالية اليوم؟",
-  "متى موعد الفعالية القادمة؟",
-  "كيف أستطيع التطوع؟",
-  "ما هي الخدمات المتاحة للاجئين؟",
+const SUGGESTED_CARDS = [
+  { text: "خطوات لم الشمل بالتفصيل؟", persona: "legal", icon: "⚖️" },
+  { text: "المدة المتوقعة لقرار الـ IND؟", persona: "legal", icon: "⚖️" },
+  { text: "التسجيل في امتحانات الاندماج؟", persona: "integration", icon: "🎓" },
+  { text: "شروط تمويل DUO للغة؟", persona: "integration", icon: "🎓" },
+  { text: "التقديم على سكن اجتماعي؟", persona: "integration", icon: "💼" },
+  { text: "كيفية تقييم وتعديل الشهادات؟", persona: "integration", icon: "💼" },
+  { text: "آخر أخبار الجالية اليوم؟", persona: "spokesperson", icon: "📢" },
+  { text: "الفعاليات القادمة والتطوع؟", persona: "spokesperson", icon: "📢" },
 ];
 
 export default function MessagesScreen() {
@@ -23,6 +27,7 @@ export default function MessagesScreen() {
   const [summary, setSummary] = useState<string | null>(null);
   const [summarizing, setSummarizing] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
+  const [persona, setPersona] = useState<string>("general");
   const flatRef = useRef<FlatList>(null);
 
   useEffect(() => {
@@ -31,7 +36,7 @@ export default function MessagesScreen() {
     }
   }, [messages]);
 
-  async function handleSend(overrideText?: string) {
+  async function handleSend(overrideText?: string, forcedPersona?: string) {
     const text = (overrideText || input).trim();
     if (!text || loading) return;
     setShowSuggestions(false);
@@ -41,8 +46,10 @@ export default function MessagesScreen() {
     setInput("");
     setLoading(true);
 
+    const activePersona = forcedPersona || persona;
+
     try {
-      const data = await sendAIMessage(text, sessionId || undefined, locale);
+      const data = await sendAIMessage(text, sessionId || undefined, locale, activePersona);
       setSessionId(data.sessionId);
       setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
     } catch {
