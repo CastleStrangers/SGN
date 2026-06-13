@@ -4,11 +4,11 @@ import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 import { TikTok } from "@/components/tiktok-icon";
 
 const socials = [
-  { icon: TikTok, href: "https://www.tiktok.com/@sgn_syria" },
-  { icon: Twitter, href: "https://x.com/SGN2098551" },
-  { icon: Youtube, href: "https://www.youtube.com/@SY-NL" },
-  { icon: Instagram, href: "https://www.instagram.com/sgn_syria/" },
-  { icon: Facebook, href: "https://www.facebook.com/DeSyrischeGemeenschapInNederland" },
+  { icon: TikTok, name: "TikTok", href: "https://www.tiktok.com/@sgn_syria" },
+  { icon: Twitter, name: "Twitter", href: "https://x.com/SGN2098551" },
+  { icon: Youtube, name: "YouTube", href: "https://www.youtube.com/@SY-NL" },
+  { icon: Instagram, name: "Instagram", href: "https://www.instagram.com/sgn_syria/" },
+  { icon: Facebook, name: "Facebook", href: "https://www.facebook.com/DeSyrischeGemeenschapInNederland" },
 ];
 
 export function SiteFooter() {
@@ -42,6 +42,8 @@ export function SiteFooter() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    title={s.name}
+                    aria-label={s.name}
                     className="w-8 h-8 rounded-full bg-[#0B132B]/60 hover:bg-[#CCAA00] text-gray-300 hover:text-black flex items-center justify-center transition-all duration-300 border border-gray-800 hover:border-[#CCAA00] hover:scale-110 shadow-sm"
                   >
                     <s.icon className="w-4 h-4" />
