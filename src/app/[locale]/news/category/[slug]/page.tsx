@@ -58,14 +58,16 @@ export default function CategoryPage() {
       .catch(() => setLoading(false));
   }, [slug]);
 
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
   if (loading) return (
-    <div dir="rtl" className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div dir={dir} className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="animate-spin w-8 h-8 border-4 border-[#1a5632] border-t-transparent rounded-full" />
     </div>
   );
 
   return (
-    <div dir="rtl" className="min-h-screen bg-gray-50">
+    <div dir={dir} className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
           <div>
