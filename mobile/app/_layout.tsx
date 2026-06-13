@@ -33,7 +33,7 @@ function StackScreens() {
           title: t("login.submit"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
       <Stack.Screen
@@ -43,7 +43,7 @@ function StackScreens() {
           title: t("register.title"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
       <Stack.Screen
@@ -53,7 +53,7 @@ function StackScreens() {
           title: t("news.detail.notFound"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
       <Stack.Screen
@@ -63,7 +63,7 @@ function StackScreens() {
           title: t("settings.title"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
       <Stack.Screen
@@ -73,7 +73,7 @@ function StackScreens() {
           title: t("events.list.title"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
       <Stack.Screen
@@ -83,7 +83,7 @@ function StackScreens() {
           title: t("donate.title"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
       <Stack.Screen
@@ -93,7 +93,7 @@ function StackScreens() {
           title: t("surveys.title"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
       <Stack.Screen
@@ -103,7 +103,7 @@ function StackScreens() {
           title: t("volunteer.title"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
       <Stack.Screen
@@ -113,7 +113,7 @@ function StackScreens() {
           title: t("gallery.title"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
       <Stack.Screen
@@ -123,7 +123,7 @@ function StackScreens() {
           title: t("dashboard.title"),
           headerStyle: { backgroundColor: COLORS.primary },
           headerTintColor: "#fff",
-          headerTitleStyle: { textAlign: isRTL ? "right" : "left" as any },
+          headerTitleAlign: isRTL ? "right" : "left",
         }}
       />
     </Stack>
