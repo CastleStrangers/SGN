@@ -80,6 +80,10 @@ export function SiteFooter() {
                   <a href="mailto:info@sy-nl.org" className="font-mono">info@sy-nl.org</a>
                 </li>
                 <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
+                  <span>💬</span>
+                  <a href="https://wa.me/31684603406" target="_blank" rel="noreferrer" dir="ltr" className="font-mono">+31 6 84 60 34 06</a>
+                </li>
+                <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
                   <span>👥</span>
                   <a href="https://facebook.com" target="_blank" rel="noreferrer" className="underline decoration-dotted">
                     الصفحة الرسمية على فيسبوك
