@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import LanguageSwitcher from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { NotificationBell } from "@/components/notification-bell";
 import { useSession, signOut } from "next-auth/react";
 
 const mainNav = [
