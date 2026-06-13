@@ -943,10 +943,6 @@
     "events": "فعالية منظمة",
     "views": "مشاهدة إجمالية"
   },
-  "latestVideos": {
-    "play": "تشغيل: {title}",
-    "youtubeBadge": "فيديو يوتيوب",
-    "title": "فيديوهات الجالية",
 
   "languageSwitcher": {
     "arabic": "العربية",
