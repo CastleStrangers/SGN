@@ -232,7 +232,7 @@ export default function GalleryPage() {
                     {img.slug && (
                       <Link 
                         href={`/news/${img.slug}`}
-                        onClick={e => e.stopPropagation()}
+                        onClick={(e: any) => e.stopPropagation()}
                         className="text-[#c8a84e] hover:text-white flex items-center gap-1 text-xs font-semibold"
                       >
                         <span>{getReadMoreLabel()}</span>

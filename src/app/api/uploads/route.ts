@@ -39,8 +39,8 @@ export async function GET() {
     });
 
     const postImages = posts
-      .filter(p => p.image && p.image.trim() !== "")
-      .map(p => ({
+      .filter((p: any) => p.image && p.image.trim() !== "")
+      .map((p: any) => ({
         url: p.image,
         title: p.title,
         slug: p.slug || p.id,
