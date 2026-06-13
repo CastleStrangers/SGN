@@ -11,7 +11,7 @@ Write-Host "Checking every $Interval seconds. Close this window to stop syncing.
 Write-Host ""
 
 # Set Cwd to the SGN directory
-Set-Location -LiteralPath "D:\I-Ai\App\Syrian community in the Netherlands\SGN"
+Set-Location -LiteralPath $PSScriptRoot
 
 while ($true) {
     # Check if there are any changes (modified, deleted, or untracked files)
