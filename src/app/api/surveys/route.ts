@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { requireAuthorize } from "@/lib/auth-helpers";
+import { createSystemNotification } from "@/lib/notifications/service";
 
 function unauth() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -54,6 +55,14 @@ export async function POST(req: Request) {
     },
     include: { options: true },
   });
+
+  // Trigger system and push notifications for all users
+  createSystemNotification({
+    type: "survey",
+    title: survey.title,
+    descriptionOrContent: survey.description || "",
+    link: "/surveys",
+  }).catch(err => console.error("Error sending notification for survey:", err));
 
   return NextResponse.json(survey);
 }
