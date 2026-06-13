@@ -1,4 +1,4 @@
-const CACHE_NAME = "sy-nl-v1";
+const CACHE_NAME = "sy-nl-v2";
 const STATIC_ASSETS = [
   "/",
   "/logo.png",
@@ -24,29 +24,29 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  // Ignore non-GET requests and non-HTTP/HTTPS protocols (like chrome-extension://)
+  // Ignore non-GET requests and non-HTTP/HTTPS protocols
   if (event.request.method !== "GET" || !event.request.url.startsWith("http")) return;
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const fetchPromise = fetch(event.request)
-        .then((response) => {
-          if (response.ok && response.type === "basic") {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => {
+    fetch(event.request)
+      .then((response) => {
+        // Cache successful responses for basic type requests
+        if (response.ok && response.type === "basic") {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => {
+        // Fallback to cache if network fails (offline mode)
+        return caches.match(event.request).then((cached) => {
           if (cached) return cached;
-          // Only fall back to '/' for page navigation requests (HTML) to avoid CSS/JS MIME type errors
+          // Only fall back to '/' for page navigation requests (HTML)
           if (event.request.headers.get("accept")?.includes("text/html")) {
             return caches.match("/");
           }
-          return Promise.reject("Network error");
+          return Promise.reject("Offline");
         });
-
-      return cached || fetchPromise;
-    })
+      })
   );
 });
