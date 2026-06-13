@@ -7,7 +7,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { RichTextEditor } from "@/components/rich-text-editor";
 import { formatDate } from "@/lib/date";
 
-interface Page { id: string; title: string; slug: string; content: string; excerpt: string; image: string; category: string; tags: string; source: string; featured: boolean; published: boolean; createdAt: string; views?: number; }
+interface Page { id: string; title: string; slug: string; content: string; excerpt: string; image: string; category: string; tags: string; source: string; featured: boolean; published: boolean; createdAt: string; views?: number; membersOnly?: boolean; }
 
 const CATEGORIES = ["أخبار الجالية", "أخبار هولندا", "أخبار أوروبا", "اقتصاد وأعمال", "ثقافة وفن", "رياضة", "تكنولوجيا", "عمل إنساني", "خدمات"];
 
@@ -25,6 +25,7 @@ export default function PagesPage() {
   const [tags, setTags] = useState("");
   const [source, setSource] = useState("الجالية السورية في هولندا");
   const [featured, setFeatured] = useState(false);
+  const [membersOnly, setMembersOnly] = useState(false);
   const [editing, setEditing] = useState<string | null>(null);
 
   // Social media sharing states
@@ -75,12 +76,13 @@ export default function PagesPage() {
       tags, 
       source, 
       featured, 
+      membersOnly,
       slug: slug || generateSlug(title),
       publishTo 
     };
     if (editing) body.id = editing;
     await fetch("/api/pages", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    setTitle(""); setContent(""); setExcerpt(""); setImage(""); setCategory(CATEGORIES[0]); setTags(""); setSource("الجالية السورية في هولندا"); setFeatured(false); setSlug(""); setEditing(null); 
+    setTitle(""); setContent(""); setExcerpt(""); setImage(""); setCategory(CATEGORIES[0]); setTags(""); setSource("الجالية السورية في هولندا"); setFeatured(false); setMembersOnly(false); setSlug(""); setEditing(null); 
     setShareFacebook(false); setShareInstagram(false); setShareX(false); setShareTelegram(false); setShareWhatsApp(false); setShareYouTube(false); setShareTikTok(false);
     fetchPages();
   };
@@ -92,7 +94,7 @@ export default function PagesPage() {
   };
 
   const editPage = (p: Page) => {
-    setTitle(p.title); setContent(p.content); setExcerpt(p.excerpt || ""); setImage(p.image || ""); setCategory(p.category || CATEGORIES[0]); setTags(p.tags || ""); setSource(p.source || "الجالية السورية في هولندا"); setFeatured(p.featured || false); setSlug(p.slug || ""); setEditing(p.id);
+    setTitle(p.title); setContent(p.content); setExcerpt(p.excerpt || ""); setImage(p.image || ""); setCategory(p.category || CATEGORIES[0]); setTags(p.tags || ""); setSource(p.source || "الجالية السورية في هولندا"); setFeatured(p.featured || false); setMembersOnly(p.membersOnly || false); setSlug(p.slug || ""); setEditing(p.id);
   };
 
   return (
@@ -132,6 +134,10 @@ export default function PagesPage() {
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" checked={featured} onChange={e => setFeatured(e.target.checked)} className="w-4 h-4 text-[#1a5632] rounded border-gray-300 focus:ring-[#1a5632]" />
             {t("featuredLabel")}
+          </label>
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" checked={membersOnly} onChange={e => setMembersOnly(e.target.checked)} className="w-4 h-4 text-[#1a5632] rounded border-gray-300 focus:ring-[#1a5632]" />
+            {t("membersOnlyLabel")}
           </label>
         </div>
 

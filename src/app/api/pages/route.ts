@@ -22,7 +22,7 @@ export async function GET() {
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || !(await requireAuthorize(session.user.id, "pages.create"))) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const { title, content, excerpt, image, category, tags, source, featured, slug, publishTo } = await req.json();
+  const { title, content, excerpt, image, category, tags, source, featured, slug, publishTo, membersOnly } = await req.json();
   const post = await prisma.post.create({
     data: {
       title,
@@ -33,6 +33,7 @@ export async function POST(req: Request) {
       tags: tags || null,
       source: source || t(req, 'site.title'),
       featured: featured || false,
+      membersOnly: membersOnly || false,
       slug: slug || title.trim().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-").toLowerCase().slice(0, 80),
       authorId: (session.user as any).id,
     },
@@ -58,7 +59,7 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || !(await requireAuthorize(session.user.id, "pages.edit"))) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const { id, title, content, excerpt, image, category, tags, source, featured, published, slug } = await req.json();
+  const { id, title, content, excerpt, image, category, tags, source, featured, published, slug, membersOnly } = await req.json();
   const data: any = {};
   if (title !== undefined) data.title = title;
   if (content !== undefined) data.content = content;
@@ -70,6 +71,7 @@ export async function PATCH(req: Request) {
   if (featured !== undefined) data.featured = featured;
   if (published !== undefined) data.published = published;
   if (slug !== undefined) data.slug = slug;
+  if (membersOnly !== undefined) data.membersOnly = membersOnly;
   const post = await prisma.post.update({ where: { id }, data });
   return NextResponse.json(post);
 }

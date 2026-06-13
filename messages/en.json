@@ -320,6 +320,7 @@
       "tagsPlaceholder": "Tags (comma separated)",
       "sourcePlaceholder": "Source",
       "featuredLabel": "Featured article",
+      "membersOnlyLabel": "Members only",
       "addButton": "Add",
       "updateButton": "Update",
       "featured": "Featured",
