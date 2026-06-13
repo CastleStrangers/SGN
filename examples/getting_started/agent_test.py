@@ -13,6 +13,8 @@ async def main():
     config = LocalAgentConfig(
         system_instructions="You are an expert assistant for codebase navigation.",
         api_key=os.environ["GEMINI_API_KEY"],
+        vertex=False,
+        model="gemini-2.5-flash",
     )
     
     async with Agent(config) as agent:
