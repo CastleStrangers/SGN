@@ -115,7 +115,7 @@ export default function MembershipCardPage() {
 
           <div className="flex items-center justify-between px-6 py-3 bg-emerald-800">
             <p className="text-emerald-200 text-[10px]">{t('footer')}</p>
-            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=50x50&data=${encodeURIComponent(`${window.location.origin}/member/${data.id}`)}`} alt="QR" className="w-10 h-10 rounded" style={{ backgroundColor: '#ffffff' }} />
+            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=50x50&data=${encodeURIComponent(`${window.location.origin}/member/${data.id}`)}`} alt="QR" className="w-10 h-10 rounded bg-[#ffffff]" />
           </div>
         </div>
 
