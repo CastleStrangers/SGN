@@ -26,7 +26,7 @@ const IS_PRODUCTION: boolean =
       process.env?.NODE_ENV === "production")) ||
   false;
 
-const DEV_API_BASE = process.env.EXPO_PUBLIC_API_URL || "https://sy-nl.org";
+const DEV_API_BASE = process.env.EXPO_PUBLIC_API_URL || "http://localhost:3000";
 
 // ---------------------------------------------------------------------------
 // Exported configuration
