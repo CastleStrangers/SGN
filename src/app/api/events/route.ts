@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { requireAuthorize } from "@/lib/auth-helpers";
 import { getApiMessage } from "@/lib/api-messages";
-import { sendPushNotifications } from "@/lib/notifications/push";
+import { createSystemNotification } from "@/lib/notifications/service";
 
 function t(req: Request, key: string) {
   const locale = (req as any).cookies?.get?.('NEXT_LOCALE')?.value || 'ar';
@@ -29,12 +29,13 @@ export async function POST(req: Request) {
     data: { title, description, date: new Date(date), location, image, category: category || t(req, 'events.categoryEvent') },
   });
 
-  // Trigger Expo push notification for all users
-  sendPushNotifications({
-    title: "فعالية جديدة قادمة!",
-    body: event.title,
-    data: { link: "/events" },
-  }).catch(err => console.error("Error sending push notification for event:", err));
+  // Trigger system and push notifications for all users
+  createSystemNotification({
+    type: "event",
+    title: event.title,
+    descriptionOrContent: event.description || "",
+    link: "/events",
+  }).catch(err => console.error("Error sending notification for event:", err));
 
   return NextResponse.json(event);
 }
