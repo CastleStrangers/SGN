@@ -34,6 +34,8 @@ export default async function ArticlePage({ params }: Props) {
   const t = await getTranslations('newsDetail');
   const { locale, slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
+  const session = await getServerSession(authOptions);
+  const isLoggedIn = !!session?.user;
   const post = await prisma.post.findUnique({
     where: { slug: decodedSlug, published: true },
     include: { author: { select: { name: true } } },
@@ -108,48 +110,7 @@ export default async function ArticlePage({ params }: Props) {
               <p className="text-lg text-gray-600 mb-6 font-medium leading-relaxed border-r-4 border-[#c8a84e] pr-4">{post.excerpt}</p>
             )}
 
-            <div className="text-gray-800 leading-8 text-base md:text-lg space-y-4" dangerouslySetInnerHTML={{ __html: contentHtml }} />
 
-            {post.source && (
-              <p className="mt-8 text-sm text-gray-400 pt-4 border-t">{t('source')} {post.source}</p>
-            )}
-
-            {/* Related Event Card */}
-            {relatedEvent && (
-              <div className="mt-8 p-6 bg-emerald-50 rounded-2xl border border-emerald-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                  <span className="text-[10px] uppercase tracking-wider text-emerald-800 font-bold bg-emerald-100/50 px-2 py-0.5 rounded">{t('relatedEvent')}</span>
-                  <h4 className="font-bold text-gray-900 mt-2">{relatedEvent.title}</h4>
-                  <p className="text-xs text-gray-500 mt-1">📍 {relatedEvent.location || "—"} | 📅 {formatDate(relatedEvent.date, locale)}</p>
-                </div>
-                <Link
-                  href="/events"
-                  className="px-5 py-2.5 bg-emerald-800 hover:bg-emerald-950 text-white font-bold rounded-xl text-xs transition-colors shrink-0"
-                >
-                  {t('relatedEventRegister')}
-                </Link>
-              </div>
-            )}
-
-            {/* Related Volunteer Task Card */}
-            {relatedTask && (
-              <div className="mt-8 p-6 bg-amber-50/70 rounded-2xl border border-amber-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                  <span className="text-[10px] uppercase tracking-wider text-amber-800 font-bold bg-amber-100/50 px-2 py-0.5 rounded">{t('relatedTask')}</span>
-                  <h4 className="font-bold text-gray-900 mt-2">{relatedTask.title}</h4>
-                  <p className="text-xs text-gray-500 mt-1">{t('relatedTaskDesc')}</p>
-                </div>
-                <Link
-                  href="/tasks"
-                  className="px-5 py-2.5 bg-amber-800 hover:bg-amber-950 text-white font-bold rounded-xl text-xs transition-colors shrink-0"
-                >
-                  {t('volunteerNow')}
-                </Link>
-              </div>
-            )}
-
-            <ArticleActions title={post.title} />
-            <CommentSection postId={post.id} />
           </div>
         </article>
 
