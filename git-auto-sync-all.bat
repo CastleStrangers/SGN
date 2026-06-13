@@ -35,7 +35,12 @@ if %errorlevel% neq 0 (
 )
 cd SGN
 
-:: 3. Verification & Auto Exit
+:: 3. Open Staging Site Preview
+echo.
+echo - Opening Staging/Preview website in your browser...
+start https://sgn-indol.vercel.app
+
+:: 4. Verification & Auto Exit
 echo.
 echo =======================================================
 echo   SUCCESS: All repositories synced and clean!
