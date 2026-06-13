@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getSessionUser } from "@/lib/mobile-auth";
 import { prisma } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const user = await getSessionUser(req);
+  if (!user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const { token } = await req.json();
@@ -13,8 +12,8 @@ export async function POST(req: NextRequest) {
 
     await prisma.pushToken.upsert({
       where: { token },
-      update: { userId: session.user.id },
-      create: { token, userId: session.user.id },
+      update: { userId: user.id },
+      create: { token, userId: user.id },
     });
 
     return NextResponse.json({ message: "Token registered" });
@@ -24,8 +23,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const user = await getSessionUser(req);
+  if (!user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const { token } = await req.json();
@@ -37,3 +36,4 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
