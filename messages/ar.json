@@ -949,25 +949,7 @@
     "title": "فيديوهات الجالية",
     "viewAll": "عرض الكل"
   },
-    "categories": "التصنيفات",
-    "statsTitle": "إحصائيات",
-    "statMembers": "الأعضاء",
-    "statEvents": "الفعاليات",
-    "statVolunteers": "المتطوعون",
-    "statYears": "سنوات",
-    "followTitle": "تابعنا",
-    "facebook": "فيسبوك",
-    "instagram": "إنستغرام",
-    "youtube": "يوتيوب",
-    "twitter": "تويتر",
-    "tiktok": "تيك توك",
-    "joinTitle": "انضم إلينا",
-    "joinDesc": "كن جزءاً من مجتمعنا وساعد في بناء مستقبل أفضل",
-    "joinButton": "انضم الآن",
-    "searchPlaceholder": "بحث في الأخبار...",
-    "emptyCategory": "لا توجد أخبار في هذا التصنيف",
-    "countIn": "{total} خبر في {category}",
-    "loading": "جاري التحميل..."
+
   },
   "languageSwitcher": {
     "arabic": "العربية",
