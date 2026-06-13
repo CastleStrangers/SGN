@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -39,7 +38,7 @@ export default function LoginPage() {
 
   const handleSocialLogin = async (provider: "google" | "facebook") => {
     setSocialLoading(provider);
-    await signIn(provider, { callbackUrl: "/dashboard" });
+    await signIn(provider, { callbackUrl: `/${locale}/dashboard` });
   };
 
   return (
