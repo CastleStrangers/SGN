@@ -15,7 +15,7 @@ interface Props { params: Promise<{ locale: string; slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
-  const post = await prisma.post.findUnique({ where: { slug: decodedSlug, published: true } });
+  const post = await prisma.post.findFirst({ where: { slug: decodedSlug, published: true } });
   if (!post) return { title: "المقال غير موجود" };
   return {
     title: post.title,
@@ -37,10 +37,11 @@ export default async function ArticlePage({ params }: Props) {
   const decodedSlug = decodeURIComponent(slug);
   const session = await getServerSession(authOptions);
   const isLoggedIn = !!session?.user;
-  const post = await prisma.post.findUnique({
+  const post = await prisma.post.findFirst({
     where: { slug: decodedSlug, published: true },
     include: { author: { select: { name: true } } },
   });
+
 
   const dir = locale === "ar" ? "rtl" : "ltr";
 
