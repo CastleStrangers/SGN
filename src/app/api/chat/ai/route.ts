@@ -53,16 +53,16 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { message, sessionId, locale } = await req.json();
+    const { message, sessionId, locale, persona } = await req.json();
     if (!message?.trim()) {
       return NextResponse.json({ error: "message is required" }, { status: 400 });
     }
 
     const userLocale = locale || "ar";
-    const sid = sessionId || await getOrCreateSession(session.user.id);
+    const sid = sessionId || await getOrCreateSession(session.user.id, persona);
     const userName = session.user.name || session.user.email || "User";
 
-    const reply = await sendAIMessage(sid, session.user.id, message.trim(), userLocale, userName);
+    const reply = await sendAIMessage(sid, session.user.id, message.trim(), userLocale, userName, persona);
 
     return NextResponse.json({ reply, sessionId: sid });
   } catch (e: any) {
