@@ -86,7 +86,17 @@
     "send": "إرسال",
     "title": "الرسائل",
     "noMessages": "لا توجد رسائل بعد",
-    "loading": "جاري التحميل..."
+    "loading": "جاري التحميل...",
+    "personaGeneral": "المساعد العام",
+    "personaLegal": "المستشار القانوني واللجوء",
+    "personaIntegration": "مرشد الاندماج واللغة",
+    "personaSpokesperson": "الناطق الإعلامي للجالية",
+    "choosePersona": "اختر تخصص المساعد الذكي:",
+    "analyzeDocument": "تحليل خطاب رسمي",
+    "uploadDocument": "ارفع صورة الخطاب لتفسيرها",
+    "analyzing": "جاري تحليل وقراءة الخطاب...",
+    "analysisResult": "نتيجة تحليل الخطاب",
+    "close": "إغلاق"
   },
   "common": {
     "ok": "موافق",

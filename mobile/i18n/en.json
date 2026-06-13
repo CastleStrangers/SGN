@@ -86,7 +86,17 @@
     "send": "Send",
     "title": "Messages",
     "noMessages": "No messages yet",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "personaGeneral": "General Assistant",
+    "personaLegal": "Legal & Asylum Advisor",
+    "personaIntegration": "Integration & Language Guide",
+    "personaSpokesperson": "Community Spokesperson",
+    "choosePersona": "Choose AI Assistant specialty:",
+    "analyzeDocument": "Analyze Official Letter",
+    "uploadDocument": "Upload letter photo to explain",
+    "analyzing": "Analyzing and reading letter...",
+    "analysisResult": "Letter Analysis Result",
+    "close": "Close"
   },
   "common": {
     "ok": "OK",
