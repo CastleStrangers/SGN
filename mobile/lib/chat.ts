@@ -40,10 +40,11 @@ export async function summarizeConversation(sessionId: string, locale: string = 
 export async function sendAIMessage(
   message: string,
   sessionId?: string,
-  locale: string = "ar"
+  locale: string = "ar",
+  persona?: string
 ): Promise<{ reply: string; sessionId: string }> {
   return apiFetch("/chat/ai", {
     method: "POST",
-    body: JSON.stringify({ message, sessionId, locale }),
+    body: JSON.stringify({ message, sessionId, locale, persona }),
   });
 }
