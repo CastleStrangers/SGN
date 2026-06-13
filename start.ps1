@@ -1,4 +1,4 @@
-Set-Location -LiteralPath "D:\I-Ai\App\Syrian community in the Netherlands\SGN"
+Set-Location -LiteralPath $PSScriptRoot
 Write-Host "Starting server on http://localhost:3000 ..." -ForegroundColor Green
 Start-Process "http://localhost:3000"
 npm run dev
