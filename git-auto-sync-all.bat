@@ -14,6 +14,7 @@ echo جاري إنشاء وتحديث اختصارات سطح المكتب...
 powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Git Auto Sync.lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~f0'; $s.WorkingDirectory = '%~dp0'; $s.Save()"
 powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Start SGN Server.lnk'); $vbs = [System.IO.Path]::Combine('%~dp0', 'start-server.vbs'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = 'wscript.exe'; $s.Arguments = '\"' + $vbs + '\"'; $s.WorkingDirectory = '%~dp0'; $s.Save()"
 powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'AI Reclassify News.lnk'); $bat = [System.IO.Path]::Combine('%~dp0', 'run-reclassify.bat'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = $bat; $s.WorkingDirectory = '%~dp0'; $s.Save()"
+powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Start Background Sync.lnk'); $vbs = [System.IO.Path]::Combine('%~dp0', 'start-autosync-hidden.vbs'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = 'wscript.exe'; $s.Arguments = '\"' + $vbs + '\"'; $s.WorkingDirectory = '%~dp0'; $s.Save()"
 
 :: 1. Sync SGN (Child)
 echo.
