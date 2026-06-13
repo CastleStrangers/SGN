@@ -59,7 +59,7 @@ export default function VolunteerScreen() {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: COLORS.background }} contentContainerStyle={{ padding: 16, gap: 12 }}>
-      <View style={{ backgroundColor: "#fff", borderRadius: 16, padding: 16, gap: 12 }}>
+      <View style={{ backgroundColor: COLORS.card, borderRadius: 16, padding: 16, gap: 12 }}>
         <Text style={{ fontSize: 13, color: COLORS.textSecondary }}>{t("volunteer.nameLabel")}</Text>
         <TextInput value={name} onChangeText={setName} style={{ borderWidth: 1, borderColor: COLORS.border, borderRadius: 12, padding: 12, fontSize: 14, textAlign: isRTL ? "right" : "left" }} />
         <Text style={{ fontSize: 13, color: COLORS.textSecondary }}>{t("volunteer.emailLabel")}</Text>

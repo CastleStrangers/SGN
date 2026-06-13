@@ -50,7 +50,7 @@ export default function SettingsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.background, padding: 16 }}>
-      <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 20 }}>
+      <View style={{ backgroundColor: COLORS.card, borderRadius: 24, padding: 20 }}>
         <Text style={{ fontSize: 16, fontWeight: "bold", color: COLORS.text, marginBottom: 16 }}>
           {t("settings.title")}
         </Text>

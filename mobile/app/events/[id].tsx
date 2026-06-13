@@ -78,7 +78,7 @@ export default function EventDetailScreen() {
         </View>
 
         {event.description ? (
-          <View style={{ backgroundColor: "#fff", borderRadius: 16, padding: 16 }}>
+          <View style={{ backgroundColor: COLORS.card, borderRadius: 16, padding: 16 }}>
             <Text style={{ fontSize: 14, color: COLORS.text, lineHeight: 22 }}>{event.description}</Text>
           </View>
         ) : null}

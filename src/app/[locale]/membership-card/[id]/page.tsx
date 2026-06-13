@@ -40,7 +40,7 @@ export default function MembershipCardPage() {
 
   if (loading) {
     return (
-      <div dir="auto" className="min-h-screen bg-gray-50">
+      <div dir="auto" className="min-h-screen bg-background text-foreground">
         <TopBar /><SiteHeader />
         <main className="max-w-2xl mx-auto px-4 py-20 flex justify-center">
           <Loader2 className="w-8 h-8 animate-spin text-emerald-800" />
@@ -52,7 +52,7 @@ export default function MembershipCardPage() {
 
   if (error || !data) {
     return (
-      <div dir="auto" className="min-h-screen bg-gray-50">
+      <div dir="auto" className="min-h-screen bg-background text-foreground">
         <TopBar /><SiteHeader />
         <main className="max-w-2xl mx-auto px-4 py-20 text-center">
           <p className="text-lg font-medium text-gray-500">{t('notFound')}</p>
@@ -63,7 +63,7 @@ export default function MembershipCardPage() {
   }
 
   return (
-    <div dir="auto" className="min-h-screen bg-gray-50">
+    <div dir="auto" className="min-h-screen bg-background text-foreground">
       <TopBar />
       <SiteHeader />
       <main className="max-w-sm mx-auto px-4 py-8">
@@ -115,7 +115,7 @@ export default function MembershipCardPage() {
 
           <div className="flex items-center justify-between px-6 py-3 bg-emerald-800">
             <p className="text-emerald-200 text-[10px]">{t('footer')}</p>
-            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=50x50&data=${encodeURIComponent(`${window.location.origin}/member/${data.id}`)}`} alt="QR" className="w-10 h-10 bg-white rounded" />
+            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=50x50&data=${encodeURIComponent(`${window.location.origin}/member/${data.id}`)}`} alt="QR" className="w-10 h-10 rounded" style={{ backgroundColor: '#ffffff' }} />
           </div>
         </div>
 

@@ -88,7 +88,7 @@ export default function SurveysScreen() {
   if (showResults && results) {
     return (
       <ScrollView style={{ flex: 1, backgroundColor: COLORS.background }} contentContainerStyle={{ padding: 16, gap: 12 }}>
-        <View style={{ backgroundColor: "#fff", borderRadius: 16, padding: 20 }}>
+        <View style={{ backgroundColor: COLORS.card, borderRadius: 16, padding: 20 }}>
           <Text style={{ fontSize: 18, fontWeight: "bold", color: COLORS.text, marginBottom: 4 }}>{survey.title}</Text>
           {survey.description && <Text style={{ fontSize: 13, color: COLORS.textSecondary, marginBottom: 12 }}>{survey.description}</Text>}
           <Text style={{ fontSize: 12, color: COLORS.textSecondary, marginBottom: 16 }}>{t("surveys.totalVotes")}: {results._count?.votes || totalVotes}</Text>
@@ -117,7 +117,7 @@ export default function SurveysScreen() {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: COLORS.background }} contentContainerStyle={{ padding: 16, gap: 12 }}>
-      <View style={{ backgroundColor: "#fff", borderRadius: 16, padding: 20 }}>
+      <View style={{ backgroundColor: COLORS.card, borderRadius: 16, padding: 20 }}>
         <Text style={{ fontSize: 18, fontWeight: "bold", color: COLORS.text, marginBottom: 4 }}>{survey.title}</Text>
         {survey.description && <Text style={{ fontSize: 13, color: COLORS.textSecondary, marginBottom: 16 }}>{survey.description}</Text>}
 

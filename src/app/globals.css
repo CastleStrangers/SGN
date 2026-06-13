@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
-@custom-variant dark (&:is(.dark *));
+@variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -70,6 +70,36 @@
   --border: #334155;
   --input: #334155;
   --ring: #22c55e;
+
+  /* Overrides for hardcoded colors in dark mode */
+  &.bg-white, .bg-white {
+    background-color: var(--card) !important;
+  }
+  &.bg-gray-50, .bg-gray-50 {
+    background-color: var(--background) !important;
+  }
+  &.bg-gray-100, .bg-gray-100 {
+    background-color: var(--muted) !important;
+  }
+  &.text-gray-900, .text-gray-900 {
+    color: var(--foreground) !important;
+  }
+  &.text-gray-800, .text-gray-800 {
+    color: var(--foreground) !important;
+  }
+  &.text-gray-700, .text-gray-700 {
+    color: var(--foreground) !important;
+  }
+  &.text-gray-600, .text-gray-600 {
+    color: var(--muted-foreground) !important;
+  }
+  &.text-gray-500, .text-gray-500 {
+    color: var(--muted-foreground) !important;
+  }
+  &.border-gray-100, .border-gray-100,
+  &.border-gray-200, .border-gray-200 {
+    border-color: var(--border) !important;
+  }
 }
 
 @layer base {

@@ -1,7 +1,8 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { COLORS } from "../constants/colors";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Appearance } from "react-native";
 import * as Notifications from "expo-notifications";
 import { I18nProvider, useI18n } from "../lib/i18n-context";
 
@@ -128,13 +129,20 @@ function StackScreens() {
 }
 
 export default function RootLayout() {
+  const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
+
   useEffect(() => {
     Notifications.requestPermissionsAsync();
+
+    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
+      setColorScheme(colorScheme);
+    });
+    return () => subscription.remove();
   }, []);
 
   return (
     <I18nProvider>
-      <StatusBar style="light" />
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       <StackScreens />
     </I18nProvider>
   );

@@ -30,7 +30,7 @@ export default function LoginScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.background, justifyContent: "center", padding: 24 }}>
-      <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 24, shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 5 }}>
+      <View style={{ backgroundColor: COLORS.card, borderRadius: 24, padding: 24, shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 5 }}>
         <Text style={{ fontSize: 24, fontWeight: "bold", color: COLORS.primary, textAlign: "center", marginBottom: 8 }}>
           {t("login.title")}
         </Text>

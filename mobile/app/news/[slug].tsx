@@ -71,7 +71,7 @@ export default function NewsDetailScreen() {
       <View style={{ padding: 16 }}>
         <View style={{ flexDirection: isRTL ? "row-reverse" : "row", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
           <View style={{ flexDirection: isRTL ? "row-reverse" : "row", gap: 8, alignItems: "center" }}>
-            <Text style={{ fontSize: 12, color: COLORS.accent, fontWeight: "600", backgroundColor: "#fff", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8, borderWidth: 1, borderColor: COLORS.border }}>
+            <Text style={{ fontSize: 12, color: COLORS.accent, fontWeight: "600", backgroundColor: COLORS.card, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8, borderWidth: 1, borderColor: COLORS.border }}>
               {post.category}
             </Text>
             <Text style={{ fontSize: 12, color: COLORS.textSecondary }}>{post.author?.name}</Text>
