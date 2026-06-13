@@ -24,7 +24,8 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
+  // Ignore non-GET requests and non-HTTP/HTTPS protocols (like chrome-extension://)
+  if (event.request.method !== "GET" || !event.request.url.startsWith("http")) return;
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
