@@ -1208,5 +1208,14 @@
     "relatedTask": "Related Volunteer Opportunity",
     "relatedTaskDesc": "This volunteer task is currently active and needs your support.",
     "volunteerNow": "Volunteer Now"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "empty": "No notifications yet",
+    "aiSummary": "AI Summary ✨",
+    "aiSummaryLoading": "Generating AI summary...",
+    "aiSummaryTitle": "Your AI Summary",
+    "close": "Close"
   }
 }

@@ -1208,5 +1208,14 @@
     "relatedTask": "Gerelateerde Vrijwilligerskans",
     "relatedTaskDesc": "Deze vrijwilligerstaak is momenteel actief en heeft uw steun nodig.",
     "volunteerNow": "Nu vrijwilliger worden"
+  },
+  "notifications": {
+    "title": "Meldingen",
+    "markAllRead": "Alles als gelezen markeren",
+    "empty": "Nog geen meldingen",
+    "aiSummary": "AI-samenvatting ✨",
+    "aiSummaryLoading": "AI-samenvatting genereren...",
+    "aiSummaryTitle": "Uw AI-samenvatting",
+    "close": "Sluiten"
   }
 }
