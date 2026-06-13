@@ -8,12 +8,12 @@ const cats = [
 ];
 
 const colors: Record<string, { c: string; b: string }> = {
-  netherlandsNews: { c: "text-blue-600", b: "bg-blue-50" },
-  europeNews: { c: "text-purple-600", b: "bg-purple-50" },
-  economy: { c: "text-green-600", b: "bg-green-50" },
-  culture: { c: "text-amber-600", b: "bg-amber-50" },
-  sports: { c: "text-red-600", b: "bg-red-50" },
-  tech: { c: "text-indigo-600", b: "bg-indigo-50" },
+  netherlandsNews: { c: "text-blue-600 dark:text-blue-400", b: "bg-blue-50 dark:bg-blue-950/40" },
+  europeNews: { c: "text-purple-600 dark:text-purple-400", b: "bg-purple-50 dark:bg-purple-950/40" },
+  economy: { c: "text-green-600 dark:text-green-400", b: "bg-green-50 dark:bg-green-950/40" },
+  culture: { c: "text-amber-600 dark:text-amber-400", b: "bg-amber-50 dark:bg-amber-950/40" },
+  sports: { c: "text-red-600 dark:text-red-400", b: "bg-red-50 dark:bg-red-950/40" },
+  tech: { c: "text-indigo-600 dark:text-indigo-400", b: "bg-indigo-50 dark:bg-indigo-950/40" },
 };
 
 export function CategoryGrid() {
