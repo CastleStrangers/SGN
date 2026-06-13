@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/routing";
+import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
 export function SiteFooter() {
   return (
@@ -12,7 +13,11 @@ export function SiteFooter() {
               <div className="flex items-center gap-3 mb-4">
                 <img src="/logo.png" alt="SGN Logo" className="w-12 h-12 object-contain" />
                 <div>
-                  <h3 className="font-bold text-md text-white tracking-wide">الجالية السورية في هولندا</h3>
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <FreeSyrianFlag className="w-5 h-3 rounded shadow-sm border border-white/10 flex-shrink-0 object-cover" />
+                    <h3 className="font-bold text-sm text-white tracking-wide">الجالية السورية في هولندا</h3>
+                    <DutchFlag className="w-5 h-3 rounded shadow-sm border border-white/10 flex-shrink-0 object-cover" />
+                  </div>
                   <p className="text-[10px] text-gray-400 font-mono">Syrische Gemeenschap in Nederland</p>
                 </div>
               </div>
