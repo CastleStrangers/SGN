@@ -188,7 +188,7 @@ export default async function ArticlePage({ params }: Props) {
 
             <ArticleActions title={post.title} />
             {(!post.membersOnly || isLoggedIn) && <CommentSection postId={post.id} />}
-
+          </div>
         </article>
 
         <div className="mt-8 text-center">
