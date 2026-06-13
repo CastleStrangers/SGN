@@ -11,8 +11,8 @@ def main():
         
     try:
         # Import the library to verify it's installed correctly
-        import google_antigravity
-        print("✅ Successfully imported google-antigravity!")
+        import google.antigravity
+        print("✅ Successfully imported google.antigravity!")
         
         # We can use the GenAI client to make a quick test call
         from google import genai
