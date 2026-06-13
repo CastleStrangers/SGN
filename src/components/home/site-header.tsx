@@ -44,7 +44,7 @@ export function SiteHeader() {
   const allItems = [...mainItems, ...secondaryItems];
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-card text-card-foreground border-b border-border shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
@@ -120,12 +120,12 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div className="hidden lg:block border-t bg-gray-50">
+      <div className="hidden lg:block border-t border-border bg-muted/50">
         <div className="max-w-7xl mx-auto px-4">
           <nav className="flex items-center gap-0.5 overflow-x-auto py-1.5" dir="auto">
             {mainItems.map(c => (
               <Link key={c.label} href={c.href}
-                className="px-2.5 py-1.5 text-sm text-gray-700 hover:text-[#1a5632] hover:bg-white rounded-lg transition-colors font-medium whitespace-nowrap flex-shrink-0">
+                className="px-2.5 py-1.5 text-sm text-muted-foreground hover:text-primary hover:bg-card rounded-lg transition-colors font-medium whitespace-nowrap flex-shrink-0">
                 {c.label}
               </Link>
             ))}
@@ -134,7 +134,7 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <div className="lg:hidden border-t bg-white">
+        <div className="lg:hidden border-t border-border bg-card text-card-foreground">
           <div className="px-4 py-3 space-y-1 max-h-80 overflow-y-auto">
             {allItems.map(c => (
               <Link key={c.label} href={c.href}

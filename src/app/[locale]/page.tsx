@@ -61,7 +61,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div dir="auto" className="min-h-screen bg-gray-50">
+    <div dir="auto" className="min-h-screen bg-background text-foreground">
       <TopBar />
       <SiteHeader />
       <BreakingNews />
