@@ -76,7 +76,7 @@ export function SiteFooter() {
               <ul className="space-y-3 text-xs text-gray-300">
                 <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
                   <span>📍</span>
-                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noreferrer" className="underline decoration-dotted">
+                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted">
                     Laan van Meerdervoort 53-D, 2517 AE Den Haag
                   </a>
                 </li>
@@ -86,11 +86,11 @@ export function SiteFooter() {
                 </li>
                 <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
                   <span>💬</span>
-                  <a href="https://wa.me/31684603406" target="_blank" rel="noreferrer" dir="ltr" className="font-mono">+31 6 84 60 34 06</a>
+                  <a href="https://wa.me/31684603406" target="_blank" rel="noopener noreferrer" dir="ltr" className="font-mono">+31 6 84 60 34 06</a>
                 </li>
                 <li className="flex items-center gap-2 hover:text-[#CCAA00] transition-colors">
                   <span>👥</span>
-                  <a href="https://facebook.com" target="_blank" rel="noreferrer" className="underline decoration-dotted">
+                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted">
                     الصفحة الرسمية على فيسبوك
                   </a>
                 </li>
