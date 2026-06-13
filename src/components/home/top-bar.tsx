@@ -7,11 +7,11 @@ import { TikTok } from "@/components/tiktok-icon";
 import { useSession, signOut } from "next-auth/react";
 
 const socials = [
-  { icon: Facebook, href: "https://www.facebook.com/DeSyrischeGemeenschapInNederland" },
-  { icon: Instagram, href: "https://www.instagram.com/sgn_syria/" },
-  { icon: Youtube, href: "https://www.youtube.com/@SY-NL" },
-  { icon: Twitter, href: "https://x.com/SGN2098551" },
-  { icon: TikTok, href: "https://www.tiktok.com/@sgn_syria" },
+  { icon: Facebook, href: "https://www.facebook.com/DeSyrischeGemeenschapInNederland", name: "Facebook" },
+  { icon: Instagram, href: "https://www.instagram.com/sgn_syria/", name: "Instagram" },
+  { icon: Youtube, href: "https://www.youtube.com/@SY-NL", name: "YouTube" },
+  { icon: Twitter, href: "https://x.com/SGN2098551", name: "Twitter" },
+  { icon: TikTok, href: "https://www.tiktok.com/@sgn_syria", name: "TikTok" },
 ];
 
 export function TopBar() {
@@ -25,7 +25,17 @@ export function TopBar() {
           <span className="text-white/20">|</span>
           <div className="flex items-center gap-2">
             {socials.map(s => (
-              <a key={s.href} href={s.href} target="_blank" className="hover:text-[#c8a84e] transition-colors"><s.icon className="w-3.5 h-3.5" /></a>
+              <a 
+                key={s.href} 
+                href={s.href} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                title={s.name} 
+                aria-label={s.name} 
+                className="hover:text-[#c8a84e] transition-colors"
+              >
+                <s.icon className="w-3.5 h-3.5" />
+              </a>
             ))}
           </div>
         </div>
