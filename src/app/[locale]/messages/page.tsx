@@ -240,7 +240,7 @@ export default function MessagesPage() {
             <>
               {/* Chat Header */}
               <div className="flex items-center gap-3 p-4 border-b">
-                <button className="sm:hidden p-1" onClick={() => setSelectedId(null)}>
+                <button className="sm:hidden p-1" onClick={() => setSelectedId(null)} title={t("back") || "Back"}>
                   <ArrowLeft className="w-5 h-5" />
                 </button>
                 <div className="w-9 h-9 rounded-full bg-[#c8a84e] flex items-center justify-center text-white font-bold text-sm flex-shrink-0 overflow-hidden">
@@ -306,6 +306,7 @@ export default function MessagesPage() {
                     onClick={handleSend}
                     disabled={!input.trim()}
                     className="bg-[#1a5632] text-white p-2.5 rounded-xl hover:bg-[#0f3d23] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    title={t("send") || "Send"}
                   >
                     <Send className="w-5 h-5" />
                   </button>
@@ -461,7 +462,7 @@ function AIChatPanel({
     <>
       <div className="flex flex-col border-b">
         <div className="flex items-center gap-3 p-4">
-          <button className="sm:hidden p-1" onClick={onBack}>
+          <button className="sm:hidden p-1" onClick={onBack} title="Back">
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="w-9 h-9 rounded-full bg-[#1a5632] flex items-center justify-center text-white flex-shrink-0">
@@ -655,7 +656,7 @@ function AIChatPanel({
           {/* Document Analyzer Icon Button */}
           <label className="shrink-0 bg-gray-100 hover:bg-gray-200 text-gray-600 p-2.5 rounded-xl cursor-pointer transition-colors border flex items-center justify-center" title={t("analyzeDocument")}>
             <Plus className="w-5 h-5" />
-            <input type="file" accept="image/*" className="hidden" onChange={handleUploadLetter} disabled={aiLoading} />
+            <input type="file" accept="image/*" className="hidden" onChange={handleUploadLetter} disabled={aiLoading} title={t("analyzeDocument") || "Upload letter"} />
           </label>
 
           <input
