@@ -116,8 +116,10 @@ function NewsPageInner() {
 
   const totalPages = Math.ceil(total / limit);
 
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
   return (
-    <div dir="rtl" className="min-h-screen bg-[#fafdfb] text-gray-800">
+    <div dir={dir} className="min-h-screen bg-[#fafdfb] text-gray-800">
       {/* CSS Keyframes & Animations inside style tag for portability */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeIn {
@@ -505,8 +507,10 @@ function NewsPageInner() {
 
 export default function NewsPage() {
   const t = useTranslations('newsPage');
+  const locale = useLocale();
+  const dir = locale === "ar" ? "rtl" : "ltr";
   return (
-    <Suspense fallback={<div dir="rtl" className="min-h-screen bg-[#fafdfb] flex items-center justify-center"><p className="text-gray-500">{t('loading')}</p></div>}>
+    <Suspense fallback={<div dir={dir} className="min-h-screen bg-[#fafdfb] flex items-center justify-center"><p className="text-gray-500">{t('loading')}</p></div>}>
       <NewsPageInner />
     </Suspense>
   );
