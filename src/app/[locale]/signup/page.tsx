@@ -7,7 +7,7 @@ import { Link } from "@/i18n/routing";
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
-import Image from "next/image";
+import { SgnLogo } from "@/components/sgn-logo";
 import { createFieldRules } from "@/lib/validations";
 import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
@@ -73,9 +73,7 @@ export default function SignupPage() {
         <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-[#c8a84e]/20 rounded-full" />
 
         <div className="relative z-10 text-center text-white">
-          <div className="w-24 h-24 bg-white/10 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-8 border border-white/20">
-            <Image src="/logo.png" alt="Logo" width={60} height={60} />
-          </div>
+            <SgnLogo size={60} className="mx-auto mb-8" />
           <div className="flex items-center gap-2 justify-center mb-4" dir="rtl">
             <FreeSyrianFlag className="w-7 h-5 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
             <h2 className="text-2xl sm:text-3xl font-bold text-white leading-none">انضم إلى جالية السوريين</h2>
@@ -105,7 +103,7 @@ export default function SignupPage() {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-gray-50 overflow-y-auto">
         <div className="w-full max-w-md py-8">
           <div className="lg:hidden text-center mb-8">
-            <Image src="/logo.png" alt="Logo" width={56} height={56} className="w-14 h-14 mx-auto mb-3" />
+            <SgnLogo size={56} className="mx-auto mb-3" />
             <div className="flex items-center gap-1.5 justify-center" dir="rtl">
               <FreeSyrianFlag className="w-6 h-4 rounded shadow-sm border border-gray-200 flex-shrink-0 object-cover" />
               <h1 className="text-lg sm:text-xl font-bold text-[#1a5632] leading-none">{tSite("shortTitle")}</h1>
