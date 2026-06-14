@@ -6,24 +6,13 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "env": {
-        "npm_config_legacy_peer_deps": "true"
-      }
+      "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "env": {
-        "npm_config_legacy_peer_deps": "true",
-        "EXPO_PUBLIC_API_URL": "https://sgn-indol.vercel.app"
-      }
+      "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true,
-      "env": {
-        "npm_config_legacy_peer_deps": "true",
-        "EXPO_PUBLIC_API_URL": "https://sy-nl.org"
-      }
+      "autoIncrement": true
     }
   },
   "submit": {

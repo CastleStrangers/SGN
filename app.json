@@ -4,6 +4,9 @@
       "eas": {
         "projectId": "9de5048b-c30e-47cf-9645-663a11c9810e"
       }
+    },
+    "android": {
+      "package": "com.m.salim.aziza.synlplatform"
     }
   }
 }
