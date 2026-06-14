@@ -73,7 +73,7 @@ export default function SignupPage() {
         <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-[#c8a84e]/20 rounded-full" />
 
         <div className="relative z-10 text-center text-white">
-            <SgnLogo size={60} className="mx-auto mb-8" />
+            <SgnLogo size={128} className="mx-auto mb-8" />
           <div className="flex items-center gap-2 justify-center mb-4" dir="rtl">
             <FreeSyrianFlag className="w-7 h-5 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
             <h2 className="text-2xl sm:text-3xl font-bold text-white leading-none">انضم إلى جالية السوريين</h2>

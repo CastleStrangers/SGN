@@ -21,6 +21,7 @@ export function SgnLogo({
     60: "w-[60px] h-[60px]",
     64: "w-16 h-16",
     120: "w-[120px] h-[120px]",
+    128: "w-32 h-32",
   };
   const sizeClass = sizeMap[size] || "w-16 h-16";
 

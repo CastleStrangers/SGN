@@ -51,7 +51,7 @@ export default function LoginPage() {
         <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-[#c8a84e]/20 rounded-full -translate-x-1/2 -translate-y-1/2" />
 
         <div className="relative z-10 text-center text-white">
-            <SgnLogo size={60} className="mx-auto mb-8" />
+            <SgnLogo size={128} className="mx-auto mb-8" />
           <div className="flex items-center gap-2 justify-center mb-4" dir="rtl">
             <FreeSyrianFlag className="w-7 h-5 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
             <h2 className="text-2xl sm:text-3xl font-bold text-white leading-none">{tSite("shortTitle")}</h2>
