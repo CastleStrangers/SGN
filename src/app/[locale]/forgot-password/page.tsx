@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Link } from "@/i18n/routing";
-import Image from "next/image";
+import { SgnLogo } from "@/components/sgn-logo";
 import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -34,7 +34,7 @@ export default function ForgotPasswordPage() {
         </Link>
         <div className="bg-white rounded-2xl shadow-sm border p-8">
           <div className="text-center mb-8">
-            <Image src="/logo.png" alt={t('title')} width={56} height={56} className="w-14 h-14 mx-auto mb-4" priority />
+            <SgnLogo size={56} className="mx-auto mb-4" priority />
             <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
             <p className="text-gray-500 text-sm mt-1">{t('subtitle')}</p>
           </div>

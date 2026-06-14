@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { CheckCircle, Camera, WandSparkles, Sparkles, Badge, Loader2, Check } from "lucide-react";
 import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
+import { SgnLogo } from "@/components/sgn-logo";
 
 interface FormData {
   nameAr: string;
@@ -45,9 +46,7 @@ const NL_PROVINCES = [
 function Logo() {
   return (
     <div className="flex justify-center mb-4">
-      <div className="w-32 h-32 rounded-full shadow-md overflow-hidden border-[3px] border-yellow-600 flex items-center justify-center bg-white">
-        <img src="/logo.png" alt="Logo" className="w-full h-full object-cover" />
-      </div>
+      <SgnLogo size={120} />
     </div>
   );
 }
