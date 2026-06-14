@@ -28,7 +28,7 @@ export function SgnLogo({
     <div
       className={`relative p-[3px] rounded-full bg-gradient-to-tr from-[#b8973f] via-[#f3e0aa] to-[#c8a84e] shadow-md hover:shadow-[0_0_15px_rgba(200,168,78,0.7)] hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer flex-shrink-0 ${sizeClass} ${className}`}
     >
-      <div className="bg-card rounded-full p-0.5 w-full h-full flex items-center justify-center overflow-hidden">
+      <div className="rounded-full w-full h-full flex items-center justify-center overflow-hidden">
         <Image
           src="/logo.png"
           alt="SGN Logo"
