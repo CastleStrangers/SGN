@@ -133,6 +133,25 @@ export default function HomeScreen() {
             </TouchableOpacity>
           )}
           keyExtractor={(item: any) => item.id}
+          ListEmptyComponent={
+            <View style={{ alignItems: "center", marginTop: 40, paddingHorizontal: 20 }}>
+              <Ionicons name="cloud-offline-outline" size={48} color={COLORS.textSecondary} style={{ marginBottom: 12 }} />
+              <Text style={{ color: COLORS.text, fontSize: 16, fontWeight: "bold", textAlign: "center", marginBottom: 6 }}>
+                {t("home.noNews") || "لا توجد أخبار"}
+              </Text>
+              <Text style={{ color: COLORS.textSecondary, fontSize: 13, textAlign: "center", marginBottom: 16 }}>
+                {t("home.checkConnection") || "تأكد من اتصالك بالإنترنت وحاول مرة أخرى"}
+              </Text>
+              <TouchableOpacity
+                onPress={loadNews}
+                style={{ backgroundColor: COLORS.primary, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 12 }}
+              >
+                <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 14 }}>
+                  {t("home.retry") || "إعادة المحاولة"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          }
         />
       )}
     </View>

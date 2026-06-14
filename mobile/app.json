@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "الجالية السورية في هولندا",
+    "name": "الجالية السورية",
     "slug": "sy-nl",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,6 +16,7 @@
     },
     "android": {
       "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#1a5632"
       },
       "package": "org.synl.mobile"
