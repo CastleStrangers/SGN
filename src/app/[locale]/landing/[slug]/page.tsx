@@ -34,14 +34,20 @@ export default async function LandingPageView({ params }: Props) {
   const features = page.features ? JSON.parse(page.features) : [];
 
   return (
-    <div className="min-h-screen bg-white" style={{ "--theme": page.themeColor } as React.CSSProperties}>
+    <div className="min-h-screen bg-white landing-page-container">
+      <style dangerouslySetInnerHTML={{ __html: `
+        .landing-page-container {
+          --theme: ${page.themeColor};
+          --theme-bg-light: ${page.themeColor}0a;
+        }
+      `}} />
       <nav className="absolute top-0 left-0 right-0 z-10 p-4">
         <Link href="/" className="inline-flex items-center gap-1 text-white/80 hover:text-white text-sm transition-colors">
           <ArrowLeft className="w-4 h-4" /> {t('backToHome')}
         </Link>
       </nav>
 
-      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden" style={{ backgroundColor: page.themeColor }}>
+      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-[var(--theme)]">
         {page.heroImage && (
           <img src={page.heroImage} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" loading="lazy" />
         )}
@@ -51,7 +57,7 @@ export default async function LandingPageView({ params }: Props) {
             <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8">{page.heroSubheadline}</p>
           )}
           {page.ctaText && page.ctaLink && (
-            <a href={page.ctaLink} className="inline-flex items-center gap-2 px-8 py-3.5 bg-white font-bold rounded-xl text-sm hover:bg-white/90 transition-all hover:shadow-lg" style={{ color: page.themeColor }}>
+            <a href={page.ctaLink} className="inline-flex items-center gap-2 px-8 py-3.5 bg-white font-bold rounded-xl text-sm hover:bg-white/90 transition-all hover:shadow-lg text-[var(--theme)]">
               {page.ctaText} <ChevronRight className="w-4 h-4" />
             </a>
           )}
@@ -79,9 +85,9 @@ export default async function LandingPageView({ params }: Props) {
       )}
 
       {page.ctaText && page.ctaLink && (
-        <section className="py-20 px-4 text-center" style={{ backgroundColor: page.themeColor + "0a" }}>
+        <section className="py-20 px-4 text-center bg-[var(--theme-bg-light)]">
           <div className="max-w-xl mx-auto">
-            <a href={page.ctaLink} className="inline-flex items-center gap-2 px-10 py-4 font-bold rounded-xl text-white text-lg hover:shadow-lg transition-all" style={{ backgroundColor: page.themeColor }}>
+            <a href={page.ctaLink} className="inline-flex items-center gap-2 px-10 py-4 font-bold rounded-xl text-white text-lg hover:shadow-lg transition-all bg-[var(--theme)]">
               {page.ctaText} <ChevronRight className="w-5 h-5" />
             </a>
           </div>
