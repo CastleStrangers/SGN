@@ -15,7 +15,10 @@
     "all": "All",
     "noResults": "No results found",
     "loading": "Loading...",
-    "source": "Source"
+    "source": "Source",
+    "noNews": "No news at the moment",
+    "checkConnection": "Please check your internet connection and try again",
+    "retry": "Retry"
   },
   "favorites": {
     "empty": "No favorite articles",

@@ -15,7 +15,10 @@
     "all": "Alles",
     "noResults": "Geen resultaten gevonden",
     "loading": "Laden...",
-    "source": "Bron"
+    "source": "Bron",
+    "noNews": "Geen nieuws op dit moment",
+    "checkConnection": "Controleer uw internetverbinding en probeer het opnieuw",
+    "retry": "Opnieuw proberen"
   },
   "favorites": {
     "empty": "Geen favoriete artikelen",
