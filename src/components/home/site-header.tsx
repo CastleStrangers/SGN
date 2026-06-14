@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { SgnLogo } from "@/components/logo" // wait, the file is sgn-logo.tsx, so the import path is "@/components/sgn-logo"
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
