@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { COLORS } from "../../constants/colors";
 import { getEvents } from "../../lib/events";
+import { getImageUrl } from "../../lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
 import { formatDate } from "../../lib/date";
@@ -71,14 +72,14 @@ export default function EventsScreen() {
           contentContainerStyle={{ padding: 16, gap: 12 }}
           renderItem={({ item }: { item: any }) => (
             <TouchableOpacity
-              onPress={() => router.push({ pathname: `/events/${item.id}`, params: { id: item.id, title: item.title, description: item.description || "", date: item.date, location: item.location || "", image: item.image || "", category: item.category || "" } })}
+              onPress={() => router.push({ pathname: `/events/${item.id}`, params: { id: item.id, title: item.title, description: item.description || "", date: item.date, location: item.location || "", image: getImageUrl(item.image) || "", category: item.category || "" } })}
               style={{
                 backgroundColor: COLORS.card, borderRadius: 16, overflow: "hidden",
                 shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 3,
               }}
             >
               {item.image && (
-                <Image source={{ uri: item.image }} style={{ width: "100%", height: 160 }} resizeMode="cover" />
+                <Image source={{ uri: getImageUrl(item.image) || undefined }} style={{ width: "100%", height: 160 }} resizeMode="cover" />
               )}
               <View style={{ padding: 14 }}>
                 <View style={{ flexDirection: isRTL ? "row-reverse" : "row", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>

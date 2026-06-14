@@ -4,6 +4,7 @@ import { COLORS } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
 import { formatDate, formatTime } from "../../lib/date";
+import { getImageUrl } from "../../lib/api";
 
 export default function EventDetailScreen() {
   const { t, isRTL, locale } = useI18n();
@@ -37,7 +38,7 @@ export default function EventDetailScreen() {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: COLORS.background }}>
       {event.image ? (
-        <Image source={{ uri: event.image }} style={{ width: "100%", height: 240 }} resizeMode="cover" />
+        <Image source={{ uri: getImageUrl(event.image) || undefined }} style={{ width: "100%", height: 240 }} resizeMode="cover" />
       ) : (
         <View style={{ width: "100%", height: 200, backgroundColor: COLORS.border, justifyContent: "center", alignItems: "center" }}>
           <Ionicons name="calendar" size={48} color={COLORS.textSecondary} />

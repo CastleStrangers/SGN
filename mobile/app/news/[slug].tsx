@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { COLORS } from "../../constants/colors";
 import { getNewsDetail, addFavorite, removeFavorite } from "../../lib/news";
 import { Ionicons } from "@expo/vector-icons";
-import { getToken } from "../../lib/api";
+import { getToken, getImageUrl } from "../../lib/api";
 import { useI18n } from "../../lib/i18n-context";
 import { formatDate } from "../../lib/date";
 
@@ -65,7 +65,7 @@ export default function NewsDetailScreen() {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: COLORS.background }}>
       {post.image && (
-        <Image source={{ uri: post.image }} style={{ width: "100%", height: 240 }} resizeMode="cover" />
+        <Image source={{ uri: getImageUrl(post.image) || undefined }} style={{ width: "100%", height: 240 }} resizeMode="cover" />
       )}
 
       <View style={{ padding: 16 }}>

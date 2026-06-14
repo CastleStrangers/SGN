@@ -79,3 +79,13 @@ export async function register(name: string, email: string, password: string): P
 export async function logout() {
   await removeToken();
 }
+
+export function getImageUrl(imagePath: string | null | undefined): string | null {
+  if (!imagePath) return null;
+  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+    return imagePath;
+  }
+  const baseUrl = API_URL.replace(/\/api$/, "");
+  const cleanPath = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
+  return `${baseUrl}${cleanPath}`;
+}

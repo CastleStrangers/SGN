@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { COLORS } from "../../constants/colors";
 import { getFavorites, removeFavorite } from "../../lib/news";
-import { getToken } from "../../lib/api";
+import { getToken, getImageUrl } from "../../lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
 import { formatDate } from "../../lib/date";
@@ -81,7 +81,7 @@ export default function FavoritesScreen() {
             }}
           >
             {item.post.image && (
-              <Image source={{ uri: item.post.image }} style={{ width: 100, height: 100 }} resizeMode="cover" />
+              <Image source={{ uri: getImageUrl(item.post.image) || undefined }} style={{ width: 100, height: 100 }} resizeMode="cover" />
             )}
             <View style={{ flex: 1, padding: 12 }}>
               <Text style={{ fontSize: 13, fontWeight: "bold", color: COLORS.text, marginBottom: 4 }} numberOfLines={2}>

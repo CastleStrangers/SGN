@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { COLORS } from "../../constants/colors";
 import { getNews } from "../../lib/news";
+import { getImageUrl } from "../../lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
 import { formatDate } from "../../lib/date";
@@ -109,7 +110,7 @@ export default function HomeScreen() {
               }}
             >
               {item.image && (
-                <Image source={{ uri: item.image }} style={{ width: "100%", height: 180 }} resizeMode="cover" />
+                <Image source={{ uri: getImageUrl(item.image) || undefined }} style={{ width: "100%", height: 180 }} resizeMode="cover" />
               )}
               <View style={{ padding: 14 }}>
                 <Text style={{ fontSize: 11, color: COLORS.accent, fontWeight: "600", marginBottom: 4 }}>

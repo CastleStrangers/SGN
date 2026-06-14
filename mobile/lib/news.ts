@@ -10,7 +10,7 @@ export async function getNews(page: number = 1, category?: string): Promise<any>
 }
 
 export async function getNewsDetail(slug: string): Promise<any> {
-  return apiFetch(`/news?slug=${slug}`);
+  return apiFetch(`/news?slug=${encodeURIComponent(slug)}`);
 }
 
 export async function getFavorites(): Promise<any[]> {
