@@ -63,7 +63,7 @@ $action = {
     
     # Ignore changes in node_modules, .next, .git, temp files
     if ($path -notmatch '\\(node_modules|\.next|\.git|tsconfig\.tsbuildinfo|pm2.*\.log|pm2.*\.out)\b') {
-        Sync-Changes -Path "$changeType: $path"
+        Sync-Changes -Path "$($changeType): $path"
     }
 }
 
