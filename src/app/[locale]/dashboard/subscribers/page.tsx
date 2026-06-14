@@ -34,8 +34,8 @@ export default function SubscribersPage() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="text-right px-4 py-3 font-medium text-gray-600">{t("subscribersPage.email")}</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600">{t("subscribersPage.date")}</th>
+                <th className="text-start px-4 py-3 font-medium text-gray-600">{t("subscribersPage.email")}</th>
+                <th className="text-start px-4 py-3 font-medium text-gray-600">{t("subscribersPage.date")}</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
