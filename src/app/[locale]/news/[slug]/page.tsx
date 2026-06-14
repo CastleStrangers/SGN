@@ -55,7 +55,7 @@ export default async function ArticlePage({ params }: Props) {
   );
 
   const relatedEvent = post.relatedEventId
-    ? await prisma.event.findUnique({ where: { id: post.relatedEventId, published: true } })
+    ? await prisma.event.findFirst({ where: { id: post.relatedEventId, published: true } })
     : null;
   const relatedTask = post.relatedTaskId
     ? await prisma.task.findUnique({ where: { id: post.relatedTaskId } })

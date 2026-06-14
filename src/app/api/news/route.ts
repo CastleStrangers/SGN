@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
   try {
     // طلب مقال واحد بالـ slug → نُرجع content كاملاً
     if (slug) {
-      const post = await prisma.post.findUnique({
+      const post = await prisma.post.findFirst({
         where: { slug, published: true },
         include: { author: { select: { name: true } } },
       });

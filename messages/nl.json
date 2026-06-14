@@ -81,7 +81,9 @@
     "title": "Abonneer op Onze Nieuwsbrief",
     "desc": "Ontvang het laatste gemeenschapsnieuws, evenementen en aankomende initiatieven",
     "placeholder": "Uw e-mailadres",
-    "button": "Abonneren"
+    "button": "Abonneren",
+    "success": "Met succes geabonneerd!",
+    "error": "Er is een fout opgetreden. Probeer het opnieuw."
   },
   "footer": {
     "description": "Een onafhankelijke non-profitorganisatie die zich bezighoudt met de belangen van Syriërs die in Nederland verblijven",
@@ -249,6 +251,14 @@
       "amount": "Bedrag",
       "donor": "Donateur",
       "date": "Datum"
+    },
+    "subscribersPage": {
+      "email": "E-mailadres",
+      "date": "Abonnementsdatum",
+      "actions": "Acties",
+      "removeConfirm": "Bevestig verwijdering?",
+      "unsubscribe": "Afmelden",
+      "noSubscribers": "Geen abonnees gevonden"
     },
     "stats": {
       "tasks": "Taken",

@@ -28,7 +28,7 @@ export default async function LandingPageView({ params }: Props) {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
   const t = useTranslations("landing");
-  const page = await prisma.landingPage.findUnique({ where: { slug: decodedSlug, published: true } });
+  const page = await prisma.landingPage.findFirst({ where: { slug: decodedSlug, published: true } });
   if (!page) notFound();
 
   const features = page.features ? JSON.parse(page.features) : [];

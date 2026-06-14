@@ -81,7 +81,9 @@
     "title": "Subscribe to Our Newsletter",
     "desc": "Get the latest community news, events, and upcoming initiatives",
     "placeholder": "Your email address",
-    "button": "Subscribe"
+    "button": "Subscribe",
+    "success": "Subscribed successfully!",
+    "error": "An error occurred. Please try again."
   },
   "footer": {
     "description": "An independent non-profit organization dedicated to the affairs of Syrians residing in the Netherlands",
@@ -249,6 +251,14 @@
       "amount": "Amount",
       "donor": "Donor",
       "date": "Date"
+    },
+    "subscribersPage": {
+      "email": "Email Address",
+      "date": "Subscription Date",
+      "actions": "Actions",
+      "removeConfirm": "Confirm deletion?",
+      "unsubscribe": "Unsubscribe",
+      "noSubscribers": "No subscribers found"
     },
     "stats": {
       "tasks": "Tasks",

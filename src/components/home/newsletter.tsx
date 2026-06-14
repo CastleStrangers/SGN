@@ -15,9 +15,9 @@ export function Newsletter() {
         <input name="email" type="email" placeholder={t("newsletter.placeholder")} className="flex-1 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#c8a84e]" />
         <button type="submit" className="px-6 py-2.5 bg-[#c8a84e] hover:bg-[#b8973f] text-[#1a1a2e] font-bold rounded-xl text-sm transition-colors">{t("newsletter.button")}</button>
       </form>
-      {msg === "success" && <p className="text-green-400 text-sm mt-2">تم الاشتراك بنجاح!</p>}
-      {msg === "error" && <p className="text-red-400 text-sm mt-2">حدث خطأ. حاول مرة أخرى.</p>}
-      {msg === "البريد مسجل مسبقاً" && <p className="text-amber-400 text-sm mt-2">البريد مسجل مسبقاً</p>}
+      {msg === "success" && <p className="text-green-400 text-sm mt-2">{t("newsletter.success")}</p>}
+      {msg === "error" && <p className="text-red-400 text-sm mt-2">{t("newsletter.error")}</p>}
+      {msg && msg !== "success" && msg !== "error" && <p className="text-amber-400 text-sm mt-2">{msg}</p>}
     </div>
   );
 }

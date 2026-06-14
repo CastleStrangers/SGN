@@ -21,7 +21,7 @@ export default function SubscribersPage() {
   useEffect(() => { if (status === "authenticated") loadSubs(); }, [status]);
 
   const remove = async (id: string) => {
-    if (!confirm("تأكيد الحذف؟")) return;
+    if (!confirm(t("subscribersPage.removeConfirm"))) return;
     await fetch("/api/subscribe", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });
     loadSubs();
   };
@@ -34,8 +34,8 @@ export default function SubscribersPage() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="text-right px-4 py-3 font-medium text-gray-600">البريد الإلكتروني</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600">تاريخ الاشتراك</th>
+                <th className="text-right px-4 py-3 font-medium text-gray-600">{t("subscribersPage.email")}</th>
+                <th className="text-right px-4 py-3 font-medium text-gray-600">{t("subscribersPage.date")}</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
@@ -48,7 +48,7 @@ export default function SubscribersPage() {
                   </td>
                   <td className="px-4 py-3 text-gray-500">{formatDate(s.createdAt, locale)}</td>
                   <td className="px-4 py-3">
-                    <button onClick={() => remove(s.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500" title="إلغاء الاشتراك" aria-label="إلغاء الاشتراك">
+                    <button onClick={() => remove(s.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500" title={t("subscribersPage.unsubscribe")} aria-label={t("subscribersPage.unsubscribe")}>
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </td>
@@ -57,7 +57,7 @@ export default function SubscribersPage() {
             </tbody>
           </table>
         </div>
-        {subs.length === 0 && <p className="text-center text-gray-400 py-8">لا يوجد مشتركون</p>}
+        {subs.length === 0 && <p className="text-center text-gray-400 py-8">{t("subscribersPage.noSubscribers")}</p>}
       </div>
     </div>
   );
