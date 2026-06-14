@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "@/i18n/routing";
 import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
+import { SgnLogo } from "@/components/sgn-logo";
 import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 import { TikTok } from "@/components/tiktok-icon";
 
@@ -31,7 +32,7 @@ export function SiteFooter() {
           <div className="bg-[#1C2541] p-6 rounded-2xl border border-gray-800 shadow-sm flex flex-col justify-between items-center text-center">
             <div className="w-full flex flex-col items-center">
               <div className="flex flex-col items-center mb-4">
-                <img src="/logo.png" alt="SGN Logo" className="w-16 h-16 object-contain mb-3 hover:scale-105 transition-transform duration-300" />
+                <SgnLogo size={64} className="mb-3" />
                 <div className="flex items-center gap-2 justify-center">
                   <FreeSyrianFlag className="w-5 h-3 rounded shadow-sm border border-white/10 flex-shrink-0 object-cover" />
                   <h3 className="font-bold text-sm text-white tracking-wide">الجالية السورية في هولندا</h3>

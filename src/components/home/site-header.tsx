@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SgnLogo } from "@/components/logo" // wait, the file is sgn-logo.tsx, so the import path is "@/components/sgn-logo"
+import { SgnLogo } from "@/components/sgn-logo";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
@@ -49,7 +49,7 @@ export function SiteHeader() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <Image src="/logo.png" alt={t("site.title")} width={64} height={64} className="w-14 h-14 lg:w-16 lg:h-16 flex-shrink-0" priority />
+            <SgnLogo size={64} className="w-14 h-14 lg:w-16 lg:h-16" priority />
             <div className="flex items-center gap-1.5" dir="rtl">
               <FreeSyrianFlag className="w-6 h-4 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
               <span className="text-sm sm:text-base font-bold text-[#1a5632] whitespace-nowrap">
