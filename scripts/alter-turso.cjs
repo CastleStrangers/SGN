@@ -11,6 +11,9 @@ const turso = createClient({
     "ALTER TABLE Member ADD COLUMN notes TEXT",
     "ALTER TABLE Member ADD COLUMN email TEXT",
     "CREATE TABLE IF NOT EXISTS AppSetting (key TEXT PRIMARY KEY, value TEXT NOT NULL)",
+    "ALTER TABLE Event ADD COLUMN published INTEGER DEFAULT 1",
+    "ALTER TABLE Event ADD COLUMN province TEXT",
+    "ALTER TABLE Event ADD COLUMN city TEXT",
   ];
   for (const sql of cmds) {
     try {
