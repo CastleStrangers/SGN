@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
-import { Check, X, Search, Loader2, Trash2, Download, Edit3, ExternalLink, FileText, Badge, CreditCard, Upload, Mail, Square, CheckSquare, History } from "lucide-react";
+import { Check, X, Search, Loader2, Trash2, Download, Edit3, ExternalLink, FileText, Badge, CreditCard, Upload, Mail, Square, CheckSquare, History, Shield, Sparkles } from "lucide-react";
 
 interface Member {
   id: string; memberNumber?: number | null;
@@ -522,6 +522,83 @@ export default function MembersPage() {
               <button onClick={saveEdit} disabled={saving} className="flex-[2] py-3 bg-emerald-800 text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition disabled:opacity-50 flex items-center justify-center gap-2">
                 {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> {t("saving")}</> : t("save")}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View ID Modal */}
+      {viewIdCard && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setViewIdCard(null)}>
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4" onClick={e => e.stopPropagation()} dir="rtl">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-gray-900">معاينة الهوية الشخصية المشفرة</h2>
+              <button onClick={() => setViewIdCard(null)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+            </div>
+            
+            <div className="border rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center min-h-[200px] max-h-[400px]">
+              <img
+                src={`/api/members/id-card?memberId=${viewIdCard}`}
+                alt="الهوية الشخصية"
+                className="max-w-full max-h-[400px] object-contain"
+                onError={(e) => {
+                  (e.target as any).src = "";
+                  alert("خطأ في تحميل أو فك تشفير الهوية");
+                }}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={() => runAiVerification(viewIdCard)}
+                disabled={aiVerifying}
+                className="w-full py-2.5 bg-[#c8a84e] hover:bg-[#b8973f] text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition disabled:opacity-50"
+              >
+                {aiVerifying ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Sparkles className="w-4 h-4 text-white" />
+                )}
+                التحقق التلقائي بالذكاء الاصطناعي (AI)
+              </button>
+            </div>
+
+            {aiVerifyResult && (
+              <div className="p-3 bg-amber-50/50 border border-amber-200/60 rounded-xl space-y-2 text-xs leading-relaxed">
+                <div className="font-bold text-[#a88220] flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#c8a84e]" /> نتيجة الفحص البصري الذكي:
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-gray-700">
+                  <div>
+                    <span className="text-gray-400">الاسم المستخرج:</span>{" "}
+                    <span className="font-medium">{aiVerifyResult.extracted?.name || "—"}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-400">سنة الميلاد:</span>{" "}
+                    <span className="font-medium">{aiVerifyResult.extracted?.birthYear || "—"}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-400">تطابق الاسم:</span>{" "}
+                    <span className={`font-bold ${aiVerifyResult.matches?.name ? "text-emerald-600" : "text-rose-500"}`}>
+                      {aiVerifyResult.matches?.name ? "متطابق" : "غير متطابق"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-400">تطابق المواليد:</span>{" "}
+                    <span className={`font-bold ${aiVerifyResult.matches?.birthYear ? "text-emerald-600" : "text-rose-500"}`}>
+                      {aiVerifyResult.matches?.birthYear ? "متطابق" : "غير متطابق"}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-[10px] text-gray-400">
+                  مستوى ثقة الرؤية الحاسوبية: {aiVerifyResult.extracted?.confidence === "high" ? "مرتفع" : "متوسط / منخفض"}
+                </div>
+              </div>
+            )}
+
+            <div className="flex gap-3 pt-2">
+              <button onClick={() => setViewIdCard(null)} className="w-full py-2.5 border rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition">إغلاق</button>
             </div>
           </div>
         </div>
