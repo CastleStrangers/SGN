@@ -2,6 +2,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
+import AzureADProvider from "next-auth/providers/azure-ad";
+import AppleProvider from "next-auth/providers/apple";
 import { prisma } from "./db";
 import bcrypt from "bcryptjs";
 export const authOptions = {
@@ -30,6 +32,19 @@ export const authOptions = {
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID || "",
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
+      allowDangerousEmailAccountLinking: true,
+    }),
+    
+    AzureADProvider({
+      clientId: process.env.AZURE_AD_CLIENT_ID || "",
+      clientSecret: process.env.AZURE_AD_CLIENT_SECRET || "",
+      tenantId: process.env.AZURE_AD_TENANT_ID || "common",
+      allowDangerousEmailAccountLinking: true,
+    }),
+
+    AppleProvider({
+      clientId: process.env.APPLE_ID || "",
+      clientSecret: process.env.APPLE_SECRET || "",
       allowDangerousEmailAccountLinking: true,
     }),
 
@@ -65,7 +80,12 @@ export const authOptions = {
   callbacks: {
     // المزامنة: ربط بيانات المستخدم الاجتماعي بقاعدة البيانات
     async signIn({ user, account, profile }: any) {
-      if (account?.provider === "google" || account?.provider === "facebook") {
+      if (
+        account?.provider === "google" ||
+        account?.provider === "facebook" ||
+        account?.provider === "azure-ad" ||
+        account?.provider === "apple"
+      ) {
         try {
           const existingUser = await prisma.user.findUnique({
             where: { email: user.email! },
