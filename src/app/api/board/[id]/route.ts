@@ -17,6 +17,7 @@ export async function PATCH(
     const body = await req.json();
 
     const updateData: Record<string, unknown> = { ...body };
+    delete updateData.id;
     if (Array.isArray(body.committees)) {
       updateData.committees = JSON.stringify(body.committees);
     }

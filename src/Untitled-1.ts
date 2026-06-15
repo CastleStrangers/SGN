@@ -1,1 +1,0 @@
-const where = { published: true };

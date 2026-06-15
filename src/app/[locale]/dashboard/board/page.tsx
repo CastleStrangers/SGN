@@ -60,12 +60,20 @@ function ImageUploader({
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(currentUrl);
   const [error, setError] = useState("");
+  const blobUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    return () => { if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current); };
+  }, []);
 
   async function handleFile(file: File) {
     if (!file) return;
     setError("");
     setUploading(true);
-    setPreview(URL.createObjectURL(file));
+    const newUrl = URL.createObjectURL(file);
+    if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
+    blobUrlRef.current = newUrl;
+    setPreview(newUrl);
 
     const fd = new FormData();
     fd.append("file", file);
@@ -462,7 +470,7 @@ export default function DashboardBoardPage() {
               <X className="w-5 h-5 text-gray-500" />
             </button>
           </div>
-          <MemberForm
+          <MemberForm key={editingId}
             initial={editingId === "new" ? EMPTY_MEMBER : (editingMember as BoardMember)}
             onSave={handleSave}
             onCancel={() => setEditingId(null)}
