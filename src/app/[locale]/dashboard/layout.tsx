@@ -68,7 +68,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { label: t("roles"), href: "/dashboard/roles", icon: Shield, admin: true },
     { label: "التحكم بالموبايل", href: "/dashboard/mobile-control", icon: Smartphone, admin: true },
     { label: t("pages"), href: "/dashboard/pages", icon: FileText, editor: true },
-    { label: "Landing Pages", href: "/dashboard/landing", icon: Globe, admin: true },
+    { label: t("landing"), href: "/dashboard/landing", icon: Globe, admin: true },
     { label: t("donationsPage.title"), href: "/dashboard/donations", icon: Heart, admin: true },
     { label: t("ads"), href: "/dashboard/ads", icon: Megaphone, admin: true },
     { label: t("surveys"), href: "/dashboard/surveys", icon: BarChart3, admin: true },

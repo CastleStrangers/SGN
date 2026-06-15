@@ -230,6 +230,7 @@
     "members": "Membership Applications",
     "memberProfile": "Member Profile",
     "stats": "Statistics",
+    "statsLink": "Statistics",
     "membershipSettings": "Form Settings",
     "volunteers": "Volunteers",
     "roles": "Roles & Permissions",
@@ -237,6 +238,7 @@
     "surveys": "Surveys",
     "media": "Media Library",
     "facebookSync": "Facebook Sync",
+    "landing": "Landing Pages",
     "donationsPage": {
       "title": "Donations",
       "totalDonations": "Total Donations",
