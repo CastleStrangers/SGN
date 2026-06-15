@@ -18,8 +18,8 @@ export function TopBar() {
   const t = useTranslations();
   const { data: session } = useSession();
   return (
-    <div className="bg-[#1a1a2e] text-white text-xs hidden lg:block">
-      <div className="max-w-7xl mx-auto px-4 h-9 flex items-center justify-between">
+    <div className="bg-[#1a1a2e] text-white text-xs block">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2 sm:py-0 min-h-9 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between overflow-x-auto">
         <div className="flex items-center gap-3">
           <span>{t("site.date")}</span>
           <span className="text-white/20">|</span>
