@@ -1,30 +1,17 @@
 import { NextResponse } from 'next/server';
 import { exec } from 'child_process';
-import path from 'path';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   return new Promise((resolve) => {
-    // Run npx prisma db push in the workspace root
     const cwd = process.cwd();
-    exec('npx prisma db push', { cwd }, (error, stdout, stderr) => {
+    exec('git checkout src/app/[locale]/dashboard/members/page.tsx', { cwd }, (error, stdout, stderr) => {
       if (error) {
-        resolve(
-          NextResponse.json({
-            success: false,
-            error: error.message,
-            stdout,
-            stderr,
-          })
-        );
+        resolve(NextResponse.json({ success: false, error: error.message, time: Date.now() }));
         return;
       }
-      resolve(
-        NextResponse.json({
-          success: true,
-          stdout,
-          stderr,
-        })
-      );
+      resolve(NextResponse.json({ success: true, stdout, stderr, time: Date.now() }));
     });
   });
 }

@@ -329,31 +329,6 @@ export default function MembersPage() {
                 </div>
                 <div className="flex gap-2 shrink-0 flex-col sm:flex-row">
                   <div className="flex gap-2">
-                    {m.status !== "accepted" && (
-                      <button onClick={() => updateStatus(m.id, "accepted")} className="p-2 bg-emerald-100 text-emerald-700 rounded-xl hover:bg-emerald-200 transition" title={t("accept")}>
-                        <Check className="w-4 h-4" />
-                      </button>
-                    )}
-                    {m.status !== "rejected" && (
-                      <button onClick={() => updateStatus(m.id, "rejected")} className="p-2 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 transition" title={t("reject")}>
-                        <X className="w-4 h-4" />
-                      </button>
-                    )}
-                  </div>
-                  <div className="flex gap-2">
-                    <button onClick={() => viewActivity(m.id)} className="p-2 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition" title="سجل النشاط">
-                      <History className="w-4 h-4" />
-                    </button>
-                    <button onClick={() => openEdit(m)} className="p-2 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition" title={t("edit")}>
-                      <Edit3 className="w-4 h-4" />
-                    </button>
-                    <button onClick={() => exportPdf(m.id)} className="p-2 bg-violet-100 text-violet-700 rounded-xl hover:bg-violet-200 transition" title="PDF">
-                      <FileText className="w-4 h-4" />
-                    </button>
-                    <a href={`/membership-card/${m.id}`} target="_blank" className="p-2 bg-amber-100 text-amber-700 rounded-xl hover:bg-amber-200 transition inline-flex" title="بطاقة العضوية">
-                      <CreditCard className="w-4 h-4" />
-                    </a>
-                    <button onClick={() => deleteMember(m.id)} className="p-2 bg-gray-100 text-gray-500 rounded-xl hover:bg-gray-200 transition" title={t("delete")}>
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
