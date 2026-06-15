@@ -173,7 +173,7 @@ export default function LoginPage() {
                   handleSocialLogin("apple");
                 }}
                 disabled={!!socialLoading}
-                className="flex items-center justify-center gap-2 px-3 py-3 bg-black hover:bg-black/90 transition-all text-xs font-semibold text-white rounded-xl disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-xs font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {socialLoading === "apple" ? (
                   <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
