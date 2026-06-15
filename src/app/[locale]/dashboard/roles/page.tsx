@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Shield, Plus, Save, Trash2, X, Loader2, UserCheck } from "lucide-react";
+import { Shield, Plus, Save, Trash2, X, Loader2, UserCheck, Sparkles } from "lucide-react";
 import { PERMISSION_GROUPS, type Permission } from "@/lib/permissions";
 
 type Role = {
@@ -24,8 +24,36 @@ export default function RolesPage() {
   const [newName, setNewName] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [newPerms, setNewPerms] = useState<string[]>([]);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiReason, setAiReason] = useState("");
 
   useEffect(() => { loadRoles(); }, []);
+
+  async function suggestPermissionsWithAI() {
+    if (!newName.trim()) {
+      alert("يرجى إدخال اسم الدور أولاً (مثال: مسؤول مالي، كاتب مقالات)");
+      return;
+    }
+    setAiLoading(true);
+    setAiReason("");
+    try {
+      const res = await fetch("/api/ai/suggest-permissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newName, description: newDesc }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setNewPerms(data.permissions || []);
+        if (data.reasonAr) setAiReason(data.reasonAr);
+      } else {
+        alert("فشل في استدعاء الذكاء الاصطناعي");
+      }
+    } catch {
+      alert("خطأ في الاتصال بالخادم");
+    }
+    setAiLoading(false);
+  }
 
   async function loadRoles() {
     try {
