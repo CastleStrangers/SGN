@@ -144,7 +144,6 @@ export default function LoginPage() {
                 <span>Facebook</span>
               </button>
 
-              {/* 
               <button
                 type="button"
                 onClick={(e) => {
@@ -185,7 +184,6 @@ export default function LoginPage() {
                 )}
                 <span>Apple</span>
               </button>
-              */}
             </div>
 
             {/* فاصل */}
