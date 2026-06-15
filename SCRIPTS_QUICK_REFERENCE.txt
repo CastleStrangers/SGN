@@ -1,0 +1,99 @@
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║         📍 أين وماذا - دليل السكريبتات الكامل               ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+
+🎯 الملخص السريع:
+
+📁 موقع السكريبتات: scripts/
+
+📊 الإحصائيات:
+  • السكريبتات الجديدة المحسّنة: 8 (01-08)
+  • السكريبتات القديمة الموجودة: 19
+
+═══════════════════════════════════════════════════════════════
+
+🆕 السكريبتات الجديدة (استخدمها):
+═══════════════════════════════════════════════════════════════
+
+1️⃣ 01-sync-facebook.ts (3.5 KB)
+   مزامنة مستمرة من Facebook
+   → npm run sync
+
+2️⃣ 02-import-facebook.ts (4.9 KB)
+   استيراد تاريخي شامل
+   → npm run import:facebook
+
+3️⃣ 03-reclassify-posts.ts (3.8 KB)
+   إعادة تصنيف ذكية
+   → npm run reclassify
+
+4️⃣ 04-reset-and-sync.ts (3.8 KB)
+   إعادة تعيين شاملة
+   → npm run db:reset-sync
+
+5️⃣ 05-manage-users.ts (5.2 KB)
+   إدارة المستخدمين
+   → npx tsx scripts/05-manage-users.ts [command]
+
+6️⃣ 06-check-database.ts (4.5 KB)
+   فحص صحة قاعدة البيانات
+   → npm run check-db
+
+7️⃣ 07-diagnose-facebook.ts (5.3 KB)
+   تشخيص مشاكل Facebook API
+   → npm run diagnose-fb
+
+8️⃣ 08-validate-i18n.ts (3.3 KB)
+   التحقق من i18n
+   → npm run i18n:check
+
+═══════════════════════════════════════════════════════════════
+
+⚠️ السكريبتات القديمة (لا تستخدمها):
+
+❌ sync.ts → استخدم 01-sync-facebook.ts
+❌ import-facebook.ts → استخدم 02-import-facebook.ts
+❌ reclassify.ts → استخدم 03-reclassify-posts.ts
+❌ reset-and-sync.ts → استخدم 04-reset-and-sync.ts
+❌ list-users.ts → استخدم 05-manage-users.ts
+❌ list-sqlite-users.ts → استخدم 05-manage-users.ts
+❌ promote-user.ts → استخدم 05-manage-users.ts
+❌ check-db.ts → استخدم 06-check-database.ts
+❌ check-all-posts.ts → استخدم 06-check-database.ts
+❌ check-image-sizes.ts → استخدم 06-check-database.ts
+❌ diagnose-fb.ts → استخدم 07-diagnose-facebook.ts
+❌ diagnose-fb-new.ts → استخدم 07-diagnose-facebook.ts
+❌ check-arabic.ts → استخدم 08-validate-i18n.ts
+❌ find-page-id.ts → أداة قديمة
+❌ generate-docs-pdf.ts → أداة قديمة
+❌ generate-project-pdf.ts → أداة قديمة
+❌ test-chrome-channel.ts → أداة اختبار قديمة
+❌ test-firefox.ts → أداة اختبار قديمة
+❌ test-mbasic.ts → أداة اختبار قديمة
+
+═══════════════════════════════════════════════════════════════
+
+📍 دليل السكريبتات الشامل:
+
+للتفاصيل الكاملة عن كل سكريبت:
+→ اقرأ SCRIPTS_LOCATION_AND_FUNCTIONS.md
+
+═══════════════════════════════════════════════════════════════
+
+✅ الخلاصة:
+
+استخدم فقط:
+  • 01-sync-facebook.ts
+  • 02-import-facebook.ts
+  • 03-reclassify-posts.ts
+  • 04-reset-and-sync.ts
+  • 05-manage-users.ts
+  • 06-check-database.ts
+  • 07-diagnose-facebook.ts
+  • 08-validate-i18n.ts
+
+احذف السكريبتات القديمة إذا كنت متأكداً.
+
+═══════════════════════════════════════════════════════════════
