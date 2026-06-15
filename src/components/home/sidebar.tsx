@@ -42,15 +42,18 @@ export function Sidebar({ latest }: { latest: Post[] }) {
       <div className="bg-white rounded-2xl border overflow-hidden p-0">
         <div className="bg-[#1a5632] text-white px-4 py-3 font-bold text-sm">{t("sidebar.facebookTitle")}</div>
         <div className="w-full bg-white flex justify-center min-h-[500px]">
-          <iframe 
-            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FDeSyrischeGemeenschapInNederland&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true" 
-            width="340" 
-            height="500" 
-            style={{ border: 'none', overflow: 'hidden', width: '100%' }} 
-            scrolling="no" 
-            frameBorder="0" 
-            allowFullScreen={true} 
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+          <iframe
+            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61584301535331&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
+            width="340"
+            height="500"
+            style={{ border: 'none', overflow: 'hidden', width: '100%' }}
+            scrolling="no"
+            frameBorder="0"
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            title={t("sidebar.facebookTitle")}
+            allowFullScreen
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture">
           </iframe>
         </div>
       </div>

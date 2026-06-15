@@ -51,7 +51,7 @@ function VideoCard({ item }: { item: Post }) {
             src={embedUrl}
             className="absolute inset-0 w-full h-full border-0"
             allowFullScreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             title={item.title}
           />
         ) : (

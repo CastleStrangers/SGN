@@ -105,7 +105,7 @@ function extractVideoIdsFromHtml(html: string): string[] {
 }
 
 function makeYoutubeIframeHtml(videoId: string): string {
-  return `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:16px 0;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);background:#f5f5f5;"><iframe src="https://www.youtube.com/embed/${videoId}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="YouTube video player"></iframe></div>`
+  return `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:16px 0;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);background:#f5f5f5;"><iframe src="https://www.youtube.com/embed/${videoId}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" title="YouTube video player"></iframe></div>`
 }
 
 function pickBestTitle(textBlocks: string[]): string | null {
