@@ -14,6 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!page) return { title: "Not Found" };
 
   return {
+    metadataBase: new URL("https://sy-nl.org"),
     title: page.metaTitle || page.title,
     description: page.metaDescription || page.subtitle || "",
     openGraph: {

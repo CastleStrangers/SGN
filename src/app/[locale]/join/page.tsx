@@ -9,6 +9,7 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'membership' });
   return {
+    metadataBase: new URL("https://sy-nl.org"),
     title: t('title'),
     description: t('subtitle') + " - Aanmeldingsformulier Syrische Gemeenschap in Nederland",
   };

@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
   if (!post) return { title: "المقال غير موجود" };
   return {
+    metadataBase: new URL("https://sy-nl.org"),
     title: post.title,
     description: post.excerpt || post.title,
     openGraph: {
