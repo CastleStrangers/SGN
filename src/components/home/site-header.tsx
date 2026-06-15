@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { SgnLogo } from "@/components/sgn-logo";
 import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Menu, X } from "lucide-react";
 import LanguageSwitcher from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
