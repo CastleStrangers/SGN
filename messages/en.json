@@ -141,7 +141,18 @@
     "goal1": "Legal representation and advocacy for community members",
     "goal2": "Promoting cultural identity and the Arabic language",
     "goal3": "Academic and professional empowerment of students and immigrants",
-    "goal4": "Social and humanitarian solidarity for the most needy groups"
+    "goal4": "Social and humanitarian solidarity for the most needy groups",
+    "boardHeading": "Approved Organizational Structure 2025",
+    "boardSubtitle": "Board Members & Executive Offices",
+    "boardDesc": "A selection of Syrian professionals working to empower the community and build bridges of communication.",
+    "boardFounders": "Founding Members",
+    "boardExecutives": "Executive Members",
+    "boardCommittees": "Current Committees & Offices",
+    "boardBio": "Professional Background & Initiatives",
+    "boardKvk": "KVK Number",
+    "boardViewProfile": "View Profile",
+    "boardClose": "Close",
+    "boardEmpty": "No board member data available."
   },
   "regulations": {
     "title": "Internal Regulations",
