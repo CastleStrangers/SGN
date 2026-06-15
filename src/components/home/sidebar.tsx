@@ -6,7 +6,6 @@ import { Sparkles, Clock, TrendingUp, Heart, Play } from "lucide-react";
 import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 import { TikTok } from "@/components/tiktok-icon";
 import { PLACEHOLDER_IMG, handleImgError } from "@/lib/image-fallback";
-import { SurveyWidget } from "@/components/survey";
 
 interface Post { title: string; img: string | null; time: string; slug: string; videoId?: string; }
 
@@ -35,8 +34,6 @@ export function Sidebar({ latest }: { latest: Post[] }) {
         <p className="text-sm text-gray-300 mb-4">{t("sidebar.join.desc")}</p>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSckV1utDGcCXjB4Lg8p9hiYtJjgHwUJyTZb2waISC9dBZdKJw/viewform" target="_blank" className="inline-block bg-[#c8a84e] hover:bg-[#b8973f] text-[#1a1a2e] font-bold px-5 py-2.5 rounded-xl text-sm transition-colors">{t("sidebar.join.button")}</a>
       </div>
-
-      <SurveyWidget />
 
       {/* Facebook Page Plugin */}
       <div className="bg-white rounded-2xl border overflow-hidden p-0">
