@@ -11,7 +11,8 @@ interface LandingPage {
 }
 
 export default function LandingAdminPage() {
-  const t = useTranslations();
+  const t = useTranslations("dashboard.landingPage");
+  const tApi = useTranslations("api");
   const { data: session } = useSession();
   const router = useRouter();
   const [pages, setPages] = useState<LandingPage[]>([]);
@@ -32,7 +33,7 @@ export default function LandingAdminPage() {
   }, []);
 
   if (!session || (session.user as any).role !== "admin") {
-    return <div className="p-8 text-center text-gray-500">Unauthorized</div>;
+    return <div className="p-8 text-center text-gray-500">{tApi("unauthorized")}</div>;
   }
 
   async function save() {
@@ -56,7 +57,7 @@ export default function LandingAdminPage() {
   }
 
   async function remove(id: string) {
-    if (!confirm("Confirm delete?")) return;
+    if (!confirm(t("confirmDelete"))) return;
     await fetch("/api/landing", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -75,39 +76,133 @@ export default function LandingAdminPage() {
     <div className="p-4 md:p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Landing Pages</h1>
-          <p className="text-sm text-gray-500 mt-1">إدارة صفحات الهبوط للحملات الدعوية</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+          <p className="text-sm text-gray-500 mt-1">{t("subtitle")}</p>
         </div>
-        <button onClick={() => { setShowForm(!showForm); setEditId(null); }} className="flex items-center gap-2 px-4 py-2 bg-[#1a5632] text-white rounded-lg text-sm hover:bg-[#0f3d23] transition-colors">
-          <Plus className="w-4 h-4" /> New Page
+        <button
+          onClick={() => { setShowForm(!showForm); setEditId(null); }}
+          title={t("newPage")}
+          aria-label={t("newPage")}
+          className="flex items-center gap-2 px-4 py-2 bg-[#1a5632] text-white rounded-lg text-sm hover:bg-[#0f3d23] transition-colors"
+        >
+          <Plus className="w-4 h-4" /> {t("newPage")}
         </button>
       </div>
 
       {showForm && (
         <div className="bg-white rounded-2xl border p-6 mb-6 space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
-            <input placeholder="Title *" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
-            <input placeholder="Slug (auto)" value={form.slug} onChange={e => setForm({ ...form, slug: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
-            <input placeholder="Subtitle" value={form.subtitle} onChange={e => setForm({ ...form, subtitle: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
-            <input placeholder="Hero Image URL" value={form.heroImage} onChange={e => setForm({ ...form, heroImage: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
-            <input placeholder="Hero Headline" value={form.heroHeadline} onChange={e => setForm({ ...form, heroHeadline: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
-            <input placeholder="Hero Subheadline" value={form.heroSubheadline} onChange={e => setForm({ ...form, heroSubheadline: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
-            <input placeholder="CTA Text" value={form.ctaText} onChange={e => setForm({ ...form, ctaText: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
-            <input placeholder="CTA Link" value={form.ctaLink} onChange={e => setForm({ ...form, ctaLink: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
-            <input placeholder="Theme Color (#1a5632)" value={form.themeColor} onChange={e => setForm({ ...form, themeColor: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
-            <input placeholder="Meta Title (SEO)" value={form.metaTitle} onChange={e => setForm({ ...form, metaTitle: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm" />
+            <input
+              title={t("placeholderTitle")}
+              placeholder={t("placeholderTitle")}
+              value={form.title}
+              onChange={e => setForm({ ...form, title: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
+            <input
+              title={t("placeholderSlug")}
+              placeholder={t("placeholderSlug")}
+              value={form.slug}
+              onChange={e => setForm({ ...form, slug: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
+            <input
+              title={t("placeholderSubtitle")}
+              placeholder={t("placeholderSubtitle")}
+              value={form.subtitle}
+              onChange={e => setForm({ ...form, subtitle: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
+            <input
+              title={t("placeholderHeroImage")}
+              placeholder={t("placeholderHeroImage")}
+              value={form.heroImage}
+              onChange={e => setForm({ ...form, heroImage: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
+            <input
+              title={t("placeholderHeroHeadline")}
+              placeholder={t("placeholderHeroHeadline")}
+              value={form.heroHeadline}
+              onChange={e => setForm({ ...form, heroHeadline: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
+            <input
+              title={t("placeholderHeroSubheadline")}
+              placeholder={t("placeholderHeroSubheadline")}
+              value={form.heroSubheadline}
+              onChange={e => setForm({ ...form, heroSubheadline: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
+            <input
+              title={t("placeholderCtaText")}
+              placeholder={t("placeholderCtaText")}
+              value={form.ctaText}
+              onChange={e => setForm({ ...form, ctaText: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
+            <input
+              title={t("placeholderCtaLink")}
+              placeholder={t("placeholderCtaLink")}
+              value={form.ctaLink}
+              onChange={e => setForm({ ...form, ctaLink: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
+            <input
+              title={t("placeholderThemeColor")}
+              placeholder={t("placeholderThemeColor")}
+              value={form.themeColor}
+              onChange={e => setForm({ ...form, themeColor: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
+            <input
+              title={t("placeholderMetaTitle")}
+              placeholder={t("placeholderMetaTitle")}
+              value={form.metaTitle}
+              onChange={e => setForm({ ...form, metaTitle: e.target.value })}
+              className="border rounded-xl px-4 py-2.5 text-sm"
+            />
           </div>
-          <textarea placeholder="Meta Description (SEO)" value={form.metaDescription} onChange={e => setForm({ ...form, metaDescription: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm w-full" rows={2} />
-          <textarea placeholder="Content (HTML supported)" value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} className="border rounded-xl px-4 py-2.5 text-sm w-full font-mono" rows={6} />
+          <textarea
+            title={t("placeholderMetaDescription")}
+            placeholder={t("placeholderMetaDescription")}
+            value={form.metaDescription}
+            onChange={e => setForm({ ...form, metaDescription: e.target.value })}
+            className="border rounded-xl px-4 py-2.5 text-sm w-full"
+            rows={2}
+          />
+          <textarea
+            title={t("placeholderContent")}
+            placeholder={t("placeholderContent")}
+            value={form.content}
+            onChange={e => setForm({ ...form, content: e.target.value })}
+            className="border rounded-xl px-4 py-2.5 text-sm w-full font-mono"
+            rows={6}
+          />
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={form.published} onChange={e => setForm({ ...form, published: e.target.checked })} />
-            Published
+            <input
+              type="checkbox"
+              title={t("published")}
+              checked={form.published}
+              onChange={e => setForm({ ...form, published: e.target.checked })}
+            />
+            {t("published")}
           </label>
           <div className="flex gap-2">
-            <button onClick={save} className="px-6 py-2 bg-[#1a5632] text-white rounded-xl text-sm hover:bg-[#0f3d23] transition-colors">
-              {editId ? "Update" : "Create"}
+            <button
+              onClick={save}
+              title={editId ? t("update") : t("create")}
+              className="px-6 py-2 bg-[#1a5632] text-white rounded-xl text-sm hover:bg-[#0f3d23] transition-colors"
+            >
+              {editId ? t("update") : t("create")}
             </button>
-            <button onClick={() => setShowForm(false)} className="px-6 py-2 border rounded-xl text-sm hover:bg-gray-50 transition-colors">Cancel</button>
+            <button
+              onClick={() => setShowForm(false)}
+              title={t("cancel")}
+              className="px-6 py-2 border rounded-xl text-sm hover:bg-gray-50 transition-colors"
+            >
+              {t("cancel")}
+            </button>
           </div>
         </div>
       )}
@@ -118,8 +213,8 @@ export default function LandingAdminPage() {
         </div>
       ) : pages.length === 0 ? (
         <div className="text-center py-16 text-gray-500">
-          <p className="text-lg font-medium mb-2">No landing pages yet</p>
-          <p className="text-sm">Create your first campaign page</p>
+          <p className="text-lg font-medium mb-2">{t("noPages")}</p>
+          <p className="text-sm">{t("createFirst")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -129,21 +224,37 @@ export default function LandingAdminPage() {
                 <div className="flex items-center gap-2">
                   <h3 className="font-bold text-gray-900 truncate">{p.title}</h3>
                   {p.published ? (
-                    <span className="text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full flex items-center gap-1"><Eye className="w-3 h-3" /> Published</span>
+                    <span className="text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full flex items-center gap-1"><Eye className="w-3 h-3" /> {t("published")}</span>
                   ) : (
-                    <span className="text-xs bg-gray-50 text-gray-500 px-2 py-0.5 rounded-full flex items-center gap-1"><EyeOff className="w-3 h-3" /> Draft</span>
+                    <span className="text-xs bg-gray-50 text-gray-500 px-2 py-0.5 rounded-full flex items-center gap-1"><EyeOff className="w-3 h-3" /> {t("draft")}</span>
                   )}
                 </div>
                 <p className="text-xs text-gray-400 mt-0.5">/{p.slug}</p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <a href={`/landing/${p.slug}`} target="_blank" className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                <a
+                  href={`/landing/${p.slug}`}
+                  target="_blank"
+                  title={t("title")}
+                  aria-label="Preview"
+                  className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                >
                   <ExternalLink className="w-4 h-4 text-gray-400" />
                 </a>
-                <button onClick={() => edit(p)} className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                <button
+                  onClick={() => edit(p)}
+                  title={t("update")}
+                  aria-label="Edit"
+                  className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                >
                   <Pencil className="w-4 h-4 text-gray-400" />
                 </button>
-                <button onClick={() => remove(p.id)} className="p-2 hover:bg-red-50 rounded-lg transition-colors">
+                <button
+                  onClick={() => remove(p.id)}
+                  title={t("confirmDelete")}
+                  aria-label="Delete"
+                  className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+                >
                   <Trash2 className="w-4 h-4 text-red-400" />
                 </button>
               </div>
