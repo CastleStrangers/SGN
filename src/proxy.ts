@@ -7,7 +7,7 @@ const rateLimit = new Map<string, { count: number; start: number }>();
 
 const intlMiddleware = createMiddleware(routing);
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/api/")) {
     const forwardedFor = request.headers.get("x-forwarded-for");
     const ip =
