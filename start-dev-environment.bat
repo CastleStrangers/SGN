@@ -35,8 +35,9 @@ echo   جاري فتح صفحة تسجيل الدخول المحلية في ال
 echo ========================================================
 echo.
 
-:: Wait 6 seconds for the dev server to initialize, then open the browser
+:: Wait 6 seconds for the dev server to initialize, then open the browser tabs
 timeout /t 6 > nul
 start http://localhost:3000/login
+start https://sgn-indol.vercel.app/login
 
 exit
