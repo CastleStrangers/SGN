@@ -1,5 +1,7 @@
 "use client";
 
+export const revalidate = 60;
+
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { TopBar } from "@/components/home/top-bar";
