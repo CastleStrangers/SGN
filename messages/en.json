@@ -645,6 +645,7 @@
     "step3Done": "Experience",
     "aiScannerTitle": "Auto-fill (AI)",
     "aiScannerDesc": "Upload your ID photo and AI will fill in the data",
+    "aiScannerFormats": "Accepts: Passport, ID card, Driver's license, Residence permit",
     "aiScannerBtn": "Scan ID",
     "aiScannerLoading": "Scanning...",
     "aiScannerSuccess": "Data extracted and filled successfully!",

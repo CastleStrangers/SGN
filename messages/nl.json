@@ -645,6 +645,7 @@
     "step3Done": "Ervaring",
     "aiScannerTitle": "Automatisch invullen (AI)",
     "aiScannerDesc": "Upload uw ID-foto en AI vult de gegevens in",
+    "aiScannerFormats": "Accepteert: paspoort, ID-kaart, rijbewijs, verblijfsvergunning",
     "aiScannerBtn": "Scan ID",
     "aiScannerLoading": "Scannen...",
     "aiScannerSuccess": "Gegevens succesvol ingevuld!",

@@ -373,6 +373,7 @@ export default function MembershipForm() {
                     <div>
                       <h3 className="text-sm font-bold text-slate-800">{t("aiScannerTitle")}</h3>
                       <p className="text-xs text-slate-500 mt-1">{t("aiScannerDesc")}</p>
+                      <p className="text-[10px] text-violet-500 mt-1 font-medium">{t("aiScannerFormats")}</p>
                     </div>
                   </div>
                   <div className="w-full sm:w-auto">
