@@ -148,7 +148,7 @@ export function SiteHeader() {
             <hr className="my-2" />
             {session ? (
               <div className="space-y-2 px-3 py-1">
-                <div className="text-sm text-gray-600 font-bold mb-1">مرحباً، {session.user?.name}</div>
+                <div className="text-sm text-gray-600 font-bold mb-1">{t("dashboard.welcome")}, {session.user?.name}</div>
                 <Link href="/messages" onClick={() => setOpen(false)} className="block py-2 text-sm font-medium text-gray-700 hover:underline">
                   {t("chat.title")}
                 </Link>
@@ -158,9 +158,9 @@ export function SiteHeader() {
                   </Link>
                 )}
                 <Link href="/dashboard/member-profile" onClick={() => setOpen(false)} className="block py-2 text-sm font-medium text-gray-700 hover:underline">
-                  ملف العضوية
+                  {t("dashboard.memberProfile")}
                 </Link>
-                <button onClick={() => { setOpen(false); signOut(); }} className="block w-full text-right py-2 text-sm font-medium text-red-600 hover:underline">
+                <button onClick={() => { setOpen(false); signOut(); }} className="block w-full ltr:text-left rtl:text-right py-2 text-sm font-medium text-red-600 hover:underline">
                   {t("auth.logout")}
                 </button>
               </div>
