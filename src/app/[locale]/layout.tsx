@@ -18,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = t("description");
 
   return {
+    metadataBase: new URL("https://sy-nl.org"),
     title: { default: title, template: `%s | ${title}` },
     description,
     keywords: t("keywords").split(","),

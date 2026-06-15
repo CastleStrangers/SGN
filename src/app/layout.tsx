@@ -19,6 +19,7 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sy-nl.org"),
   title: { default: "الجالية السورية في هولندا", template: "%s | الجالية السورية في هولندا" },
   description: "الموقع الرسمي للجالية السورية في هولندا — أخبار الجالية، فعاليات، خدمات، ومنصة تفاعلية لأبناء الجالية السورية",
   keywords: ["الجالية السورية", "هولندا", "أخبار", "فعاليات", "سوريون في هولندا", "syrische gemeenschap", "Nederland"],
