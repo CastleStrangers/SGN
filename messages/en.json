@@ -1046,7 +1046,16 @@
     "searchPlaceholder": "Search in news...",
     "emptyCategory": "No news in this category",
     "countIn": "{total} news in {category}",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "membersOnlyTitle": "This news is for members only",
+    "membersOnlyDesc": "You are reading the introduction. Please log in or create a free account to read the full article and join the discussion.",
+    "loginButton": "Login",
+    "signupButton": "Sign Up",
+    "translatePrompt": "This article is written in Arabic. You can translate it using AI.",
+    "translateBtn": "Translate with AI \u2728",
+    "translateBtnLoading": "Translating with AI...",
+    "translateBtnRevert": "Show Original",
+    "translateError": "Failed to translate article. Please try again."
   },
   "languageSwitcher": {
     "arabic": "العربية",

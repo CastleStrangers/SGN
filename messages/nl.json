@@ -1046,7 +1046,16 @@
     "searchPlaceholder": "Zoeken in nieuws...",
     "emptyCategory": "Geen nieuws in deze categorie",
     "countIn": "{total} nieuws in {category}",
-    "loading": "Laden..."
+    "loading": "Laden...",
+    "membersOnlyTitle": "Dit nieuws is alleen voor leden",
+    "membersOnlyDesc": "Je leest de introductie. Log in of maak een gratis account aan om het volledige artikel te lezen en deel te nemen aan de discussie.",
+    "loginButton": "Inloggen",
+    "signupButton": "Account aanmaken",
+    "translatePrompt": "Dit artikel is in het Arabisch geschreven. Je kunt het vertalen met AI.",
+    "translateBtn": "Vertaal met AI \u2728",
+    "translateBtnLoading": "Vertalen met AI...",
+    "translateBtnRevert": "Toon origineel",
+    "translateError": "Vertaling mislukt. Probeer het opnieuw."
   },
   "languageSwitcher": {
     "arabic": "العربية",
