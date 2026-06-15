@@ -220,6 +220,7 @@
     "anonymous": "Anonymous"
   },
   "dashboard": {
+    "welcome": "Welcome",
     "title": "Dashboard",
     "shortTitle": "Community Platform",
     "overview": "Overview",
