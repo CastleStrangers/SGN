@@ -6,6 +6,36 @@ import AzureADProvider from "next-auth/providers/azure-ad";
 import AppleProvider from "next-auth/providers/apple";
 import { prisma } from "./db";
 import bcrypt from "bcryptjs";
+
+// Rate limiting helper
+const loginAttempts = new Map<string, { count: number; resetTime: number }>();
+const MAX_ATTEMPTS = 5;
+const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes
+
+const isRateLimited = (identifier: string): boolean => {
+  const attempt = loginAttempts.get(identifier);
+  if (!attempt) return false;
+
+  if (Date.now() > attempt.resetTime) {
+    loginAttempts.delete(identifier);
+    return false;
+  }
+
+  return attempt.count >= MAX_ATTEMPTS;
+};
+
+const recordLoginAttempt = (identifier: string) => {
+  const attempt = loginAttempts.get(identifier);
+  if (!attempt) {
+    loginAttempts.set(identifier, {
+      count: 1,
+      resetTime: Date.now() + LOCKOUT_DURATION,
+    });
+  } else {
+    attempt.count++;
+  }
+};
+
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
@@ -18,8 +48,7 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      allowDangerousEmailAccountLinking: true,
-      // المزامنة: نطلب صورة المستخدم من Google
+      allowDangerousEmailAccountLinking: false,
       authorization: {
         params: {
           prompt: "consent",
@@ -32,20 +61,20 @@ export const authOptions = {
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID || "",
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
-      allowDangerousEmailAccountLinking: true,
+      allowDangerousEmailAccountLinking: false,
     }),
-    
+
     AzureADProvider({
       clientId: process.env.AZURE_AD_CLIENT_ID || "",
       clientSecret: process.env.AZURE_AD_CLIENT_SECRET || "",
       tenantId: process.env.AZURE_AD_TENANT_ID || "common",
-      allowDangerousEmailAccountLinking: true,
+      allowDangerousEmailAccountLinking: false,
     }),
 
     AppleProvider({
       clientId: process.env.APPLE_ID || "",
       clientSecret: process.env.APPLE_SECRET || "",
-      allowDangerousEmailAccountLinking: true,
+      allowDangerousEmailAccountLinking: false,
     }),
 
     CredentialsProvider({
@@ -57,14 +86,26 @@ export const authOptions = {
       async authorize(credentials: Record<string, string> | undefined) {
         if (!credentials?.email || !credentials?.password) return null;
 
+        // Check rate limiting
+        if (isRateLimited(credentials.email)) {
+          console.warn(`[Auth] Rate limit exceeded for ${credentials.email}`);
+          return null;
+        }
+
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!user || !user.password) return null;
+        if (!user || !user.password) {
+          recordLoginAttempt(credentials.email);
+          return null;
+        }
 
         const valid = await bcrypt.compare(credentials.password, user.password);
-        if (!valid) return null;
+        if (!valid) {
+          recordLoginAttempt(credentials.email);
+          return null;
+        }
 
         return {
           id: user.id,
@@ -78,7 +119,6 @@ export const authOptions = {
   ],
 
   callbacks: {
-    // المزامنة: ربط بيانات المستخدم الاجتماعي بقاعدة البيانات
     async signIn({ user, account, profile }: any) {
       if (
         account?.provider === "google" ||
@@ -92,7 +132,6 @@ export const authOptions = {
           });
 
           if (existingUser) {
-            // تحديث صورة المستخدم إذا كانت فارغة
             if (!existingUser.image && user.image) {
               await prisma.user.update({
                 where: { email: user.email! },
@@ -107,21 +146,18 @@ export const authOptions = {
       return true;
     },
 
-    // إضافة بيانات إضافية لـ JWT Token
     async jwt({ token, user, account }: any) {
       if (user) {
         token.id = user.id;
         token.role = (user as any).role || "member";
         token.image = user.image;
       }
-      // عند الدخول عبر OAuth، نحفظ نوع المزود
       if (account) {
         token.provider = account.provider;
       }
       return token;
     },
 
-    // إضافة بيانات إضافية للـ Session
     async session({ session, token }: any) {
       if (session.user) {
         (session.user as any).id = token.id;

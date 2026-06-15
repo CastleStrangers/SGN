@@ -1,11 +1,91 @@
-node_modules
-.next
+# Git
 .git
 .gitignore
-*.md
+.gitattributes
+
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Build outputs
+.next
+dist
+build
+out
+
+# Environment files (don't include in image)
 .env
 .env.local
-.env.production
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage
+.nyc_output
+cypress/videos
+cypress/screenshots
+
+# Logs
+logs
+*.log
+pm2-*.log
+
+# Temporary files
+tmp
+temp
+*.tmp
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose*.yml
+
+# Development only
+.vercel
+.next/cache
+.next/telemetry
+
+# Scripts and docs (keep only what you need in production)
+scripts
+*.bat
+*.vbs
+*.ps1
+
+# Mobile app
 mobile
-prisma/dev.db
-prisma/dev.db-journal
+
+# Examples
+examples
+
+# Database (use volumes instead)
+prisma/*.db
+prisma/*.db-journal
+
+# PDF/Screenshot files
+*.pdf
+*.png
+*.jpg
+*.jpeg
+
+# Project docs
+PROJECT_*.md
+README*.md
+HOSTINGER_*.md
+*.txt
+opencode.json
+
+# Playwright
+playwright/.auth
