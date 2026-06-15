@@ -41,7 +41,3 @@ export const config = {
     "/((?!api|_next/static|_next/image|_vercel|favicon.ico|sitemap.xml|robots.txt|manifest.webmanifest|sw.js|offline.html|logo.png|images|uploads|.*\\..*).*)",
   ],
 };
-
-const where: any = { published: true };
-
-await prisma.post.findMany({ where });
