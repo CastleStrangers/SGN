@@ -1,6 +1,0 @@
-tree f55b2c79e8bd5b93503a404978d09f0bfc31a770
-parent b68fc72cf46e053bff2ae90192cc4061e1628208
-author Salim <msali@syrian-nl.org> 1781364287 +0200
-committer Salim <msali@syrian-nl.org> 1781364287 +0200
-
-feat: implement member card view page and configure mobile TypeScript settings
