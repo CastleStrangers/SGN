@@ -7,7 +7,15 @@ echo ========================================================
 echo   جاري تشغيل بيئة تطوير منصة الجالية السورية في هولندا
 echo ========================================================
 echo.
-
+:: 0. Sync and push any pending local changes to GitHub/Vercel staging first
+echo [0/3] جاري رفع ومزامنة أي تعديلات معلقة إلى المستودع...
+git add .
+git diff-index --quiet HEAD --
+if %errorlevel% neq 0 (
+    git commit -m "auto: sync pending changes on startup"
+)
+git push origin main
+echo.
 :: 1. Start the Next.js Web Developer Server in a new window
 echo [1/3] جاري تشغيل خادم الويب (Next.js) على المنفذ 3000...
 start "خادم الويب SGN Web Server" cmd /k "npm run dev"
