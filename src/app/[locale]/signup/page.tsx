@@ -167,7 +167,6 @@ export default function SignupPage() {
                 <span>Facebook</span>
               </button>
 
-              {/* 
               <button
                 type="button"
                 onClick={(e) => {
@@ -208,7 +207,6 @@ export default function SignupPage() {
                 )}
                 <span>Apple</span>
               </button>
-              */}
             </div>
 
             {/* فاصل */}
