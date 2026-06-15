@@ -1046,7 +1046,16 @@
     "searchPlaceholder": "البحث في الأخبار...",
     "emptyCategory": "لا توجد أخبار في هذا القسم حالياً",
     "countIn": "{total} خبر في قسم {category}",
-    "loading": "جاري التحميل..."
+    "loading": "جاري التحميل...",
+    "membersOnlyTitle": "هذا الخبر مخصص للأعضاء فقط",
+    "membersOnlyDesc": "أنت تقرأ مقدمة الخبر. لمتابعة قراءة الخبر بالكامل والمشاركة بالتعليقات، يرجى تسجيل الدخول أو إنشاء حساب مجاني.",
+    "loginButton": "تسجيل الدخول",
+    "signupButton": "إنشاء حساب مجاني",
+    "translatePrompt": "هذا المقال مكتوب بالعربية. يمكنك ترجمته باستخدام الذكاء الاصطناعي.",
+    "translateBtn": "ترجم بالذكاء ✨",
+    "translateBtnLoading": "جاري الترجمة...",
+    "translateBtnRevert": "عرض الأصل",
+    "translateError": "فشل ترجمة المقال. حاول مرة أخرى."
   },
   "languageSwitcher": {
     "arabic": "العربية",
