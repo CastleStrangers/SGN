@@ -193,6 +193,7 @@ model Member {
   agreed       Boolean  @default(true)
   status       String   @default("pending")
   notes        String?
+  encryptedIdCard String?
   showInPublicProfile Boolean @default(true)
   userId       String?  @unique
   user         User?    @relation(fields: [userId], references: [id])
@@ -456,4 +457,14 @@ model BoardMember {
   updatedAt     DateTime @updatedAt
 
   @@map("board_members")
+}
+
+model MobileTranslation {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  ar        String
+  en        String
+  nl        String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
