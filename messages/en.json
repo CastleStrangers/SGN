@@ -230,7 +230,6 @@
     "members": "Membership Applications",
     "memberProfile": "Member Profile",
     "board": "Board of Directors",
-    "stats": "Statistics",
     "statsLink": "Statistics",
     "membershipSettings": "Form Settings",
     "volunteers": "Volunteers",
@@ -289,17 +288,6 @@
       "filterCompleted": "Completed",
       "noTasks": "No tasks",
       "confirmDelete": "Confirm deletion?"
-    },
-    "aiPage": {
-      "title": "AI Smart Assistant",
-      "desc": "Powered by GPT-5.5 — helps you manage and analyze tasks",
-      "suggestMode": "Suggest Tasks",
-      "analyzeMode": "Analyze Current Tasks",
-      "suggestPlaceholder": "Write your request... Example: suggest tasks for organizing a cultural event",
-      "analyzeButton": "Analyze Current Tasks",
-      "responseTitle": "AI Response",
-      "errorGeneric": "An error occurred",
-      "errorConn": "Failed to connect to AI service"
     },
     "messagesPage": {
       "title": "Messages",
@@ -938,9 +926,13 @@
   "notifications": {
     "title": "Notifications",
     "markAllRead": "Mark all as read",
-    "empty": "No notifications",
+    "empty": "No notifications yet",
     "unread": "You have {count} unread notifications",
-    "view": "View Notifications"
+    "view": "View Notifications",
+    "aiSummary": "AI Summary ✨",
+    "aiSummaryLoading": "Generating AI summary...",
+    "aiSummaryTitle": "Your AI Summary",
+    "close": "Close"
   },
   "otp": {
     "title": "OTP Verification",
@@ -1247,14 +1239,5 @@
     "relatedTask": "Related Volunteer Opportunity",
     "relatedTaskDesc": "This volunteer task is currently active and needs your support.",
     "volunteerNow": "Volunteer Now"
-  },
-  "notifications": {
-    "title": "Notifications",
-    "markAllRead": "Mark all as read",
-    "empty": "No notifications yet",
-    "aiSummary": "AI Summary ✨",
-    "aiSummaryLoading": "Generating AI summary...",
-    "aiSummaryTitle": "Your AI Summary",
-    "close": "Close"
   }
 }
