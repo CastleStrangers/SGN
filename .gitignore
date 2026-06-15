@@ -9,3 +9,6 @@ Antigravity/
 .env
 .env*.local
 *.log
+.env
+.env.*
+!.env.example
