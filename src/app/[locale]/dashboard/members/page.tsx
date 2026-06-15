@@ -38,6 +38,9 @@ export default function MembersPage() {
     originCity: "", nlProvincie: "", nlCity: "", expNl: "", expOutside: "",
     educationLevel: "", profession: "", skills: "", maritalStatus: "", notes: "",
   });
+  const [viewIdCard, setViewIdCard] = useState<string | null>(null);
+  const [aiVerifying, setAiVerifying] = useState(false);
+  const [aiVerifyResult, setAiVerifyResult] = useState<any>(null);
   const [saving, setSaving] = useState(false);
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState("");
