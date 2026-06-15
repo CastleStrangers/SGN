@@ -111,6 +111,13 @@ export default function SignupPage() {
             </div>
           </div>
 
+          <div className="flex justify-start mb-4">
+            <Link href="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-[#1a5632] text-sm font-semibold transition-all group">
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              <span>{t("backToHome")}</span>
+            </Link>
+          </div>
+
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
             <div className="mb-8">
               <h1 className="text-2xl font-bold text-gray-900">{t("signup")}</h1>
