@@ -23,7 +23,8 @@
     "signup": "Sign Up",
     "dashboard": "Dashboard",
     "members": "Members",
-    "donate": "Donate"
+    "donate": "Donate",
+    "gallery": "Photo Gallery"
   },
   "topbar": {
     "about": "About Us",
