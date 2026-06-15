@@ -208,6 +208,28 @@ export default function MembersPage() {
     setActivityLogs(await res.json());
   };
 
+  const runAiVerification = async (memberId: string) => {
+    setAiVerifying(true);
+    setAiVerifyResult(null);
+    try {
+      const res = await fetch("/api/members/id-card/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ memberId }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAiVerifyResult(data);
+      } else {
+        const err = await res.json();
+        alert(err.error || "خطأ أثناء التحقق بالذكاء الاصطناعي");
+      }
+    } catch {
+      alert("خطأ في الاتصال بالخادم");
+    }
+    setAiVerifying(false);
+  };
+
   const filtered = members.filter(m => {
     const q = search.toLowerCase();
     const matchSearch = m.nameAr.includes(q) || m.nameNl.toLowerCase().includes(q) || m.whatsapp.includes(q);
