@@ -133,7 +133,7 @@ export default function SignupPage() {
                   handleSocialLogin("google");
                 }}
                 disabled={!!socialLoading}
-                className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-xs font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed group"
+                className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-gray-200 bg-white rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-xs font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed group"
               >
                 {socialLoading === "google" ? (
                   <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
@@ -155,7 +155,7 @@ export default function SignupPage() {
                   handleSocialLogin("facebook");
                 }}
                 disabled={!!socialLoading}
-                className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-all text-xs font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-gray-200 bg-white rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-all text-xs font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {socialLoading === "facebook" ? (
                   <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
@@ -174,7 +174,7 @@ export default function SignupPage() {
                   handleSocialLogin("azure-ad");
                 }}
                 disabled={!!socialLoading}
-                className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-xs font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-gray-200 bg-white rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-xs font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {socialLoading === "azure-ad" ? (
                   <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
@@ -196,7 +196,7 @@ export default function SignupPage() {
                   handleSocialLogin("apple");
                 }}
                 disabled={!!socialLoading}
-                className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-xs font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-gray-200 bg-white rounded-xl hover:bg-black hover:border-black hover:text-white transition-all duration-300 text-xs font-semibold text-gray-700 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {socialLoading === "apple" ? (
                   <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
