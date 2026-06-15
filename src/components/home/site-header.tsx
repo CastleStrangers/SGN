@@ -37,6 +37,8 @@ import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
 export function SiteHeader() {
   const t = useTranslations();
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const [open, setOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { data: session } = useSession();
@@ -78,9 +80,9 @@ export function SiteHeader() {
                 {userMenuOpen && (
                   <>
                     <div className="fixed inset-0 z-30" onClick={() => setUserMenuOpen(false)} />
-                    <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl py-2 z-40">
-                      <div className="px-4 py-2 border-b border-gray-50 text-right">
-                        <p className="text-[10px] text-gray-400">مرحباً بك</p>
+                    <div className={`absolute ${isRtl ? "left-0" : "right-0"} mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl py-2 z-40`}>
+                      <div className={`px-4 py-2 border-b border-gray-50 ${isRtl ? "text-right" : "text-left"}`}>
+                        <p className="text-[10px] text-gray-400">{t("dashboard.welcome")}</p>
                         <p className="text-sm font-bold text-gray-900 truncate" title={session.user?.name || ""}>
                           {session.user?.name}
                         </p>
@@ -88,22 +90,22 @@ export function SiteHeader() {
                           {session.user?.email}
                         </p>
                       </div>
-                      <Link href="/messages" onClick={() => setUserMenuOpen(false)} className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium">
+                      <Link href="/messages" onClick={() => setUserMenuOpen(false)} className={`block w-full ${isRtl ? "text-right" : "text-left"} px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium`}>
                         {t("chat.title")}
                       </Link>
                       {(session.user as any)?.role === "admin" && (
-                        <Link href="/dashboard" onClick={() => setUserMenuOpen(false)} className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium">
+                        <Link href="/dashboard" onClick={() => setUserMenuOpen(false)} className={`block w-full ${isRtl ? "text-right" : "text-left"} px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium`}>
                           {t("nav.dashboard")}
                         </Link>
                       )}
-                      <Link href="/dashboard/member-profile" onClick={() => setUserMenuOpen(false)} className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                        ملف العضوية
+                      <Link href="/dashboard/member-profile" onClick={() => setUserMenuOpen(false)} className={`block w-full ${isRtl ? "text-right" : "text-left"} px-4 py-2 text-sm text-gray-700 hover:bg-gray-50`}>
+                        {t("dashboard.memberProfile")}
                       </Link>
-                      <Link href="/dashboard/settings" onClick={() => setUserMenuOpen(false)} className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                        الملف الشخصي
+                      <Link href="/dashboard/settings" onClick={() => setUserMenuOpen(false)} className={`block w-full ${isRtl ? "text-right" : "text-left"} px-4 py-2 text-sm text-gray-700 hover:bg-gray-50`}>
+                        {t("dashboard.settings")}
                       </Link>
                       <hr className="my-1 border-gray-50" />
-                      <button onClick={() => { setUserMenuOpen(false); signOut(); }} className="block w-full text-right px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium cursor-pointer">
+                      <button onClick={() => { setUserMenuOpen(false); signOut(); }} className={`block w-full ${isRtl ? "text-right" : "text-left"} px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium cursor-pointer`}>
                         {t("auth.logout")}
                       </button>
                     </div>
