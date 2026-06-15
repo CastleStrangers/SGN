@@ -316,12 +316,16 @@ export default function MobileControlPage() {
                     value={theme.primary}
                     onChange={(e) => setTheme({ ...theme, primary: e.target.value })}
                     className="w-8 h-8 rounded border cursor-pointer"
+                    title="اللون الرئيسي"
+                    aria-label="اللون الرئيسي"
                   />
                   <input
                     type="text"
                     value={theme.primary}
                     onChange={(e) => setTheme({ ...theme, primary: e.target.value })}
                     className="flex-1 px-2.5 py-1 text-xs border rounded-lg"
+                    placeholder="#1a5632"
+                    title="رمز اللون الرئيسي"
                   />
                 </div>
               </div>
@@ -333,12 +337,16 @@ export default function MobileControlPage() {
                     value={theme.accent}
                     onChange={(e) => setTheme({ ...theme, accent: e.target.value })}
                     className="w-8 h-8 rounded border cursor-pointer"
+                    title="اللون المساعد"
+                    aria-label="اللون المساعد"
                   />
                   <input
                     type="text"
                     value={theme.accent}
                     onChange={(e) => setTheme({ ...theme, accent: e.target.value })}
                     className="flex-1 px-2.5 py-1 text-xs border rounded-lg"
+                    placeholder="#c8a84e"
+                    title="رمز اللون المساعد"
                   />
                 </div>
               </div>
@@ -364,6 +372,8 @@ export default function MobileControlPage() {
                     })
                   }
                   className="w-full px-3 py-1.5 border rounded-lg text-sm"
+                  placeholder="عنوان البانر بالعربية"
+                  title="عنوان البانر بالعربية"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -399,6 +409,8 @@ export default function MobileControlPage() {
                       })
                     }
                     className="w-full px-3 py-1.5 border rounded-lg text-sm"
+                    placeholder="1.0.0"
+                    title="رقم الإصدار"
                   />
                 </div>
                 <div className="flex items-end pb-2">
@@ -430,6 +442,8 @@ export default function MobileControlPage() {
                     })
                   }
                   className="w-full px-3 py-1.5 border rounded-lg text-sm"
+                  placeholder="رسالة التنبيه بالتحديث"
+                  title="رسالة التنبيه بالتحديث"
                 />
               </div>
             </div>
@@ -493,6 +507,7 @@ export default function MobileControlPage() {
                   value={pushProvince}
                   onChange={(e) => setPushProvince(e.target.value)}
                   className="w-full px-3 py-2 border rounded-xl bg-white text-xs"
+                  title="المقاطعة المستهدفة"
                 >
                   <option value="">كل المقاطعات</option>
                   {DUTCH_PROVINCES.map((p) => (
@@ -510,6 +525,7 @@ export default function MobileControlPage() {
                   onChange={(e) => setPushCity(e.target.value)}
                   placeholder="مثال: Amsterdam, Rotterdam"
                   className="w-full px-3 py-1.5 border rounded-xl text-xs"
+                  title="المدينة المستهدفة"
                 />
               </div>
             </div>
@@ -647,6 +663,8 @@ export default function MobileControlPage() {
                             value={editingTrans.ar}
                             onChange={(e) => setEditingTrans({ ...editingTrans, ar: e.target.value })}
                             className="px-2 py-1 border rounded w-full"
+                            placeholder="الترجمة بالعربية"
+                            title="الترجمة بالعربية"
                           />
                         ) : (
                           t.ar
@@ -659,6 +677,8 @@ export default function MobileControlPage() {
                             value={editingTrans.en}
                             onChange={(e) => setEditingTrans({ ...editingTrans, en: e.target.value })}
                             className="px-2 py-1 border rounded w-full"
+                            placeholder="الترجمة بالإنجليزية"
+                            title="الترجمة بالإنجليزية"
                           />
                         ) : (
                           t.en
@@ -671,6 +691,8 @@ export default function MobileControlPage() {
                             value={editingTrans.nl}
                             onChange={(e) => setEditingTrans({ ...editingTrans, nl: e.target.value })}
                             className="px-2 py-1 border rounded w-full"
+                            placeholder="الترجمة بالهولندية"
+                            title="الترجمة بالهولندية"
                           />
                         ) : (
                           t.nl
