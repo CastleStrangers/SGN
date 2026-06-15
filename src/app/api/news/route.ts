@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 
 // الحقول المُرجَعة في قوائم الأخبار (بدون content لتقليل حجم الاستجابة)
@@ -44,7 +45,7 @@ export async function GET(req: NextRequest) {
     }
 
     // بناء شرط الاستعلام
-    const where: any = { published: true };
+    const where: Prisma.PostWhereInput = { published: true };
     if (category) where.category = category;
     if (featured === "true") where.featured = true;
     if (video) where.source = "youtube";
