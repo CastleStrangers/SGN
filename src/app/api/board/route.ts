@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { normalizeBoardImagePath } from '@/lib/board-images';
 
 interface DbBoardMember {
   id: string;
@@ -42,6 +43,7 @@ export async function GET() {
 
       return {
         ...m,
+        image: normalizeBoardImagePath(m.image),
         committees,
         bioPoints
       };
