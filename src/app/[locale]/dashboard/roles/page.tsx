@@ -129,6 +129,29 @@ export default function RolesPage() {
             <input value={newName} onChange={e => setNewName(e.target.value)} placeholder={t('roleNamePlaceholder')} className="px-4 py-2 border rounded-xl text-sm" />
             <input value={newDesc} onChange={e => setNewDesc(e.target.value)} placeholder={t('roleDescPlaceholder')} className="px-4 py-2 border rounded-xl text-sm" />
           </div>
+          
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={suggestPermissionsWithAI}
+              disabled={aiLoading}
+              className="flex items-center gap-2 bg-[#c8a84e]/15 hover:bg-[#c8a84e]/25 text-[#a88220] border border-[#c8a84e]/30 px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors disabled:opacity-50"
+            >
+              {aiLoading ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Sparkles className="w-3.5 h-3.5 text-[#c8a84e]" />
+              )}
+              اقتراح الصلاحيات ذكياً (AI)
+            </button>
+          </div>
+
+          {aiReason && (
+            <div className="mb-4 bg-amber-50/50 border border-amber-200/60 rounded-xl p-3 text-xs text-[#a88220] leading-relaxed">
+              <strong>تحليل الذكاء الاصطناعي:</strong> {aiReason}
+            </div>
+          )}
+
           <div className="mb-4">
             <p className="text-sm font-bold text-gray-700 mb-2">{t('permissions')}</p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-60 overflow-y-auto">
