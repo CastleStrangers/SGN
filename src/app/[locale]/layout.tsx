@@ -2,6 +2,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/home/site-footer";
+import { LocaleSync } from "@/components/locale-sync";
 
 const openGraphLocales: Record<string, string> = {
   ar: "ar_AR",
@@ -41,8 +42,10 @@ export default async function LocaleLayout({ children }: { children: React.React
 
   return (
     <NextIntlClientProvider locale={locale}>
+      <LocaleSync />
       {children}
       <SiteFooter />
     </NextIntlClientProvider>
   );
 }
+

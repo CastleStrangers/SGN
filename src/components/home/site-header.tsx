@@ -80,7 +80,7 @@ export function SiteHeader() {
                 {userMenuOpen && (
                   <>
                     <div className="fixed inset-0 z-30" onClick={() => setUserMenuOpen(false)} />
-                    <div className={`absolute ${isRtl ? "left-0" : "right-0"} mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl py-2 z-40`}>
+                    <div className="absolute ltr:right-0 rtl:left-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl py-2 z-40">
                       <div className={`px-4 py-2 border-b border-gray-50 ${isRtl ? "text-right" : "text-left"}`}>
                         <p className="text-[10px] text-gray-400">{t("dashboard.welcome")}</p>
                         <p className="text-sm font-bold text-gray-900 truncate" title={session.user?.name || ""}>

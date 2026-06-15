@@ -32,7 +32,7 @@ export default function LanguageSwitcher() {
         <span className="hidden sm:inline">{LOCALES[locale as keyof typeof LOCALES]?.label || t('arabic')}</span>
       </button>
       {open && (
-        <div className="absolute top-full mt-1 left-0 bg-white border rounded-lg shadow-lg py-1 min-w-[120px] z-50">
+        <div className="absolute top-full mt-1 ltr:right-0 rtl:left-0 bg-white border rounded-lg shadow-lg py-1 min-w-[120px] z-50">
           {Object.entries(LOCALES).map(([k, v]) => (
             <button
               key={k}
