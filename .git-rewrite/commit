@@ -1,6 +1,6 @@
-tree 6e4d5b39d1fd4028cc56f7b3cb48f29765fa0f42
-parent 558b8a2321a32b7f70efb4880adea9f59177d304
-author Salim <msali@syrian-nl.org> 1781350392 +0200
-committer Salim <msali@syrian-nl.org> 1781350392 +0200
+tree abe1e6a5b6988aa8ebf00a5df1647cc3188a9004
+parent 2e320db91425aa4929700a124183e148d8cf4445
+author Salim <msali@syrian-nl.org> 1781356861 +0200
+committer Salim <msali@syrian-nl.org> 1781356861 +0200
 
-chore: update FACEBOOK_PAGE_TOKEN in environment configuration
+feat: implement messaging interface with user chat and AI assistant support
