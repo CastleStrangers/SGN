@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
     }
 
     // بناء شرط الاستعلام
-    const where: Prisma.PostWhereInput = { published: true };
+    const where: Prisma.PostWhereInput = { published: true, membersOnly: false };
     if (category) where.category = category;
     if (featured === "true") where.featured = true;
     if (video) where.source = "youtube";
