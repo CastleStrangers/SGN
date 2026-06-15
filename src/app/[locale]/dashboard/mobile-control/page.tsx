@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Smartphone, Send, Save, Palette, Bell, Globe, Plus, Trash2, Edit3, Check, Loader2 } from "lucide-react";
+import { Smartphone, Send, Save, Palette, Bell, Globe, Plus, Trash2, Edit3, Check, Loader2, X } from "lucide-react";
 
 interface Banner {
   titleAr: string;
