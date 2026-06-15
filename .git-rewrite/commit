@@ -1,6 +1,6 @@
-tree abe1e6a5b6988aa8ebf00a5df1647cc3188a9004
-parent 2e320db91425aa4929700a124183e148d8cf4445
-author Salim <msali@syrian-nl.org> 1781356861 +0200
-committer Salim <msali@syrian-nl.org> 1781356861 +0200
+tree 0daab8b12d0d6080b1d5d972a1b604a5a4c38ab4
+parent 3273b2943179cf30e23ab10051a04774ce7646ae
+author Salim <msali@syrian-nl.org> 1781364053 +0200
+committer Salim <msali@syrian-nl.org> 1781364053 +0200
 
-feat: implement messaging interface with user chat and AI assistant support
+feat: add events and favorites screens to app tabs
