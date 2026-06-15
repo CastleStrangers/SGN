@@ -42,7 +42,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { data: session } = useSession();
-  const mainItems = mainNav.map(i => ({ label: i.label || t(i.key!), href: i.href }));
+  const mainItems = mainNav.map(i => ({ label: t(i.key!), href: i.href }));
   const secondaryItems = secondaryNav.map(i => ({ label: t(i.key!), href: i.href }));
   const allItems = [...mainItems, ...secondaryItems];
 

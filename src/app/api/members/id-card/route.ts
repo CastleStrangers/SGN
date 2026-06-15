@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
     const extension = member.encryptedIdCard.split(".").reverse()[1]?.toLowerCase() || "jpeg";
     const contentType = extension === "pdf" ? "application/pdf" : `image/${extension}`;
 
-    return new NextResponse(decryptedBuffer, {
+    return new NextResponse(new Uint8Array(decryptedBuffer), {
       headers: {
         "Content-Type": contentType,
         "Cache-Control": "private, max-age=3600"

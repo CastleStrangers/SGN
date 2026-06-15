@@ -10,6 +10,7 @@ interface Member {
   originCity: string; whatsapp: string; email: string | null;
   nlProvincie: string; nlCity: string; expNl: string | null; expOutside: string | null;
   status: string; notes: string | null; createdAt: string;
+  encryptedIdCard?: string | null;
 }
 
 interface EditForm {

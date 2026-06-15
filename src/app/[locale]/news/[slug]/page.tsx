@@ -15,7 +15,10 @@ interface Props { params: Promise<{ locale: string; slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
-  const post = await prisma.post.findFirst({ where: { slug: decodedSlug, published: true } });
+  const post = await prisma.post.findFirst({
+    where: { slug: decodedSlug, published: true },
+    include: { author: { select: { name: true } } },
+  });
   if (!post) return { title: "المقال غير موجود" };
   return {
     title: post.title,
