@@ -289,17 +289,6 @@
       "noTasks": "Geen taken",
       "confirmDelete": "Bevestig verwijdering?"
     },
-    "aiPage": {
-      "title": "AI Slimme Assistent",
-      "desc": "Ondersteund door GPT-5.5 — helpt u bij het beheren en analyseren van taken",
-      "suggestMode": "Taken Voorstellen",
-      "analyzeMode": "Huidige Taken Analyseren",
-      "suggestPlaceholder": "Schrijf uw verzoek... Voorbeeld: stel taken voor voor het organiseren van een cultureel evenement",
-      "analyzeButton": "Huidige Taken Analyseren",
-      "responseTitle": "AI Reactie",
-      "errorGeneric": "Er is een fout opgetreden",
-      "errorConn": "Verbinding met AI-service mislukt"
-    },
     "messagesPage": {
       "title": "Berichten",
       "noMessages": "Geen berichten",
@@ -937,9 +926,13 @@
   "notifications": {
     "title": "Meldingen",
     "markAllRead": "Alles als gelezen markeren",
-    "empty": "Geen meldingen",
+    "empty": "Nog geen meldingen",
     "unread": "U heeft {count} ongelezen meldingen",
-    "view": "Meldingen Bekijken"
+    "view": "Meldingen Bekijken",
+    "aiSummary": "AI-samenvatting ✨",
+    "aiSummaryLoading": "AI-samenvatting genereren...",
+    "aiSummaryTitle": "Uw AI-samenvatting",
+    "close": "Sluiten"
   },
   "otp": {
     "title": "OTP-verificatie",
@@ -1246,14 +1239,5 @@
     "relatedTask": "Gerelateerde Vrijwilligerskans",
     "relatedTaskDesc": "Deze vrijwilligerstaak is momenteel actief en heeft uw steun nodig.",
     "volunteerNow": "Nu vrijwilliger worden"
-  },
-  "notifications": {
-    "title": "Meldingen",
-    "markAllRead": "Alles als gelezen markeren",
-    "empty": "Nog geen meldingen",
-    "aiSummary": "AI-samenvatting ✨",
-    "aiSummaryLoading": "AI-samenvatting genereren...",
-    "aiSummaryTitle": "Uw AI-samenvatting",
-    "close": "Sluiten"
   }
 }
