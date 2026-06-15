@@ -123,7 +123,7 @@ export default function RolesPage() {
         <div className="bg-white rounded-2xl border p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-gray-900">{t('newRole')}</h3>
-            <button onClick={() => setNewRole(false)}><X className="w-5 h-5 text-gray-400" /></button>
+            <button onClick={() => setNewRole(false)} title="إغلاق" aria-label="إغلاق"><X className="w-5 h-5 text-gray-400" /></button>
           </div>
           <div className="grid grid-cols-2 gap-4 mb-4">
             <input value={newName} onChange={e => setNewName(e.target.value)} placeholder={t('roleNamePlaceholder')} className="px-4 py-2 border rounded-xl text-sm" />
@@ -180,9 +180,9 @@ export default function RolesPage() {
                 {role.isSystem && <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">{t('system')}</span>}
               </div>
               <div className="flex gap-2">
-                <button onClick={() => startEdit(role)} className="text-gray-400 hover:text-[#1a5632]"><UserCheck className="w-5 h-5" /></button>
+                <button onClick={() => startEdit(role)} className="text-gray-400 hover:text-[#1a5632]" title="تعديل الصلاحيات" aria-label="تعديل الصلاحيات"><UserCheck className="w-5 h-5" /></button>
                 {!role.isSystem && (
-                  <button onClick={() => deleteRole(role.id)} className="text-gray-400 hover:text-red-500"><Trash2 className="w-5 h-5" /></button>
+                  <button onClick={() => deleteRole(role.id)} className="text-gray-400 hover:text-red-500" title="حذف الدور" aria-label="حذف الدور"><Trash2 className="w-5 h-5" /></button>
                 )}
               </div>
             </div>
