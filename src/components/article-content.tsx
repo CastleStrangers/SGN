@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Sparkles, Languages, RotateCcw, Lock, ArrowLeft } from "lucide-react";
 import { Link } from "@/i18n/routing";
 
@@ -26,10 +27,11 @@ export function ArticleContent({
   postSource,
   children,
 }: ArticleContentProps) {
+  const t = useTranslations("newsPage");
   const [translated, setTranslated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const [title, setTitle] = useState(originalTitle);
   const [excerpt, setExcerpt] = useState(originalExcerpt);
   const [content, setContent] = useState(originalContent);
@@ -81,7 +83,7 @@ export function ArticleContent({
       setContent(contentRes.result || originalContent);
       setTranslated(true);
     } catch (err: any) {
-      setError(locale === "nl" ? "Vertaling mislukt. Probeer het opnieuw." : "Failed to translate article. Please try again.");
+      setError(t("translateError"));
       console.error("Translation error:", err);
     } finally {
       setLoading(false);
@@ -89,9 +91,9 @@ export function ArticleContent({
   };
 
   const getButtonText = () => {
-    if (loading) return locale === "nl" ? "Vertalen met AI..." : "Translating with AI...";
-    if (translated) return locale === "nl" ? "Toon origineel" : "Show Original";
-    return locale === "nl" ? "Vertaal met AI ✨" : "Translate with AI ✨";
+    if (loading) return t("translateBtnLoading");
+    if (translated) return t("translateBtnRevert");
+    return t("translateBtn");
   };
 
   const contentHtml = content.replace(/\n/g, "<br/>");
@@ -103,9 +105,7 @@ export function ArticleContent({
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
             <p className="text-xs font-semibold text-purple-800 dark:text-purple-300">
-              {locale === "nl" 
-                ? "Dit artikel is in het Arabisch geschreven. Je kunt het vertalen met AI." 
-                : "This article is written in Arabic. You can translate it using AI."}
+              {t("translatePrompt")}
             </p>
           </div>
           <button
@@ -138,37 +138,33 @@ export function ArticleContent({
       {membersOnly && !isLoggedIn ? (
         <div className="relative mt-4 overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800/60 p-6 md:p-8 bg-gray-50/50 dark:bg-gray-900/20">
           <div className="text-gray-400 leading-8 text-base md:text-lg space-y-4 select-none blur-[5px] pointer-events-none opacity-30">
-            <p>هذا النص مخفي لحماية حقوق النشر وتصفح الأعضاء المسجلين فقط في الجالية السورية في هولندا...</p>
-            <p>هذا النص مخفي لحماية حقوق النشر وتصفح الأعضاء المسجلين فقط في الجالية السورية في هولندا...</p>
+            <p>{originalContent.slice(0, 200)}...</p>
+            <p>{originalContent.slice(0, 200)}...</p>
           </div>
-          
+
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-white via-white/95 to-white/30 dark:from-gray-950 dark:via-gray-950/95 dark:to-gray-950/30 pt-16 text-center">
             <div className="w-14 h-14 rounded-full bg-[#1a5632]/10 flex items-center justify-center text-[#1a5632] mb-4 shadow-inner border border-[#1a5632]/5">
               <Lock className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {locale === "nl" ? "Dit nieuws is alleen voor leden" : locale === "en" ? "This news is for members only" : "هذا الخبر مخصص للأعضاء فقط"}
+              {t("membersOnlyTitle")}
             </h3>
             <p className="text-gray-505 dark:text-gray-400 text-sm max-w-sm mb-6 leading-relaxed px-4">
-              {locale === "nl" 
-                ? "Je leest de introductie. Log in of maak een gratis account aan om het volledige nieuws te lezen." 
-                : locale === "en" 
-                ? "You are reading the introduction. Please log in or create a free account to read the full article." 
-                : "أنت تقرأ مقدمة الخبر. لمتابعة قراءة الخبر بالكامل والمشاركة بالتعليقات، يرجى تسجيل الدخول أو إنشاء حساب مجاني."}
+              {t("membersOnlyDesc")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs px-4">
               <Link
                 href="/login"
                 className="flex-1 bg-[#1a5632] hover:bg-[#0f3d23] text-white font-bold py-3 px-4 rounded-xl text-sm transition-all shadow-md text-center flex items-center justify-center gap-1.5"
               >
-                <span>{locale === "nl" ? "Inloggen" : locale === "en" ? "Login" : "تسجيل الدخول"}</span>
+                <span>{t("loginButton")}</span>
                 <ArrowLeft className="w-4 h-4" />
               </Link>
               <Link
                 href="/signup"
                 className="flex-1 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold py-3 px-4 rounded-xl text-sm transition-all border border-gray-200 dark:border-gray-700 text-center"
               >
-                {locale === "nl" ? "Account aanmaken" : locale === "en" ? "Sign Up" : "إنشاء حساب مجاني"}
+                {t("signupButton")}
               </Link>
             </div>
           </div>
