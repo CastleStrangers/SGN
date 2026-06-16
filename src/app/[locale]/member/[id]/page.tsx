@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Loader2, MapPin, User, Calendar, Briefcase, GraduationCap, Heart, Wrench, Badge, Camera } from "lucide-react";
+import { Link } from "@/i18n/routing";
+import {
+  Loader2, MapPin, User, Calendar, Briefcase,
+  GraduationCap, Heart, Wrench, BadgeCheck,
+  CreditCard, ExternalLink
+} from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
 import { TopBar } from "@/components/home/top-bar";
@@ -18,6 +23,18 @@ interface MemberProfile {
   skills: string | null;
   maritalStatus: string | null;
   createdAt: string;
+}
+
+function InfoCard({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
+  return (
+    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-emerald-200 transition-colors">
+      <div className="flex items-center gap-2 text-slate-400 text-xs mb-1.5">
+        <Icon className="w-3.5 h-3.5" />
+        <span className="uppercase tracking-wider font-medium">{label}</span>
+      </div>
+      <p className="font-bold text-slate-800 text-sm">{value}</p>
+    </div>
+  );
 }
 
 export default function MemberPage() {
@@ -42,147 +59,132 @@ export default function MemberPage() {
 
   if (loading) {
     return (
-      <div dir="auto" className="min-h-screen bg-gray-50">
+      <div dir="auto" className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50">
         <TopBar /><SiteHeader />
         <main className="max-w-2xl mx-auto px-4 py-20 flex justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-emerald-800" />
+          <Loader2 className="w-8 h-8 animate-spin text-emerald-700" />
         </main>
-        
       </div>
     );
   }
 
   if (error || !member) {
     return (
-      <div dir="auto" className="min-h-screen bg-gray-50">
+      <div dir="auto" className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50">
         <TopBar /><SiteHeader />
         <main className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <User className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-          <p className="text-lg font-medium text-gray-500">{t('notFound')}</p>
+          <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
+            <User className="w-10 h-10 text-slate-300" />
+          </div>
+          <p className="text-lg font-medium text-slate-500">{t('notFound')}</p>
         </main>
-        
       </div>
     );
   }
 
+  const memberNum = member.memberNumber ? String(member.memberNumber).padStart(6, '0') : null;
+
   return (
-    <div dir="auto" className="min-h-screen bg-gray-50">
+    <div dir="auto" className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50">
       <TopBar />
       <SiteHeader />
       <main className="max-w-2xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-3xl border p-6 md:p-8">
-          <div className="flex flex-col items-center text-center mb-8">
-            <div className="w-24 h-24 rounded-full bg-emerald-800 flex items-center justify-center text-white text-3xl font-bold mb-4 overflow-hidden">
-              {member.memberNumber && <img src="/api/placeholder" alt="" className="hidden" />}
-              <span>{member.nameAr.charAt(0)}</span>
+
+        {/* Hero card */}
+        <div className="relative bg-gradient-to-br from-emerald-900 via-emerald-800 to-slate-900 rounded-3xl overflow-hidden shadow-xl mb-6">
+
+          {/* bg pattern */}
+          <div className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: `repeating-linear-gradient(135deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)`
+            }}
+          />
+          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/5 blur-2xl" />
+          <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-emerald-400/10 blur-2xl" />
+
+          <div className="relative z-10 p-8 flex flex-col items-center text-center">
+            {/* Avatar */}
+            <div className="w-24 h-24 rounded-2xl bg-white/10 border-2 border-white/20 flex items-center justify-center text-white text-4xl font-black mb-4 shadow-lg">
+              {member.nameAr.charAt(0)}
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">{member.nameAr}</h1>
-            <p className="text-gray-500 mt-1" dir="ltr">{member.nameNl}</p>
-            {member.memberNumber && (
-              <span className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
-                <Badge className="w-3 h-3" /> {t('memberNumber')}: {member.memberNumber}
+
+            <h1 className="text-2xl font-black text-white mb-1">{member.nameAr}</h1>
+            <p className="text-emerald-300 text-sm mb-3" dir="ltr">{member.nameNl}</p>
+
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 border border-emerald-400/30 rounded-full text-xs text-emerald-300 font-bold">
+                <BadgeCheck className="w-3.5 h-3.5" />
+                {t('memberBadge')}
               </span>
+              {memberNum && (
+                <span className="px-3 py-1 bg-yellow-500/10 border border-yellow-400/30 rounded-full text-xs text-yellow-300 font-mono font-bold">
+                  #{memberNum}
+                </span>
+              )}
+            </div>
+
+            {/* Digital Card link */}
+            <Link
+              href={`/membership-card/${member.id}`}
+              className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl text-sm font-bold transition-all hover:scale-105"
+            >
+              <CreditCard className="w-4 h-4" />
+              {t('viewCard')}
+              <ExternalLink className="w-3 h-3 opacity-60" />
+            </Link>
+          </div>
+
+          {/* bottom colored strip */}
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500/60 via-emerald-400/80 to-yellow-500/60" />
+        </div>
+
+        {/* Info grid */}
+        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <InfoCard icon={MapPin} label={t('originCity')} value={member.originCity} />
+            <InfoCard icon={MapPin} label={t('residence')} value={`${member.nlCity} — ${member.nlProvincie}`} />
+            <InfoCard icon={Calendar} label={t('birthYear')} value={String(member.birthYear)} />
+            <InfoCard icon={User} label={t('gender')} value={member.gender} />
+            {member.educationLevel && (
+              <InfoCard icon={GraduationCap} label={t('educationLevel')} value={member.educationLevel} />
             )}
-            <span className="mt-1 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">{t('memberBadge')}</span>
+            {member.maritalStatus && (
+              <InfoCard icon={Heart} label={t('maritalStatus')} value={member.maritalStatus} />
+            )}
+            {member.profession && (
+              <InfoCard icon={Briefcase} label={t('profession')} value={member.profession} />
+            )}
+            {member.skills && (
+              <InfoCard icon={Wrench} label={t('skills')} value={member.skills} />
+            )}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 bg-gray-50 rounded-2xl">
-              <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                <MapPin className="w-3 h-3" />
-                <span>{t('originCity')}</span>
-              </div>
-              <p className="font-bold text-gray-900">{member.originCity}</p>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-2xl">
-              <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                <MapPin className="w-3 h-3" />
-                <span>{t('residence')}</span>
-              </div>
-              <p className="font-bold text-gray-900">{member.nlCity} — {member.nlProvincie}</p>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-2xl">
-              <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                <Calendar className="w-3 h-3" />
-                <span>{t('birthYear')}</span>
-              </div>
-              <p className="font-bold text-gray-900">{member.birthYear}</p>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-2xl">
-              <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                <User className="w-3 h-3" />
-                <span>{t('gender')}</span>
-              </div>
-              <p className="font-bold text-gray-900">{member.gender}</p>
-            </div>
-          </div>
-
-          {member.educationLevel && (
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 bg-gray-50 rounded-2xl">
-                <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                  <GraduationCap className="w-3 h-3" />
-                  <span>{t('educationLevel')}</span>
-                </div>
-                <p className="font-bold text-gray-900">{member.educationLevel}</p>
-              </div>
-              {member.maritalStatus && (
-              <div className="p-4 bg-gray-50 rounded-2xl">
-                <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                  <Heart className="w-3 h-3" />
-                  <span>{t('maritalStatus')}</span>
-                </div>
-                <p className="font-bold text-gray-900">{member.maritalStatus}</p>
-              </div>
-              )}
-            </div>
-          )}
-          {member.profession && (
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 bg-gray-50 rounded-2xl">
-                <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                  <Briefcase className="w-3 h-3" />
-                  <span>{t('profession')}</span>
-                </div>
-                <p className="font-bold text-gray-900">{member.profession}</p>
-              </div>
-              {member.skills && (
-              <div className="p-4 bg-gray-50 rounded-2xl">
-                <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                  <Wrench className="w-3 h-3" />
-                  <span>{t('skills')}</span>
-                </div>
-                <p className="font-bold text-gray-900">{member.skills}</p>
-              </div>
-              )}
-            </div>
-          )}
+          {/* Experience sections */}
           {member.expNl && (
-            <div className="mt-6 p-4 bg-gray-50 rounded-2xl">
-              <div className="flex items-center gap-2 text-gray-500 text-xs mb-2">
-                <Briefcase className="w-3 h-3" />
-                <span>{t('expNl')}</span>
+            <div className="mt-4 p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+              <div className="flex items-center gap-2 text-emerald-700 text-xs mb-2">
+                <Briefcase className="w-3.5 h-3.5" />
+                <span className="uppercase tracking-wider font-bold">{t('expNl')}</span>
               </div>
-              <p className="text-sm text-gray-700 leading-relaxed">{member.expNl}</p>
+              <p className="text-sm text-slate-700 leading-relaxed">{member.expNl}</p>
             </div>
           )}
 
           {member.expOutside && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-2xl">
-              <div className="flex items-center gap-2 text-gray-500 text-xs mb-2">
-                <Briefcase className="w-3 h-3" />
-                <span>{t('expOutside')}</span>
+            <div className="mt-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+              <div className="flex items-center gap-2 text-slate-500 text-xs mb-2">
+                <Briefcase className="w-3.5 h-3.5" />
+                <span className="uppercase tracking-wider font-bold">{t('expOutside')}</span>
               </div>
-              <p className="text-sm text-gray-700 leading-relaxed">{member.expOutside}</p>
+              <p className="text-sm text-slate-700 leading-relaxed">{member.expOutside}</p>
             </div>
           )}
 
-          <p className="text-center text-xs text-gray-400 mt-8">
+          <p className="text-center text-xs text-slate-400 mt-6 pb-1">
             {t('memberSince')} {formatDate(member.createdAt, locale)}
           </p>
         </div>
       </main>
-      
     </div>
   );
 }
