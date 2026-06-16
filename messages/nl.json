@@ -867,7 +867,8 @@
     "skills": "Vaardigheden",
     "expNl": "Ervaring in Nederland",
     "expOutside": "Eerdere Ervaring",
-    "memberSince": "Lid sinds"
+    "memberSince": "Lid sinds",
+    "viewCard": "Digitale Lidmaatschapskaart Bekijken"
   },
   "membershipCard": {
     "pageTitle": "Digitale Lidmaatschapskaart",

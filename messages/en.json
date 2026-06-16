@@ -867,7 +867,8 @@
     "skills": "Skills",
     "expNl": "Experience in the Netherlands",
     "expOutside": "Previous Experience",
-    "memberSince": "Member since"
+    "memberSince": "Member since",
+    "viewCard": "View Digital Membership Card"
   },
   "membershipCard": {
     "pageTitle": "Digital Membership Card",

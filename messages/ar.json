@@ -867,7 +867,8 @@
     "skills": "المهارات",
     "expNl": "الخبرات في هولندا",
     "expOutside": "الخبرات السابقة",
-    "memberSince": "عضو منذ"
+    "memberSince": "عضو منذ",
+    "viewCard": "عرض بطاقة العضوية الرقمية"
   },
   "membershipCard": {
     "pageTitle": "بطاقة العضوية الرقمية",
