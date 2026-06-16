@@ -870,15 +870,24 @@
     "memberSince": "عضو منذ"
   },
   "membershipCard": {
-    "notFound": "البطاقة غير متوفرة",
+    "pageTitle": "بطاقة العضوية الرقمية",
+    "pageSubtitle": "الجالية السورية في هولندا — بطاقة هوية العضو الرسمية",
+    "cardTitle": "بطاقة عضوية",
+    "notFound": "البطاقة غير متوفرة أو غير مفعّلة",
+    "loading": "جاري تحميل البطاقة...",
     "printBtn": "طباعة البطاقة",
+    "shareBtn": "مشاركة الرابط",
+    "copied": "تم النسخ!",
     "memberNumber": "رقم العضوية",
+    "memberBadge": "عضو رسمي",
     "birthYear": "سنة الميلاد",
     "gender": "الجنس",
     "originCity": "محافظة المنشأ",
-    "residence": "الإقامة",
+    "residence": "مدينة الإقامة",
     "membershipDate": "تاريخ العضوية",
-    "footer": "الجالية السورية في هولندا"
+    "activeStatus": "عضوية فعّالة",
+    "footer": "الجالية السورية في هولندا",
+    "verifyNote": "يمكن مسح رمز QR للتحقق من صحة هذه البطاقة"
   },
   "userProfile": {
     "notFound": "المستخدم غير موجود",
