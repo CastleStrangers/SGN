@@ -217,7 +217,7 @@ async function main() {
       {
         nameAr: "عبد المنعم الشامان",
         nameEn: "Abdul Munim Al Chaman",
-        image: "/images/board/abdulmunim.jpg",
+        image: "/images/board/abdulmunim.svg",
         titleAr: "رئيس مجلس الإدارة",
         titleEn: "Chairman of the Board",
         isFounder: true,
@@ -234,7 +234,7 @@ async function main() {
       {
         nameAr: "صالح المحمد حنايا",
         nameEn: "Saleh Al Mohamad",
-        image: "/images/board/saleh.jpg",
+        image: "/images/board/saleh.svg",
         titleAr: "نائب رئيس مجلس الإدارة",
         titleEn: "Vice Chairman of the Board",
         isFounder: true,
@@ -251,7 +251,7 @@ async function main() {
       {
         nameAr: "خالد فيصل الطويل",
         nameEn: "Khaled Faisal Altawil",
-        image: "/images/board/khaled.jpg",
+        image: "/images/board/khaled.svg",
         titleAr: "الأمين العام للجالية",
         titleEn: "Secretary General",
         isFounder: true,
@@ -268,7 +268,7 @@ async function main() {
       {
         nameAr: "نهاد سويد",
         nameEn: "Nehad Sowid",
-        image: "/images/board/nehad.jpg",
+        image: "/images/board/nehad.svg",
         titleAr: "عضو مجلس إدارة (مسؤول شؤون العلاقات العامة)",
         titleEn: "Board Member (Public Relations Officer)",
         isFounder: true,
@@ -285,7 +285,7 @@ async function main() {
       {
         nameAr: "محمد مصطفى سمهاني",
         nameEn: "Mohammad Semhani",
-        image: "/images/board/samhani.jpg",
+        image: "/images/board/samhani.svg",
         titleAr: "عضو مجلس إدارة (مسؤول مشترك لشؤون العلاقات الدولية)",
         titleEn: "Board Member (Joint International Relations Officer)",
         isFounder: true,
@@ -302,7 +302,7 @@ async function main() {
       {
         nameAr: "رائد دهموش المشهور",
         nameEn: "Raid Dahmoush",
-        image: "/images/board/dahmoush.jpg",
+        image: "/images/board/dahmoush.svg",
         titleAr: "عضو مجلس إدارة (مسؤول شؤون العلاقات الخارجية)",
         titleEn: "Board Member (Foreign Relations Officer)",
         isFounder: true,
@@ -319,7 +319,7 @@ async function main() {
       {
         nameAr: "محمود الناصر",
         nameEn: "Mahmoud AlNaser",
-        image: "/images/board/naser.jpg",
+        image: "/images/board/naser.svg",
         titleAr: "عضو مجلس إدارة (مسؤول مشترك لشؤون العلاقات الدولية)",
         titleEn: "Board Member (Joint International Relations Officer)",
         isFounder: true,
@@ -336,7 +336,7 @@ async function main() {
       {
         nameAr: "هدى الحلاق",
         nameEn: "Huda Alhallak",
-        image: "/images/board/huda.jpg",
+        image: "/images/board/huda.svg",
         titleAr: "عضو مجلس إدارة (مديرة المكتب الإعلامي)",
         titleEn: "Board Member (Director of Media Office)",
         isFounder: true,
@@ -353,7 +353,7 @@ async function main() {
       {
         nameAr: "محمد عمر النويلاتي",
         nameEn: "Omar Al Nwilati",
-        image: "/images/board/omar.jpg",
+        image: "/images/board/omar.svg",
         titleAr: "عضو مجلس إدارة (مسؤول النشاطات)",
         titleEn: "Board Member (Director of Activities)",
         isFounder: true,
@@ -370,7 +370,7 @@ async function main() {
       {
         nameAr: "حسن الحسن قطيني",
         nameEn: "Hasan Alhasan (Qutaini)",
-        image: "/images/board/qutaini.jpg",
+        image: "/images/board/qutaini.svg",
         titleAr: "عضو مجلس إدارة (مسؤول شؤون رواد الأعمال)",
         titleEn: "Board Member (Director of Entrepreneurs Office)",
         isFounder: true,
@@ -387,7 +387,7 @@ async function main() {
       {
         nameAr: "رابعة الزريقات",
         nameEn: "Rabaa Al-Zreqat",
-        image: "/images/board/rabaa.jpg",
+        image: "/images/board/rabaa.svg",
         titleAr: "عضو مجلس إدارة (مسؤول الشؤون القانونية)",
         titleEn: "Board Member (Legal Affairs Officer)",
         isFounder: true,
@@ -404,7 +404,7 @@ async function main() {
       {
         nameAr: "محمد أكرم الجنيدي",
         nameEn: "Mohamad Akram Aljnidi",
-        image: "/images/board/akram.jpg",
+        image: "/images/board/akram.svg",
         titleAr: "عضو مجلس إدارة (مسؤول شؤون الطلاب والتعليم)",
         titleEn: "Board Member (Student & Education Officer)",
         isFounder: true,
@@ -421,7 +421,7 @@ async function main() {
       {
         nameAr: "نبيل حاج حسين",
         nameEn: "Nabil Haj Hussein",
-        image: "/images/board/nabil.jpg",
+        image: "/images/board/nabil.svg",
         titleAr: "عضو مجلس إدارة (مسؤول مشترك لشؤون الصحة والدعم النفسي)",
         titleEn: "Board Member (Joint Health & Support Officer)",
         isFounder: true,
@@ -438,7 +438,7 @@ async function main() {
       {
         nameAr: "بلال الرفاعي",
         nameEn: "Belal Alrefai",
-        image: "/images/board/belal.jpg",
+        image: "/images/board/belal.svg",
         titleAr: "عضو مجلس إدارة (مسؤول مشترك لشؤون الصحة والدعم النفسي / رئيس مكتب الإعلام تكليفاً)",
         titleEn: "Board Member (Joint Health Officer / Acting Media Head)",
         isFounder: false,
@@ -455,7 +455,7 @@ async function main() {
       {
         nameAr: "فاتن رحال",
         nameEn: "Faten Rahhal",
-        image: "/images/board/faten.jpg",
+        image: "/images/board/faten.svg",
         titleAr: "عضو مجلس إدارة (رئيسة مكتب شؤون المرأة والأسرة)",
         titleEn: "Board Member (Head of Women & Family Office)",
         isFounder: true,
@@ -472,7 +472,7 @@ async function main() {
       {
         nameAr: "فراس هاني عابدين",
         nameEn: "Feras Abdin",
-        image: "/images/board/feras.jpg",
+        image: "/images/board/feras.svg",
         titleAr: "عضو المجلس الاستشاري (رئيس المكتب القانوني)",
         titleEn: "Advisory Council Member (Head of Legal Office)",
         isFounder: true,
@@ -489,7 +489,7 @@ async function main() {
       {
         nameAr: "محمد رائد كعكة",
         nameEn: "Mohamad Raed Kaakeh",
-        image: "/images/board/raed.jpg",
+        image: "/images/board/raed.svg",
         titleAr: "رئيس المكتب المالي وعضو المكتب الإعلامي",
         titleEn: "Head of Financial Office & Media Member",
         isFounder: true,
@@ -506,7 +506,7 @@ async function main() {
       {
         nameAr: "محمد ربيع الجنيدي",
         nameEn: "Mohammed Rabe Aljnidi",
-        image: "/images/board/rabe.jpg",
+        image: "/images/board/rabe.svg",
         titleAr: "عضو المجلس الاستشاري (رئيس لجنة فض النزاعات)",
         titleEn: "Advisory Council Member (Head of Dispute Resolution)",
         isFounder: true,
@@ -523,7 +523,7 @@ async function main() {
       {
         nameAr: "ماهره الطواشي",
         nameEn: "Mahera Al Tawashi",
-        image: "/images/board/mahera.jpg",
+        image: "/images/board/mahera.svg",
         titleAr: "عضو المجلس الاستشاري",
         titleEn: "Advisory Council Member",
         isFounder: true,
@@ -540,7 +540,7 @@ async function main() {
       {
         nameAr: "وسيم حسان",
         nameEn: "Wassim Hassan",
-        image: "/images/board/wassim.jpg",
+        image: "/images/board/wassim.svg",
         titleAr: "عضو المجلس الاستشاري",
         titleEn: "Advisory Council Member",
         isFounder: true,
@@ -557,7 +557,7 @@ async function main() {
       {
         nameAr: "يوسف درويش",
         nameEn: "Youssef Darwesh",
-        image: "/images/board/youssef.jpg",
+        image: "/images/board/youssef.svg",
         titleAr: "عضو لجنة الرقابة الداخلية",
         titleEn: "Internal Audit Committee Member",
         isFounder: true,
@@ -574,7 +574,7 @@ async function main() {
       {
         nameAr: "ريمه الحربات",
         nameEn: "Rima Alhrbat",
-        image: "/images/board/rima.jpg",
+        image: "/images/board/rima.svg",
         titleAr: "عضو المجلس الاستشاري (رئيسة مكتب المرأة والأسرة تكليفاً)",
         titleEn: "Advisory Council Member (Acting Head of Women Office)",
         isFounder: true,
@@ -591,7 +591,7 @@ async function main() {
       {
         nameAr: "أحمد الحرفي",
         nameEn: "Ahmad Alharfi",
-        image: "/images/board/alharfi.jpg",
+        image: "/images/board/alharfi.svg",
         titleAr: "عضو مكتب الأمانة العامة (المسؤول التنظيمي وعضو مكتب الإعلام)",
         titleEn: "Organizational Officer - General Secretariat",
         isFounder: true,
