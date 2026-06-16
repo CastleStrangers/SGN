@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
-import { Loader2, Download, Printer, Share2, CheckCircle2 } from "lucide-react";
+import { Loader2, Printer, Share2, CheckCircle2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
 import { TopBar } from "@/components/home/top-bar";
@@ -100,8 +100,6 @@ export default function MembershipCardPage() {
       setTimeout(() => setCopied(false), 2000);
     }
   };
-
-  const cardUrl = typeof window !== "undefined" ? `${window.location.origin}/member/${data?.id}` : "";
 
   if (loading) {
     return (
