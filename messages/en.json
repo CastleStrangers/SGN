@@ -870,15 +870,24 @@
     "memberSince": "Member since"
   },
   "membershipCard": {
-    "notFound": "Card not available",
+    "pageTitle": "Digital Membership Card",
+    "pageSubtitle": "Syrian Community in the Netherlands — Official Member ID Card",
+    "cardTitle": "Membership Card",
+    "notFound": "Card not available or not activated",
+    "loading": "Loading card...",
     "printBtn": "Print Card",
+    "shareBtn": "Share Link",
+    "copied": "Copied!",
     "memberNumber": "Membership Number",
+    "memberBadge": "Official Member",
     "birthYear": "Year of Birth",
     "gender": "Gender",
     "originCity": "Home Governorate",
-    "residence": "Residence",
+    "residence": "City of Residence",
     "membershipDate": "Membership Date",
-    "footer": "Syrian Community in the Netherlands"
+    "activeStatus": "Active Membership",
+    "footer": "Syrian Community in the Netherlands",
+    "verifyNote": "Scan the QR code to verify this card"
   },
   "userProfile": {
     "notFound": "User not found",

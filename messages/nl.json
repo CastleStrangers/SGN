@@ -870,15 +870,24 @@
     "memberSince": "Lid sinds"
   },
   "membershipCard": {
-    "notFound": "Kaart niet beschikbaar",
+    "pageTitle": "Digitale Lidmaatschapskaart",
+    "pageSubtitle": "Syrische Gemeenschap in Nederland — Officiële Ledenpas",
+    "cardTitle": "Lidmaatschapskaart",
+    "notFound": "Kaart niet beschikbaar of niet geactiveerd",
+    "loading": "Kaart laden...",
     "printBtn": "Kaart Printen",
+    "shareBtn": "Link Delen",
+    "copied": "Gekopieerd!",
     "memberNumber": "Lidnummer",
+    "memberBadge": "Officiël Lid",
     "birthYear": "Geboortejaar",
     "gender": "Geslacht",
     "originCity": "Herkomstprovincie",
     "residence": "Woonplaats",
     "membershipDate": "Lidmaatschapsdatum",
-    "footer": "Syrische Gemeenschap in Nederland"
+    "activeStatus": "Actief Lidmaatschap",
+    "footer": "Syrische Gemeenschap in Nederland",
+    "verifyNote": "Scan de QR-code om deze kaart te verifiëren"
   },
   "userProfile": {
     "notFound": "Gebruiker niet gevonden",
