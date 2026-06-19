@@ -12,3 +12,14 @@ Antigravity/
 .env
 .env.*
 !.env.example
+# Database files
+*.db
+*.db-journal
+prisma/prisma/
+
+# Log files
+build-log*.txt
+build-imgfix-log.txt
+
+# Environment variables
+.env*.local
