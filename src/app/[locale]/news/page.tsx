@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -18,10 +18,10 @@ const CATEGORIES = [
   "الكل", "أخبار الجالية", "أخبار هولندا", "أخبار أوروبا", "اقتصاد", "ثقافيات", "فيديوهات", "فعاليات", "معرض الصور", "خدمات"
 ];
 
-const PLACEHOLDER = data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='240' viewBox='0 0 400 240'><rect width='400' height='240' fill='%23f0faf4'/><rect x='150' y='80' width='100' height='80' rx='8' fill='%231a5632' opacity='0.15'/><circle cx='200' cy='100' r='20' fill='%231a5632' opacity='0.25'/><line x1='160' y1='140' x2='240' y2='140' stroke='%231a5632' stroke-width='3' stroke-linecap='round' opacity='0.2'/><line x1='170' y1='155' x2='230' y2='155' stroke='%231a5632' stroke-width='2' stroke-linecap='round' opacity='0.15'/></svg>;
+const PLACEHOLDER = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='240' viewBox='0 0 400 240'><rect width='400' height='240' fill='%23f0faf4'/><rect x='150' y='80' width='100' height='80' rx='8' fill='%231a5632' opacity='0.15'/><circle cx='200' cy='100' r='20' fill='%231a5632' opacity='0.25'/><line x1='160' y1='140' x2='240' y2='140' stroke='%231a5632' stroke-width='3' stroke-linecap='round' opacity='0.2'/><line x1='170' y1='155' x2='230' y2='155' stroke='%231a5632' stroke-width='2' stroke-linecap='round' opacity='0.15'/></svg>`;
 
 function getThumb(post: Post): string {
-  if (post.videoId) return https://img.youtube.com/vi//hqdefault.jpg;
+  if (post.videoId) return `https://img.youtube.com/vi/${post.videoId}/hqdefault.jpg`;
   if (post.image && (post.image.startsWith("http") || post.image.startsWith("/"))) return post.image;
   return PLACEHOLDER;
 }
@@ -83,7 +83,7 @@ function NewsPageInner() {
     params.set("offset", String(page * limit));
     if (searchQuery) params.set("search", searchQuery);
 
-    fetch(/api/news?{params})
+    fetch(`/api/news?${params}`)
       .then(r => r.json())
       .then(data => {
         setPosts(data.posts || []);
@@ -116,14 +116,14 @@ function NewsPageInner() {
 
   return (
     <div dir={dir} className="min-h-screen bg-[#fafdfb] text-gray-800">
-      <style dangerouslySetInnerHTML={{ __html: 
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
         .animate-scale-in { animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
-      }} />
+      `}} />
 
       <div className="relative overflow-hidden bg-gradient-to-br from-[#1a5632] via-[#113d22] to-[#0d2e1a] text-white py-12 md:py-16 shadow-lg">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent opacity-40 pointer-events-none" />
@@ -176,7 +176,11 @@ function NewsPageInner() {
               <button
                 key={cat}
                 onClick={() => handleCategoryClick(cat)}
-                className={px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 transform active:scale-95 }
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 transform active:scale-95 ${
+                  activeCategory === cat
+                    ? "bg-gradient-to-r from-[#1a5632] to-[#113d22] text-white shadow-md shadow-[#1a5632]/25 scale-105"
+                    : "bg-white text-gray-700 border border-gray-200 hover:border-[#1a5632]/40 hover:text-[#1a5632] shadow-sm"
+                }`}
               >
                 {CATEGORY_LABELS[cat] || cat}
               </button>
@@ -244,7 +248,7 @@ function NewsPageInner() {
                             {isVideo ? (
                               <button onClick={(e) => handlePostClick(e as any, p)} className="text-right font-bold w-full focus:outline-none">{p.title}</button>
                             ) : (
-                              <Link href={/news/{p.slug || p.id}}>{p.title}</Link>
+                              <Link href={`/news/${p.slug || p.id}`}>{p.title}</Link>
                             )}
                           </h3>
                           {p.excerpt && <p className="text-sm text-gray-500 mt-2 line-clamp-2 leading-relaxed">{p.excerpt}</p>}
@@ -264,7 +268,7 @@ function NewsPageInner() {
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     {Array.from({ length: totalPages }, (_, i) => (
-                      <button key={i} onClick={() => setPage(i)} className={w-10 h-10 rounded-xl text-sm font-semibold transition-all {page === i ? "bg-[#1a5632] text-white shadow-md shadow-[#1a5632]/20" : "border border-gray-200 hover:bg-gray-50 text-gray-700"}}>{i + 1}</button>
+                      <button key={i} onClick={() => setPage(i)} className={`w-10 h-10 rounded-xl text-sm font-semibold transition-all ${page === i ? "bg-[#1a5632] text-white shadow-md shadow-[#1a5632]/20" : "border border-gray-200 hover:bg-gray-50 text-gray-700"}`}>{i + 1}</button>
                     ))}
                     <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1} title="الصفحة التالية" aria-label="الصفحة التالية" className="p-2.5 rounded-xl border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                       <ChevronLeft className="w-4 h-4" />
@@ -282,7 +286,7 @@ function NewsPageInner() {
               </div>
               <div className="p-3 space-y-1">
                 {CATEGORIES.map((cat) => (
-                  <button key={cat} onClick={() => handleCategoryClick(cat)} className={lock w-full text-right px-4 py-2.5 rounded-xl text-sm transition-all {activeCategory === cat ? "bg-[#1a5632]/10 text-[#1a5632] font-bold" : "text-gray-700 hover:bg-gray-50"}}>
+                  <button key={cat} onClick={() => handleCategoryClick(cat)} className={`block w-full text-right px-4 py-2.5 rounded-xl text-sm transition-all ${activeCategory === cat ? "bg-[#1a5632]/10 text-[#1a5632] font-bold" : "text-gray-700 hover:bg-gray-50"}`}>
                     {CATEGORY_LABELS[cat] || cat}
                   </button>
                 ))}
@@ -308,7 +312,7 @@ function NewsPageInner() {
               <h4 className="font-bold text-gray-900 text-sm mb-4">{t('followTitle')}</h4>
               <div className="flex flex-wrap gap-2">
                 {[{ icon: Facebook, label: t('facebook'), color: "bg-blue-600 hover:bg-blue-700", href: "https://www.facebook.com/profile.php?id=61584301535331" }, { icon: Instagram, label: t('instagram'), color: "bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 hover:opacity-90", href: "https://www.instagram.com/sgn_syria/" }, { icon: Youtube, label: t('youtube'), color: "bg-red-600 hover:bg-red-700", href: "https://www.youtube.com/@SY-NL" }, { icon: Twitter, label: t('twitter'), color: "bg-gray-950 hover:bg-black", href: "https://x.com/SGN2098551" }, { icon: TikTok, label: t('tiktok'), color: "bg-gray-900 hover:bg-black", href: "https://www.tiktok.com/@sgn_syria" }].map((s) => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className={${'$'}{s.color} text-white rounded-xl px-3.5 py-2 flex items-center gap-2 text-xs font-medium shadow-sm transition-all hover:scale-102}>
+                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className={`${s.color} text-white rounded-xl px-3.5 py-2 flex items-center gap-2 text-xs font-medium shadow-sm transition-all hover:scale-102`}>
                     <s.icon className="w-3.5 h-3.5" /><span>{s.label}</span>
                   </a>
                 ))}
@@ -340,7 +344,7 @@ function NewsPageInner() {
               </button>
             </div>
             <div className="aspect-video w-full bg-black">
-              <iframe src={https://www.youtube.com/embed/{activeVideoId}?autoplay=1} title="YouTube Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full border-0" />
+              <iframe src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1`} title="YouTube Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full border-0" />
             </div>
           </div>
         </div>
