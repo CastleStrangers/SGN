@@ -1,4 +1,5 @@
 @echo off
+cd /d "%~dp0..\.."
 echo ==============================================
 echo   Git Stash Helper for Worktree Merge
 echo ==============================================
