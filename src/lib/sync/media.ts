@@ -105,6 +105,8 @@ export async function downloadMedia(
       const blob = await put(blobPath, buffer, {
         access: "public",
         token: process.env.BLOB_READ_WRITE_TOKEN,
+        addRandomSuffix: false,
+        allowOverwrite: true,
       })
       if (blob?.url) {
         return blob.url
