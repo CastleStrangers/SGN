@@ -90,7 +90,18 @@ if "!dirty!"=="1" (
     if "!msg!"=="" set "msg=auto: commit SGN changes"
     git commit -m "!msg!"
 ) else ( echo - No changes. )
+echo - Pulling latest SGN changes...
+git pull origin main --rebase
+if %errorlevel% neq 0 (
+    echo [!] WARNING: SGN pull/rebase failed. Aborting rebase...
+    git rebase --abort
+)
+echo - Pushing SGN changes to origin...
 git push origin main
+if %errorlevel% neq 0 (
+    echo [!] ERROR: Failed to push SGN changes.
+)
+
 echo.
 echo [2/3] Syncing parent repo...
 cd ..
@@ -99,8 +110,24 @@ set pdirty=0
 git diff-index --quiet HEAD -- || set pdirty=1
 if "!pdirty!"=="1" (
     git commit -m "auto: sync nested SGN changes to parent"
-    git push origin main
 ) else ( echo - No parent changes. )
+echo - Pulling Parent remote changes...
+git pull origin main --rebase
+if %errorlevel% neq 0 (
+    echo [!] WARNING: Parent pull/rebase failed. Aborting rebase...
+    git rebase --abort
+)
+echo - Pushing Parent changes to origin...
+git push origin main
+if %errorlevel% neq 0 (
+    echo.
+    echo [!] WARNING: Parent push failed. This usually happens if remote and local history diverged.
+    set /p force_push="Do you want to FORCE PUSH the local Parent repository to GitHub? (y/n): "
+    if /i "!force_push!"=="y" (
+        echo - Force pushing Parent repository to GitHub...
+        git push origin main --force
+    )
+)
 cd SGN
 echo.
 echo [3/3] Deploying to Vercel...
