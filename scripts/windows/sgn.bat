@@ -68,6 +68,19 @@ set /p msg="Commit message (leave empty for default): "
 if "!msg!"=="" set "msg=chore: updates to SGN"
 git add .
 git commit -m "!msg!"
+echo - Pushing SGN changes to origin...
+git push origin main
+echo.
+echo Syncing and pushing parent repository...
+cd ..
+git add .
+set pdirty=0
+git diff-index --quiet HEAD -- || set pdirty=1
+if "!pdirty!"=="1" (
+    git commit -m "auto: sync nested SGN changes to parent"
+    git push origin main
+) else ( echo - No parent changes. )
+cd SGN
 echo.
 echo Deploying to Vercel...
 call vercel --prod
