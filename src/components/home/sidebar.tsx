@@ -48,11 +48,13 @@ export function Sidebar({ latest }: { latest: Post[] }) {
             <Link key={item.title} href={item.slug ? `/news/${item.slug}` : "/news"} className="flex gap-3 p-3 hover:bg-gray-50 transition-colors">
               <div className="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
                 <img
-                  src={item.videoId ? `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg` : resolveImage(item.img, item.title, item.cat)}
+                  src={resolveImage(item.img || (item.videoId ? `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg` : null), item.title, item.cat)}
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  onError={handleImgError}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = resolveImage(null, item.title, item.cat);
+                  }}
                   className="w-full h-full object-cover"
                 />
                 {item.videoId && (
