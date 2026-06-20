@@ -22,6 +22,8 @@ if %errorlevel% neq 0 (
 ) else (
     echo - SGN repository is already clean.
 )
+echo - Pulling latest SGN changes from origin...
+git pull origin main --rebase
 echo - Pushing SGN changes to origin...
 git push origin main
 
@@ -34,6 +36,8 @@ git diff-index --quiet HEAD --
 if %errorlevel% neq 0 (
     echo - Changes detected in Parent. Committing...
     git commit -m "auto: sync nested SGN changes to parent repository"
+    echo - Pulling latest Parent changes from origin...
+    git pull origin main --rebase
     echo - Pushing Parent changes to origin...
     git push origin main
 ) else (
@@ -54,6 +58,6 @@ start https://sgn-indol.vercel.app
 :: 5. Verification & Auto Exit
 echo.
 echo =======================================================
-echo   SUCCESS: All repositories synced, deployed, and clean!
+echo   Sync process finished. Please review any errors above.
 echo =======================================================
-timeout /t 5
+pause
