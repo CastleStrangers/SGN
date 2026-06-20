@@ -21,30 +21,42 @@ const LIST_SELECT = {
 } as const;
 
 export async function GET(req: NextRequest) {
-  // In development mode, trigger a background sync automatically
-  if (process.env.NODE_ENV === "development") {
-    const lastSyncKey = "last_dev_sync_time";
+  // Trigger background sync on-demand (throttled)
+  try {
     const now = Date.now();
-    const globalAny = globalThis as any;
-    const lastSync = globalAny[lastSyncKey] || 0;
-    if (now - lastSync > 5 * 60 * 1000) {
-      globalAny[lastSyncKey] = now;
-      import("@/lib/sync").then(async ({ runSync }) => {
-        console.log("Dev background sync started...");
+    prisma.appSetting.findUnique({ where: { key: "last_sync_time" } }).then(async (setting) => {
+      const lastSync = Number(setting?.value) || 0;
+      const syncInterval = process.env.NODE_ENV === "development" ? 5 * 60 * 1000 : 30 * 60 * 1000;
+      
+      if (now - lastSync > syncInterval) {
+        // Prevent concurrent triggers by updating setting immediately
+        await prisma.appSetting.upsert({
+          where: { key: "last_sync_time" },
+          update: { value: String(now) },
+          create: { key: "last_sync_time", value: String(now) },
+        }).catch(() => {});
+
+        // Run sync in the background
+        const { runSync } = await import("@/lib/sync");
         const { DEFAULT_SOURCES } = await import("@/lib/sync/types");
+        
+        const hasFbConfig = !!(process.env.FACEBOOK_PAGE_ID && process.env.FACEBOOK_PAGE_TOKEN);
         const tempSources = DEFAULT_SOURCES.map(src => {
-          // Temporarily enable facebook for dev sync
           if (src.type === "facebook") {
-            return { ...src, enabled: true };
+            return { ...src, enabled: hasFbConfig };
           }
           return src;
         });
+
+        console.log("Background sync started on-demand...");
         await runSync(tempSources);
-        console.log("Dev background sync completed!");
-      }).catch(err => {
-        console.error("Dev background sync failed:", err);
-      });
-    }
+        console.log("Background sync completed!");
+      }
+    }).catch(err => {
+      console.error("Error in background sync trigger:", err);
+    });
+  } catch (err) {
+    console.error("Failed to initialize background sync:", err);
   }
 
   const { searchParams } = new URL(req.url);
