@@ -77,6 +77,28 @@
     "volunteer": {
       "title": "Volunteer Now",
       "desc": "Join our volunteer team"
+    },
+    "prayerTimes": {
+      "title": "Prayer Times in Netherlands",
+      "city": "City",
+      "fajr": "Fajr",
+      "sunrise": "Sunrise",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "nextPrayer": "Next Prayer",
+      "loading": "Loading times...",
+      "error": "Failed to load times. Please try again later.",
+      "cities": {
+        "amsterdam": "Amsterdam",
+        "rotterdam": "Rotterdam",
+        "hague": "The Hague",
+        "utrecht": "Utrecht",
+        "eindhoven": "Eindhoven",
+        "groningen": "Groningen",
+        "enschede": "Enschede"
+      }
     }
   },
   "newsletter": {
@@ -1085,7 +1107,12 @@
     "translateBtn": "Translate with AI \u2728",
     "translateBtnLoading": "Translating with AI...",
     "translateBtnRevert": "Show Original",
-    "translateError": "Failed to translate article. Please try again."
+    "translateError": "Failed to translate article. Please try again.",
+    "searchButton": "Search",
+    "emptyCategoryDesc": "Please check other categories or modify search queries.",
+    "videoPlayerTitle": "Smart Video Player",
+    "prevPage": "Previous Page",
+    "nextPage": "Next Page"
   },
   "languageSwitcher": {
     "arabic": "العربية",
@@ -1297,5 +1324,11 @@
     "relatedTask": "Related Volunteer Opportunity",
     "relatedTaskDesc": "This volunteer task is currently active and needs your support.",
     "volunteerNow": "Volunteer Now"
+  },
+  "newsCategory": {
+    "backToNews": "Back to News",
+    "countPrefix": "There are {count} articles in this section",
+    "empty": "There are no articles in this section currently.",
+    "browseAll": "Browse all news"
   }
 }

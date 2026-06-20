@@ -77,6 +77,28 @@
     "volunteer": {
       "title": "تطوع الآن",
       "desc": "كن جزءاً من فريق العمل التطوعي"
+    },
+    "prayerTimes": {
+      "title": "مواقيت الصلاة في هولندا",
+      "city": "المدينة",
+      "fajr": "الفجر",
+      "sunrise": "الشروق",
+      "dhuhr": "الظهر",
+      "asr": "العصر",
+      "maghrib": "المغرب",
+      "isha": "العشاء",
+      "nextPrayer": "الصلاة القادمة",
+      "loading": "جاري تحميل المواقيت...",
+      "error": "فشل تحميل المواقيت. يرجى المحاولة لاحقاً.",
+      "cities": {
+        "amsterdam": "أمستردام",
+        "rotterdam": "روتردام",
+        "hague": "لاهاي",
+        "utrecht": "أوترخت",
+        "eindhoven": "آيندهوفن",
+        "groningen": "جرونينجن",
+        "enschede": "أنسخيده"
+      }
     }
   },
   "newsletter": {
@@ -1085,7 +1107,12 @@
     "translateBtn": "ترجم بالذكاء ✨",
     "translateBtnLoading": "جاري الترجمة...",
     "translateBtnRevert": "عرض الأصل",
-    "translateError": "فشل ترجمة المقال. حاول مرة أخرى."
+    "translateError": "فشل ترجمة المقال. حاول مرة أخرى.",
+    "searchButton": "بحث",
+    "emptyCategoryDesc": "يرجى التحقق من الأقسام الأخرى أو تعديل كلمات البحث.",
+    "videoPlayerTitle": "مشغل الفيديوهات الذكي",
+    "prevPage": "الصفحة السابقة",
+    "nextPage": "الصفحة التالية"
   },
   "languageSwitcher": {
     "arabic": "العربية",
@@ -1297,5 +1324,11 @@
     "relatedTask": "فرصة تطوعية ذات صلة",
     "relatedTaskDesc": "المهمة معروضة حالياً وتحتاج لدعمكم ومساهمتكم كمتطوعين.",
     "volunteerNow": "تطوع الآن"
+  },
+  "newsCategory": {
+    "backToNews": "العودة إلى الأخبار",
+    "countPrefix": "يوجد {count} مقال في هذا القسم",
+    "empty": "لا توجد مقالات في هذا القسم حالياً.",
+    "browseAll": "تصفح جميع الأخبار"
   }
 }

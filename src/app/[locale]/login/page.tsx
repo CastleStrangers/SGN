@@ -53,9 +53,9 @@ export default function LoginPage() {
         <div className="relative z-10 text-center text-white">
             <SgnLogo size={128} className="mx-auto mb-8" />
           <div className="flex items-center gap-2 justify-center mb-4" dir="rtl">
-            <FreeSyrianFlag className="w-7 h-5 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
+            <FreeSyrianFlag className="w-9 h-6 flex-shrink-0 transition-transform hover:scale-105" />
             <h2 className="text-2xl sm:text-3xl font-bold text-white leading-none">{tSite("shortTitle")}</h2>
-            <DutchFlag className="w-7 h-5 rounded shadow-sm border border-white/20 flex-shrink-0 object-cover" />
+            <DutchFlag className="w-9 h-6 flex-shrink-0 transition-transform hover:scale-105" />
           </div>
           <p className="text-white/70 text-base sm:text-lg leading-relaxed max-w-sm mx-auto">
             منصتك للتواصل والمشاركة مع أبناء الجالية السورية في المملكة الهولندية
@@ -81,10 +81,10 @@ export default function LoginPage() {
           {/* رأس الصفحة على الموبايل */}
           <div className="lg:hidden text-center mb-8">
             <SgnLogo size={56} className="mx-auto mb-3" />
-            <div className="flex items-center gap-1.5 justify-center" dir="rtl">
-              <FreeSyrianFlag className="w-6 h-4 rounded shadow-sm border border-gray-200 flex-shrink-0 object-cover" />
+            <div className="flex items-center gap-2 justify-center" dir="rtl">
+              <FreeSyrianFlag className="w-8 h-5 flex-shrink-0 transition-transform hover:scale-105" />
               <h1 className="text-lg sm:text-xl font-bold text-[#1a5632] leading-none">{tSite("shortTitle")}</h1>
-              <DutchFlag className="w-6 h-4 rounded shadow-sm border border-gray-200 flex-shrink-0 object-cover" />
+              <DutchFlag className="w-8 h-5 flex-shrink-0 transition-transform hover:scale-105" />
             </div>
           </div>
 

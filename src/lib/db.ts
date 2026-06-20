@@ -11,17 +11,15 @@ function getPrismaInstance(): PrismaClient {
   const tursoUrl = process.env.TURSO_DATABASE_URL?.trim();
   const tursoToken = process.env.TURSO_AUTH_TOKEN?.trim();
 
-  if (tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined") {
-    // In @prisma/adapter-libsql v7.x, the constructor expects the Config object directly.
-    // It creates and manages the internal LibSQL Client automatically.
-    const adapter = new PrismaLibSql({
-      url: tursoUrl,
-      authToken: tursoToken,
-    });
-    prismaInstance = new PrismaClient({ adapter });
-  } else {
-    prismaInstance = new PrismaClient();
-  }
+  const dbUrl = (tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined")
+    ? tursoUrl
+    : (process.env.DATABASE_URL || "file:./prisma/dev.db");
+
+  const adapter = new PrismaLibSql({
+    url: dbUrl,
+    ...(tursoToken && tursoToken !== "undefined" ? { authToken: tursoToken } : {}),
+  });
+  prismaInstance = new PrismaClient({ adapter });
 
   if (process.env.NODE_ENV !== "production") {
     globalForPrisma.prisma = prismaInstance;

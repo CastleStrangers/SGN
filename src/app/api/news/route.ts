@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
 // الحقول المُرجَعة في قوائم الأخبار (بدون content لتقليل حجم الاستجابة)
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
   const video = searchParams.get("video") === "true";
 
   try {
-    // طلب مقال واحد بالـ slug → نُرجع content كاملاً
+    // طلب مقال واحد بالـ slug ← نرجع content كاملاً
     if (slug) {
       const post = await prisma.post.findFirst({
         where: { slug, published: true },

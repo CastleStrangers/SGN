@@ -85,10 +85,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <SgnLogo size={36} className="w-9 h-9" priority />
-              <div className="flex items-center gap-1" dir="rtl">
-                <FreeSyrianFlag className="w-4 h-2.5 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
-                <span className="font-bold text-gray-900 text-xs sm:text-sm">{t("shortTitle")}</span>
-                <DutchFlag className="w-4 h-2.5 rounded shadow-sm border border-gray-100 flex-shrink-0 object-cover" />
+              <div className="flex items-center gap-1.5" dir="rtl">
+                <FreeSyrianFlag className="w-6 h-4 flex-shrink-0 transition-transform hover:scale-105" />
+                <span className="font-bold text-gray-900 text-xs sm:text-sm px-0.5">{t("shortTitle")}</span>
+                <DutchFlag className="w-6 h-4 flex-shrink-0 transition-transform hover:scale-105" />
               </div>
             </div>
             <button onClick={() => setOpen(false)} className="lg:hidden p-1 hover:bg-gray-100 rounded" title="Close Menu" aria-label="Close Menu"><X className="w-5 h-5" /></button>

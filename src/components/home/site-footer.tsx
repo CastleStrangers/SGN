@@ -39,9 +39,9 @@ export function SiteFooter() {
               <div className="flex flex-col items-center mb-4">
                 <SgnLogo size={64} className="mb-3" />
                 <div className="flex items-center gap-2 justify-center">
-                  <FreeSyrianFlag className="w-5 h-3 rounded shadow-sm border border-white/10 flex-shrink-0 object-cover" />
+                  <FreeSyrianFlag className="w-[28px] h-[18px] flex-shrink-0 transition-transform hover:scale-105" />
                   <h3 className="font-bold text-sm text-white tracking-wide">{t("aboutTitle")}</h3>
-                  <DutchFlag className="w-5 h-3 rounded shadow-sm border border-white/10 flex-shrink-0 object-cover" />
+                  <DutchFlag className="w-[28px] h-[18px] flex-shrink-0 transition-transform hover:scale-105" />
                 </div>
               </div>
               <p className="text-xs text-gray-400 leading-relaxed text-center">

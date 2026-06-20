@@ -303,5 +303,33 @@
     "empty": "Nog geen meldingen",
     "loginRequired": "Log in om meldingen te bekijken",
     "close": "Sluiten"
+  },
+  "sidebar": {
+    "prayerTimes": {
+      "title": "Gebedstijden in Nederland",
+      "city": "Stad",
+      "fajr": "Fajr",
+      "sunrise": "Zonsopkomst",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "nextPrayer": "Volgende gebed",
+      "loading": "Tijden laden...",
+      "error": "Laden mislukt. Probeer het later opnieuw.",
+      "cities": {
+        "amsterdam": "Amsterdam",
+        "rotterdam": "Rotterdam",
+        "hague": "Den Haag",
+        "utrecht": "Utrecht",
+        "eindhoven": "Eindhoven",
+        "groningen": "Groningen",
+        "enschede": "Enschede"
+      }
+    }
+  },
+  "newsPage": {
+    "prevPage": "Vorige pagina",
+    "nextPage": "Volgende pagina"
   }
 }

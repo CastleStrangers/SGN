@@ -1,5 +1,5 @@
 @echo off
-cd /d "E:\I-Ai\App\Syrian community in the Netherlands\SGN"
+cd /d "%~dp0"
 echo Starting SGN server...
 echo Open http://localhost:3000 in your browser after 30 seconds
 echo.

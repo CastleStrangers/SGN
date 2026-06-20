@@ -303,5 +303,33 @@
     "empty": "No notifications yet",
     "loginRequired": "Please log in to view notifications",
     "close": "Close"
+  },
+  "sidebar": {
+    "prayerTimes": {
+      "title": "Prayer Times in Netherlands",
+      "city": "City",
+      "fajr": "Fajr",
+      "sunrise": "Sunrise",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "nextPrayer": "Next Prayer",
+      "loading": "Loading times...",
+      "error": "Failed to load times. Please try again later.",
+      "cities": {
+        "amsterdam": "Amsterdam",
+        "rotterdam": "Rotterdam",
+        "hague": "The Hague",
+        "utrecht": "Utrecht",
+        "eindhoven": "Eindhoven",
+        "groningen": "Groningen",
+        "enschede": "Enschede"
+      }
+    }
+  },
+  "newsPage": {
+    "prevPage": "Previous Page",
+    "nextPage": "Next Page"
   }
 }
