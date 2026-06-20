@@ -1,8 +1,6 @@
 import "dotenv/config"
-import { PrismaClient } from "@prisma/client"
+import { prisma } from "../src/lib/db"
 import { runSync } from "../src/lib/sync"
-
-const prisma = new PrismaClient()
 
 async function main() {
   console.log("\n🧹 جاري حذف المقالات التجريبية من قاعدة البيانات...")
