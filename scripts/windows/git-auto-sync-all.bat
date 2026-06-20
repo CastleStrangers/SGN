@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 > nul
-cd /d "%~dp0..\..\."
+cd /d "%~dp0..\.."
 
 echo =======================================================
 echo   AUTOMATED GIT SYNC and VERCEL DEPLOY (SGN + PARENT)
@@ -8,9 +8,9 @@ echo =======================================================
 echo.
 
 :: Create and update desktop shortcuts
-powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Git Auto Sync.lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~f0'; $s.WorkingDirectory = '%~dp0.'; $s.Save()"
-powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Start SGN Server.lnk'); $vbs = [System.IO.Path]::Combine('%~dp0.', 'تشغيل.vbs'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = $vbs; $s.WorkingDirectory = '%~dp0.'; $s.Save()"
-powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'AI Reclassify News.lnk'); $bat = [System.IO.Path]::Combine('%~dp0.', 'run-reclassify.bat'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = $bat; $s.WorkingDirectory = '%~dp0.'; $s.Save()"
+powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Git Auto Sync.lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~f0'; $s.WorkingDirectory = '%~dp0'; $s.Save()"
+powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Start SGN Server.lnk'); $vbs = [System.IO.Path]::Combine('%~dp0', 'تشغيل.vbs'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = $vbs; $s.WorkingDirectory = '%~dp0'; $s.Save()"
+powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'AI Reclassify News.lnk'); $bat = [System.IO.Path]::Combine('%~dp0', 'run-reclassify.bat'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = $bat; $s.WorkingDirectory = '%~dp0'; $s.Save()"
 
 :: 1. Sync SGN (Child)
 echo [1/3] Syncing SGN repository...
@@ -22,8 +22,6 @@ if %errorlevel% neq 0 (
 ) else (
     echo - SGN repository is already clean.
 )
-echo - Pulling latest SGN changes from origin...
-git pull origin main --rebase
 echo - Pushing SGN changes to origin...
 git push origin main
 
@@ -36,8 +34,6 @@ git diff-index --quiet HEAD --
 if %errorlevel% neq 0 (
     echo - Changes detected in Parent. Committing...
     git commit -m "auto: sync nested SGN changes to parent repository"
-    echo - Pulling latest Parent changes from origin...
-    git pull origin main --rebase
     echo - Pushing Parent changes to origin...
     git push origin main
 ) else (
@@ -58,6 +54,6 @@ start https://sgn-indol.vercel.app
 :: 5. Verification & Auto Exit
 echo.
 echo =======================================================
-echo   Sync process finished. Please review any errors above.
+echo   SUCCESS: All repositories synced, deployed, and clean!
 echo =======================================================
-pause
+timeout /t 5

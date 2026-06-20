@@ -2,7 +2,7 @@
 chcp 65001 > nul
 setlocal enabledelayedexpansion
 title تشغيل بيئة تطوير SGN المتكاملة
-cd /d "%~dp0..\..\."
+cd /d "%~dp0..\.."
 
 echo ========================================================
 echo   جاري تشغيل بيئة تطوير منصة الجالية السورية في هولندا
@@ -15,8 +15,6 @@ git diff-index --quiet HEAD --
 if %errorlevel% neq 0 (
     git commit -m "auto: sync pending changes on startup"
 )
-echo - Pulling latest SGN changes...
-git pull origin main --rebase
 git push origin main
 
 echo Syncing and pushing parent repository...
@@ -26,8 +24,6 @@ set pdirty=0
 git diff-index --quiet HEAD -- || set pdirty=1
 if "!pdirty!"=="1" (
     git commit -m "auto: sync nested SGN changes on startup"
-    echo - Pulling latest Parent changes...
-    git pull origin main --rebase
     git push origin main
 ) else ( echo - Parent repository is clean. )
 cd SGN

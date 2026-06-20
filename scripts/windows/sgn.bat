@@ -68,8 +68,6 @@ set /p msg="Commit message (leave empty for default): "
 if "!msg!"=="" set "msg=chore: updates to SGN"
 git add .
 git commit -m "!msg!"
-echo - Pulling latest SGN changes...
-git pull origin main --rebase
 echo - Pushing SGN changes to origin...
 git push origin main
 echo.
@@ -80,8 +78,6 @@ set pdirty=0
 git diff-index --quiet HEAD -- || set pdirty=1
 if "!pdirty!"=="1" (
     git commit -m "auto: sync nested SGN changes to parent"
-    echo - Pulling latest Parent changes...
-    git pull origin main --rebase
     git push origin main
 ) else ( echo - No parent changes. )
 cd SGN
@@ -107,8 +103,6 @@ if "!dirty!"=="1" (
     if "!msg!"=="" set "msg=auto: commit SGN changes"
     git commit -m "!msg!"
 ) else ( echo - No changes. )
-echo - Pulling latest SGN changes...
-git pull origin main --rebase
 git push origin main
 echo.
 echo [2/3] Syncing parent repo...
@@ -118,8 +112,6 @@ set pdirty=0
 git diff-index --quiet HEAD -- || set pdirty=1
 if "!pdirty!"=="1" (
     git commit -m "auto: sync nested SGN changes to parent"
-    echo - Pulling latest Parent changes...
-    git pull origin main --rebase
     git push origin main
 ) else ( echo - No parent changes. )
 cd SGN
