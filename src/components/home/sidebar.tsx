@@ -34,7 +34,7 @@ export function Sidebar({ latest }: { latest: Post[] }) {
         <Sparkles className="w-8 h-8 text-[#c8a84e] mx-auto mb-3" />
         <h3 className="font-bold text-lg mb-2">{t("sidebar.join.title")}</h3>
         <p className="text-sm text-gray-300 mb-4">{t("sidebar.join.desc")}</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSckV1utDGcCXjB4Lg8p9hiYtJjgHwUJyTZb2waISC9dBZdKJw/viewform" target="_blank" className="inline-block bg-[#c8a84e] hover:bg-[#b8973f] text-[#1a1a2e] font-bold px-5 py-2.5 rounded-xl text-sm transition-colors">{t("sidebar.join.button")}</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSckV1utDGcCXjB4Lg8p9hiYtJjgHwUJyTZb2waISC9dBZdKJw/viewform" target="_blank" rel="noopener noreferrer" className="inline-block bg-[#c8a84e] hover:bg-[#b8973f] text-[#1a1a2e] font-bold px-5 py-2.5 rounded-xl text-sm transition-colors">{t("sidebar.join.button")}</a>
       </div>
 
       <SurveyWidget />
@@ -88,12 +88,12 @@ export function Sidebar({ latest }: { latest: Post[] }) {
         <h4 className="font-bold text-gray-900 text-sm mb-3">{t("sidebar.follow.title")}</h4>
         <div className="grid grid-cols-2 gap-2">
           {followItems.map(s => (
-            <a key={s.href} href={s.href} target="_blank" className={`${s.color} text-white rounded-xl p-3 flex items-center gap-2 text-xs font-medium hover:opacity-90 transition-opacity`}><s.icon className="w-4 h-4" />{t(s.label)}</a>
+            <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer" className={`${s.color} text-white rounded-xl p-3 flex items-center gap-2 text-xs font-medium hover:opacity-90 transition-opacity`}><s.icon className="w-4 h-4" />{t(s.label)}</a>
           ))}
         </div>
       </div>
 
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSckV1utDGcCXjB4Lg8p9hiYtJjgHwUJyTZb2waISC9dBZdKJw/viewform" target="_blank" className="block bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center hover:shadow transition-shadow">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSckV1utDGcCXjB4Lg8p9hiYtJjgHwUJyTZb2waISC9dBZdKJw/viewform" target="_blank" rel="noopener noreferrer" className="block bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center hover:shadow transition-shadow">
         <Heart className="w-6 h-6 text-red-500 mx-auto mb-2" />
         <p className="text-sm font-bold text-gray-900">{t("sidebar.volunteer.title")}</p>
         <p className="text-xs text-gray-600">{t("sidebar.volunteer.desc")}</p>
