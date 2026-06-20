@@ -96,6 +96,12 @@ export async function downloadMedia(
 
   if (!buffer) return null
 
+  // Detect YouTube "no thumbnail available" image (usually exactly 1097 bytes, always < 2000 bytes)
+  if (absoluteUrl.includes("ytimg.com") && buffer.length <= 2000) {
+    console.log(`⚠️ Detected placeholder/unavailable YouTube thumbnail (size: ${buffer.length} bytes) for: ${absoluteUrl}`)
+    return null
+  }
+
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       const { put } = await import("@vercel/blob")
