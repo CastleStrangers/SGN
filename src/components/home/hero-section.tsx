@@ -2,7 +2,7 @@
 
 import { Link } from "@/i18n/routing";
 import { Clock, Play } from "lucide-react";
-import { PLACEHOLDER_IMG, handleImgError } from "@/lib/image-fallback";
+import { PLACEHOLDER_IMG, handleImgError, resolveImage } from "@/lib/image-fallback";
 
 interface Post {
   title: string; cat: string; img: string | null; excerpt: string; author: string; time: string; slug: string;
@@ -17,7 +17,7 @@ export function HeroSection({ posts }: { posts: Post[] }) {
   const getThumb = (p: Post) =>
     p.videoId
       ? `https://img.youtube.com/vi/${p.videoId}/hqdefault.jpg`
-      : (p.img || PLACEHOLDER_IMG);
+      : resolveImage(p.img, p.title, p.cat);
 
   return (
     <div className="grid md:grid-cols-2 gap-4">
