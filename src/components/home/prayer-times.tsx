@@ -138,8 +138,9 @@ export function PrayerTimesWidget() {
           <select
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
-            className="bg-transparent border-none text-white focus:outline-none focus:ring-0 cursor-pointer pl-1 pr-1 font-sans"
-            style={{ colorScheme: "dark" }}
+            title={t("city")}
+            aria-label={t("city")}
+            className="bg-transparent border-none text-white focus:outline-none focus:ring-0 cursor-pointer pl-1 pr-1 font-sans [color-scheme:dark]"
           >
             {CITIES.map((c) => (
               <option key={c.id} value={c.id} className="bg-[#113d22] text-white">
