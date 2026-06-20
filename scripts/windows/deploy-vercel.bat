@@ -1,4 +1,5 @@
 @echo off
+cd /d "%~dp0..\.."
 echo ==============================================
 echo   Deploying SGN to Vercel Staging
 echo ==============================================
