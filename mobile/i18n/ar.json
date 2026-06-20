@@ -99,28 +99,7 @@
     "uploadDocument": "ارفع صورة الخطاب لتفسيرها",
     "analyzing": "جاري تحليل وقراءة الخطاب...",
     "analysisResult": "نتيجة تحليل الخطاب",
-    "close": "إغلاق",
-    "personaEmployment": "العمل والسكن الاجتماعي",
-    "chooseDoc": "اختر صورة المستند",
-    "summarize": "تلخيص",
-    "conversationSummary": "📋 ملخص المحادثة",
-    "translate": "🇬🇧 ترجم",
-    "cardFamilyReunification": "خطوات لم الشمل بالتفصيل؟",
-    "promptFamilyReunification": "ما هي خطوات لم الشمل بالتفصيل في هولندا؟",
-    "cardIndTimeframe": "المدة المتوقعة لقرار الـ IND؟",
-    "promptIndTimeframe": "كم المدة الزمنية المتوقعة لقرار IND؟",
-    "cardIntegrationExams": "التسجيل في امتحانات الاندماج؟",
-    "promptIntegrationExams": "كيف أسجل في امتحانات الاندماج (Inburgering)؟",
-    "cardDuoFunding": "شروط تمويل DUO للغة؟",
-    "promptDuoFunding": "ما هي شروط تمويل DUO لدراسة اللغة؟",
-    "cardSocialHousing": "التقديم على سكن اجتماعي؟",
-    "promptSocialHousing": "كيف أقدم على سكن اجتماعي في هولندا؟",
-    "cardEvaluateDegree": "كيفية تقييم وتعديل الشهادات؟",
-    "promptEvaluateDegree": "ما هي متطلبات تعديل شهادتي السورية؟",
-    "cardCommunityNews": "آخر أخبار الجالية اليوم؟",
-    "promptCommunityNews": "ما هي أخبار الجالية السورية اليوم؟",
-    "cardUpcomingEvents": "الفعاليات القادمة والتطوع؟",
-    "promptUpcomingEvents": "هل توجد فعاليات اجتماعية قادمة للجالية أو فرصة للتطوع؟"
+    "close": "إغلاق"
   },
   "common": {
     "ok": "موافق",
@@ -352,13 +331,5 @@
   "newsPage": {
     "prevPage": "الصفحة السابقة",
     "nextPage": "الصفحة التالية"
-  },
-  "categories": {
-    "communityNews": "أخبار الجالية",
-    "culture": "ثقافة وفن",
-    "services": "خدمات",
-    "humanitarian": "عمل إنساني",
-    "sports": "رياضة",
-    "tech": "تكنولوجيا"
   }
 }

@@ -6,14 +6,14 @@ import { useI18n } from "../../lib/i18n-context";
 import { sendAIMessage, translateMessage, summarizeConversation, type AIMessage } from "../../lib/chat";
 
 const SUGGESTED_CARDS = [
-  { key: "cardFamilyReunification", promptKey: "promptFamilyReunification", persona: "legal", icon: "⚖️" },
-  { key: "cardIndTimeframe", promptKey: "promptIndTimeframe", persona: "legal", icon: "⚖️" },
-  { key: "cardIntegrationExams", promptKey: "promptIntegrationExams", persona: "integration", icon: "🎓" },
-  { key: "cardDuoFunding", promptKey: "promptDuoFunding", persona: "integration", icon: "🎓" },
-  { key: "cardSocialHousing", promptKey: "promptSocialHousing", persona: "integration", icon: "💼" },
-  { key: "cardEvaluateDegree", promptKey: "promptEvaluateDegree", persona: "integration", icon: "💼" },
-  { key: "cardCommunityNews", promptKey: "promptCommunityNews", persona: "spokesperson", icon: "📢" },
-  { key: "cardUpcomingEvents", promptKey: "promptUpcomingEvents", persona: "spokesperson", icon: "📢" },
+  { text: "خطوات لم الشمل بالتفصيل؟", persona: "legal", icon: "⚖️" },
+  { text: "المدة المتوقعة لقرار الـ IND؟", persona: "legal", icon: "⚖️" },
+  { text: "التسجيل في امتحانات الاندماج؟", persona: "integration", icon: "🎓" },
+  { text: "شروط تمويل DUO للغة؟", persona: "integration", icon: "🎓" },
+  { text: "التقديم على سكن اجتماعي؟", persona: "integration", icon: "💼" },
+  { text: "كيفية تقييم وتعديل الشهادات؟", persona: "integration", icon: "💼" },
+  { text: "آخر أخبار الجالية اليوم؟", persona: "spokesperson", icon: "📢" },
+  { text: "الفعاليات القادمة والتطوع؟", persona: "spokesperson", icon: "📢" },
 ];
 
 export default function MessagesScreen() {
@@ -106,7 +106,7 @@ export default function MessagesScreen() {
             {summarizing ? (
               <ActivityIndicator size="small" color={COLORS.primary} />
             ) : (
-              <Text style={{ fontSize: 12, color: "#92400e", fontWeight: "600" }}>{t("chat.summarize")}</Text>
+              <Text style={{ fontSize: 12, color: "#92400e", fontWeight: "600" }}>تلخيص</Text>
             )}
           </TouchableOpacity>
         )}
@@ -153,12 +153,12 @@ export default function MessagesScreen() {
       <Modal visible={showSummary} transparent animationType="fade" onRequestClose={() => setShowSummary(false)}>
         <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "center", padding: 24 }}>
           <View style={{ backgroundColor: COLORS.card, borderRadius: 16, padding: 20 }}>
-            <Text style={{ fontSize: 16, fontWeight: "700", color: COLORS.text, marginBottom: 8, textAlign: "center" }}>{t("chat.conversationSummary")}</Text>
+            <Text style={{ fontSize: 16, fontWeight: "700", color: COLORS.text, marginBottom: 8, textAlign: "center" }}>📋 ملخص المحادثة</Text>
             <ScrollView style={{ maxHeight: 300 }}>
               <Text style={{ fontSize: 14, lineHeight: 22, color: COLORS.text }}>{summary}</Text>
             </ScrollView>
             <TouchableOpacity onPress={() => setShowSummary(false)} style={{ marginTop: 16, backgroundColor: COLORS.primary, borderRadius: 12, paddingVertical: 10, alignItems: "center" }}>
-              <Text style={{ color: "#fff", fontWeight: "700", fontSize: 14 }}>{t("common.ok")}</Text>
+              <Text style={{ color: "#fff", fontWeight: "700", fontSize: 14 }}>موافق</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -184,7 +184,7 @@ export default function MessagesScreen() {
                     key={idx}
                     onPress={() => {
                       setPersona(card.persona);
-                      handleSend(t("chat." + card.promptKey), card.persona);
+                      handleSend(card.text, card.persona);
                     }}
                     style={{
                       flexDirection: isRTL ? "row-reverse" : "row",
@@ -200,7 +200,7 @@ export default function MessagesScreen() {
                     }}
                   >
                     <Text style={{ fontSize: 13 }}>{card.icon}</Text>
-                    <Text style={{ fontSize: 11, color: COLORS.text, fontWeight: "500" }}>{t("chat." + card.key)}</Text>
+                    <Text style={{ fontSize: 11, color: COLORS.text, fontWeight: "500" }}>{card.text}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -223,7 +223,7 @@ export default function MessagesScreen() {
                   {translatingIdx === index ? (
                     <ActivityIndicator size="small" color={COLORS.primary} />
                   ) : (
-                    <Text style={{ fontSize: 11, color: COLORS.textSecondary }}>{t("chat.translate")}</Text>
+                    <Text style={{ fontSize: 11, color: COLORS.textSecondary }}>🇬🇧 ترجم</Text>
                   )}
                 </TouchableOpacity>
               )}
