@@ -96,6 +96,24 @@ export async function downloadMedia(
 
   if (!buffer) return null
 
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const { put } = await import("@vercel/blob")
+      const ext = getExtension(absoluteUrl)
+      const hash = crypto.createHash("md5").update(buffer).digest("hex").slice(0, 12)
+      const blobPath = `sync/${hash}.${ext}`
+      const blob = await put(blobPath, buffer, {
+        access: "public",
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+      })
+      if (blob?.url) {
+        return blob.url
+      }
+    } catch (err) {
+      console.error("Vercel Blob upload failed, falling back to local filesystem:", err)
+    }
+  }
+
   const hash = crypto.createHash("md5").update(buffer).digest("hex").slice(0, 12)
   const ext = getExtension(absoluteUrl)
   const fileName = `${hash}.${ext}`
