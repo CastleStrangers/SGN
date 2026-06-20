@@ -1,8 +1,14 @@
 require('dotenv').config();
 const { createClient } = require("@libsql/client");
 
+const url = process.env.TURSO_DATABASE_URL?.trim();
+if (!url || url === "undefined") {
+  console.log("No Turso Database URL configured. Skipping Turso alterations.");
+  process.exit(0);
+}
+
 const turso = createClient({
-  url: process.env.TURSO_DATABASE_URL,
+  url,
   authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
