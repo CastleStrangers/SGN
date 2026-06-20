@@ -47,6 +47,19 @@ export async function downloadMedia(
   url: string,
   baseUrl: string
 ): Promise<string | null> {
+  if (!url) return null
+  if (
+    url.startsWith("/") ||
+    url.startsWith("data:") ||
+    url.startsWith("blob:") ||
+    url.startsWith("file://") ||
+    url.includes("localhost") ||
+    url.includes("sy-nl.org") ||
+    url.includes("sgn-indol.vercel.app")
+  ) {
+    return url
+  }
+
   let targetUrl = url
   if (url.includes("assets.zyrosite.com/cdn-cgi/image/")) {
     targetUrl = url.replace(/cdn-cgi\/image\/[^/]+\//, "")

@@ -97,7 +97,7 @@ export const DEFAULT_SOURCES: SyncSource[] = [
     name: "facebook-sgn",
     type: "facebook",
     url: "https://www.facebook.com/DeSyrischeGemeenschapInNederland",
-    enabled: true,
+    enabled: false,
     category: "أخبار الجالية",
     since: "2026-05-14",
   },
