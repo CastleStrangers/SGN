@@ -1,41 +1,36 @@
 @echo off
-chcp 65001 > nul
 echo ===================================================
-echo 🔄 جاري بدء أتمتة مزامنة وتحديث المشروع...
+echo Starting SGN Project Synchronization...
 echo ===================================================
 
-:: 1. تحديث رابط العميل لتطبيق الموبايل
 echo.
-echo 📱 1. تحديث رابط العميل (set:prod) لتطبيق الموبايل...
+echo 1. Updating mobile client URL (set:prod)...
 cd mobile
 call npm run set:prod
 cd ..
 
-:: 2. عمليات Git
 echo.
-echo 📦 2. جاري إضافة التعديلات إلى المستودع (Git)...
+echo 2. Staging changes in Git...
 git add .
 
 echo.
-set /p msg="أدخل رسالة الحفظ (Commit Message) [أو اضغط Enter للرسالة التلقائية]: "
+set /p msg="Enter Commit Message (press Enter for default): "
 if "%msg%"=="" (
-    set msg="تحديث تلقائي: مزامنة المكونات والإعدادات والملفات"
+    set msg="Auto-update: Syncing project components and settings"
 )
 
 git commit -m "%msg%"
 echo.
-echo 🚀 جاري رفع التعديلات إلى المستودع (Git Push)...
+echo Uploading changes to repository (Git Push)...
 git push
 
-:: 3. فتح روابط المعاينة والتجريب
 echo.
-echo 🌐 3. جاري فتح روابط المعاينة والتشغيل...
-echo جاري فتح الموقع المحلي وموقع الإنتاج...
+echo 3. Opening preview URLs...
 start http://localhost:3000
 start https://sgn-indol.vercel.app
 start https://sy-nl.org
 
 echo.
-echo ✅ تم الانتهاء بنجاح!
+echo Done successfully!
 echo ===================================================
 pause
