@@ -15,7 +15,16 @@ interface Post {
 }
 
 const CATEGORIES = [
-  "الكل", "أخبار الجالية", "أخبار هولندا", "أخبار أوروبا", "اقتصاد", "ثقافيات", "فيديوهات", "فعاليات", "معرض الصور", "خدمات"
+  "\u0627\u0644\u0643\u0644",
+  "\u0623\u062e\u0628\u0627\u0631 \u0627\u0644\u062c\u0627\u0644\u064a\u0629",
+  "\u0623\u062e\u0628\u0627\u0631 \u0647\u0648\u0644\u0646\u062f\u0627",
+  "\u0623\u062e\u0628\u0627\u0631 \u0623\u0648\u0631\u0648\u0628\u0627",
+  "\u0627\u0642\u062a\u0635\u0627\u062f",
+  "\u062b\u0642\u0627\u0641\u064a\u0627\u062a",
+  "\u0641\u064a\u062f\u064a\u0648\u0647\u0627\u062a",
+  "\u0641\u0639\u0627\u0644\u064a\u0627\u062a",
+  "\u0645\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631",
+  "\u062e\u062f\u0645\u0627\u062a"
 ];
 
 const PLACEHOLDER = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='240' viewBox='0 0 400 240'><rect width='400' height='240' fill='%23f0faf4'/><rect x='150' y='80' width='100' height='80' rx='8' fill='%231a5632' opacity='0.15'/><circle cx='200' cy='100' r='20' fill='%231a5632' opacity='0.25'/><line x1='160' y1='140' x2='240' y2='140' stroke='%231a5632' stroke-width='3' stroke-linecap='round' opacity='0.2'/><line x1='170' y1='155' x2='230' y2='155' stroke='%231a5632' stroke-width='2' stroke-linecap='round' opacity='0.15'/></svg>`;
@@ -37,7 +46,7 @@ function NewsPageInner() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState(() =>
-    urlCategory ? decodeURIComponent(urlCategory) : "الكل"
+    urlCategory ? decodeURIComponent(urlCategory) : "\u0627\u0644\u0643\u0644"
   );
   const [page, setPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
@@ -46,26 +55,26 @@ function NewsPageInner() {
   const limit = 12;
 
   const CATEGORY_LABELS: Record<string, string> = {
-    "الكل": t('all'),
-    "أخبار الجالية": t('communityNews'),
-    "أخبار هولندا": t('netherlandsNews'),
-    "أخبار أوروبا": t('europeNews'),
-    "اقتصاد": t('economy'),
-    "ثقافيات": t('culture'),
-    "فيديوهات": t('videos'),
-    "فعاليات": t('events'),
-    "معرض الصور": t('gallery'),
-    "خدمات": t('services'),
+    "\u0627\u0644\u0643\u0644": t('all'),
+    "\u0623\u062e\u0628\u0627\u0631 \u0627\u0644\u062c\u0627\u0644\u064a\u0629": t('communityNews'),
+    "\u0623\u062e\u0628\u0627\u0631 \u0647\u0648\u0644\u0646\u062f\u0627": t('netherlandsNews'),
+    "\u0623\u062e\u0628\u0627\u0631 \u0623\u0648\u0631\u0648\u0628\u0627": t('europeNews'),
+    "\u0627\u0642\u062a\u0635\u0627\u062f": t('economy'),
+    "\u062b\u0642\u0627\u0641\u064a\u0627\u062a": t('culture'),
+    "\u0641\u064a\u062f\u064a\u0648\u0647\u0627\u062a": t('videos'),
+    "\u0641\u0639\u0627\u0644\u064a\u0627\u062a": t('events'),
+    "\u0645\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631": t('gallery'),
+    "\u062e\u062f\u0645\u0627\u062a": t('services'),
   };
 
   useEffect(() => {
-    const cat = urlCategory ? decodeURIComponent(urlCategory) : "الكل";
+    const cat = urlCategory ? decodeURIComponent(urlCategory) : "\u0627\u0644\u0643\u0644";
     setActiveCategory(cat);
     setPage(0);
   }, [urlCategory]);
 
   const fetchPosts = () => {
-    if (activeCategory === "خدمات") {
+    if (activeCategory === "\u062e\u062f\u0645\u0627\u062a") {
       setPosts([]);
       setTotal(0);
       setLoading(false);
@@ -74,9 +83,9 @@ function NewsPageInner() {
 
     setLoading(true);
     const params = new URLSearchParams();
-    if (activeCategory === "فيديوهات") {
+    if (activeCategory === "\u0641\u064a\u062f\u064a\u0648\u0647\u0627\u062a") {
       params.set("video", "true");
-    } else if (activeCategory !== "الكل") {
+    } else if (activeCategory !== "\u0627\u0644\u0643\u0644") {
       params.set("category", activeCategory);
     }
     params.set("limit", String(limit));
@@ -96,7 +105,7 @@ function NewsPageInner() {
   useEffect(() => { fetchPosts(); }, [activeCategory, page]);
 
   const handleCategoryClick = (cat: string) => {
-    if (cat === "معرض الصور") {
+    if (cat === "\u0645\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631") {
       router.push("/gallery");
       return;
     }
@@ -143,15 +152,15 @@ function NewsPageInner() {
                 <span>{t('statsTitle')}</span>
               </span>
               <h1 className="text-3xl md:text-5xl font-extrabold flex items-center gap-3 tracking-tight">
-                {activeCategory === "فيديوهات" ? (
+                {activeCategory === "\u0641\u064a\u062f\u064a\u0648\u0647\u0627\u062a" ? (
                   <Youtube className="w-9 h-9 md:w-12 md:h-12 text-[#c8a84e] filter drop-shadow" />
                 ) : (
                   <Newspaper className="w-9 h-9 md:w-12 md:h-12 text-[#c8a84e] filter drop-shadow" />
                 )}
-                <span>{activeCategory === "الكل" ? t('pulseTitle') : CATEGORY_LABELS[activeCategory] || activeCategory}</span>
+                <span>{activeCategory === "\u0627\u0644\u0643\u0644" ? t('pulseTitle') : CATEGORY_LABELS[activeCategory] || activeCategory}</span>
               </h1>
               <p className="text-white/80 mt-3 max-w-2xl text-sm md:text-base leading-relaxed font-light">
-                {activeCategory === "فيديوهات" ? t('videoDescription') : t('defaultDescription')}
+                {activeCategory === "\u0641\u064a\u062f\u064a\u0648\u0647\u0627\u062a" ? t('videoDescription') : t('defaultDescription')}
               </p>
             </div>
 
@@ -203,7 +212,7 @@ function NewsPageInner() {
                   />
                 </div>
                 <button type="submit" className="px-6 py-3 bg-[#1a5632] hover:bg-[#113d22] text-white rounded-2xl text-sm font-semibold shadow-sm transition-colors">
-                  بحث
+                  {t('searchButton')}
                 </button>
               </form>
             </div>
@@ -217,7 +226,7 @@ function NewsPageInner() {
               <div className="text-center py-20 bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
                 <Newspaper className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500 font-medium text-lg">{t('emptyCategory')}</p>
-                <p className="text-sm text-gray-400 mt-1">يرجى التحقق من الأقسام الأخرى أو تعديل كلمات البحث.</p>
+                <p className="text-sm text-gray-400 mt-1">{t('emptyCategoryDesc')}</p>
               </div>
             ) : (
               <>
@@ -264,13 +273,13 @@ function NewsPageInner() {
 
                 {totalPages > 1 && (
                   <div className="flex items-center justify-center gap-2 mt-12">
-                    <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0} title="الصفحة السابقة" aria-label="الصفحة السابقة" className="p-2.5 rounded-xl border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                    <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0} className="p-2.5 rounded-xl border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     {Array.from({ length: totalPages }, (_, i) => (
                       <button key={i} onClick={() => setPage(i)} className={`w-10 h-10 rounded-xl text-sm font-semibold transition-all ${page === i ? "bg-[#1a5632] text-white shadow-md shadow-[#1a5632]/20" : "border border-gray-200 hover:bg-gray-50 text-gray-700"}`}>{i + 1}</button>
                     ))}
-                    <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1} title="الصفحة التالية" aria-label="الصفحة التالية" className="p-2.5 rounded-xl border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                    <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1} className="p-2.5 rounded-xl border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                   </div>
@@ -337,7 +346,7 @@ function NewsPageInner() {
           <div className="relative w-full max-w-4xl bg-[#0b0c10] rounded-3xl overflow-hidden shadow-2xl border border-white/10 animate-scale-in" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/5 backdrop-blur-sm">
               <span className="text-sm font-semibold text-[#c8a84e] flex items-center gap-2">
-                <Youtube className="w-5 h-5 text-red-500 fill-current" /><span>مشغل الفيديوهات الذكي</span>
+                <Youtube className="w-5 h-5 text-red-500 fill-current" /><span>{t('videoPlayerTitle')}</span>
               </span>
               <button onClick={() => setActiveVideoId(null)} className="p-2 rounded-xl bg-white/5 text-white/80 hover:bg-white/10 hover:text-white hover:scale-105 transition-all" aria-label="إغلاق">
                 <X className="w-5 h-5" />

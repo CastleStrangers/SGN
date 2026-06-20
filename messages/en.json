@@ -1085,7 +1085,10 @@
     "translateBtn": "Translate with AI \u2728",
     "translateBtnLoading": "Translating with AI...",
     "translateBtnRevert": "Show Original",
-    "translateError": "Failed to translate article. Please try again."
+    "translateError": "Failed to translate article. Please try again.",
+    "searchButton": "Search",
+    "emptyCategoryDesc": "Please check other categories or modify search queries.",
+    "videoPlayerTitle": "Smart Video Player"
   },
   "languageSwitcher": {
     "arabic": "العربية",
@@ -1297,5 +1300,11 @@
     "relatedTask": "Related Volunteer Opportunity",
     "relatedTaskDesc": "This volunteer task is currently active and needs your support.",
     "volunteerNow": "Volunteer Now"
+  },
+  "newsCategory": {
+    "backToNews": "Back to News",
+    "countPrefix": "There are {count} articles in this section",
+    "empty": "There are no articles in this section currently.",
+    "browseAll": "Browse all news"
   }
 }

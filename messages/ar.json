@@ -1085,7 +1085,10 @@
     "translateBtn": "ترجم بالذكاء ✨",
     "translateBtnLoading": "جاري الترجمة...",
     "translateBtnRevert": "عرض الأصل",
-    "translateError": "فشل ترجمة المقال. حاول مرة أخرى."
+    "translateError": "فشل ترجمة المقال. حاول مرة أخرى.",
+    "searchButton": "بحث",
+    "emptyCategoryDesc": "يرجى التحقق من الأقسام الأخرى أو تعديل كلمات البحث.",
+    "videoPlayerTitle": "مشغل الفيديوهات الذكي"
   },
   "languageSwitcher": {
     "arabic": "العربية",
@@ -1297,5 +1300,11 @@
     "relatedTask": "فرصة تطوعية ذات صلة",
     "relatedTaskDesc": "المهمة معروضة حالياً وتحتاج لدعمكم ومساهمتكم كمتطوعين.",
     "volunteerNow": "تطوع الآن"
+  },
+  "newsCategory": {
+    "backToNews": "العودة إلى الأخبار",
+    "countPrefix": "يوجد {count} مقال في هذا القسم",
+    "empty": "لا توجد مقالات في هذا القسم حالياً.",
+    "browseAll": "تصفح جميع الأخبار"
   }
 }

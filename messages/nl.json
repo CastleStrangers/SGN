@@ -1085,7 +1085,10 @@
     "translateBtn": "Vertaal met AI \u2728",
     "translateBtnLoading": "Vertalen met AI...",
     "translateBtnRevert": "Toon origineel",
-    "translateError": "Vertaling mislukt. Probeer het opnieuw."
+    "translateError": "Vertaling mislukt. Probeer het opnieuw.",
+    "searchButton": "Zoeken",
+    "emptyCategoryDesc": "Controleer andere categorieën of pas uw zoekopdracht aan.",
+    "videoPlayerTitle": "Slimme Videospeler"
   },
   "languageSwitcher": {
     "arabic": "العربية",
@@ -1297,5 +1300,11 @@
     "relatedTask": "Gerelateerde Vrijwilligerskans",
     "relatedTaskDesc": "Deze vrijwilligerstaak is momenteel actief en heeft uw steun nodig.",
     "volunteerNow": "Nu vrijwilliger worden"
+  },
+  "newsCategory": {
+    "backToNews": "Terug naar Nieuws",
+    "countPrefix": "Er zijn {count} artikelen in deze sectie",
+    "empty": "Er zijn momenteel geen artikelen in deze sectie.",
+    "browseAll": "Blader door al het nieuws"
   }
 }
