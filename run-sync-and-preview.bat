@@ -42,7 +42,6 @@ echo.
 echo 3. Opening preview URLs...
 start http://localhost:3000
 start https://sgn-indol.vercel.app
-start https://sy-nl.org
 
 echo.
 echo Done successfully!
