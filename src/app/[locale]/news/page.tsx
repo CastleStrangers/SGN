@@ -30,8 +30,9 @@ const CATEGORIES = [
 import { resolveImage } from "@/lib/image-fallback";
 
 function getThumb(post: Post): string {
+  if (post.image) return resolveImage(post.image, post.title, post.category);
   if (post.videoId) return `https://img.youtube.com/vi/${post.videoId}/hqdefault.jpg`;
-  return resolveImage(post.image, post.title, post.category);
+  return resolveImage(null, post.title, post.category);
 }
 
 function NewsPageInner() {
@@ -239,7 +240,7 @@ function NewsPageInner() {
                     return (
                       <div key={p.id} className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-transparent hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 ease-out group flex flex-col relative">
                         <div className="block overflow-hidden relative aspect-video cursor-pointer" onClick={(e) => handlePostClick(e, p)}>
-                          <img src={getThumb(p)} alt={p.title} loading="lazy" decoding="async" onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER; }} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" />
+                          <img src={getThumb(p)} alt={p.title} loading="lazy" decoding="async" onError={(e) => { (e.currentTarget as HTMLImageElement).src = resolveImage(null, p.title, p.category); }} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" />
                           <span className="absolute top-3 right-3 backdrop-blur-md bg-white/75 text-[#1a5632] font-semibold text-xs px-2.5 py-1 rounded-full shadow-sm border border-white/20">
                             {CATEGORY_LABELS[p.category] || p.category}
                           </span>
