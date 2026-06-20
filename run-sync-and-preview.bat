@@ -35,6 +35,10 @@ echo Uploading changes to repository (Git Push)...
 git push
 
 echo.
+echo Deploying directly to Vercel Staging (sgn-indol.vercel.app)...
+call vercel --prod
+
+echo.
 echo 3. Opening preview URLs...
 start http://localhost:3000
 start https://sgn-indol.vercel.app
