@@ -8,8 +8,9 @@ Write-Host "Watching for changes in SGN folder in real-time..." -ForegroundColor
 Write-Host "Close this window to stop syncing." -ForegroundColor Yellow
 Write-Host ""
 
-# Set Location to the SGN directory
-Set-Location -LiteralPath $PSScriptRoot
+# Set Location to the SGN root directory
+$sgnRoot = (Get-Item "$PSScriptRoot\..\..").FullName
+Set-Location -LiteralPath $sgnRoot
 
 # Git sync helper function
 function Sync-Changes {
@@ -52,7 +53,7 @@ function Sync-Changes {
 
 # Create FileSystemWatcher
 $watcher = New-Object System.IO.FileSystemWatcher
-$watcher.Path = $PSScriptRoot
+$watcher.Path = $sgnRoot
 $watcher.IncludeSubdirectories = $true
 $watcher.EnableRaisingEvents = $true
 
@@ -61,8 +62,8 @@ $action = {
     $path = $Event.SourceEventArgs.FullPath
     $changeType = $Event.SourceEventArgs.ChangeType
     
-    # Ignore changes in node_modules, .next, .git, temp files
-    if ($path -notmatch '\\(node_modules|\.next|\.git|tsconfig\.tsbuildinfo|pm2.*\.log|pm2.*\.out)\b') {
+    # Ignore changes in node_modules, .next, .git, .vercel, temp files
+    if ($path -notmatch '\\(node_modules|\.next|\.git|\.vercel|tsconfig\.tsbuildinfo|pm2.*\.log|pm2.*\.out)\b') {
         Sync-Changes -Path "$($changeType): $path"
     }
 }
