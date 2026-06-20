@@ -17,25 +17,14 @@ export default function HomeScreen() {
   const [search, setSearch] = useState("");
 
   const categories = [
-    { key: "all", apiValue: "" },
-    { key: "communityNews", apiValue: "أخبار الجالية" },
-    { key: "culture", apiValue: "ثقافة وفن" },
-    { key: "services", apiValue: "خدمات" },
-    { key: "humanitarian", apiValue: "عمل إنساني" },
-    { key: "sports", apiValue: "رياضة" },
-    { key: "tech", apiValue: "تكنولوجيا" },
+    t("home.all"),
+    "أخبار الجالية",
+    "ثقافة وفن",
+    "خدمات",
+    "عمل إنساني",
+    "رياضة",
+    "تكنولوجيا",
   ];
-
-  const getCategoryTranslation = (cat: string) => {
-    if (!cat) return "";
-    if (cat === "أخبار الجالية") return t("categories.communityNews");
-    if (cat === "ثقافة وفن") return t("categories.culture");
-    if (cat === "خدمات") return t("categories.services");
-    if (cat === "عمل إنساني") return t("categories.humanitarian");
-    if (cat === "رياضة") return t("categories.sports");
-    if (cat === "تكنولوجيا") return t("categories.tech");
-    return cat;
-  };
 
   useEffect(() => {
     loadNews();
@@ -79,27 +68,24 @@ export default function HomeScreen() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }}
         style={{ maxHeight: 44, marginBottom: 8 }}
-        renderItem={({ item }: { item: { key: string; apiValue: string } }) => {
-          const isSelected = category === item.apiValue;
-          return (
-            <TouchableOpacity
-              onPress={() => setCategory(item.apiValue)}
-              style={{
-                paddingHorizontal: 16,
-                paddingVertical: 8,
-                borderRadius: 20,
-                backgroundColor: isSelected ? COLORS.primary : COLORS.card,
-                borderWidth: 1,
-                borderColor: COLORS.border,
-              }}
-            >
-              <Text style={{ color: isSelected ? "#fff" : COLORS.text, fontSize: 13, fontWeight: "500" }}>
-                {item.key === "all" ? t("home.all") : t("categories." + item.key)}
-              </Text>
-            </TouchableOpacity>
-          );
-        }}
-        keyExtractor={(item) => item.key}
+        renderItem={({ item }: { item: string }) => (
+          <TouchableOpacity
+            onPress={() => setCategory(item === t("home.all") ? "" : item)}
+            style={{
+              paddingHorizontal: 16,
+              paddingVertical: 8,
+              borderRadius: 20,
+              backgroundColor: (item === t("home.all") && !category) || category === item ? COLORS.primary : COLORS.card,
+              borderWidth: 1,
+              borderColor: COLORS.border,
+            }}
+          >
+            <Text style={{ color: (item === t("home.all") && !category) || category === item ? "#fff" : COLORS.text, fontSize: 13, fontWeight: "500" }}>
+              {item}
+            </Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item: string) => item}
       />
 
       {/* News list */}
@@ -128,7 +114,7 @@ export default function HomeScreen() {
               )}
               <View style={{ padding: 14 }}>
                 <Text style={{ fontSize: 11, color: COLORS.accent, fontWeight: "600", marginBottom: 4 }}>
-                  {getCategoryTranslation(item.category)}
+                  {item.category}
                 </Text>
                 <Text style={{ fontSize: 15, fontWeight: "bold", color: COLORS.text, marginBottom: 6, lineHeight: 22 }}>
                   {item.title}
