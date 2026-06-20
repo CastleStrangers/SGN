@@ -83,26 +83,26 @@ export default function VolunteerPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t('nameLabel')}</label>
-                  <input name="name" value={form.name} onChange={handleChange} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
+                  <input name="name" value={form.name} onChange={handleChange} placeholder={t('nameLabel')} title={t('nameLabel')} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t('emailLabel')}</label>
-                  <input name="email" type="email" value={form.email} onChange={handleChange} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
+                  <input name="email" type="email" value={form.email} onChange={handleChange} placeholder={t('emailLabel')} title={t('emailLabel')} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t('phoneLabel')}</label>
-                  <input name="phone" value={form.phone} onChange={handleChange} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
+                  <input name="phone" value={form.phone} onChange={handleChange} placeholder={t('phoneLabel')} title={t('phoneLabel')} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t('skillsLabel')}</label>
-                  <input name="skills" value={form.skills} onChange={handleChange} placeholder={t('skillsPlaceholder')} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
+                  <input name="skills" value={form.skills} onChange={handleChange} placeholder={t('skillsPlaceholder')} title={t('skillsLabel')} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t('durationLabel')}</label>
-                <select name="availability" value={form.availability} onChange={handleChange} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632] bg-white">
+                <select name="availability" value={form.availability} onChange={handleChange} title={t('durationLabel')} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632] bg-white">
                   <option value="">{t('durationPlaceholder')}</option>
                   <option value="يومياً">{t('durationDaily')}</option>
                   <option value="عدة أيام في الأسبوع">{t('durationWeekly')}</option>
@@ -113,7 +113,7 @@ export default function VolunteerPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t('messageLabel')}</label>
-                <textarea name="message" value={form.message} onChange={handleChange} rows={3} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
+                <textarea name="message" value={form.message} onChange={handleChange} placeholder={t('messageLabel')} title={t('messageLabel')} rows={3} className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632]" />
               </div>
               {status === "error" && <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm">{msg}</div>}
               <button type="submit" disabled={status === "loading"} className="w-full bg-[#1a5632] hover:bg-[#0f3d23] text-white font-bold py-3 rounded-xl transition-colors disabled:opacity-50">
