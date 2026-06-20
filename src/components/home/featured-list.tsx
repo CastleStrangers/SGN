@@ -22,9 +22,7 @@ export function FeaturedList({ posts }: { posts: Post[] }) {
       </div>
       <div className="space-y-4">
         {posts.map(f => {
-          const thumb = f.videoId
-            ? `https://img.youtube.com/vi/${f.videoId}/hqdefault.jpg`
-            : resolveImage(f.img, f.title, f.cat);
+          const thumb = resolveImage(f.img || (f.videoId ? `https://img.youtube.com/vi/${f.videoId}/hqdefault.jpg` : null), f.title, f.cat);
           return (
             <Link key={f.slug || f.title} href={f.slug ? `/news/${f.slug}` : "/news"} className="flex gap-4 bg-white rounded-xl p-3 hover:shadow-md transition-shadow group">
               <div className="relative w-28 h-20 rounded-lg overflow-hidden flex-shrink-0">
@@ -33,7 +31,9 @@ export function FeaturedList({ posts }: { posts: Post[] }) {
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  onError={handleImgError}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = resolveImage(null, f.title, f.cat);
+                  }}
                   className="w-full h-full object-cover"
                 />
                 {f.videoId && (
