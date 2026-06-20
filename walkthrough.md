@@ -48,13 +48,13 @@
 
 ![تسجيل فيديو لعملية التحقق وتصفح الموقع](C:\Users\msali\.gemini\antigravity-ide\brain\3b0a31f3-2be7-44c2-a6a5-04e5abff3b46\test_dev_server_1781917461035.webp)
 
-## 4. إصلاح خطأ البناء على Vercel (خطأ Prisma 7)
-* **المشكلة**: فشل البناء على Vercel مع الخطأ `P1012: The datasource property url is no longer supported in schema files`.
-* **السبب**: يعود ذلك إلى استخدام Prisma 7 الذي ينقل معلمات الاتصال بالكامل إلى ملف `prisma.config.ts` بدلاً من `schema.prisma`.
-* **الحل**:
-  1. قمنا بتعديل ملف [schema.prisma](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma/schema.prisma) وإزالة سطر `url = env("DATABASE_URL")` من كتلة `datasource db` ليتوافق تماماً مع بنية Prisma 7.
-  2. قمنا بالتحقق من وجود الإعداد الصحيح مسبقاً في ملف [prisma.config.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma.config.ts) وهو يقوم بتهيئة الاتصال وقراءة متغير البيئة `DATABASE_URL` بشكل سليم.
-  3. قمنا بإنهاء العمليات المعلقة وتشغيل أمر البناء محلياً بنجاح لتأكيد زوال المشكلة.
+## 4. إصلاح خطأ البناء وتوافق الـ CI/CD (Prisma 7 & ESLint)
+* **المشكلة الأولى (Vercel & local)**: فشل البناء مع الخطأ `P1012: The datasource property url is no longer supported in schema files`.
+  * **الحل**: تم تعديل ملف [schema.prisma](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma/schema.prisma) وإزالة سطر `url` لتفويض الاتصال بالكامل إلى [prisma.config.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma.config.ts).
+* **المشكلة الثانية (فشل فحص ESLint على GitHub)**: كان فحص الكود يفشل لعدم عثور ESLint 9 على حزم تابعة لـ Next.js.
+  * **الحل**: قمنا بإدراج الحزمة المفقودة **`eslint-config-next`** في ملف [package.json](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/package.json) تحت قسم حزم التطوير `devDependencies`.
+* **المشكلة الثالثة (فشل توليد Prisma Client على GitHub)**: عند تشغيل `prisma generate` في بيئة GitHub الآلية، ينهار البناء لعدم وجود ملف `.env` وطلب بريزما الصارم لـ `DATABASE_URL`.
+  * **الحل**: قمنا بتعديل [prisma.config.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma.config.ts) ليعتمد على `process.env.DATABASE_URL` مع توفير مسار قاعدة بيانات SQLite محلي احتياطي (`file:./prisma/dev.db`) عند غياب متغير البيئة، مما يسمح بالاختبار والتوليد بنجاح دون أخطاء.
 
 ## 5. استبدال صندوق فيسبوك بويدجت مواقيت الصلاة في هولندا
 * **الملف المعدل**: [sidebar.tsx](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/components/home/sidebar.tsx)
