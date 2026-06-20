@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 
 export interface BoardMember {
   id: string;
   nameAr: string;
   nameEn: string;
   titleAr: string;
+  titleEn?: string;
   image: string;
   committees: string[];
   bioPoints: string[];
@@ -58,11 +60,14 @@ function MemberImage({
 
 export default function AboutUsBoard({ members }: AboutUsBoardProps) {
   const [selectedMember, setSelectedMember] = useState<BoardMember | null>(null);
+  const t = useTranslations("about");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
 
   if (!members || members.length === 0) {
     return (
       <div className="text-center py-20 text-gray-400 text-lg">
-        لا توجد بيانات لأعضاء مجلس الإدارة حالياً.
+        {t("boardEmpty")}
       </div>
     );
   }
@@ -73,19 +78,19 @@ export default function AboutUsBoard({ members }: AboutUsBoardProps) {
   return (
     <div
       className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8 rounded-3xl my-12 border border-gray-100"
-      dir="rtl"
+      dir={isRtl ? "rtl" : "ltr"}
     >
       <div className="max-w-7xl mx-auto">
         {/* ─── رأس القسم ─── */}
         <div className="text-center mb-16">
           <h2 className="text-base text-[#c8a84e] font-semibold tracking-wide uppercase">
-            الهيكل التنظيمي المعتمد 2025
+            {t("boardHeading")}
           </h2>
           <p className="mt-2 text-3xl font-extrabold tracking-tight text-[#1a5632] sm:text-4xl">
-            أعضاء مجلس الإدارة والمكاتب التنفيذية
+            {t("boardSubtitle")}
           </p>
           <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
-            نخبة من الكفاءات السورية التي تعمل على تمكين الجالية وبناء جسور التواصل.
+            {t("boardDesc")}
           </p>
         </div>
 
@@ -95,7 +100,7 @@ export default function AboutUsBoard({ members }: AboutUsBoardProps) {
             <div className="flex items-center gap-3 mb-8">
               <span className="h-px flex-1 bg-gray-200" />
               <span className="text-sm font-semibold text-[#c8a84e] px-4 py-1 bg-amber-50 rounded-full border border-amber-200">
-                الأعضاء المؤسسون
+                {t("boardFounders")}
               </span>
               <span className="h-px flex-1 bg-gray-200" />
             </div>
@@ -117,7 +122,7 @@ export default function AboutUsBoard({ members }: AboutUsBoardProps) {
             <div className="flex items-center gap-3 mb-8">
               <span className="h-px flex-1 bg-gray-200" />
               <span className="text-sm font-semibold text-[#1a5632] px-4 py-1 bg-emerald-50 rounded-full border border-emerald-200">
-                الأعضاء التنفيذيون
+                {t("boardExecutives")}
               </span>
               <span className="h-px flex-1 bg-gray-200" />
             </div>
@@ -139,7 +144,7 @@ export default function AboutUsBoard({ members }: AboutUsBoardProps) {
             className="fixed z-50 inset-0 overflow-y-auto"
             role="dialog"
             aria-modal="true"
-            aria-label={`سيرة ${selectedMember.nameAr}`}
+            aria-label={`CV ${isRtl ? selectedMember.nameAr : (selectedMember.nameEn || selectedMember.nameAr)}`}
           >
             <div className="flex items-center justify-center min-h-screen px-4 py-8">
               {/* الخلفية المظللة */}
@@ -154,7 +159,7 @@ export default function AboutUsBoard({ members }: AboutUsBoardProps) {
                 <div className="bg-[#1a5632] p-8 text-white relative">
                   <button
                     onClick={() => setSelectedMember(null)}
-                    aria-label="إغلاق"
+                    aria-label="Close"
                     className="absolute top-4 left-4 w-8 h-8 flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/20 rounded-full text-xl font-bold transition-colors cursor-pointer"
                   >
                     ×
@@ -164,17 +169,19 @@ export default function AboutUsBoard({ members }: AboutUsBoardProps) {
                     <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white/40 shadow-lg flex-shrink-0">
                       <MemberImage
                         src={selectedMember.image}
-                        alt={selectedMember.nameAr}
+                        alt={isRtl ? selectedMember.nameAr : (selectedMember.nameEn || selectedMember.nameAr)}
                         className="w-full h-full object-cover"
                       />
                     </div>
                     <div className="text-center sm:text-right">
-                      <h3 className="text-2xl font-bold">{selectedMember.nameAr}</h3>
+                      <h3 className="text-2xl font-bold">
+                        {isRtl ? selectedMember.nameAr : (selectedMember.nameEn || selectedMember.nameAr)}
+                      </h3>
                       <p className="text-sm text-gray-300 font-light mb-3">
-                        {selectedMember.nameEn}
+                        {isRtl ? selectedMember.nameEn : (selectedMember.nameEn ? selectedMember.nameAr : "")}
                       </p>
                       <span className="inline-block bg-[#c8a84e] text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-lg">
-                        {selectedMember.titleAr}
+                        {isRtl ? selectedMember.titleAr : (selectedMember.titleEn || selectedMember.titleAr)}
                       </span>
                     </div>
                   </div>
@@ -186,7 +193,7 @@ export default function AboutUsBoard({ members }: AboutUsBoardProps) {
                   {selectedMember.committees && selectedMember.committees.length > 0 && (
                     <div>
                       <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
-                        اللجان والمكاتب الحالية
+                        {t("boardCommittees")}
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {selectedMember.committees.map((c, i) => (
@@ -205,7 +212,7 @@ export default function AboutUsBoard({ members }: AboutUsBoardProps) {
                   <div>
                     <h4 className="text-sm font-bold text-gray-900 mb-3 border-b pb-2 flex items-center gap-2">
                       <span className="w-1 h-4 bg-[#c8a84e] rounded-sm inline-block" />
-                      السيرة المهنية والمبادرات
+                      {t("boardBio")}
                     </h4>
                     <ul className="space-y-3">
                       {selectedMember.bioPoints.map((point, index) => (
@@ -223,12 +230,12 @@ export default function AboutUsBoard({ members }: AboutUsBoardProps) {
 
                 {/* تذييل المودال */}
                 <div className="bg-gray-50 px-8 py-4 flex justify-between items-center text-xs text-gray-400 border-t">
-                  <span>رقم KVK: {selectedMember.kvkNumber}</span>
+                  <span>{t("boardKvk")}: {selectedMember.kvkNumber}</span>
                   <button
                     onClick={() => setSelectedMember(null)}
                     className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-xl font-medium transition-colors cursor-pointer"
                   >
-                    إغلاق
+                    {t("boardClose")}
                   </button>
                 </div>
               </div>
@@ -248,6 +255,10 @@ function MemberCard({
   member: BoardMember;
   onSelect: (m: BoardMember) => void;
 }) {
+  const locale = useLocale();
+  const isRtl = locale === "ar";
+  const t = useTranslations("about");
+
   return (
     <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col items-center p-6 text-center group">
       {/* صورة العضو أو الـ avatar الاحتياطي */}
@@ -255,20 +266,22 @@ function MemberCard({
         <div className="w-full h-full group-hover:scale-110 transition-transform duration-300">
           <MemberImage
             src={member.image}
-            alt={member.nameAr}
+            alt={isRtl ? member.nameAr : (member.nameEn || member.nameAr)}
             className="w-full h-full object-cover"
           />
         </div>
       </div>
 
       {/* الاسم والمنصب */}
-      <h3 className="text-lg font-bold text-gray-900 mb-1">{member.nameAr}</h3>
+      <h3 className="text-lg font-bold text-gray-900 mb-1">
+        {isRtl ? member.nameAr : (member.nameEn || member.nameAr)}
+      </h3>
       <p className="text-xs text-gray-400 mb-4 font-mono uppercase tracking-wider">
-        {member.nameEn}
+        {isRtl ? member.nameEn : (member.nameEn ? member.nameAr : "")}
       </p>
 
       <div className="text-sm font-medium text-[#1a5632] bg-emerald-50 px-3 py-2 rounded-full mb-6 min-h-[40px] flex items-center justify-center leading-tight">
-        {member.titleAr}
+        {isRtl ? member.titleAr : (member.titleEn || member.titleAr)}
       </div>
 
       {/* زر فتح السيرة */}
@@ -276,7 +289,7 @@ function MemberCard({
         onClick={() => onSelect(member)}
         className="mt-auto w-full inline-flex justify-center items-center px-4 py-2.5 text-sm font-medium rounded-xl text-white bg-[#1a5632] hover:bg-[#0f3d23] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1a5632] transition-colors duration-200 shadow-sm cursor-pointer"
       >
-        عرض اللمحة التعريفية
+        {t("boardViewProfile")}
       </button>
     </div>
   );

@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Heart, CheckCircle, Landmark } from "lucide-react";
 
 const presetAmounts = [10, 25, 50, 100];
 
 export default function DonatePage() {
   const t = useTranslations("donate");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const [amount, setAmount] = useState<number | "">(25);
   const [customAmount, setCustomAmount] = useState("");
   const [name, setName] = useState("");
@@ -86,7 +88,7 @@ export default function DonatePage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gray-50 py-16 px-4" dir="rtl">
+      <div className="min-h-screen bg-gray-50 py-16 px-4" dir={isRtl ? "rtl" : "ltr"}>
         <div className="max-w-lg mx-auto text-center">
           <div className="bg-white rounded-2xl shadow-sm p-8">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
@@ -96,7 +98,7 @@ export default function DonatePage() {
             <p className="text-gray-500 mb-6">{t("subtitle")}</p>
 
             {bankDetails && (
-              <div className="bg-gray-50 rounded-xl p-6 text-right">
+              <div className={`bg-gray-50 rounded-xl p-6 ${isRtl ? "text-right" : "text-left"}`}>
                 <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 justify-center">
                   <Landmark className="w-5 h-5" />
                   {t("bankDetails")}
@@ -127,7 +129,7 @@ export default function DonatePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16 px-4" dir="rtl">
+    <div className="min-h-screen bg-gray-50 py-16 px-4" dir={isRtl ? "rtl" : "ltr"}>
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-red-50 rounded-full mb-4">

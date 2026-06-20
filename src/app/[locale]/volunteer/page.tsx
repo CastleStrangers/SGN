@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { Link } from "@/i18n/routing";
-import { ArrowLeft, Heart, Users, Calendar, Award, HandHeart, CheckCircle } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { ArrowLeft, ArrowRight, Heart, Users, Calendar, Award, HandHeart, CheckCircle } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function VolunteerPage() {
   const t = useTranslations('volunteer');
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const [form, setForm] = useState({ name: "", email: "", phone: "", skills: "", availability: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [msg, setMsg] = useState("");
@@ -35,7 +37,7 @@ export default function VolunteerPage() {
 
   if (status === "success") {
     return (
-      <div className="min-h-screen bg-white" dir="rtl">
+      <div className="min-h-screen bg-white" dir={isRtl ? "rtl" : "ltr"}>
         <div className="max-w-xl mx-auto px-4 py-24 text-center">
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
           <h1 className="text-3xl font-bold text-gray-900 mb-4">{t('successTitle')}</h1>
@@ -47,10 +49,10 @@ export default function VolunteerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50" dir="rtl">
+    <div className="min-h-screen bg-gray-50" dir={isRtl ? "rtl" : "ltr"}>
       <div className="max-w-5xl mx-auto px-4 py-12">
         <Link href="/" className="inline-flex items-center gap-2 text-[#1a5632] hover:text-[#0f3d23] mb-8 text-sm">
-          <ArrowLeft className="w-4 h-4" /> {t('backToHome')}
+          {isRtl ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />} {t('backToHome')}
         </Link>
 
         <div className="text-center mb-12">

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Link } from "@/i18n/routing";
-import { ArrowLeft, Image as ImageIcon, X, ChevronLeft, ChevronRight, ExternalLink, ZoomIn } from "lucide-react";
+import { ArrowLeft, ArrowRight, Image as ImageIcon, X, ChevronLeft, ChevronRight, ExternalLink, ZoomIn } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 
 interface GalleryImage {
@@ -18,6 +18,7 @@ export default function GalleryPage() {
   const t = useTranslations('gallery');
   const tNews = useTranslations('newsPage');
   const locale = useLocale();
+  const isRtl = locale === "ar";
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
@@ -53,19 +54,11 @@ export default function GalleryPage() {
     if (cat === "اقتصاد") return tNews('economy');
     if (cat === "ثقافيات") return tNews('culture');
     if (cat === "فعاليات") return tNews('events');
-    if (cat === "مرفوعة") {
-      if (locale === "nl") return "Geüpload";
-      if (locale === "en") return "Uploaded";
-      return "صور مرفوعة";
-    }
+    if (cat === "مرفوعة") return t('uploaded');
     return cat;
   };
 
-  const getReadMoreLabel = () => {
-    if (locale === "nl") return "Lees artikel";
-    if (locale === "en") return "Read article";
-    return "قراءة المقال";
-  };
+  const getReadMoreLabel = () => t('readArticle');
 
   // Filtered images list
   const filteredImages = images.filter(img => {
@@ -93,7 +86,7 @@ export default function GalleryPage() {
   const activeImage = selectedIdx !== null ? filteredImages[selectedIdx] : null;
 
   return (
-    <div dir="rtl" className="min-h-screen bg-[#fafdfb] text-gray-800 pb-12">
+    <div dir={isRtl ? "rtl" : "ltr"} className="min-h-screen bg-[#fafdfb] text-gray-800 pb-12">
       {/* CSS Masonry layout and transitions */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeIn {
@@ -149,7 +142,7 @@ export default function GalleryPage() {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/" className="inline-flex items-center gap-2 text-[#c8a84e]/90 hover:text-white mb-4 text-sm font-medium transition-colors">
-            <ArrowLeft className="w-4 h-4" />
+            {isRtl ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
             <span>{t('backToHome')}</span>
           </Link>
           <h1 className="text-3xl md:text-5xl font-extrabold flex items-center gap-3 tracking-tight">
@@ -186,13 +179,13 @@ export default function GalleryPage() {
         {loading ? (
           <div className="flex flex-col items-center justify-center h-80 gap-3">
             <div className="animate-spin w-10 h-10 border-4 border-[#1a5632] border-t-transparent rounded-full" />
-            <p className="text-sm text-gray-400">جاري تحميل الصور...</p>
+            <p className="text-sm text-gray-400">{t('loading')}</p>
           </div>
         ) : filteredImages.length === 0 ? (
           <div className="text-center py-20 bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
             <ImageIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-500 font-medium text-lg">{t('empty')}</p>
-            <p className="text-sm text-gray-400 mt-1">يرجى تجربة فلتر آخر لعرض الصور.</p>
+            <p className="text-sm text-gray-400 mt-1">{t('emptyDesc')}</p>
           </div>
         ) : (
           /* Pinterest Masonry Grid */
@@ -226,7 +219,7 @@ export default function GalleryPage() {
                   <div className="flex items-center justify-between border-t border-white/10 pt-2.5">
                     <span className="text-white/80 hover:text-white flex items-center gap-1 text-xs font-medium">
                       <ZoomIn className="w-3.5 h-3.5" />
-                      <span>تكبير</span>
+                      <span>{t('zoom')}</span>
                     </span>
                     
                     {img.slug && (
@@ -261,7 +254,7 @@ export default function GalleryPage() {
             <button 
               onClick={() => setSelectedIdx(null)} 
               className="p-2 rounded-full bg-white/5 text-white hover:bg-white/10 hover:text-yellow-400 hover:scale-105 transition-all"
-              aria-label="إغلاق"
+              aria-label={t('close')}
             >
               <X className="w-6 h-6" />
             </button>
@@ -275,11 +268,13 @@ export default function GalleryPage() {
                 e.stopPropagation();
                 setSelectedIdx(prev => (prev !== null && prev > 0 ? prev - 1 : filteredImages.length - 1));
               }}
-              className="absolute right-2 md:right-6 p-3 rounded-2xl bg-white/5 text-white hover:bg-white/10 hover:text-[#c8a84e] transition-all z-10 active:scale-95"
-              title="الصورة السابقة"
-              aria-label="الصورة السابقة"
+              className={`absolute p-3 rounded-2xl bg-white/5 text-white hover:bg-white/10 hover:text-[#c8a84e] transition-all z-10 active:scale-95 ${
+                isRtl ? "right-2 md:right-6" : "left-2 md:left-6"
+              }`}
+              title={t('previous')}
+              aria-label={t('previous')}
             >
-              <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+              {isRtl ? <ChevronRight className="w-6 h-6 md:w-8 md:h-8" /> : <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />}
             </button>
 
             {/* Main Lightbox Image */}
@@ -300,11 +295,13 @@ export default function GalleryPage() {
                 e.stopPropagation();
                 setSelectedIdx(prev => (prev !== null && prev < filteredImages.length - 1 ? prev + 1 : 0));
               }}
-              className="absolute left-2 md:left-6 p-3 rounded-2xl bg-white/5 text-white hover:bg-white/10 hover:text-[#c8a84e] transition-all z-10 active:scale-95"
-              title="الصورة التالية"
-              aria-label="الصورة التالية"
+              className={`absolute p-3 rounded-2xl bg-white/5 text-white hover:bg-white/10 hover:text-[#c8a84e] transition-all z-10 active:scale-95 ${
+                isRtl ? "left-2 md:left-6" : "right-2 md:right-6"
+              }`}
+              title={t('next')}
+              aria-label={t('next')}
             >
-              <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+              {isRtl ? <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" /> : <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />}
             </button>
           </div>
 

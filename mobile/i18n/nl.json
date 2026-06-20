@@ -99,7 +99,28 @@
     "uploadDocument": "Upload brief foto om uit te leggen",
     "analyzing": "Brief analyseren en lezen...",
     "analysisResult": "Brief Analyseresultaat",
-    "close": "Sluiten"
+    "close": "Sluiten",
+    "personaEmployment": "Werk & Sociale Huisvesting",
+    "chooseDoc": "Kies documentafbeelding",
+    "summarize": "Samenvatten",
+    "conversationSummary": "📋 Gesprekssamenvatting",
+    "translate": "🇬🇧 Vertalen",
+    "cardFamilyReunification": "Stappen voor gezinshereniging?",
+    "promptFamilyReunification": "Wat zijn de stappen voor gezinshereniging in detail in Nederland?",
+    "cardIndTimeframe": "Beslistermijn IND?",
+    "promptIndTimeframe": "Wat is de verwachte termijn voor een IND-besluit?",
+    "cardIntegrationExams": "Inschrijven voor inburgering?",
+    "promptIntegrationExams": "Hoe meld ik me aan voor inburgeringsexamens?",
+    "cardDuoFunding": "DUO-financiering voor taal?",
+    "promptDuoFunding": "Wat zijn de voorwaarden voor DUO-financiering voor taalstudie?",
+    "cardSocialHousing": "Sociale huurwoning aanvragen?",
+    "promptSocialHousing": "Hoe vraag ik een sociale huurwoning aan in Nederland?",
+    "cardEvaluateDegree": "Diploma waarderen?",
+    "promptEvaluateDegree": "Wat zijn de vereisten om mijn Syrische diploma te laten waarderen?",
+    "cardCommunityNews": "Laatste gemeenschapsnieuws?",
+    "promptCommunityNews": "Wat is het laatste nieuws van de Syrische gemeenschap vandaag?",
+    "cardUpcomingEvents": "Komende evenementen & vrijwilligerswerk?",
+    "promptUpcomingEvents": "Zijn er komende sociale evenementen of mogelijkheden voor vrijwilligerswerk?"
   },
   "common": {
     "ok": "OK",
@@ -331,5 +352,13 @@
   "newsPage": {
     "prevPage": "Vorige pagina",
     "nextPage": "Volgende pagina"
+  },
+  "categories": {
+    "communityNews": "Gemeenschapsnieuws",
+    "culture": "Cultuur & Kunst",
+    "services": "Diensten",
+    "humanitarian": "Humanitair Werk",
+    "sports": "Sport",
+    "tech": "Technologie"
   }
 }
