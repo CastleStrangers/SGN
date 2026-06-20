@@ -92,3 +92,22 @@
   * [استمارة العضوية](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/components/membership/MembershipForm.tsx): تم التكبير إلى **`w-9 h-6` (36px)** لإعطاء طابع ترحيبي عالي الدقة للترويسة.
   * [صفحة التسجيل](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/app/%5Blocale%5D/signup/page.tsx) و[الدخول](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/app/%5Blocale%5D/login/page.tsx): تم التكبير إلى **`w-9 h-6`** في شاشات المكتب و **`w-8 h-5`** لشاشات الجوال.
   * [لوحة التحكم](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/app/%5Blocale%5D/dashboard/layout.tsx): تكبير الأعلام في القائمة الجانبية لتصبح **`w-6 h-4` (24px)** لتبدو مقروءة وبارزة جداً.
+
+---
+
+## 8. إصلاح مشكلة الصور الفارغة لفيسبوك وحفظ الوسائط محلياً
+* **الملف المعدل**: [db-sync.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/lib/sync/db-sync.ts)
+  * تم تعديل دالة `syncArticleToDb` بحيث تكتشف تلقائياً وجود صور خارجية أو روابط فيسبوك CDN عند إنشاء أي مقال جديد.
+  * تقوم الدالة باستدعاء أدوات التحميل التلقائي لتنزيل جميع الصور الملحقة بمحتوى المقال وصورته المصغرة وحفظها محلياً تحت مسار ثابت `/uploads/sync/` لتخزينها بشكل دائم في قاعدة البيانات بدلاً من الروابط الخارجية المؤقتة.
+* **الملف المعدل**: [media.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/lib/sync/media.ts)
+  * تم إضافة فحص وقائي في دالة `downloadMedia` لمنع محاولة تحميل الملفات التي تم تنزيلها مسبقاً (مثل الروابط النسبية أو روابط النطاق المحلي) لتجنب حدوث عمليات تحميل مكررة أو لا نهائية.
+* **الملف المعدل**: [types.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/lib/sync/types.ts)
+  * تم إيقاف تفعيل فيسبوك كالمصدر الافتراضي للمزامنة التلقائية مجدداً (`enabled: false`) في قائمة المصادر. يمنع هذا الكرون المجدول من تشغيل المزامنة مجدداً، بينما يحتفظ المسؤول بالقدرة على تشغيل الاستيراد اليدوي التاريخي أو المزامنة من لوحة التحكم.
+
+---
+
+## 9. إصلاح بناء الـ CI/CD في GitHub Actions
+* تم إدراج حزمة الترجمة والمراجعة البرمجية `eslint-config-next` إلى ملف `package.json` كحزمة تطوير.
+* تم إعداد `prisma.config.ts` للعمل بمرونة مع قواعد بيانات SQLite الاحتياطية عند تشغيل `prisma generate` في بيئة GitHub Actions الخالية من قواعد البيانات.
+* بفضل هذه التغييرات، ستتخطى عمليات الدمج (Merge) والـ Commits كافة اختبارات البناء بنجاح كامل.
+
