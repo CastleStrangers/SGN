@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
 // الحقول المُرجَعة في قوائم الأخبار (بدون content لتقليل حجم الاستجابة)
@@ -21,6 +21,32 @@ const LIST_SELECT = {
 } as const;
 
 export async function GET(req: NextRequest) {
+  // In development mode, trigger a background sync automatically
+  if (process.env.NODE_ENV === "development") {
+    const lastSyncKey = "last_dev_sync_time";
+    const now = Date.now();
+    const globalAny = globalThis as any;
+    const lastSync = globalAny[lastSyncKey] || 0;
+    if (now - lastSync > 5 * 60 * 1000) {
+      globalAny[lastSyncKey] = now;
+      import("@/lib/sync").then(async ({ runSync }) => {
+        console.log("Dev background sync started...");
+        const { DEFAULT_SOURCES } = await import("@/lib/sync/types");
+        const tempSources = DEFAULT_SOURCES.map(src => {
+          // Temporarily enable facebook for dev sync
+          if (src.type === "facebook") {
+            return { ...src, enabled: true };
+          }
+          return src;
+        });
+        await runSync(tempSources);
+        console.log("Dev background sync completed!");
+      }).catch(err => {
+        console.error("Dev background sync failed:", err);
+      });
+    }
+  }
+
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category");
   const slug = searchParams.get("slug");
