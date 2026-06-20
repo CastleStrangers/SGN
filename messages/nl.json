@@ -1110,7 +1110,9 @@
     "translateError": "Vertaling mislukt. Probeer het opnieuw.",
     "searchButton": "Zoeken",
     "emptyCategoryDesc": "Controleer andere categorieën of pas uw zoekopdracht aan.",
-    "videoPlayerTitle": "Slimme Videospeler"
+    "videoPlayerTitle": "Slimme Videospeler",
+    "prevPage": "Vorige pagina",
+    "nextPage": "Volgende pagina"
   },
   "languageSwitcher": {
     "arabic": "العربية",

@@ -1110,7 +1110,9 @@
     "translateError": "Failed to translate article. Please try again.",
     "searchButton": "Search",
     "emptyCategoryDesc": "Please check other categories or modify search queries.",
-    "videoPlayerTitle": "Smart Video Player"
+    "videoPlayerTitle": "Smart Video Player",
+    "prevPage": "Previous Page",
+    "nextPage": "Next Page"
   },
   "languageSwitcher": {
     "arabic": "العربية",

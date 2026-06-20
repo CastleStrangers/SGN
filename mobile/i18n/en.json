@@ -327,5 +327,9 @@
         "enschede": "Enschede"
       }
     }
+  },
+  "newsPage": {
+    "prevPage": "Previous Page",
+    "nextPage": "Next Page"
   }
 }

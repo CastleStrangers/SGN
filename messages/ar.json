@@ -1110,7 +1110,9 @@
     "translateError": "فشل ترجمة المقال. حاول مرة أخرى.",
     "searchButton": "بحث",
     "emptyCategoryDesc": "يرجى التحقق من الأقسام الأخرى أو تعديل كلمات البحث.",
-    "videoPlayerTitle": "مشغل الفيديوهات الذكي"
+    "videoPlayerTitle": "مشغل الفيديوهات الذكي",
+    "prevPage": "الصفحة السابقة",
+    "nextPage": "الصفحة التالية"
   },
   "languageSwitcher": {
     "arabic": "العربية",
