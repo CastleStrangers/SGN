@@ -1,5 +1,6 @@
 @echo off
 chcp 65001 > nul
+setlocal enabledelayedexpansion
 title تشغيل بيئة تطوير SGN المتكاملة
 cd /d "%~dp0..\.."
 
