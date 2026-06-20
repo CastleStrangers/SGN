@@ -2,7 +2,7 @@
 chcp 65001 > nul
 setlocal enabledelayedexpansion
 title SGN Control Panel
-cd /d "%~dp0"
+cd /d "%~dp0..\.."
 
 :: Handle direct argument from shortcut
 if not "%~1"=="" (
