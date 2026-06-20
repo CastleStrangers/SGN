@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server"
-import { extractArticles } from "@/lib/sync/extractor"
+import { prisma } from "@/lib/db"
+
+export const dynamic = "force-dynamic"
 
 export async function GET() {
   try {
@@ -17,7 +19,7 @@ export async function GET() {
     })
 
     const url = `https://graph.facebook.com/v19.0/${pageId}/posts?${params.toString()}`
-    const res = await fetch(url)
+    const res = await fetch(url, { cache: 'no-store' })
     const json = await res.json()
 
     if (json.error) {
@@ -46,7 +48,21 @@ export async function GET() {
       }
     })
 
-    return NextResponse.json({ success: true, count: fbDetails.length, fbDetails })
+    // Also get latest 10 database posts to compare
+    const dbPosts = await prisma.post.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 10,
+    })
+
+    const dbDetails = dbPosts.map(p => ({
+      id: p.id,
+      title: p.title,
+      source: p.source,
+      image: p.image,
+      createdAt: p.createdAt,
+    }))
+
+    return NextResponse.json({ success: true, count: fbDetails.length, fbDetails, dbDetails })
   } catch (err) {
     return NextResponse.json({
       success: false,
