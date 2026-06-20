@@ -13,10 +13,8 @@
  */
 
 import "dotenv/config"
-import { PrismaClient } from "@prisma/client"
+import { prisma } from "../src/lib/db"
 import { runSync } from "../src/lib/sync"
-
-const prisma = new PrismaClient()
 
 async function confirmReset(): Promise<boolean> {
   if (process.env.SKIP_CONFIRMATION === "true") {
