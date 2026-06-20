@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft, Clock, Play } from "lucide-react";
-import { PLACEHOLDER_IMG, handleImgError } from "@/lib/image-fallback";
+import { PLACEHOLDER_IMG, handleImgError, resolveImage } from "@/lib/image-fallback";
 
 interface Post {
   title: string; cat: string; img: string | null; excerpt: string; time: string; slug: string;
@@ -24,7 +24,7 @@ export function FeaturedList({ posts }: { posts: Post[] }) {
         {posts.map(f => {
           const thumb = f.videoId
             ? `https://img.youtube.com/vi/${f.videoId}/hqdefault.jpg`
-            : (f.img || PLACEHOLDER_IMG);
+            : resolveImage(f.img, f.title, f.cat);
           return (
             <Link key={f.slug || f.title} href={f.slug ? `/news/${f.slug}` : "/news"} className="flex gap-4 bg-white rounded-xl p-3 hover:shadow-md transition-shadow group">
               <div className="relative w-28 h-20 rounded-lg overflow-hidden flex-shrink-0">
