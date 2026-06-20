@@ -33,6 +33,7 @@ echo 🌐 3. جاري فتح روابط المعاينة والتشغيل...
 echo جاري فتح الموقع المحلي وموقع الإنتاج...
 start http://localhost:3000
 start https://sgn-indol.vercel.app
+start https://sy-nl.org
 
 echo.
 echo ✅ تم الانتهاء بنجاح!
