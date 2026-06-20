@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client"
+import { prisma } from "../src/lib/db"
 import { stat } from "fs/promises"
 import path from "path"
-
-const prisma = new PrismaClient()
 
 async function main() {
   const posts = await prisma.post.findMany({
