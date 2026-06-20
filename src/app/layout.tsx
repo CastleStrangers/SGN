@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Cairo } from "next/font/google";
+import { Almarai } from "next/font/google";
 import { cookies } from "next/headers";
 import AuthProvider from "@/components/auth-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PWARegister } from "@/components/pwa-register";
 import "./globals.css";
 
-const cairo = Cairo({
-  variable: "--font-cairo",
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+const almarai = Almarai({
+  variable: "--font-almarai",
+  subsets: ["arabic"],
+  weight: ["300", "400", "700", "800"],
 });
 
 export const viewport = {
@@ -46,7 +46,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-      <body className={`${cairo.variable} font-sans antialiased`}>
+      <body className={`${almarai.variable} font-sans antialiased`}>
         <PWARegister />
         <ThemeProvider>
           <AuthProvider>{children}</AuthProvider>
