@@ -32,19 +32,29 @@ export async function POST(req: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const fileName = `avatar-${member.id}-${Date.now()}.${ext}`;
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      return NextResponse.json({ error: "التخزين السحابي غير متاح" }, { status: 500 });
+    
+    let url = "";
+    // 1. If Vercel Blob token exists, save to Vercel Blob
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(`avatars/${fileName}`, buffer, {
+        access: "public",
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+      });
+      url = blob.url;
+    } else {
+      // 2. Otherwise save locally in public/uploads/avatars
+      const uploadDir = path.join(process.cwd(), "public", "uploads", "avatars");
+      await mkdir(uploadDir, { recursive: true });
+      
+      const filePath = path.join(uploadDir, fileName);
+      await writeFile(filePath, buffer);
+      url = `/uploads/avatars/${fileName}`;
     }
-
-    const blob = await put(`avatars/${fileName}`, buffer, {
-      access: "public",
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-    });
-    const url = blob.url;
 
     await prisma.member.update({ where: { id: member.id }, data: { avatar: url } });
     return NextResponse.json({ url });
-  } catch {
+  } catch (error: any) {
+    console.error("Avatar upload error:", error);
     return NextResponse.json({ error: t(req, 'api.internalError') }, { status: 500 });
   }
 }
