@@ -12,6 +12,8 @@ const LIGHT = {
   border: "#e2e8f0",
   error: "#dc2626",
   success: "#16a34a",
+  textWhite: "#ffffff",
+  textWhiteMuted: "#ffffffc2",
 };
 
 const DARK = {
@@ -26,6 +28,8 @@ const DARK = {
   border: "#334155",
   error: "#ef4444",
   success: "#22c55e",
+  textWhite: "#ffffff",
+  textWhiteMuted: "#ffffffc2",
 };
 
 export const COLORS = new Proxy(LIGHT, {
