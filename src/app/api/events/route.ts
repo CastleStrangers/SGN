@@ -3,6 +3,8 @@ import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { requireAuthorize } from "@/lib/auth-helpers";
+
+export const dynamic = "force-dynamic";
 import { getApiMessage } from "@/lib/api-messages";
 import { createSystemNotification } from "@/lib/notifications/service";
 

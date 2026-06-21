@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
-// Revalidate public stats every 10 seconds to make it feel live and real
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {

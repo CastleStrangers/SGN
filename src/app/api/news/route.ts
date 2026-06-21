@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 // الحقول المُرجَعة في قوائم الأخبار (بدون content لتقليل حجم الاستجابة)
 const LIST_SELECT = {
   id: true,

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { normalizeBoardImagePath } from '@/lib/board-images';
 
+export const dynamic = "force-dynamic";
+
 interface DbBoardMember {
   id: string;
   nameAr: string;
