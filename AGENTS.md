@@ -33,7 +33,7 @@ SGN/                          # ← Web app (Next.js 16 + i18n + Tailwind)
 
 | Target | URL | How |
 |--------|-----|-----|
-| **Vercel** (staging) | `https://sgn-indol.vercel.app` | `vercel --prod` |
+| **Vercel** (staging) | `https://sgn-msalimaziza-3522s-projects.vercel.app` | `vercel --prod` |
 | **Hostinger** (production) | `https://sy-nl.org` | PM2 on port 3001, Node.js selector |
 | **Mobile APK/IPA** | N/A | `cd mobile && npm run build:android` |
 

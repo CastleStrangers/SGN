@@ -19,6 +19,6 @@ echo.
 echo 3. Deploying to Vercel...
 call vercel --prod
 echo.
-echo Done! Please check https://sgn-indol.vercel.app to view your updates.
+echo Done! Please check https://sgn-msalimaziza-3522s-projects.vercel.app to view your updates.
 echo.
 pause

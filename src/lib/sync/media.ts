@@ -55,7 +55,7 @@ export async function downloadMedia(
     url.startsWith("file://") ||
     url.includes("localhost") ||
     url.includes("sy-nl.org") ||
-    url.includes("sgn-indol.vercel.app")
+    url.includes("sgn-msalimaziza-3522s-projects.vercel.app")
   ) {
     return url
   }

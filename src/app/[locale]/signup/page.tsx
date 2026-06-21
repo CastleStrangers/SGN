@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Link } from "@/i18n/routing";
@@ -330,8 +330,8 @@ export default function SignupPage() {
 
           <p className="text-center text-xs text-gray-400 mt-6">
             {t.rich("agreeTerms", {
-              privacy: (chunks) => <Link href="/about" className="text-[#1a5632] hover:underline">{chunks}</Link>,
-              terms: (chunks) => <Link href="/about" className="text-[#1a5632] hover:underline">{chunks}</Link>,
+              privacy: (chunks: ReactNode) => <Link href="/about" className="text-[#1a5632] hover:underline">{chunks}</Link>,
+              terms: (chunks: ReactNode) => <Link href="/about" className="text-[#1a5632] hover:underline">{chunks}</Link>,
             })}
           </p>
         </div>

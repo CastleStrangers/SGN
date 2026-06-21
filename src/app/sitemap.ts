@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/db";
 
-const BASE = "https://sgn-indol.vercel.app";
+const BASE = "https://sgn-msalimaziza-3522s-projects.vercel.app";
 const LOCALES = ["ar", "nl", "en"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

@@ -54,7 +54,7 @@ start "SGN Autosync" powershell -NoExit -ExecutionPolicy Bypass -File "%~dp0auto
 echo.
 timeout /t 6 > nul
 start http://localhost:3000/login
-start https://sgn-indol.vercel.app/login
+start https://sgn-msalimaziza-3522s-projects.vercel.app/login
 echo All servers started successfully!
 goto end
 
@@ -85,7 +85,7 @@ echo.
 echo Deploying to Vercel...
 call vercel --prod
 echo.
-echo Done! https://sgn-indol.vercel.app
+echo Done! https://sgn-msalimaziza-3522s-projects.vercel.app
 goto end
 
 :sync
@@ -146,7 +146,7 @@ echo.
 echo [3/3] Deploying to Vercel...
 call vercel --prod
 echo.
-start https://sgn-indol.vercel.app
+start https://sgn-msalimaziza-3522s-projects.vercel.app
 echo Sync + Deploy complete!
 goto end
 

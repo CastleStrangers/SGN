@@ -130,7 +130,7 @@ doc.moveDown(0.5);
 doc.fontSize(12).font('Helvetica');
 
 const deployData = [
-  ['Vercel (staging)', 'https://sgn-indol.vercel.app'],
+  ['Vercel (staging)', 'https://sgn-msalimaziza-3522s-projects.vercel.app'],
   ['Hostinger (production)', 'https://sy-nl.org'],
   ['Mobile APK/IPA', 'عبر Expo'],
 ];

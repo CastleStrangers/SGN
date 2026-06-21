@@ -1,70 +1,0 @@
-======================================================= 
-  SGN GIT REPAIR AND DIAGNOSTICS LOG 
-  Time: Sun 06/21/2026  1:55:00.91 
-======================================================= 
- 
-- Aborting any rebase or merge... 
-fatal: no rebase in progress
-fatal: There is no merge to abort (MERGE_HEAD missing).
-- Hard resetting local changes... 
-error: unable to unlink old 'git-repair-log.txt': Invalid argument
-fatal: Could not reset index file to revision 'HEAD'.
-- Checking out main branch... 
-error: Your local changes to the following files would be overwritten by checkout:
-	git-repair-log.txt
-Please commit your changes or stash them before you switch branches.
-Aborting
-- Pulling latest main branch code... 
-From https://github.com/CastleStrangers/SGN
- * branch            main       -> FETCH_HEAD
-warning: in the working copy of 'git-repair-log.txt', LF will be replaced by CRLF the next time Git touches it
-Merge made by the 'ort' strategy.
-- Untracking dev.db if needed... 
-rm 'prisma/dev.db'
-[fix/news-and-schema-updates 37f1f71] chore: untrack local dev.db database file
- 1 file changed, 0 insertions(+), 0 deletions(-)
- delete mode 100644 prisma/dev.db
-To https://github.com/CastleStrangers/SGN.git
- ! [rejected]        main -> main (non-fast-forward)
-error: failed to push some refs to 'https://github.com/CastleStrangers/SGN.git'
-hint: Updates were rejected because a pushed branch tip is behind its remote
-hint: counterpart. If you want to integrate the remote changes, use 'git pull'
-hint: before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-=== SGN STATUS AFTER REPAIR === 
-On branch fix/news-and-schema-updates
-Your branch is ahead of 'origin/fix/news-and-schema-updates' by 3 commits.
-  (use "git push" to publish your local commits)
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-	modified:   git-repair-log.txt
-
-no changes added to commit (use "git add" and/or "git commit -a")
-origin	https://github.com/CastleStrangers/SGN.git (fetch)
-origin	https://github.com/CastleStrangers/SGN.git (push)
-------------------------------------------------------- 
-- Aborting any rebase or merge in Parent... 
-fatal: no rebase in progress
-fatal: There is no merge to abort (MERGE_HEAD missing).
-- Hard resetting Parent repository... 
-Updating files:  84% (91/108)Updating files:  85% (92/108)Updating files:  86% (93/108)Updating files:  87% (94/108)Updating files:  88% (96/108)Updating files:  89% (97/108)Updating files:  90% (98/108)Updating files:  91% (99/108)Updating files:  92% (100/108)Updating files:  93% (101/108)Updating files:  94% (102/108)Updating files:  95% (103/108)Updating files:  96% (104/108)Updating files:  97% (105/108)Updating files:  98% (106/108)Updating files:  99% (107/108)Updating files: 100% (108/108)Updating files: 100% (108/108), done.
-HEAD is now at 495eb5a9 auto: sync nested SGN changes to parent repository
-- Checking out main branch in Parent... 
-Already on 'main'
-- Pulling latest main branch in Parent... 
-remote: Repository not found.
-fatal: repository 'https://github.com/CastleStrangers1979/Syrian-Community-App.git/' not found
-remote: Repository not found.
-fatal: repository 'https://github.com/CastleStrangers1979/Syrian-Community-App.git/' not found
-=== PARENT STATUS AFTER REPAIR === 
-On branch main
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	SGN/git-repair-and-log.bat
-	SGN/git-repair-log.txt
-
-nothing added to commit but untracked files present (use "git add" to track)
-origin	https://github.com/CastleStrangers1979/Syrian-Community-App.git (fetch)
-origin	https://github.com/CastleStrangers1979/Syrian-Community-App.git (push)

@@ -95,5 +95,5 @@ SGN/                          # ← تطبيق الويب (Next.js 16 + i18n + T
 
 ## 📡 أهداف النشر والإنتاج (Deployment Targets)
 
-* **خادم المطورين (Staging)**: [Vercel](https://sgn-indol.vercel.app)
+* **خادم المطورين (Staging)**: [Vercel](https://sgn-msalimaziza-3522s-projects.vercel.app)
 * **خادم الإنتاج (Production)**: [Hostinger (sy-nl.org)](https://sy-nl.org) باستخدام PM2 على المنفذ 3001.
