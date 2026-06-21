@@ -23,6 +23,16 @@ interface DbBoardMember {
 
 export async function GET() {
   try {
+    // تحديث مسارات الصور للمسارات المحلية المتوفرة في مجلد public
+    await (prisma as any).boardMember.updateMany({
+      where: { nameAr: "عبد المنعم الشامان" },
+      data: { image: "/images/board/chairman.png" }
+    });
+    await (prisma as any).boardMember.updateMany({
+      where: { nameAr: "خالد فيصل الطويل" },
+      data: { image: "/images/board/secretary.png" }
+    });
+
     const members = await (prisma as any).boardMember.findMany({
       orderBy: { createdAt: 'asc' }
     }) as DbBoardMember[];
