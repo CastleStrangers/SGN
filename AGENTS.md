@@ -11,6 +11,13 @@
 - ✅ **i18n keys** — if added to web, also add to mobile (and vice versa)
 - ✅ **Prisma schema** — changes affect both web API and mobile API calls
 
+## 📤 Git Rule (مهم جداً)
+
+**كل تعديل للمشروع على الهارد ديسك لازم:**
+1. ✅ يترفع للمستودع العام `https://github.com/CastleStrangers/SGN.git`
+2. ✅ يتحدث رابط الزبون بعد الـ push: `https://sgn-msalimaziza-3522s-projects.vercel.app`
+3. ✅ `git add -A && git commit -m "وصف التعديل" && git push`
+
 ## 🏗 Project Structure
 
 ```
