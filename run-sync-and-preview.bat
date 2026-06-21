@@ -1,49 +1,81 @@
 @echo off
-echo ===================================================
-echo Starting SGN Project Synchronization...
-echo ===================================================
+chcp 65001 > nul
+setlocal enabledelayedexpansion
+title SGN Project Sync, Run and Preview
+cd /d "%~dp0"
 
+echo ===================================================
+echo   SGN Project Sync, Run and Preview
+echo ===================================================
 echo.
+
+:: 1. Check Dev Server
 echo Checking if Next.js Dev Server is running on port 3000...
 netstat -ano | findstr :3000 >nul
 if %ERRORLEVEL% equ 0 (
-    echo Next.js Dev Server is already running.
+    echo [✓] Next.js Dev Server is already running.
 ) else (
-    echo Next.js Dev Server is not running. Starting in a new PowerShell window...
-    start powershell -NoExit -Command "cd '%~dp0'; Write-Host 'Starting Next.js Dev Server on port 3000...' -ForegroundColor Green; npx next dev -p 3000 --webpack"
+    echo [-] Next.js Dev Server is not running. Starting in a new window...
+    start "SGN Dev Server" cmd /k "npx next dev -p 3000 --webpack"
 )
 
+:: 2. Update Mobile Client URL
 echo.
-echo 1. Updating mobile client URL (set:prod)...
-cd mobile
-call npm run set:prod
-cd ..
+echo [1/4] Updating mobile client URL to production...
+if exist mobile\ (
+    cd mobile
+    call npm run set:prod
+    cd ..
+    echo [✓] Mobile client URL updated.
+) else (
+    echo [!] Warning: mobile directory not found. Skipping set:prod.
+)
 
+:: 3. Git Sync SGN Repository
 echo.
-echo 2. Staging changes in Git...
+echo [2/4] Syncing SGN repository with GitHub...
 git add .
-
-echo.
-set /p msg="Enter Commit Message (press Enter for default): "
-if "%msg%"=="" (
-    set msg="Auto-update: Syncing project components and settings"
+set dirty=0
+git diff-index --quiet HEAD -- || set dirty=1
+if "!dirty!"=="1" (
+    echo - Changes detected.
+    set /p msg="Enter Commit Message (press Enter for default): "
+    if "!msg!"=="" (
+        set msg="Auto-update: Syncing project components and settings"
+    )
+    git commit -m "!msg!"
+) else (
+    echo [✓] SGN repository is already clean. No new commits.
 )
 
-git commit -m "%msg%"
-echo.
-echo Uploading changes to repository (Git Push)...
-git push
+echo - Pulling latest remote changes to prevent conflicts...
+git pull origin main --rebase
+if %errorlevel% neq 0 (
+    echo [!] WARNING: Pull failed or there are conflicts. Aborting rebase...
+    git rebase --abort
+)
 
+echo - Pushing SGN changes to GitHub...
+git push origin main
+if %errorlevel% neq 0 (
+    echo [!] ERROR: Failed to push SGN changes to GitHub.
+) else (
+    echo [✓] Repository synchronized successfully.
+)
+
+:: 4. Deploy to Vercel
 echo.
-echo Deploying directly to Vercel Staging (sgn-indol.vercel.app)...
+echo [3/4] Deploying directly to Vercel staging...
 call vercel --prod
 
+:: 5. Open Preview URLs
 echo.
-echo 3. Opening preview URLs...
+echo [4/4] Opening preview URLs in your browser...
 start http://localhost:3000
 start https://sgn-indol.vercel.app
 
 echo.
-echo Done successfully!
+echo ===================================================
+echo   DONE: Synchronization and startup complete!
 echo ===================================================
 pause
