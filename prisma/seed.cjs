@@ -217,7 +217,7 @@ async function main() {
       {
         nameAr: "عبد المنعم الشامان",
         nameEn: "Abdul Munim Al Chaman",
-        image: "/images/board/abdulmunim.svg",
+        image: "https://iyshpeyqzoec7ecx.public.blob.vercel-storage.com/board/uploaded/chairman.png",
         titleAr: "رئيس مجلس الإدارة",
         titleEn: "Chairman of the Board",
         isFounder: true,
@@ -251,7 +251,7 @@ async function main() {
       {
         nameAr: "خالد فيصل الطويل",
         nameEn: "Khaled Faisal Altawil",
-        image: "/images/board/khaled.svg",
+        image: "https://iyshpeyqzoec7ecx.public.blob.vercel-storage.com/board/uploaded/secretary.png",
         titleAr: "الأمين العام للجالية",
         titleEn: "Secretary General",
         isFounder: true,
