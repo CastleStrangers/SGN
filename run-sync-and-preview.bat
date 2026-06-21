@@ -159,7 +159,7 @@ echo [!] Warning: Vercel deployment command failed.
 echo.
 echo [5/5] Opening preview URLs in your browser...
 start http://localhost:3000
-start https://sgn-indol.vercel.app
+start https://sgn-msalimaziza-3522s-projects.vercel.app
 
 echo.
 echo ===================================================
