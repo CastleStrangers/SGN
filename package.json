@@ -58,6 +58,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.60.0",
+    "react-is": "^19.2.7",
     "recharts": "^3.8.1",
     "xlsx": "^0.18.5"
   },
@@ -66,7 +67,6 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/bcryptjs": "^2.4.6",
-
     "@types/node": "^22",
     "@types/pdfkit": "^0.17.6",
     "@types/react": "^19",
