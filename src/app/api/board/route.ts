@@ -44,10 +44,20 @@ export async function GET() {
       }
 
       let normalizedImage = m.image;
-      if (normalizedImage && normalizedImage.includes('chairman.png')) {
+      // تحويل روابط Vercel Blob المعطّلة إلى المسارات المحلية
+      if (normalizedImage && (normalizedImage.includes('blob.vercel-storage.com') || normalizedImage.startsWith('https://iysh'))) {
+        // استخراج اسم الملف من الرابط إن أمكن
+        normalizedImage = '';
+      }
+      // تحويل مسميات SVG القديمة إلى PNG الحقيقية حيث متوفرة
+      if (normalizedImage && (normalizedImage.includes('chairman.png') || normalizedImage.includes('abdulmunim.svg'))) {
         normalizedImage = '/images/board/chairman.png';
-      } else if (normalizedImage && normalizedImage.includes('secretary.png')) {
+      } else if (normalizedImage && (normalizedImage.includes('secretary.png') || normalizedImage.includes('khaled.svg'))) {
         normalizedImage = '/images/board/secretary.png';
+      } else if (normalizedImage && normalizedImage.includes('director.png')) {
+        normalizedImage = '/images/board/director.png';
+      } else if (normalizedImage && normalizedImage.includes('treasurer.png')) {
+        normalizedImage = '/images/board/treasurer.png';
       } else {
         normalizedImage = normalizeBoardImagePath(normalizedImage);
       }
