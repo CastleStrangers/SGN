@@ -202,12 +202,157 @@ function extractAllImagesAndText(html: string): ExtractedArticle[] {
       category: "أخبار الجالية",
       tags: [],
       source: "sy-nl.org",
-      sourceUrl: "https://www.sy-nl.org/nbdh-aljalyh",
+      sourceUrl: `https://www.sy-nl.org/nbdh-aljalyh#${encodeURIComponent(title.trim().slice(0, 40))}`,
       author: "الجالية السورية في هولندا",
       publishedAt: new Date(),
       mediaUrls: imgUrls,
       iframes: videoIds.map((id) => `https://www.youtube.com/embed/${id}`),
     })
+  }
+
+  // Fallback if the webpage is client-side rendered (e.g. Hostinger / Zyro builder pages with JSON props)
+  if (articles.length === 0) {
+    const match = html.match(/props="([\s\S]*?)"/)
+    if (match) {
+      try {
+        const decoded = match[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+        const data = JSON.parse(decoded)
+        
+        const blocksMap = new Map<string, { texts: string[], images: string[], videoIds: string[] }>()
+        
+        const traverse = (obj: any, currentBlockId: string | null) => {
+          if (!obj) return
+          let nextBlockId = currentBlockId
+          
+          if (typeof obj === "object") {
+            if (obj.type === "BlockLayout" || obj.type === "BlockNavigation" || (obj.id && typeof obj.id === "string" && obj.id.startsWith("z"))) {
+              nextBlockId = obj.id || currentBlockId
+            }
+            
+            for (const key in obj) {
+              const val = obj[key]
+              if (typeof val === "string") {
+                const trimmed = val.trim()
+                if (trimmed.length > 20 && /[\u0600-\u06FF]/.test(trimmed)) {
+                  if (nextBlockId) {
+                    if (!blocksMap.has(nextBlockId)) {
+                      blocksMap.set(nextBlockId, { texts: [], images: [], videoIds: [] })
+                    }
+                    if (!blocksMap.get(nextBlockId)!.texts.includes(trimmed)) {
+                      blocksMap.get(nextBlockId)!.texts.push(trimmed)
+                    }
+                  }
+                } else if (
+                  trimmed.startsWith("http") &&
+                  trimmed.includes("assets.zyrosite.com") &&
+                  (trimmed.includes(".jpg") || trimmed.includes(".png") || trimmed.includes(".jpeg") || trimmed.includes(".webp")) &&
+                  !trimmed.toLowerCase().includes("logo_sgn") &&
+                  !trimmed.toLowerCase().includes("/logo.png") &&
+                  !trimmed.toLowerCase().includes("/logo.svg") &&
+                  !trimmed.toLowerCase().includes("icon") &&
+                  !trimmed.toLowerCase().includes("favicon")
+                ) {
+                  if (nextBlockId) {
+                    if (!blocksMap.has(nextBlockId)) {
+                      blocksMap.set(nextBlockId, { texts: [], images: [], videoIds: [] })
+                    }
+                    if (!blocksMap.get(nextBlockId)!.images.includes(trimmed)) {
+                      blocksMap.get(nextBlockId)!.images.push(trimmed)
+                    }
+                  }
+                } else {
+                  const ytPatterns = [
+                    /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{10,12})/,
+                    /youtu\.be\/([a-zA-Z0-9_-]{10,12})/,
+                    /youtube\.com\/embed\/([a-zA-Z0-9_-]{10,12})/,
+                    /youtube\.com\/shorts\/([a-zA-Z0-9_-]{10,12})/
+                  ]
+                  for (const pattern of ytPatterns) {
+                    const ym = trimmed.match(pattern)
+                    if (ym && nextBlockId) {
+                      if (!blocksMap.has(nextBlockId)) {
+                        blocksMap.set(nextBlockId, { texts: [], images: [], videoIds: [] })
+                      }
+                      if (!blocksMap.get(nextBlockId)!.videoIds.includes(ym[1])) {
+                        blocksMap.get(nextBlockId)!.videoIds.push(ym[1])
+                      }
+                    }
+                  }
+                }
+              } else {
+                traverse(val, nextBlockId)
+              }
+            }
+          } else if (Array.isArray(obj)) {
+            for (const val of obj) {
+              traverse(val, nextBlockId)
+            }
+          }
+        }
+        
+        traverse(data, null)
+        
+        for (const [blockId, blockData] of blocksMap.entries()) {
+          const textBlocks = blockData.texts
+          if (textBlocks.length === 0) continue
+          
+          const title = pickBestTitle(textBlocks) || textBlocks[0].slice(0, 200)
+          if (title.length < 15) continue
+          
+          if (title.includes("جميع الحقوق محفوظة") || title.includes("All rights reserved")) continue
+          if (title.includes("النشرة البريدية")) continue
+          if (title.includes("إرسال الطلب الآن")) continue
+          if (BAD_TITLE_STARTS.some((b) => title.startsWith(b))) continue
+          
+          let firstImage = blockData.images[0]
+          const remainingImages = blockData.images.slice(1)
+          
+          if (!firstImage && blockData.videoIds.length > 0) {
+            firstImage = `https://i.ytimg.com/vi/${blockData.videoIds[0]}/hqdefault.jpg`
+          }
+          
+          const contentParts: string[] = []
+          const videoHtmlParts = blockData.videoIds.map(makeYoutubeIframeHtml)
+          
+          if (videoHtmlParts.length > 0) {
+            contentParts.push(...videoHtmlParts)
+          }
+          
+          for (const imgUrl of remainingImages) {
+            contentParts.push(
+              `<img src="${imgUrl}" alt="" style="max-width:100%;height:auto;border-radius:8px;margin:12px 0;display:block;" />`
+            )
+          }
+          
+          const paragraphText = textBlocks
+            .filter((t) => t !== title)
+            .join("</p>\n<p>")
+          if (paragraphText) {
+            contentParts.push(`<p>${paragraphText}</p>`)
+          }
+          
+          const content = contentParts.join("\n")
+          const plainText = textBlocks.join(" ")
+          
+          articles.push({
+            title,
+            content,
+            excerpt: plainText.slice(0, 300),
+            image: firstImage || undefined,
+            category: "أخبار الجالية",
+            tags: [],
+            source: "sy-nl.org",
+            sourceUrl: `https://www.sy-nl.org/nbdh-aljalyh#${encodeURIComponent(title.trim().slice(0, 40))}`,
+            author: "الجالية السورية في هولندا",
+            publishedAt: new Date(),
+            mediaUrls: blockData.images,
+            iframes: blockData.videoIds.map((id) => `https://www.youtube.com/embed/${id}`),
+          })
+        }
+      } catch (err) {
+        console.error("Error parsing Zyro JSON props:", err)
+      }
+    }
   }
 
   return articles

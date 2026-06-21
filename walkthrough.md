@@ -48,13 +48,13 @@
 
 ![تسجيل فيديو لعملية التحقق وتصفح الموقع](C:\Users\msali\.gemini\antigravity-ide\brain\3b0a31f3-2be7-44c2-a6a5-04e5abff3b46\test_dev_server_1781917461035.webp)
 
-## 4. إصلاح خطأ البناء على Vercel (خطأ Prisma 7)
-* **المشكلة**: فشل البناء على Vercel مع الخطأ `P1012: The datasource property url is no longer supported in schema files`.
-* **السبب**: يعود ذلك إلى استخدام Prisma 7 الذي ينقل معلمات الاتصال بالكامل إلى ملف `prisma.config.ts` بدلاً من `schema.prisma`.
-* **الحل**:
-  1. قمنا بتعديل ملف [schema.prisma](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma/schema.prisma) وإزالة سطر `url = env("DATABASE_URL")` من كتلة `datasource db` ليتوافق تماماً مع بنية Prisma 7.
-  2. قمنا بالتحقق من وجود الإعداد الصحيح مسبقاً في ملف [prisma.config.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma.config.ts) وهو يقوم بتهيئة الاتصال وقراءة متغير البيئة `DATABASE_URL` بشكل سليم.
-  3. قمنا بإنهاء العمليات المعلقة وتشغيل أمر البناء محلياً بنجاح لتأكيد زوال المشكلة.
+## 4. إصلاح خطأ البناء وتوافق الـ CI/CD (Prisma 7 & ESLint)
+* **المشكلة الأولى (Vercel & local)**: فشل البناء مع الخطأ `P1012: The datasource property url is no longer supported in schema files`.
+  * **الحل**: تم تعديل ملف [schema.prisma](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma/schema.prisma) وإزالة سطر `url` لتفويض الاتصال بالكامل إلى [prisma.config.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma.config.ts).
+* **المشكلة الثانية (فشل فحص ESLint على GitHub)**: كان فحص الكود يفشل لعدم عثور ESLint 9 على حزم تابعة لـ Next.js.
+  * **الحل**: قمنا بإدراج الحزمة المفقودة **`eslint-config-next`** في ملف [package.json](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/package.json) تحت قسم حزم التطوير `devDependencies`.
+* **المشكلة الثالثة (فشل توليد Prisma Client على GitHub)**: عند تشغيل `prisma generate` في بيئة GitHub الآلية، ينهار البناء لعدم وجود ملف `.env` وطلب بريزما الصارم لـ `DATABASE_URL`.
+  * **الحل**: قمنا بتعديل [prisma.config.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/prisma.config.ts) ليعتمد على `process.env.DATABASE_URL` مع توفير مسار قاعدة بيانات SQLite محلي احتياطي (`file:./prisma/dev.db`) عند غياب متغير البيئة، مما يسمح بالاختبار والتوليد بنجاح دون أخطاء.
 
 ## 5. استبدال صندوق فيسبوك بويدجت مواقيت الصلاة في هولندا
 * **الملف المعدل**: [sidebar.tsx](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/components/home/sidebar.tsx)
@@ -92,3 +92,38 @@
   * [استمارة العضوية](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/components/membership/MembershipForm.tsx): تم التكبير إلى **`w-9 h-6` (36px)** لإعطاء طابع ترحيبي عالي الدقة للترويسة.
   * [صفحة التسجيل](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/app/%5Blocale%5D/signup/page.tsx) و[الدخول](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/app/%5Blocale%5D/login/page.tsx): تم التكبير إلى **`w-9 h-6`** في شاشات المكتب و **`w-8 h-5`** لشاشات الجوال.
   * [لوحة التحكم](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/app/%5Blocale%5D/dashboard/layout.tsx): تكبير الأعلام في القائمة الجانبية لتصبح **`w-6 h-4` (24px)** لتبدو مقروءة وبارزة جداً.
+
+---
+
+## 8. إصلاح مشكلة الصور الفارغة لفيسبوك وحفظ الوسائط محلياً أو سحابياً
+* **الملف المعدل**: [db-sync.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/lib/sync/db-sync.ts)
+  * تم تعديل دالة `syncArticleToDb` بحيث تكتشف تلقائياً وجود صور خارجية أو روابط فيسبوك CDN عند إنشاء أي مقال جديد.
+  * تقوم الدالة باستدعاء أدوات التحميل التلقائي لتنزيل جميع الصور الملحقة بمحتوى المقال وصورته المصغرة وحفظها بشكل دائم في قاعدة البيانات بدلاً من الروابط الخارجية المؤقتة.
+* **الملف المعدل**: [media.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/lib/sync/media.ts)
+  * تم إضافة فحص وقائي في دالة `downloadMedia` لمنع محاولة تحميل الملفات التي تم تنزيلها مسبقاً (مثل الروابط النسبية أو روابط النطاق المحلي) لتجنب حدوث عمليات تحميل مكررة أو لا نهائية.
+  * **دعم Vercel Blob للمنصات السحابية**: تم دمج حزمة `@vercel/blob` داخل دالة التنزيل؛ في حال وجود توكن `BLOB_READ_WRITE_TOKEN` (سواء في بيئة Vercel أو محلياً)، يتم تلقائياً رفع جميع الصور والوسائط إلى مخزن Vercel Blob السحابي وتخزين مسار الـ CDN السحابي الدائم في قاعدة البيانات، مع الاحتفاظ بآلية الكتابة المحلية في المجلد `public/uploads/sync` كخيار بديل عند غياب التوكن.
+* **الملف المعدل**: [types.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/lib/sync/types.ts)
+  * تم إيقاف تفعيل فيسبوك كالمصدر الافتراضي للمزامنة التلقائية مجدداً (`enabled: false`) في قائمة المصادر. يمنع هذا الكرون المجدول من تشغيل المزامنة مجدداً، بينما يحتفظ المسؤول بالقدرة على تشغيل الاستيراد اليدوي التاريخي أو المزامنة من لوحة التحكم.
+* **الملف المعدل**: [extractor.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/lib/sync/extractor.ts)
+  * تم إضافة حل بديل وذكي (Fallback) في دالة `extractAllImagesAndText` للتعامل مع الموقع الرسمي `sy-nl.org` بعد تحوله لبيئة بناء Hostinger / Zyro التي تعتمد على التصيير من طرف العميل (Client-side rendering).
+  * في حال غياب وسوم HTML التقليدية (`<section>`)، يقوم السكربت تلقائياً باستخراج بيانات الـ JSON المسلسلة المضمنة في سمة الـ `props` داخل الصفحة وتفكيكها، ومن ثم استخراج جميع كتل النصوص العربية وصور الـ Zyro وروابط الفيديوهات المصاحبة وربطها بالـ Blocks الصحيحة لإنتاج مقالات كاملة البيانات بدون أي أخطاء.
+
+---
+
+## 9. أتمتة جلب الأخبار تلقائياً وحل مشكلة تحديث روابط العميل (On-Demand Universal Sync)
+* **الملف المعدل**: [route.ts](file:///d:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/src/app/api/news/route.ts)
+  * تم تطوير آلية التحديث التلقائي لتصبح شاملة لجميع البيئات (التطوير المحلي، والاستضافة التجريبية على Vercel، والاستضافة الإنتاجية).
+  * بدلاً من الاعتماد الكلي على كرون السيرفر المجدول (الذي لا يعمل في بيئات Vercel السحابية)، يقوم خادم التطوير أو خادم الإنتاج بإطلاق مهمة المزامنة تلقائياً في الخلفية (Background Sync) بمجرد فتح أي مستخدم للصفحة الرئيسية واستدعاء واجهة الأخبار.
+  * تم ربط المزامنة بجدول `AppSetting` في قاعدة البيانات لضبط خنق التكرار (Throttle):
+    * **بيئة التطوير المحلي**: المزامنة مرة واحدة كحد أقصى كل **5 دقائق**.
+    * **بيئة الإنتاج والرفع التجريبي**: المزامنة مرة واحدة كحد أقصى كل **30 دقيقة**.
+  * تضمن هذه الطريقة بقاء رابط العميل التجريبي والروابط الرسمية محدثة بأحدث الأخبار ومنشورات فيسبوك تلقائياً وبشكل دوري بمجرد تصفح الموقع.
+
+---
+
+## 10. إصلاح بناء الـ CI/CD في GitHub Actions
+* تم إدراج حزمة الترجمة والمراجعة البرمجية `eslint-config-next` إلى ملف `package.json` كحزمة تطوير.
+* تم إعداد `prisma.config.ts` للعمل بمرونة مع قواعد بيانات SQLite الاحتياطية عند تشغيل `prisma generate` في بيئة GitHub Actions الخالية من قواعد البيانات.
+* بفضل هذه التغييرات، ستتخطى عمليات الدمج (Merge) والـ Commits كافة اختبارات البناء بنجاح كامل.
+
+

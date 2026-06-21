@@ -1,4 +1,5 @@
 @echo off
+cd /d "%~dp0..\.."
 echo Running diagnostics... > git-diag-results.txt
 echo ==================================== >> git-diag-results.txt
 echo CURRENT DIRECTORY >> git-diag-results.txt
@@ -14,7 +15,7 @@ echo GIT BRANCH SGN >> git-diag-results.txt
 git branch -a >> git-diag-results.txt 2>&1
 echo ==================================== >> git-diag-results.txt
 echo GIT STATUS PARENT >> git-diag-results.txt
-cd ..
+cd /d "%~dp0..\..\.."
 git status >> SGN\git-diag-results.txt 2>&1
 echo ==================================== >> SGN\git-diag-results.txt
 echo GIT WORKTREE LIST PARENT >> SGN\git-diag-results.txt

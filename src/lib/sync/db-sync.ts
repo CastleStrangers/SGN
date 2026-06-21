@@ -86,12 +86,34 @@ export async function syncArticleToDb(
     `__source:${article.source || "unknown"}:${article.sourceUrl}`,
   ].join(",")
 
+  let finalContent = article.content
+  let finalImage = article.image || null
+
+  try {
+    const { processArticleMedia, downloadMedia } = await import("./media")
+    // Process content (download any images in content)
+    const mediaResult = await processArticleMedia(article.content, article.sourceUrl)
+    finalContent = mediaResult.content
+
+    // Process main article.image
+    if (article.image) {
+      const localImage = await downloadMedia(article.image, article.sourceUrl)
+      if (localImage) {
+        finalImage = localImage
+      }
+    } else if (mediaResult.thumbnail) {
+      finalImage = mediaResult.thumbnail
+    }
+  } catch (err) {
+    console.error("Error downloading media in syncArticleToDb:", err)
+  }
+
   const post = await prisma.post.create({
     data: {
       title: article.title,
-      content: article.content,
+      content: finalContent,
       excerpt: article.excerpt || null,
-      image: article.image || null,
+      image: finalImage,
       videoId: article.videoId || null,
       category,
       tags,

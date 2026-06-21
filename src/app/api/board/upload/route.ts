@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { put } from "@vercel/blob";
+import fs from "fs/promises";
+import path from "path";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -36,19 +38,23 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(arrayBuf);
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      return NextResponse.json(
-        { error: "الرفع إلى التخزين السحابي غير متاح حالياً" },
-        { status: 500 }
-      );
+    // 1. If Vercel Blob token exists, save to Vercel Blob
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(`board/${fileName}`, buffer, {
+        access: "public",
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+      });
+      return NextResponse.json({ url: blob.url });
     }
 
-    const blob = await put(`board/${fileName}`, buffer, {
-      access: "public",
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-    });
+    // 2. Otherwise save locally in public/uploads/board
+    const uploadDir = path.join(process.cwd(), "public", "uploads", "board");
+    await fs.mkdir(uploadDir, { recursive: true });
+    
+    const filePath = path.join(uploadDir, fileName);
+    await fs.writeFile(filePath, buffer);
 
-    return NextResponse.json({ url: blob.url });
+    return NextResponse.json({ url: `/uploads/board/${fileName}` });
   } catch (error: any) {
     return NextResponse.json({
       error: `فشل رفع الصورة: ${error?.message || error || "خطأ غير معروف"}`,

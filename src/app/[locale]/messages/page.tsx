@@ -1,9 +1,9 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useEffect, useState, useRef, useCallback } from "react";
-import { Send, Search, MessageSquare, ArrowLeft, Loader2, AlertCircle, Bot, Plus, Sparkles } from "lucide-react";
+import { Send, Search, MessageSquare, ArrowLeft, ArrowRight, Loader2, AlertCircle, Bot, Plus, Sparkles } from "lucide-react";
 
 interface Conversation {
   member: { id: string; nameAr: string; nameNl: string; avatar: string | null };
@@ -37,6 +37,8 @@ const SUGGESTED_QUESTIONS = [
 export default function MessagesPage() {
   const { data: session } = useSession();
   const t = useTranslations("chat");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const [mode, setMode] = useState<"users" | "ai">("users");
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
@@ -136,10 +138,10 @@ export default function MessagesPage() {
   if (!session) return null;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6" dir="rtl">
+    <div className="max-w-7xl mx-auto px-4 py-6" dir={isRtl ? "rtl" : "ltr"}>
       <div className="bg-white rounded-2xl shadow-sm border overflow-hidden h-[calc(100vh-160px)] min-h-[500px] flex">
         {/* Sidebar */}
-        <div className={`w-full sm:w-80 lg:w-96 border-l flex flex-col ${mode === "ai" || selectedId ? "hidden sm:flex" : "flex"}`}>
+        <div className={`w-full sm:w-80 lg:w-96 ${isRtl ? "border-l" : "border-r"} flex flex-col ${mode === "ai" || selectedId ? "hidden sm:flex" : "flex"}`}>
           {/* AI Assistant Toggle */}
           <div className="p-3 border-b">
             <button
@@ -149,7 +151,7 @@ export default function MessagesPage() {
               <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${mode === "ai" ? "bg-white/20" : "bg-[#1a5632]/10"}`}>
                 <Bot className={`w-5 h-5 ${mode === "ai" ? "text-white" : "text-[#1a5632]"}`} />
               </div>
-              <div className="text-right">
+              <div className={isRtl ? "text-right" : "text-left"}>
                 <div className="font-bold text-sm">{t("aiTitle")}</div>
                 <div className={`text-xs ${mode === "ai" ? "text-white/70" : "text-gray-400"}`}>{t("aiSubtitle")}</div>
               </div>
@@ -162,12 +164,12 @@ export default function MessagesPage() {
               <h2 className="text-lg font-bold text-gray-900">{t("title")}</h2>
             </div>
             <div className="relative mt-2">
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className={`absolute ${isRtl ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400`} />
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder={t("searchPlaceholder")}
-                className="w-full pr-9 pl-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a5632]/20"
+                className={`w-full ${isRtl ? "pr-9 pl-3" : "pl-9 pr-3"} py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a5632]/20`}
               />
             </div>
           </div>
@@ -175,13 +177,13 @@ export default function MessagesPage() {
           <div className="flex-1 overflow-y-auto">
             {mode !== "ai" && loadingConv && (
               <div className="flex items-center justify-center py-12 text-gray-400">
-                <Loader2 className="w-5 h-5 animate-spin ml-2" />
+                <Loader2 className={`w-5 h-5 animate-spin ${isRtl ? "ml-2" : "mr-2"}`} />
                 <span className="text-sm">{t("loading")}</span>
               </div>
             )}
             {mode !== "ai" && !loadingConv && error && (
               <div className="flex items-center justify-center py-12 text-red-400">
-                <AlertCircle className="w-5 h-5 ml-2" />
+                <AlertCircle className={`w-5 h-5 ${isRtl ? "ml-2" : "mr-2"}`} />
                 <span className="text-sm">{error}</span>
               </div>
             )}
@@ -192,18 +194,18 @@ export default function MessagesPage() {
               <button
                 key={conv.member.id}
                 onClick={() => { setSelectedId(conv.member.id); setMode("users"); setMessages([]); }}
-                className={`w-full text-right p-3 flex items-center gap-3 hover:bg-gray-50 transition-colors border-b border-gray-50 ${selectedId === conv.member.id && mode === "users" ? "bg-[#f0f7f2]" : ""}`}
+                className={`w-full ${isRtl ? "text-right" : "text-left"} p-3 flex items-center gap-3 hover:bg-gray-50 transition-colors border-b border-gray-50 ${selectedId === conv.member.id && mode === "users" ? "bg-[#f0f7f2]" : ""}`}
               >
                 <div className="w-10 h-10 rounded-full bg-[#c8a84e] flex items-center justify-center text-white font-bold text-sm flex-shrink-0 overflow-hidden">
                   {conv.member.avatar ? (
                     <img src={conv.member.avatar} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    (conv.member.nameAr || "?").charAt(0)
+                    (isRtl ? conv.member.nameAr : conv.member.nameNl || "?").charAt(0)
                   )}
                 </div>
-                <div className="min-w-0 flex-1 text-right">
+                <div className={`min-w-0 flex-1 ${isRtl ? "text-right" : "text-left"}`}>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium text-gray-900 text-sm truncate">{conv.member.nameAr}</span>
+                    <span className="font-medium text-gray-900 text-sm truncate">{isRtl ? conv.member.nameAr : conv.member.nameNl}</span>
                     {conv.lastMessageAt && (
                       <span className="text-[10px] text-gray-400 flex-shrink-0">{formatTime(conv.lastMessageAt)}</span>
                     )}
@@ -228,6 +230,8 @@ export default function MessagesPage() {
             <AIChatPanel
               t={t}
               onBack={() => setMode("users")}
+              isRtl={isRtl}
+              locale={locale}
             />
           ) : !selectedId ? (
             <div className="flex-1 flex items-center justify-center text-gray-400">
@@ -241,7 +245,7 @@ export default function MessagesPage() {
               {/* Chat Header */}
               <div className="flex items-center gap-3 p-4 border-b">
                 <button className="sm:hidden p-1" onClick={() => setSelectedId(null)} title={t("back") || "Back"}>
-                  <ArrowLeft className="w-5 h-5" />
+                  {isRtl ? <ArrowRight className="w-5 h-5" /> : <ArrowLeft className="w-5 h-5" />}
                 </button>
                 <div className="w-9 h-9 rounded-full bg-[#c8a84e] flex items-center justify-center text-white font-bold text-sm flex-shrink-0 overflow-hidden">
                   {selectedMember?.avatar ? (
@@ -257,7 +261,7 @@ export default function MessagesPage() {
               <div className="flex-1 overflow-y-auto p-4 space-y-3">
                 {loadingMsgs && (
                   <div className="flex items-center justify-center py-12 text-gray-400">
-                    <Loader2 className="w-5 h-5 animate-spin ml-2" />
+                    <Loader2 className={`w-5 h-5 animate-spin ${isRtl ? "ml-2" : "mr-2"}`} />
                     <span className="text-sm">{t("loading")}</span>
                   </div>
                 )}
@@ -267,7 +271,7 @@ export default function MessagesPage() {
                 {!loadingMsgs && messages.map((msg) => {
                   const isMine = msg.senderId === session?.user?.id;
                   return (
-                    <div key={msg.id} className={`flex ${isMine ? "justify-start" : "justify-end"}`}>
+                    <div key={msg.id} className={`flex ${isMine ? (isRtl ? "justify-start" : "justify-end") : (isRtl ? "justify-end" : "justify-start")}`}>
                       <div
                         className={`max-w-[75%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
                           isMine
@@ -321,10 +325,12 @@ export default function MessagesPage() {
 }
 
 function AIChatPanel({
-  t, onBack,
+  t, onBack, isRtl, locale
 }: {
   t: any;
   onBack: () => void;
+  isRtl: boolean;
+  locale: string;
 }) {
   const [aiSessionId, setAiSessionId] = useState<string | null>(null);
   const [aiMessages, setAiMessages] = useState<AIMessage[]>([]);
@@ -370,7 +376,7 @@ function AIChatPanel({
         body: JSON.stringify({
           message: text,
           sessionId: aiSessionId,
-          locale: "ar",
+          locale: locale,
           persona: activePersona,
         }),
       });
@@ -398,12 +404,12 @@ function AIChatPanel({
       const uploadData = await res.json();
       if (!uploadData.url) throw new Error("Upload URL empty");
 
-      setAiMessages((prev) => [...prev, { role: "user", content: `📎 [صورة مرفقة للتحليل]: ${uploadData.url}` }]);
+      setAiMessages((prev) => [...prev, { role: "user", content: `${t("attachedDoc")} ${uploadData.url}` }]);
 
       const analyzeRes = await fetch("/api/chat/analyze-letter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageUrl: uploadData.url, locale: "ar" }),
+        body: JSON.stringify({ imageUrl: uploadData.url, locale: locale }),
       });
       if (!analyzeRes.ok) throw new Error("Analysis failed");
       const analyzeData = await analyzeRes.json();
@@ -441,7 +447,7 @@ function AIChatPanel({
       const res = await fetch("/api/chat/summarize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: aiSessionId, locale: "ar" }),
+        body: JSON.stringify({ sessionId: aiSessionId, locale: locale }),
       });
       if (!res.ok) throw new Error();
       const data = await res.json();
@@ -463,7 +469,7 @@ function AIChatPanel({
       <div className="flex flex-col border-b">
         <div className="flex items-center gap-3 p-4">
           <button className="sm:hidden p-1" onClick={onBack} title="Back">
-            <ArrowLeft className="w-5 h-5" />
+            {isRtl ? <ArrowRight className="w-5 h-5" /> : <ArrowLeft className="w-5 h-5" />}
           </button>
           <div className="w-9 h-9 rounded-full bg-[#1a5632] flex items-center justify-center text-white flex-shrink-0">
             <Bot className="w-5 h-5" />
@@ -476,7 +482,7 @@ function AIChatPanel({
               className="text-xs text-[#1a5632] hover:bg-[#f0f7f2] px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 disabled:opacity-40"
             >
               {summarizing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
-              تلخيص
+              {t("summarize")}
             </button>
           )}
           <button
@@ -528,9 +534,9 @@ function AIChatPanel({
                   <span>⚖️</span>
                   <span>{t("personaLegal")}</span>
                 </h4>
-                <div className="flex flex-col gap-1.5 text-right">
-                  <button onClick={() => handleAISend("ما هي خطوات لم الشمل بالتفصيل في هولندا؟", "legal")} className="text-xs text-gray-600 hover:text-emerald-800 hover:underline text-right block w-full">← خطوات لم الشمل بالتفصيل؟</button>
-                  <button onClick={() => handleAISend("كم المدة الزمنية المتوقعة لقرار IND؟", "legal")} className="text-xs text-gray-600 hover:text-emerald-800 hover:underline text-right block w-full">← المدة المتوقعة لقرار الـ IND؟</button>
+                <div className={`flex flex-col gap-1.5 ${isRtl ? "text-right" : "text-left"}`}>
+                  <button onClick={() => handleAISend(t("promptFamilyReunification"), "legal")} className={`text-xs text-gray-600 hover:text-emerald-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardFamilyReunification")}</button>
+                  <button onClick={() => handleAISend(t("promptIndTimeframe"), "legal")} className={`text-xs text-gray-600 hover:text-emerald-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardIndTimeframe")}</button>
                 </div>
               </div>
 
@@ -539,20 +545,20 @@ function AIChatPanel({
                   <span>🎓</span>
                   <span>{t("personaIntegration")}</span>
                 </h4>
-                <div className="flex flex-col gap-1.5 text-right">
-                  <button onClick={() => handleAISend("كيف أسجل في امتحانات الاندماج (Inburgering)؟", "integration")} className="text-xs text-gray-600 hover:text-blue-800 hover:underline text-right block w-full">← التسجيل في امتحانات الاندماج؟</button>
-                  <button onClick={() => handleAISend("ما هي شروط تمويل DUO لدراسة اللغة؟", "integration")} className="text-xs text-gray-600 hover:text-blue-800 hover:underline text-right block w-full">← شروط وقروض تمويل DUO؟</button>
+                <div className={`flex flex-col gap-1.5 ${isRtl ? "text-right" : "text-left"}`}>
+                  <button onClick={() => handleAISend(t("promptIntegrationExams"), "integration")} className={`text-xs text-gray-600 hover:text-blue-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardIntegrationExams")}</button>
+                  <button onClick={() => handleAISend(t("promptDuoFunding"), "integration")} className={`text-xs text-gray-600 hover:text-blue-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardDuoFunding")}</button>
                 </div>
               </div>
 
               <div className="p-4 rounded-2xl border bg-gradient-to-br from-amber-50/50 to-white hover:shadow-md hover:border-amber-100 transition-all duration-300">
                 <h4 className="font-bold text-sm text-amber-900 flex items-center gap-2 mb-2">
                   <span>💼</span>
-                  <span>العمل والسكن الاجتماعي</span>
+                  <span>{t("personaEmployment")}</span>
                 </h4>
-                <div className="flex flex-col gap-1.5 text-right">
-                  <button onClick={() => handleAISend("كيف أقدم على سكن اجتماعي في هولندا؟", "integration")} className="text-xs text-gray-600 hover:text-amber-800 hover:underline text-right block w-full">← التقديم على سكن اجتماعي؟</button>
-                  <button onClick={() => handleAISend("ما هي متطلبات تعديل شهادتي السورية؟", "integration")} className="text-xs text-gray-600 hover:text-amber-800 hover:underline text-right block w-full">← كيفية تقييم وتعديل الشهادات؟</button>
+                <div className={`flex flex-col gap-1.5 ${isRtl ? "text-right" : "text-left"}`}>
+                  <button onClick={() => handleAISend(t("promptSocialHousing"), "integration")} className={`text-xs text-gray-600 hover:text-amber-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardSocialHousing")}</button>
+                  <button onClick={() => handleAISend(t("promptEvaluateDegree"), "integration")} className={`text-xs text-gray-600 hover:text-amber-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardEvaluateDegree")}</button>
                 </div>
               </div>
 
@@ -561,15 +567,15 @@ function AIChatPanel({
                   <span>📢</span>
                   <span>{t("personaSpokesperson")}</span>
                 </h4>
-                <div className="flex flex-col gap-1.5 text-right">
-                  <button onClick={() => handleAISend("ما هي آخر أخبار الجالية السورية اليوم؟", "spokesperson")} className="text-xs text-gray-600 hover:text-purple-800 hover:underline text-right block w-full">← آخر أخبار الجالية اليوم؟</button>
-                  <button onClick={() => handleAISend("هل توجد فعاليات اجتماعية قادمة للجالية؟", "spokesperson")} className="text-xs text-gray-600 hover:text-purple-800 hover:underline text-right block w-full">← الفعاليات القادمة للتسجيل؟</button>
+                <div className={`flex flex-col gap-1.5 ${isRtl ? "text-right" : "text-left"}`}>
+                  <button onClick={() => handleAISend(t("promptCommunityNews"), "spokesperson")} className={`text-xs text-gray-600 hover:text-purple-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardCommunityNews")}</button>
+                  <button onClick={() => handleAISend(t("promptUpcomingEvents"), "spokesperson")} className={`text-xs text-gray-600 hover:text-purple-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardUpcomingEvents")}</button>
                 </div>
               </div>
             </div>
 
             {/* Document Analyzer Trigger Card */}
-            <div className="max-w-2xl mx-auto p-4 rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 hover:bg-gray-50 transition-all flex flex-col sm:flex-row items-center gap-4 text-center sm:text-right px-6">
+            <div className={`max-w-2xl mx-auto p-4 rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 hover:bg-gray-50 transition-all flex flex-col sm:flex-row items-center gap-4 text-center ${isRtl ? "sm:text-right" : "sm:text-left"} px-6`}>
               <div className="w-12 h-12 rounded-full bg-[#1a5632]/10 text-[#1a5632] flex items-center justify-center shrink-0">
                 <Plus className="w-6 h-6" />
               </div>
@@ -578,7 +584,7 @@ function AIChatPanel({
                 <p className="text-xs text-gray-500 mt-0.5">{t("uploadDocument")}</p>
               </div>
               <label className="shrink-0 bg-[#1a5632] hover:bg-[#0f3d23] text-white text-xs font-bold px-4 py-2.5 rounded-xl cursor-pointer transition-colors shadow-sm">
-                <span>اختر صورة المستند</span>
+                <span>{t("chooseDoc")}</span>
                 <input type="file" accept="image/*" className="hidden" onChange={handleUploadLetter} />
               </label>
             </div>
@@ -587,13 +593,13 @@ function AIChatPanel({
 
         {summary && (
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-amber-900">
-            <p className="font-bold text-xs mb-1 flex items-center gap-1"><Sparkles className="w-3.5 h-3.5" /> ملخص المحادثة</p>
+            <p className="font-bold text-xs mb-1 flex items-center gap-1"><Sparkles className="w-3.5 h-3.5" /> {t("summarize")}</p>
             <p>{summary}</p>
           </div>
         )}
 
         {aiMessages.map((msg, i) => (
-          <div key={i} className={`flex ${msg.role === "user" ? "justify-start" : "justify-end"}`}>
+          <div key={i} className={`flex ${msg.role === "user" ? (isRtl ? "justify-start" : "justify-end") : (isRtl ? "justify-end" : "justify-start")}`}>
             <div className="max-w-[80%]">
               <div
                 className={`px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
@@ -602,11 +608,11 @@ function AIChatPanel({
                     : "bg-gray-100 text-gray-900 rounded-bl-md"
                 }`}
               >
-                {msg.content.startsWith("📎 [صورة مرفقة للتحليل]: ") ? (
+                {msg.content.startsWith(t("attachedDoc")) ? (
                   <div className="space-y-2">
-                    <span className="block text-xs opacity-80">📎 خطاب مرفق للتحليل:</span>
+                    <span className="block text-xs opacity-80">{t("attachedDoc")}</span>
                     <img
-                      src={msg.content.replace("📎 [صورة مرفقة للتحليل]: ", "")}
+                      src={msg.content.replace(t("attachedDoc"), "").trim()}
                       alt="Uploaded Document"
                       className="max-w-full rounded-lg max-h-48 object-cover border border-white/20"
                     />

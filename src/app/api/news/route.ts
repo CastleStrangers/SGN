@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
 // الحقول المُرجَعة في قوائم الأخبار (بدون content لتقليل حجم الاستجابة)
@@ -21,6 +21,44 @@ const LIST_SELECT = {
 } as const;
 
 export async function GET(req: NextRequest) {
+  // Trigger background sync on-demand (throttled)
+  try {
+    const now = Date.now();
+    prisma.appSetting.findUnique({ where: { key: "last_sync_time" } }).then(async (setting) => {
+      const lastSync = Number(setting?.value) || 0;
+      const syncInterval = process.env.NODE_ENV === "development" ? 5 * 60 * 1000 : 30 * 60 * 1000;
+      
+      if (now - lastSync > syncInterval) {
+        // Prevent concurrent triggers by updating setting immediately
+        await prisma.appSetting.upsert({
+          where: { key: "last_sync_time" },
+          update: { value: String(now) },
+          create: { key: "last_sync_time", value: String(now) },
+        }).catch(() => {});
+
+        // Run sync in the background
+        const { runSync } = await import("@/lib/sync");
+        const { DEFAULT_SOURCES } = await import("@/lib/sync/types");
+        
+        const hasFbConfig = !!(process.env.FACEBOOK_PAGE_ID && process.env.FACEBOOK_PAGE_TOKEN);
+        const tempSources = DEFAULT_SOURCES.map(src => {
+          if (src.type === "facebook") {
+            return { ...src, enabled: hasFbConfig };
+          }
+          return src;
+        });
+
+        console.log("Background sync started on-demand...");
+        await runSync(tempSources);
+        console.log("Background sync completed!");
+      }
+    }).catch(err => {
+      console.error("Error in background sync trigger:", err);
+    });
+  } catch (err) {
+    console.error("Failed to initialize background sync:", err);
+  }
+
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category");
   const slug = searchParams.get("slug");

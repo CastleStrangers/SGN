@@ -85,7 +85,7 @@ export default function AboutPage() {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         {loading ? (
-          <div className="text-center py-20 text-gray-500 font-medium">جاري تحميل بيانات مجلس الإدارة...</div>
+          <div className="text-center py-20 text-gray-500 font-medium">{t("boardLoading")}</div>
         ) : (
           <AboutUsBoard members={members} />
         )}

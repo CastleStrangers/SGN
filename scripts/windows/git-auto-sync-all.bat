@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 > nul
-cd /d "%~dp0"
+cd /d "%~dp0..\.."
 
 echo =======================================================
 echo   AUTOMATED GIT SYNC and VERCEL DEPLOY (SGN + PARENT)
@@ -43,6 +43,8 @@ git diff-index --quiet HEAD --
 if %errorlevel% neq 0 (
     echo - Changes detected in Parent. Committing...
     git commit -m "auto: sync nested SGN changes to parent repository"
+    echo - Pushing Parent changes to origin...
+    git push origin main
 ) else (
     echo - Parent repository is already clean.
 )

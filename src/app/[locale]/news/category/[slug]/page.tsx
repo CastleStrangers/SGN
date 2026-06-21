@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { Clock, ArrowLeft, Newspaper, ChevronRight } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
+import { resolveImage } from "@/lib/image-fallback";
 
 interface Post {
   id: string; title: string; excerpt: string; image: string;
@@ -108,7 +109,7 @@ export default function CategoryPage() {
                   }
                   return (
                     <div className="overflow-hidden">
-                      <img src={p.image || "https://images.unsplash.com/photo-1504711434969-e33886168d6c?auto=format&fit=crop&w=400&h=240"} alt="" loading="lazy" decoding="async" className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={resolveImage(p.image, p.title, p.category)} alt="" loading="lazy" decoding="async" onError={(e) => { (e.currentTarget as HTMLImageElement).src = resolveImage(null, p.title, p.category); }} className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                   );
                 })()}

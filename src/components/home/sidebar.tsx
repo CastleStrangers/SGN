@@ -5,11 +5,11 @@ import { Link } from "@/i18n/routing";
 import { Sparkles, Clock, TrendingUp, Heart, Play } from "lucide-react";
 import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 import { TikTok } from "@/components/tiktok-icon";
-import { PLACEHOLDER_IMG, handleImgError } from "@/lib/image-fallback";
+import { PLACEHOLDER_IMG, handleImgError, resolveImage } from "@/lib/image-fallback";
 import { SurveyWidget } from "@/components/survey";
 import { PrayerTimesWidget } from "@/components/home/prayer-times";
 
-interface Post { title: string; img: string | null; time: string; slug: string; videoId?: string; }
+interface Post { title: string; img: string | null; time: string; slug: string; videoId?: string; cat?: string; }
 
 const followItems = [
   { icon: Facebook, label: "sidebar.follow.facebook", color: "bg-blue-600", href: "https://www.facebook.com/profile.php?id=61584301535331" },
@@ -48,11 +48,13 @@ export function Sidebar({ latest }: { latest: Post[] }) {
             <Link key={item.title} href={item.slug ? `/news/${item.slug}` : "/news"} className="flex gap-3 p-3 hover:bg-gray-50 transition-colors">
               <div className="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
                 <img
-                  src={item.videoId ? `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg` : (item.img || PLACEHOLDER_IMG)}
+                  src={resolveImage(item.img || (item.videoId ? `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg` : null), item.title, item.cat)}
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  onError={handleImgError}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = resolveImage(null, item.title, item.cat);
+                  }}
                   className="w-full h-full object-cover"
                 />
                 {item.videoId && (

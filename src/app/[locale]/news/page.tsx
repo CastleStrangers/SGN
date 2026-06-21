@@ -27,12 +27,12 @@ const CATEGORIES = [
   "\u062e\u062f\u0645\u0627\u062a"
 ];
 
-const PLACEHOLDER = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='240' viewBox='0 0 400 240'><rect width='400' height='240' fill='%23f0faf4'/><rect x='150' y='80' width='100' height='80' rx='8' fill='%231a5632' opacity='0.15'/><circle cx='200' cy='100' r='20' fill='%231a5632' opacity='0.25'/><line x1='160' y1='140' x2='240' y2='140' stroke='%231a5632' stroke-width='3' stroke-linecap='round' opacity='0.2'/><line x1='170' y1='155' x2='230' y2='155' stroke='%231a5632' stroke-width='2' stroke-linecap='round' opacity='0.15'/></svg>`;
+import { resolveImage } from "@/lib/image-fallback";
 
 function getThumb(post: Post): string {
+  if (post.image) return resolveImage(post.image, post.title, post.category);
   if (post.videoId) return `https://img.youtube.com/vi/${post.videoId}/hqdefault.jpg`;
-  if (post.image && (post.image.startsWith("http") || post.image.startsWith("/"))) return post.image;
-  return PLACEHOLDER;
+  return resolveImage(null, post.title, post.category);
 }
 
 function NewsPageInner() {
@@ -240,7 +240,7 @@ function NewsPageInner() {
                     return (
                       <div key={p.id} className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-transparent hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 ease-out group flex flex-col relative">
                         <div className="block overflow-hidden relative aspect-video cursor-pointer" onClick={(e) => handlePostClick(e, p)}>
-                          <img src={getThumb(p)} alt={p.title} loading="lazy" decoding="async" onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER; }} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" />
+                          <img src={getThumb(p)} alt={p.title} loading="lazy" decoding="async" onError={(e) => { (e.currentTarget as HTMLImageElement).src = resolveImage(null, p.title, p.category); }} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" />
                           <span className="absolute top-3 right-3 backdrop-blur-md bg-white/75 text-[#1a5632] font-semibold text-xs px-2.5 py-1 rounded-full shadow-sm border border-white/20">
                             {CATEGORY_LABELS[p.category] || p.category}
                           </span>

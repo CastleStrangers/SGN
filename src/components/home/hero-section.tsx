@@ -2,7 +2,7 @@
 
 import { Link } from "@/i18n/routing";
 import { Clock, Play } from "lucide-react";
-import { PLACEHOLDER_IMG, handleImgError } from "@/lib/image-fallback";
+import { PLACEHOLDER_IMG, handleImgError, resolveImage } from "@/lib/image-fallback";
 
 interface Post {
   title: string; cat: string; img: string | null; excerpt: string; author: string; time: string; slug: string;
@@ -15,9 +15,7 @@ export function HeroSection({ posts }: { posts: Post[] }) {
   const rest = posts.slice(1, 3);
 
   const getThumb = (p: Post) =>
-    p.videoId
-      ? `https://img.youtube.com/vi/${p.videoId}/hqdefault.jpg`
-      : (p.img || PLACEHOLDER_IMG);
+    resolveImage(p.img || (p.videoId ? `https://img.youtube.com/vi/${p.videoId}/hqdefault.jpg` : null), p.title, p.cat);
 
   return (
     <div className="grid md:grid-cols-2 gap-4">
@@ -28,7 +26,9 @@ export function HeroSection({ posts }: { posts: Post[] }) {
           alt=""
           loading="lazy"
           decoding="async"
-          onError={handleImgError}
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = resolveImage(null, first.title, first.cat);
+          }}
           className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
         {first.videoId && (
@@ -55,7 +55,9 @@ export function HeroSection({ posts }: { posts: Post[] }) {
             alt=""
             loading="lazy"
             decoding="async"
-            onError={handleImgError}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = resolveImage(null, f.title, f.cat);
+            }}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
           {f.videoId && (

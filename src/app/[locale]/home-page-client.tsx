@@ -48,7 +48,7 @@ export function HomePageClient() {
           time: timeAgo(p.createdAt), slug: p.slug, videoId: p.videoId,
         })));
         setLatest(posts.slice(0, 4).map((p: any) => ({
-          title: p.title, img: p.image, time: timeAgo(p.createdAt), slug: p.slug, videoId: p.videoId,
+          title: p.title, cat: p.category, img: p.image, time: timeAgo(p.createdAt), slug: p.slug, videoId: p.videoId,
         })));
         setVideos(videoPosts.map((p: any) => ({
           title: p.title, cat: p.category, img: p.image,

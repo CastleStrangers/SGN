@@ -3,10 +3,10 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { Clock } from "lucide-react";
-import { PLACEHOLDER_IMG, handleImgError } from "@/lib/image-fallback";
+import { PLACEHOLDER_IMG, handleImgError, resolveImage } from "@/lib/image-fallback";
 import { Play } from "lucide-react";
 
-interface Post { title: string; img: string | null; time: string; slug: string; videoId?: string; }
+interface Post { title: string; img: string | null; time: string; slug: string; videoId?: string; cat?: string; }
 
 export function MoreNews({ posts }: { posts: Post[] }) {
   const t = useTranslations();
@@ -19,9 +19,7 @@ export function MoreNews({ posts }: { posts: Post[] }) {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {posts.slice(0, 4).map(item => {
           const isVideo = !!(item.videoId);
-          const thumb = isVideo
-            ? `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`
-            : (item.img || PLACEHOLDER_IMG);
+          const thumb = resolveImage(item.img || (item.videoId ? `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg` : null), item.title, item.cat);
 
           return (
             <Link key={item.slug || item.title} href={item.slug ? `/news/${item.slug}` : "/news"} className="bg-white rounded-xl overflow-hidden border hover:shadow-md transition-shadow group">
@@ -31,7 +29,9 @@ export function MoreNews({ posts }: { posts: Post[] }) {
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  onError={handleImgError}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = resolveImage(null, item.title, item.cat);
+                  }}
                   className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 {isVideo && (

@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
+import { prisma } from "../src/lib/db"
 
 async function main() {
   const targetDate = new Date("2026-05-15T00:00:00Z")

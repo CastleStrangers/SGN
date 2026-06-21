@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { Link, useRouter } from "@/i18n/routing";
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { SgnLogo } from "@/components/sgn-logo";
@@ -12,6 +12,7 @@ import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 
 export default function LoginPage() {
   const locale = useLocale();
+  const isRtl = locale === "ar";
   const fieldRules = createFieldRules(locale);
   const t = useTranslations("auth");
   const tSite = useTranslations("site");
@@ -42,7 +43,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex" dir="rtl">
+    <div className="min-h-screen flex" dir={isRtl ? "rtl" : "ltr"}>
       {/* الجانب الأيمن: الخلفية الزخرفية */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#0f3d23] via-[#1a5632] to-[#2d7a4a] flex-col items-center justify-center p-12 relative overflow-hidden">
         {/* دوائر زخرفية */}
@@ -52,19 +53,19 @@ export default function LoginPage() {
 
         <div className="relative z-10 text-center text-white">
             <SgnLogo size={128} className="mx-auto mb-8" />
-          <div className="flex items-center gap-2 justify-center mb-4" dir="rtl">
+          <div className="flex items-center gap-2 justify-center mb-4" dir={isRtl ? "rtl" : "ltr"}>
             <FreeSyrianFlag className="w-9 h-6 flex-shrink-0 transition-transform hover:scale-105" />
             <h2 className="text-2xl sm:text-3xl font-bold text-white leading-none">{tSite("shortTitle")}</h2>
             <DutchFlag className="w-9 h-6 flex-shrink-0 transition-transform hover:scale-105" />
           </div>
           <p className="text-white/70 text-base sm:text-lg leading-relaxed max-w-sm mx-auto">
-            منصتك للتواصل والمشاركة مع أبناء الجالية السورية في المملكة الهولندية
+            {t("loginBannerDesc")}
           </p>
           <div className="mt-12 grid grid-cols-3 gap-6 text-center">
             {[
-              { num: "+5000", label: "عضو نشط" },
-              { num: "+200", label: "فعالية" },
-              { num: "+100", label: "متطوع" },
+              { num: "+5000", label: t("activeMembers") },
+              { num: "+200", label: t("eventsCountLabel") },
+              { num: "+100", label: t("volunteersCountLabel") },
             ].map((s) => (
               <div key={s.label} className="bg-white/10 rounded-2xl p-4 border border-white/10">
                 <div className="text-2xl font-bold text-[#c8a84e]">{s.num}</div>
@@ -81,7 +82,7 @@ export default function LoginPage() {
           {/* رأس الصفحة على الموبايل */}
           <div className="lg:hidden text-center mb-8">
             <SgnLogo size={56} className="mx-auto mb-3" />
-            <div className="flex items-center gap-2 justify-center" dir="rtl">
+            <div className="flex items-center gap-2 justify-center" dir={isRtl ? "rtl" : "ltr"}>
               <FreeSyrianFlag className="w-8 h-5 flex-shrink-0 transition-transform hover:scale-105" />
               <h1 className="text-lg sm:text-xl font-bold text-[#1a5632] leading-none">{tSite("shortTitle")}</h1>
               <DutchFlag className="w-8 h-5 flex-shrink-0 transition-transform hover:scale-105" />
@@ -90,7 +91,11 @@ export default function LoginPage() {
 
           <div className="flex justify-start mb-4">
             <Link href="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-[#1a5632] text-sm font-semibold transition-all group">
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              {isRtl ? (
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              ) : (
+                <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              )}
               <span>{t("backToHome")}</span>
             </Link>
           </div>
@@ -192,7 +197,7 @@ export default function LoginPage() {
                 <div className="w-full border-t border-gray-200" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-white px-4 text-xs text-gray-400 uppercase tracking-wider">أو بالبريد الإلكتروني</span>
+                <span className="bg-white px-4 text-xs text-gray-400 uppercase tracking-wider">{t("orEmail")}</span>
               </div>
             </div>
 
@@ -201,12 +206,12 @@ export default function LoginPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">{t("email")}</label>
                 <div className="relative">
-                  <Mail className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Mail className={`absolute ${isRtl ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400`} />
                   <input
                     type="email"
                     {...register("email", fieldRules.email)}
                     placeholder="example@email.com"
-                    className="w-full pr-10 pl-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632] focus:border-transparent transition-all text-sm"
+                    className={`w-full ${isRtl ? "pr-10 pl-4" : "pl-10 pr-4"} py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632] focus:border-transparent transition-all text-sm`}
                   />
                 </div>
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message as string}</p>}
@@ -215,7 +220,7 @@ export default function LoginPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">{t("password")}</label>
                 <div className="relative">
-                  <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Lock className={`absolute ${isRtl ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400`} />
                   <input
                     type={show ? "text" : "password"}
                     {...register("password", fieldRules.password)}
@@ -225,7 +230,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShow(!show)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    className={`absolute ${isRtl ? "left-3" : "right-3"} top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors`}
                   >
                     {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -236,10 +241,10 @@ export default function LoginPage() {
               <div className="flex justify-between items-center">
                 <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
                   <input type="checkbox" className="rounded border-gray-300 text-[#1a5632]" />
-                  تذكرني
+                  {t("rememberMe")}
                 </label>
                 <Link href="/forgot-password" className="text-sm text-[#1a5632] hover:text-[#0f3d23] font-medium hover:underline">
-                  نسيت كلمة المرور؟
+                  {t("forgotPassword")}
                 </Link>
               </div>
 
@@ -263,7 +268,7 @@ export default function LoginPage() {
                 ) : (
                   <>
                     {t("loginButton")}
-                    <ArrowRight className="w-4 h-4" />
+                    {isRtl ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
                   </>
                 )}
               </button>
@@ -278,10 +283,10 @@ export default function LoginPage() {
           </div>
 
           <p className="text-center text-xs text-gray-400 mt-6">
-            بتسجيل الدخول، أنت توافق على{" "}
-            <Link href="/about" className="text-[#1a5632] hover:underline">سياسة الخصوصية</Link>
-            {" "}و{" "}
-            <Link href="/about" className="text-[#1a5632] hover:underline">شروط الاستخدام</Link>
+            {t.rich("loginTerms", {
+              privacy: (chunks) => <Link href="/about" className="text-[#1a5632] hover:underline">{chunks}</Link>,
+              terms: (chunks) => <Link href="/about" className="text-[#1a5632] hover:underline">{chunks}</Link>,
+            })}
           </p>
         </div>
       </div>

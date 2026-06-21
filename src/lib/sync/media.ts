@@ -47,6 +47,19 @@ export async function downloadMedia(
   url: string,
   baseUrl: string
 ): Promise<string | null> {
+  if (!url) return null
+  if (
+    url.startsWith("/") ||
+    url.startsWith("data:") ||
+    url.startsWith("blob:") ||
+    url.startsWith("file://") ||
+    url.includes("localhost") ||
+    url.includes("sy-nl.org") ||
+    url.includes("sgn-indol.vercel.app")
+  ) {
+    return url
+  }
+
   let targetUrl = url
   if (url.includes("assets.zyrosite.com/cdn-cgi/image/")) {
     targetUrl = url.replace(/cdn-cgi\/image\/[^/]+\//, "")
@@ -82,6 +95,32 @@ export async function downloadMedia(
   }
 
   if (!buffer) return null
+
+  // Detect YouTube "no thumbnail available" image (usually exactly 1097 bytes, always < 2000 bytes)
+  if (absoluteUrl.includes("ytimg.com") && buffer.length <= 2000) {
+    console.log(`⚠️ Detected placeholder/unavailable YouTube thumbnail (size: ${buffer.length} bytes) for: ${absoluteUrl}`)
+    return null
+  }
+
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const { put } = await import("@vercel/blob")
+      const ext = getExtension(absoluteUrl)
+      const hash = crypto.createHash("md5").update(buffer).digest("hex").slice(0, 12)
+      const blobPath = `sync/${hash}.${ext}`
+      const blob = await put(blobPath, buffer, {
+        access: "public",
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+        addRandomSuffix: false,
+        allowOverwrite: true,
+      })
+      if (blob?.url) {
+        return blob.url
+      }
+    } catch (err) {
+      console.error("Vercel Blob upload failed, falling back to local filesystem:", err)
+    }
+  }
 
   const hash = crypto.createHash("md5").update(buffer).digest("hex").slice(0, 12)
   const ext = getExtension(absoluteUrl)

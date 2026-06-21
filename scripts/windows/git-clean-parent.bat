@@ -4,7 +4,7 @@ echo   Syncing SGN changes to Parent Repository
 echo ==============================================
 echo.
 echo Moving up to the parent directory...
-cd ..
+cd /d "%~dp0..\..\.."
 echo Current Git repository info:
 git status
 echo.
