@@ -8,24 +8,24 @@ interface Settings {
 }
 
 const FIELDS = [
-  { key: "nameAr", labelAr: "الاسم بالعربية", labelEn: "Name (Arabic)" },
-  { key: "nameNl", labelAr: "الاسم بالهولندية", labelEn: "Name (Dutch)" },
-  { key: "birthYear", labelAr: "سنة الميلاد", labelEn: "Birth Year" },
-  { key: "gender", labelAr: "الجنس", labelEn: "Gender" },
-  { key: "originCity", labelAr: "محافظة المنشأ", labelEn: "Home Governorate" },
-  { key: "whatsapp", labelAr: "واتساب", labelEn: "WhatsApp" },
-  { key: "email", labelAr: "الإيميل", labelEn: "Email" },
-  { key: "nlProvincie", labelAr: "المقاطعة", labelEn: "Province" },
-  { key: "nlCity", labelAr: "المدينة", labelEn: "City" },
-  { key: "educationLevel", labelAr: "المستوى التعليمي", labelEn: "Education Level" },
-  { key: "profession", labelAr: "المهنة", labelEn: "Profession" },
-  { key: "skills", labelAr: "المهارات", labelEn: "Skills" },
-  { key: "maritalStatus", labelAr: "الحالة الاجتماعية", labelEn: "Marital Status" },
-  { key: "expNl", labelAr: "خبرات هولندا", labelEn: "Experience NL" },
-  { key: "expOutside", labelAr: "خبرات خارج", labelEn: "Experience Abroad" },
-  { key: "aiScanner", labelAr: "مسح الهوية (AI)", labelEn: "AI ID Scanner" },
-  { key: "transliterate", labelAr: "ترجمة الاسم", labelEn: "Name Transliteration" },
-  { key: "polish", labelAr: "صياغة النصوص (AI)", labelEn: "AI Text Polishing" },
+  { key: "nameAr", labelAr: "الاسم بالعربية", labelKey: "nameAr" },
+  { key: "nameNl", labelAr: "الاسم بالهولندية", labelKey: "nameNl" },
+  { key: "birthYear", labelAr: "سنة الميلاد", labelKey: "birthYear" },
+  { key: "gender", labelAr: "الجنس", labelKey: "gender" },
+  { key: "originCity", labelAr: "محافظة المنشأ", labelKey: "originCity" },
+  { key: "whatsapp", labelAr: "واتساب", labelKey: "whatsapp" },
+  { key: "email", labelAr: "الإيميل", labelKey: "email" },
+  { key: "nlProvincie", labelAr: "المقاطعة", labelKey: "nlProvincie" },
+  { key: "nlCity", labelAr: "المدينة", labelKey: "nlCity" },
+  { key: "educationLevel", labelAr: "المستوى التعليمي", labelKey: "educationLevel" },
+  { key: "profession", labelAr: "المهنة", labelKey: "profession" },
+  { key: "skills", labelAr: "المهارات", labelKey: "skills" },
+  { key: "maritalStatus", labelAr: "الحالة الاجتماعية", labelKey: "maritalStatus" },
+  { key: "expNl", labelAr: "خبرات هولندا", labelKey: "expNl" },
+  { key: "expOutside", labelAr: "خبرات خارج", labelKey: "expOutside" },
+  { key: "aiScanner", labelAr: "مسح الهوية (AI)", labelKey: "aiScanner" },
+  { key: "transliterate", labelAr: "ترجمة الاسم", labelKey: "transliterate" },
+  { key: "polish", labelAr: "صياغة النصوص (AI)", labelKey: "polish" },
 ];
 
 export default function MembershipSettingsPage() {
@@ -54,7 +54,7 @@ export default function MembershipSettingsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(settings),
       });
-      if (res.ok) { setMsg("تم الحفظ"); setTimeout(() => setMsg(""), 3000); }
+      if (res.ok) { setMsg(t("saved")); setTimeout(() => setMsg(""), 3000); }
     } finally { setSaving(false); }
   };
 
@@ -62,8 +62,8 @@ export default function MembershipSettingsPage() {
 
   return (
     <div dir="rtl" className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">إعدادات استمارة الانتساب</h1>
-      <p className="text-sm text-gray-500">فعّل أو عطّل الحقول التي تظهر في الاستمارة</p>
+      <h1 className="text-2xl font-bold text-gray-900">{t("settingsTitle")}</h1>
+      <p className="text-sm text-gray-500">{t("settingsDesc")}</p>
 
       {msg && <div className="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-xl text-sm font-bold">{msg}</div>}
 
@@ -71,8 +71,8 @@ export default function MembershipSettingsPage() {
         {FIELDS.map(f => (
           <label key={f.key} className="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer transition">
             <div>
-              <p className="font-medium text-gray-900">{f.labelAr}</p>
-              <p className="text-xs text-gray-400">{f.labelEn}</p>
+              <p className="font-medium text-gray-900">{t("formField." + f.labelKey)}</p>
+              <p className="text-xs text-gray-400">{t("formField." + f.labelKey + "En")}</p>
             </div>
             <div className={`w-12 h-7 rounded-full transition-colors relative ${settings[f.key] ? "bg-emerald-600" : "bg-gray-300"}`}>
               <div className={`w-5 h-5 bg-white rounded-full shadow absolute top-1 transition-all ${settings[f.key] ? "right-1" : "right-6"}`} />
@@ -84,7 +84,7 @@ export default function MembershipSettingsPage() {
 
       <button onClick={save} disabled={saving} className="px-6 py-3 bg-emerald-800 text-white rounded-xl font-bold hover:bg-emerald-900 transition disabled:opacity-50 flex items-center gap-2">
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-        حفظ الإعدادات
+        {t("saveSettings")}
       </button>
     </div>
   );

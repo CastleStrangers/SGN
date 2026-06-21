@@ -150,7 +150,7 @@ export default function MembersPage() {
 
   const doBatch = async (action: string) => {
     if (selected.size === 0) return;
-    if (action === "delete" && !confirm(`حذف ${selected.size} عضو؟`)) return;
+      if (action === "delete" && !confirm(t("confirmBatchDelete", { count: selected.size }))) return;
     await fetch("/api/members/batch", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -170,7 +170,7 @@ export default function MembersPage() {
     fd.append("file", file);
     const res = await fetch("/api/members/import", { method: "POST", body: fd });
     const data = await res.json();
-    setImportMsg(`تم استيراد ${data.imported} عضو، تخطي ${data.skipped}`);
+    setImportMsg(t("importDesc", { imported: data.imported, skipped: data.skipped }));
     setImporting(false);
     fetchMembers();
   };
@@ -185,7 +185,7 @@ export default function MembersPage() {
       body: JSON.stringify({ status: filter, subject: emailSubject, message: emailMessage }),
     });
     const data = await res.json();
-    setEmailResult(res.ok ? `تم الإرسال إلى ${data.sent} عضو` : data.error);
+    setEmailResult(res.ok ? t("emailSent", { sent: data.sent }) : data.error);
     setEmailSending(false);
   };
 
@@ -199,7 +199,7 @@ export default function MembersPage() {
       body: JSON.stringify({ status: filter, message: whatsAppMessage }),
     });
     const data = await res.json();
-    setWhatsAppResult(res.ok ? `تم الإرسال إلى ${data.sent} عضو` : data.error);
+    setWhatsAppResult(res.ok ? t("whatsappSent", { sent: data.sent }) : data.error);
     setWhatsAppSending(false);
   };
 
@@ -223,10 +223,10 @@ export default function MembersPage() {
         setAiVerifyResult(data);
       } else {
         const err = await res.json();
-        alert(err.error || "خطأ أثناء التحقق بالذكاء الاصطناعي");
+        alert(err.error || t("aiVerifyError"));
       }
     } catch {
-      alert("خطأ في الاتصال بالخادم");
+      alert(t("connError"));
     }
     setAiVerifying(false);
   };
@@ -247,7 +247,7 @@ export default function MembersPage() {
           <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={t("search")} title={t("search")} aria-label={t("search")} className="w-full pr-10 p-3 border rounded-xl text-sm bg-white" />
         </div>
-        <select value={filter} onChange={e => setFilter(e.target.value)} title="تصفية حسب الحالة" aria-label="تصفية حسب الحالة" className="p-3 border rounded-xl text-sm bg-white">
+        <select value={filter} onChange={e => setFilter(e.target.value)} title={t("filterLabel")} aria-label={t("filterLabel")} className="p-3 border rounded-xl text-sm bg-white">
           <option value="all">{t("all")}</option>
           <option value="pending">{t("pending")}</option>
           <option value="accepted">{t("accepted")}</option>
@@ -256,30 +256,30 @@ export default function MembersPage() {
         <button onClick={exportExcel} className="p-3 border rounded-xl text-sm bg-white hover:bg-gray-50 transition flex items-center gap-2 whitespace-nowrap" title={t("excel")}>
           <Download className="w-4 h-4" /> {t("excel")}
         </button>
-        <label className="p-3 border rounded-xl text-sm bg-white hover:bg-gray-50 transition flex items-center gap-2 cursor-pointer whitespace-nowrap" title="استيراد Excel">
-          <Upload className="w-4 h-4" /> {importing ? "جاري الاستيراد..." : "استيراد"}
-          <input type="file" accept=".csv,.txt" className="hidden" title="استيراد ملف Excel" aria-label="استيراد ملف Excel" onChange={importExcel} disabled={importing} />
+        <label className="p-3 border rounded-xl text-sm bg-white hover:bg-gray-50 transition flex items-center gap-2 cursor-pointer whitespace-nowrap" title={t("import")}>
+          <Upload className="w-4 h-4" /> {importing ? t("importing") : t("import")}
+          <input type="file" accept=".csv,.txt" className="hidden" title={t("import")} aria-label={t("import")} onChange={importExcel} disabled={importing} />
         </label>
-        <button onClick={() => setShowEmail(true)} className="p-3 border rounded-xl text-sm bg-white hover:bg-gray-50 transition flex items-center gap-2 whitespace-nowrap" title="بريد جماعي">
-          <Mail className="w-4 h-4" /> بريد
+        <button onClick={() => setShowEmail(true)} className="p-3 border rounded-xl text-sm bg-white hover:bg-gray-50 transition flex items-center gap-2 whitespace-nowrap" title={t("emailBulk")}>
+          <Mail className="w-4 h-4" /> {t("emailBulk")}
         </button>
-        <button onClick={() => setShowWhatsApp(true)} className="p-3 border rounded-xl text-sm bg-white hover:bg-gray-50 transition flex items-center gap-2 whitespace-nowrap" title="واتساب جماعي">
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> واتساب
+        <button onClick={() => setShowWhatsApp(true)} className="p-3 border rounded-xl text-sm bg-white hover:bg-gray-50 transition flex items-center gap-2 whitespace-nowrap" title={t("whatsappBulk")}>
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> {t("whatsappBulk")}
         </button>
       </div>
       {importMsg && <div className="mb-4 p-3 bg-emerald-50 text-emerald-700 rounded-xl text-sm">{importMsg}</div>}
 
       {selected.size > 0 && (
         <div className="mb-4 p-3 bg-blue-50 rounded-xl flex flex-wrap items-center gap-3 text-sm">
-          <span className="font-bold text-blue-800">تم اختيار {selected.size} عضو</span>
-          <select value={batchStatus} onChange={e => setBatchStatus(e.target.value)} title="حالة الدفعة" aria-label="حالة الدفعة" className="p-2 border rounded-lg text-sm bg-white">
-            <option value="pending">قيد المراجعة</option>
-            <option value="accepted">مقبول</option>
-            <option value="rejected">مرفوض</option>
+          <span className="font-bold text-blue-800">{t("selectedCount", { count: selected.size })}</span>
+          <select value={batchStatus} onChange={e => setBatchStatus(e.target.value)} title={t("batchStatus")} aria-label={t("batchStatus")} className="p-2 border rounded-lg text-sm bg-white">
+            <option value="pending">{t("pending")}</option>
+            <option value="accepted">{t("accepted")}</option>
+            <option value="rejected">{t("rejected")}</option>
           </select>
-          <input type="text" value={batchNotes} onChange={e => setBatchNotes(e.target.value)} placeholder="ملاحظات..." title="ملاحظات..." aria-label="ملاحظات..." className="p-2 border rounded-lg text-sm flex-1 min-w-[120px]" />
-          <button onClick={() => doBatch("status")} className="px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800 transition">تطبيق الحالة</button>
-          <button onClick={() => doBatch("delete")} className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">حذف</button>
+          <input type="text" value={batchNotes} onChange={e => setBatchNotes(e.target.value)} placeholder={t("batchNotes")} title={t("batchNotes")} aria-label={t("batchNotes")} className="p-2 border rounded-lg text-sm flex-1 min-w-[120px]" />
+          <button onClick={() => doBatch("status")} className="px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800 transition">{t("batchAction")}</button>
+          <button onClick={() => doBatch("delete")} className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">{t("delete")}</button>
         </div>
       )}
 
@@ -342,20 +342,20 @@ export default function MembersPage() {
                     )}
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={() => viewActivity(m.id)} className="p-2 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition" title="سجل النشاط">
+                    <button onClick={() => viewActivity(m.id)} className="p-2 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition" title={t("sectionActivity")}>
                       <History className="w-4 h-4" />
                     </button>
                     <button onClick={() => openEdit(m)} className="p-2 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition" title={t("edit")}>
                       <Edit3 className="w-4 h-4" />
                     </button>
-                    <button onClick={() => exportPdf(m.id)} className="p-2 bg-violet-100 text-violet-700 rounded-xl hover:bg-violet-200 transition" title="PDF">
+                    <button onClick={() => exportPdf(m.id)} className="p-2 bg-violet-100 text-violet-700 rounded-xl hover:bg-violet-200 transition" title={t("exportPdf")}>
                       <FileText className="w-4 h-4" />
                     </button>
-                    <a href={`/membership-card/${m.id}`} target="_blank" className="p-2 bg-amber-100 text-amber-700 rounded-xl hover:bg-amber-200 transition inline-flex" title="بطاقة العضوية">
+                    <a href={`/membership-card/${m.id}`} target="_blank" className="p-2 bg-amber-100 text-amber-700 rounded-xl hover:bg-amber-200 transition inline-flex" title={t("membershipCard")}>
                       <CreditCard className="w-4 h-4" />
                     </a>
                     {m.encryptedIdCard && (
-                      <button onClick={() => { setViewIdCard(m.id); setAiVerifyResult(null); }} className="p-2 bg-rose-100 text-rose-700 rounded-xl hover:bg-rose-200 transition" title="عرض الهوية المشفرة">
+                      <button onClick={() => { setViewIdCard(m.id); setAiVerifyResult(null); }} className="p-2 bg-rose-100 text-rose-700 rounded-xl hover:bg-rose-200 transition" title={t("viewIdCard")}>
                         <Shield className="w-4 h-4" />
                       </button>
                     )}
@@ -375,18 +375,18 @@ export default function MembersPage() {
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setShowActivity(null)}>
           <div className="bg-white rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto p-6" onClick={e => e.stopPropagation()} dir="rtl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold">سجل النشاط</h2>
-              <button onClick={() => setShowActivity(null)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+              <h2 className="text-lg font-bold">{t("sectionActivity")}</h2>
+              <button onClick={() => setShowActivity(null)} title={t("close")} aria-label={t("close")} className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             {activityLogs.length === 0 ? (
-              <p className="text-gray-500 text-sm">لا يوجد نشاط مسجل</p>
+              <p className="text-gray-500 text-sm">{t("noActivity")}</p>
             ) : (
               <div className="space-y-2">
                 {activityLogs.map((log: any) => (
                   <div key={log.id} className="p-3 bg-gray-50 rounded-xl text-sm">
                     <div className="font-medium text-gray-800">{log.action}</div>
                     {log.details && <div className="text-gray-500 text-xs mt-1">{log.details}</div>}
-                    <div className="text-gray-400 text-[10px] mt-1">{new Date(log.createdAt).toLocaleString("ar")}</div>
+                    <div className="text-gray-400 text-[10px] mt-1">{new Date(log.createdAt).toLocaleString(locale)}</div>
                   </div>
                 ))}
               </div>
@@ -400,16 +400,16 @@ export default function MembersPage() {
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setShowEmail(false)}>
           <div className="bg-white rounded-2xl max-w-lg w-full p-6" onClick={e => e.stopPropagation()} dir="rtl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold">إرسال بريد جماعي</h2>
-              <button onClick={() => setShowEmail(false)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+              <h2 className="text-lg font-bold">{t("emailBulk")}</h2>
+              <button onClick={() => setShowEmail(false)} title={t("close")} aria-label={t("close")} className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             <div className="space-y-3">
-              <p className="text-sm text-gray-500">الحالة المحددة: {filter === "all" ? "الكل" : filter}</p>
-              <input type="text" value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder="الموضوع" title="الموضوع" aria-label="الموضوع" className="w-full p-2.5 border rounded-xl text-sm" />
-              <textarea value={emailMessage} onChange={e => setEmailMessage(e.target.value)} placeholder="الرسالة (HTML)" title="الرسالة (HTML)" aria-label="الرسالة (HTML)" className="w-full p-2.5 border rounded-xl text-sm h-40 resize-none" />
+              <p className="text-sm text-gray-500">{t("filterStatus", { filter: filter === "all" ? t("all") : filter })}</p>
+              <input type="text" value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder={t("emailSubjectLabel")} title={t("emailSubjectLabel")} aria-label={t("emailSubjectLabel")} className="w-full p-2.5 border rounded-xl text-sm" />
+              <textarea value={emailMessage} onChange={e => setEmailMessage(e.target.value)} placeholder={t("emailMessageLabel")} title={t("emailMessageLabel")} aria-label={t("emailMessageLabel")} className="w-full p-2.5 border rounded-xl text-sm h-40 resize-none" />
               {emailResult && <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl text-sm">{emailResult}</div>}
               <button onClick={sendEmail} disabled={emailSending} className="w-full py-3 bg-emerald-800 text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition disabled:opacity-50">
-                {emailSending ? "جاري الإرسال..." : "إرسال"}
+                {emailSending ? t("emailSending") : t("send")}
               </button>
             </div>
           </div>
@@ -421,16 +421,16 @@ export default function MembersPage() {
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setShowWhatsApp(false)}>
           <div className="bg-white rounded-2xl max-w-lg w-full p-6" onClick={e => e.stopPropagation()} dir="rtl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold">إرسال واتساب جماعي</h2>
-              <button onClick={() => setShowWhatsApp(false)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+              <h2 className="text-lg font-bold">{t("whatsappBulk")}</h2>
+              <button onClick={() => setShowWhatsApp(false)} title={t("close")} aria-label={t("close")} className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             <div className="space-y-3">
-              <p className="text-sm text-gray-500">الحالة المحددة: {filter === "all" ? "الكل" : filter}</p>
-              <textarea value={whatsAppMessage} onChange={e => setWhatsAppMessage(e.target.value)} placeholder="الرسالة (نص فقط)" title="الرسالة (نص فقط)" aria-label="الرسالة (نص فقط)" className="w-full p-2.5 border rounded-xl text-sm h-40 resize-none" />
-              <p className="text-xs text-gray-400">ملاحظة: يستخدم { '{name}' } لاسم العضو (مثلاً: مرحباً { '{name}' })</p>
+              <p className="text-sm text-gray-500">{t("filterStatus", { filter: filter === "all" ? t("all") : filter })}</p>
+              <textarea value={whatsAppMessage} onChange={e => setWhatsAppMessage(e.target.value)} placeholder={t("whatsappMessageLabel")} title={t("whatsappMessageLabel")} aria-label={t("whatsappMessageLabel")} className="w-full p-2.5 border rounded-xl text-sm h-40 resize-none" />
+              <p className="text-xs text-gray-400">{t("whatsappNote", { name: "{name}", example: "مرحباً {name}" })}</p>
               {whatsAppResult && <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl text-sm">{whatsAppResult}</div>}
               <button onClick={sendWhatsApp} disabled={whatsAppSending} className="w-full py-3 bg-emerald-800 text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition disabled:opacity-50">
-                {whatsAppSending ? "جاري الإرسال..." : "إرسال"}
+                {whatsAppSending ? t("emailSending") : t("send")}
               </button>
             </div>
           </div>
@@ -443,11 +443,11 @@ export default function MembersPage() {
           <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4" onClick={e => e.stopPropagation()} dir="rtl">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold text-gray-900">{t("editTitle")}</h2>
-              <button onClick={() => setEditing(null)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+              <button onClick={() => setEditing(null)} title={t("close")} aria-label={t("close")} className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
-                <label htmlFor="edit-memberNumber" className="text-xs font-bold text-gray-600">رقم العضوية</label>
+                <label htmlFor="edit-memberNumber" className="text-xs font-bold text-gray-600">{t("memberNumber")}</label>
                 <input id="edit-memberNumber" type="number" value={editForm.memberNumber} onChange={e => setEditForm(f => ({ ...f, memberNumber: e.target.value }))} className="w-full p-2.5 text-sm border rounded-xl" />
               </div>
               <div className="space-y-1">
@@ -533,18 +533,18 @@ export default function MembersPage() {
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setViewIdCard(null)}>
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4" onClick={e => e.stopPropagation()} dir="rtl">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-900">معاينة الهوية الشخصية المشفرة</h2>
-              <button onClick={() => setViewIdCard(null)} title="إغلاق" aria-label="إغلاق" className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
+              <h2 className="text-lg font-bold text-gray-900">{t("idCardPreview")}</h2>
+              <button onClick={() => setViewIdCard(null)} title={t("close")} aria-label={t("close")} className="p-1 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             
             <div className="border rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center min-h-[200px] max-h-[400px]">
               <img
                 src={`/api/members/id-card?memberId=${viewIdCard}`}
-                alt="الهوية الشخصية"
+                alt={t("idCardAlt")}
                 className="max-w-full max-h-[400px] object-contain"
                 onError={(e) => {
                   (e.target as any).src = "";
-                  alert("خطأ في تحميل أو فك تشفير الهوية");
+                  alert(t("idCardError"));
                 }}
               />
             </div>
@@ -561,45 +561,45 @@ export default function MembersPage() {
                 ) : (
                   <Sparkles className="w-4 h-4 text-white" />
                 )}
-                التحقق التلقائي بالذكاء الاصطناعي (AI)
+                {t("aiVerifyTitle")}
               </button>
             </div>
 
             {aiVerifyResult && (
               <div className="p-3 bg-amber-50/50 border border-amber-200/60 rounded-xl space-y-2 text-xs leading-relaxed">
                 <div className="font-bold text-[#a88220] flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#c8a84e]" /> نتيجة الفحص البصري الذكي:
+                  <Sparkles className="w-3.5 h-3.5 text-[#c8a84e]" /> {t("aiResultTitle")}
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-gray-700">
                   <div>
-                    <span className="text-gray-400">الاسم المستخرج:</span>{" "}
+                    <span className="text-gray-400">{t("aiExtractedName")}</span>{" "}
                     <span className="font-medium">{aiVerifyResult.extracted?.name || "—"}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">سنة الميلاد:</span>{" "}
+                    <span className="text-gray-400">{t("aiExtractedBirth")}</span>{" "}
                     <span className="font-medium">{aiVerifyResult.extracted?.birthYear || "—"}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">تطابق الاسم:</span>{" "}
+                    <span className="text-gray-400">{t("aiNameMatch")}</span>{" "}
                     <span className={`font-bold ${aiVerifyResult.matches?.name ? "text-emerald-600" : "text-rose-500"}`}>
-                      {aiVerifyResult.matches?.name ? "متطابق" : "غير متطابق"}
+                      {aiVerifyResult.matches?.name ? t("aiMatchYes") : t("aiMatchNo")}
                     </span>
                   </div>
                   <div>
-                    <span className="text-gray-400">تطابق المواليد:</span>{" "}
+                    <span className="text-gray-400">{t("aiBirthMatch")}</span>{" "}
                     <span className={`font-bold ${aiVerifyResult.matches?.birthYear ? "text-emerald-600" : "text-rose-500"}`}>
-                      {aiVerifyResult.matches?.birthYear ? "متطابق" : "غير متطابق"}
+                      {aiVerifyResult.matches?.birthYear ? t("aiMatchYes") : t("aiMatchNo")}
                     </span>
                   </div>
                 </div>
                 <div className="text-[10px] text-gray-400">
-                  مستوى ثقة الرؤية الحاسوبية: {aiVerifyResult.extracted?.confidence === "high" ? "مرتفع" : "متوسط / منخفض"}
+                  {t("aiConfidence")} {aiVerifyResult.extracted?.confidence === "high" ? t("aiHigh") : aiVerifyResult.extracted?.confidence === "medium" ? t("aiMedium") : t("aiLow")}
                 </div>
               </div>
             )}
 
             <div className="flex gap-3 pt-2">
-              <button onClick={() => setViewIdCard(null)} className="w-full py-2.5 border rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition">إغلاق</button>
+              <button onClick={() => setViewIdCard(null)} className="w-full py-2.5 border rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition">{t("close")}</button>
             </div>
           </div>
         </div>

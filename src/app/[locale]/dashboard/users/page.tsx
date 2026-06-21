@@ -4,13 +4,14 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Shield, Trash2, ChevronDown, UserCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
 
 interface User { id: string; name: string | null; email: string | null; role: string; roleId: string | null; createdAt: string; }
 interface Role { id: string; name: string; description: string | null; isSystem: boolean; }
 
 export default function UsersPage() {
+  const t = useTranslations("dashboard.usersPage");
   const { data: session, status } = useSession();
   const router = useRouter();
   const locale = useLocale();
@@ -54,25 +55,25 @@ export default function UsersPage() {
   };
 
   const deleteUser = async (id: string) => {
-    if (!confirm("تأكيد حذف هذا المستخدم؟")) return;
+    if (!confirm(t("deleteConfirm"))) return;
     const res = await fetch("/api/users", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });
     if (res.ok) fetchData();
-    else { const d = await res.json(); alert(d.error || "خطأ"); }
+    else { const d = await res.json(); alert(d.error || t("errorGeneric")); }
   };
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">المستخدمين</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">{t("title")}</h1>
       <div className="bg-white rounded-2xl border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="text-right px-4 py-3 text-gray-600">الاسم</th>
-                <th className="text-right px-4 py-3 text-gray-600">البريد</th>
-                <th className="text-right px-4 py-3 text-gray-600">الدور الأساسي</th>
-                <th className="text-right px-4 py-3 text-gray-600">نظام الصلاحيات</th>
-                <th className="text-right px-4 py-3 text-gray-600">التسجيل</th>
+                <th className="text-right px-4 py-3 text-gray-600">{t("name")}</th>
+                <th className="text-right px-4 py-3 text-gray-600">{t("email")}</th>
+                <th className="text-right px-4 py-3 text-gray-600">{t("role")}</th>
+                <th className="text-right px-4 py-3 text-gray-600">{t("permissionsSystem")}</th>
+                <th className="text-right px-4 py-3 text-gray-600">{t("registered")}</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
@@ -90,8 +91,8 @@ export default function UsersPage() {
                     <select
                       value={u.role}
                       onChange={e => updateRole(u.id, e.target.value)}
-                      title="تغيير الدور"
-                      aria-label="تغيير الدور"
+                      title={t("changeRole")}
+                      aria-label={t("changeRole")}
                       className="text-xs border rounded-lg px-2 py-1 bg-white"
                     >
                       <option value="member">member</option>
@@ -105,20 +106,20 @@ export default function UsersPage() {
                     <select
                       value={u.roleId || ""}
                       onChange={e => assignRole(u.id, e.target.value || null)}
-                      title="تعيين الدور"
-                      aria-label="تعيين الدور"
+                      title={t("assignRole")}
+                      aria-label={t("assignRole")}
                       className="text-xs border rounded-lg px-2 py-1 bg-white"
                     >
                       <option value="">—</option>
                       {roles.map(r => (
-                        <option key={r.id} value={r.id}>{r.name} {r.isSystem ? "(نظام)" : ""}</option>
+                        <option key={r.id} value={r.id}>{r.name} {r.isSystem ? t("systemSuffix") : ""}</option>
                       ))}
                     </select>
                   </td>
                   <td className="px-4 py-3 text-gray-400 text-xs">{formatDate(u.createdAt, locale)}</td>
                   <td className="px-4 py-3">
                     {u.id !== currentId && (
-                      <button onClick={() => deleteUser(u.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500" title="حذف المستخدم" aria-label="حذف المستخدم">
+                      <button onClick={() => deleteUser(u.id)} className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500" title={t("deleteUser")} aria-label={t("deleteUser")}>
                         <Trash2 className="w-4 h-4" />
                       </button>
                     )}
@@ -128,7 +129,7 @@ export default function UsersPage() {
             </tbody>
           </table>
         </div>
-        {users.length === 0 && <p className="text-center text-gray-400 py-8">لا يوجد مستخدمين</p>}
+        {users.length === 0 && <p className="text-center text-gray-400 py-8">{t("noUsers")}</p>}
       </div>
     </div>
   );

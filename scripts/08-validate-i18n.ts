@@ -11,8 +11,11 @@
  */
 
 import { readFileSync, readdirSync, statSync } from "fs"
-import { join } from "path"
+import { join, dirname } from "path"
+import { fileURLToPath } from "url"
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 const srcDir = join(__dirname, "..", "src")
 const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/
 

@@ -51,6 +51,7 @@ const DUTCH_PROVINCES = [
 ];
 
 export default function MobileControlPage() {
+  const t = useTranslations("mobileControl");
   const [activeTab, setActiveTab] = useState<"settings" | "push" | "translations">("settings");
   
   // Settings & Theme
@@ -104,12 +105,11 @@ export default function MobileControlPage() {
       const res = await fetch("/api/mobile/translations");
       if (res.ok) {
         const data = await res.json();
-        // Convert language maps back to array of items for easy UI table listing
         const list: Translation[] = [];
         const arKeys = Object.keys(data.ar || {});
         arKeys.forEach((key, idx) => {
           list.push({
-            id: String(idx), // Temp unique id for list render
+            id: String(idx),
             key,
             ar: data.ar[key],
             en: data.en[key] || "",
@@ -137,12 +137,12 @@ export default function MobileControlPage() {
         })
       });
       if (res.ok) {
-        alert("تم حفظ الإعدادات والمظهر بنجاح!");
+        alert(t("successSettings"));
       } else {
-        alert("فشل في حفظ الإعدادات");
+        alert(t("failSettings"));
       }
     } catch (e) {
-      alert("حدث خطأ أثناء الاتصال بالخادم");
+      alert(t("serverError"));
     }
     setSettingsLoading(false);
   };
@@ -150,7 +150,7 @@ export default function MobileControlPage() {
   const handleSendPush = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!pushTitle.trim() || !pushBody.trim()) {
-      alert("يرجى ملء عنوان ونص الإشعار");
+      alert(t("fillPushFields"));
       return;
     }
     setPushLoading(true);
@@ -186,7 +186,7 @@ export default function MobileControlPage() {
   const handleAddTranslation = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTrans.key.trim() || !newTrans.ar.trim() || !newTrans.en.trim() || !newTrans.nl.trim()) {
-      alert("يرجى ملء جميع الحقول للترجمة");
+      alert(t("fillTransFields"));
       return;
     }
     try {
@@ -201,10 +201,10 @@ export default function MobileControlPage() {
         fetchTranslations();
       } else {
         const err = await res.json();
-        alert(err.error || "فشل إدخال المفتاح");
+        alert(err.error || t("failAddKey"));
       }
     } catch (e) {
-      alert("حدث خطأ أثناء الاتصال بالخادم");
+      alert(t("serverError"));
     }
   };
 
@@ -215,7 +215,7 @@ export default function MobileControlPage() {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: editingTrans.key, // Using key as custom identifier for update logic on flat DB
+          id: editingTrans.key,
           key: editingTrans.key,
           ar: editingTrans.ar,
           en: editingTrans.en,
@@ -226,15 +226,15 @@ export default function MobileControlPage() {
         setEditingTrans(null);
         fetchTranslations();
       } else {
-        alert("فشل تحديث المفتاح");
+        alert(t("failUpdateKey"));
       }
     } catch (e) {
-      alert("خطأ في الاتصال بالخادم");
+      alert(t("serverError"));
     }
   };
 
   const handleDeleteTranslation = async (key: string) => {
-    if (!confirm(`هل أنت متأكد من حذف مفتاح الترجمة "${key}"؟`)) return;
+    if (!confirm(t("deleteConfirm", { key }))) return;
     try {
       const res = await fetch("/api/mobile/translations", {
         method: "DELETE",
@@ -244,10 +244,10 @@ export default function MobileControlPage() {
       if (res.ok) {
         fetchTranslations();
       } else {
-        alert("فشل في حذف المفتاح");
+        alert(t("failDeleteKey"));
       }
     } catch (e) {
-      alert("خطأ في الاتصال");
+      alert(t("connectionError"));
     }
   };
 
@@ -256,9 +256,9 @@ export default function MobileControlPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
           <Smartphone className="w-7 h-7 text-[#1a5632]" />
-          لوحة التحكم بتطبيق الجوال والآيباد
+          {t("pageTitle")}
         </h1>
-        <p className="text-gray-500 text-sm mt-1">إدارة الثيم، الإشعارات، وتراجم تطبيق الموبايل بشكل مركزي فوري.</p>
+        <p className="text-gray-500 text-sm mt-1">{t("pageDesc")}</p>
       </div>
 
       {/* Tabs Menu */}
@@ -272,7 +272,7 @@ export default function MobileControlPage() {
           }`}
         >
           <Palette className="w-4 h-4" />
-          مظهر وإصدار التطبيق
+          {t("tabAppearance")}
         </button>
         <button
           onClick={() => setActiveTab("push")}
@@ -283,7 +283,7 @@ export default function MobileControlPage() {
           }`}
         >
           <Bell className="w-4 h-4" />
-          إرسال الإشعارات الفورية
+          {t("tabPush")}
         </button>
         <button
           onClick={() => setActiveTab("translations")}
@@ -294,7 +294,7 @@ export default function MobileControlPage() {
           }`}
         >
           <Globe className="w-4 h-4" />
-          تراجم التطبيق الديناميكية
+          {t("tabTranslations")}
         </button>
       </div>
 
@@ -305,19 +305,19 @@ export default function MobileControlPage() {
           <div className="bg-white rounded-2xl border p-6 space-y-4">
             <h2 className="text-base font-bold text-gray-800 flex items-center gap-2">
               <Palette className="w-5 h-5 text-[#c8a84e]" />
-              الهوية البصرية للموبايل (الألوان الأساسية)
+              {t("visualIdentity")}
             </h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">اللون الرئيسي (Primary Color)</label>
+                <label className="block text-xs text-gray-500 mb-1">{t("primaryColor")}</label>
                 <div className="flex gap-2">
                   <input
                     type="color"
                     value={theme.primary}
                     onChange={(e) => setTheme({ ...theme, primary: e.target.value })}
                     className="w-8 h-8 rounded border cursor-pointer"
-                    title="اللون الرئيسي"
-                    aria-label="اللون الرئيسي"
+                    title={t("primaryColorLabel")}
+                    aria-label={t("primaryColorLabel")}
                   />
                   <input
                     type="text"
@@ -325,20 +325,20 @@ export default function MobileControlPage() {
                     onChange={(e) => setTheme({ ...theme, primary: e.target.value })}
                     className="flex-1 px-2.5 py-1 text-xs border rounded-lg"
                     placeholder="#1a5632"
-                    title="رمز اللون الرئيسي"
+                    title={t("primaryColorCode")}
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">اللون المساعد (Accent Color)</label>
+                <label className="block text-xs text-gray-500 mb-1">{t("accentColor")}</label>
                 <div className="flex gap-2">
                   <input
                     type="color"
                     value={theme.accent}
                     onChange={(e) => setTheme({ ...theme, accent: e.target.value })}
                     className="w-8 h-8 rounded border cursor-pointer"
-                    title="اللون المساعد"
-                    aria-label="اللون المساعد"
+                    title={t("accentColorLabel")}
+                    aria-label={t("accentColorLabel")}
                   />
                   <input
                     type="text"
@@ -346,7 +346,7 @@ export default function MobileControlPage() {
                     onChange={(e) => setTheme({ ...theme, accent: e.target.value })}
                     className="flex-1 px-2.5 py-1 text-xs border rounded-lg"
                     placeholder="#c8a84e"
-                    title="رمز اللون المساعد"
+                    title={t("accentColorCode")}
                   />
                 </div>
               </div>
@@ -357,11 +357,11 @@ export default function MobileControlPage() {
           <div className="bg-white rounded-2xl border p-6 space-y-4">
             <h2 className="text-base font-bold text-gray-800 flex items-center gap-2">
               <Smartphone className="w-5 h-5 text-[#1a5632]" />
-              البانر الترحيبي والإصدار
+              {t("bannerSection")}
             </h2>
             <div className="space-y-3">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">عنوان البانر بالعربية</label>
+                <label className="block text-xs text-gray-500 mb-1">{t("bannerTitle")}</label>
                 <input
                   type="text"
                   value={settings.banner.titleAr}
@@ -372,8 +372,8 @@ export default function MobileControlPage() {
                     })
                   }
                   className="w-full px-3 py-1.5 border rounded-lg text-sm"
-                  placeholder="عنوان البانر بالعربية"
-                  title="عنوان البانر بالعربية"
+                  placeholder={t("bannerTitlePlaceholder")}
+                  title={t("bannerTitle")}
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -390,7 +390,7 @@ export default function MobileControlPage() {
                   className="rounded border-gray-300"
                 />
                 <label htmlFor="bannerVisible" className="text-sm text-gray-700 cursor-pointer">
-                  عرض البانر الترحيبي في الصفحة الرئيسية للتطبيق
+                  {t("showBanner")}
                 </label>
               </div>
 
@@ -398,7 +398,7 @@ export default function MobileControlPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">رقم أحدث إصدار (Latest Version)</label>
+                  <label className="block text-xs text-gray-500 mb-1">{t("latestVersion")}</label>
                   <input
                     type="text"
                     value={settings.version.latest}
@@ -410,7 +410,7 @@ export default function MobileControlPage() {
                     }
                     className="w-full px-3 py-1.5 border rounded-lg text-sm"
                     placeholder="1.0.0"
-                    title="رقم الإصدار"
+                    title={t("versionLabel")}
                   />
                 </div>
                 <div className="flex items-end pb-2">
@@ -426,12 +426,12 @@ export default function MobileControlPage() {
                       }
                       className="rounded border-gray-300"
                     />
-                    تحديث إجباري
+                    {t("forceUpdate")}
                   </label>
                 </div>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">رسالة التنبيه بالتحديث</label>
+                <label className="block text-xs text-gray-500 mb-1">{t("alertMessage")}</label>
                 <input
                   type="text"
                   value={settings.version.alertMessage}
@@ -442,8 +442,8 @@ export default function MobileControlPage() {
                     })
                   }
                   className="w-full px-3 py-1.5 border rounded-lg text-sm"
-                  placeholder="رسالة التنبيه بالتحديث"
-                  title="رسالة التنبيه بالتحديث"
+                  placeholder={t("alertMessagePlaceholder")}
+                  title={t("alertMessage")}
                 />
               </div>
             </div>
@@ -460,7 +460,7 @@ export default function MobileControlPage() {
               ) : (
                 <Save className="w-4 h-4" />
               )}
-              حفظ إعدادات المظهر والهوية البصرية
+              {t("saveSettings")}
             </button>
           </div>
         </div>
@@ -470,27 +470,27 @@ export default function MobileControlPage() {
         <div className="bg-white rounded-2xl border p-6 max-w-2xl mx-auto">
           <h2 className="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
             <Bell className="w-5 h-5 text-[#c8a84e]" />
-            إرسال إشعار فوري لمستخدمي الجوال (Expo Push Notifications)
+            {t("pushTitle")}
           </h2>
           <form onSubmit={handleSendPush} className="space-y-4">
             <div>
-              <label className="block text-xs text-gray-500 mb-1">عنوان الإشعار *</label>
+              <label className="block text-xs text-gray-500 mb-1">{t("pushLabel")}</label>
               <input
                 type="text"
                 required
                 value={pushTitle}
                 onChange={(e) => setPushTitle(e.target.value)}
-                placeholder="عنوان الرسالة القصير الذي يظهر على القفل"
+                placeholder={t("pushPlaceholder")}
                 className="w-full px-4 py-2 border rounded-xl text-sm"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">نص الرسالة *</label>
+              <label className="block text-xs text-gray-500 mb-1">{t("messageLabel")}</label>
               <textarea
                 required
                 value={pushBody}
                 onChange={(e) => setPushBody(e.target.value)}
-                placeholder="نص الإشعار التفصيلي..."
+                placeholder={t("messagePlaceholder")}
                 rows={4}
                 className="w-full px-4 py-2 border rounded-xl text-sm"
               />
@@ -499,17 +499,17 @@ export default function MobileControlPage() {
             {/* Target filters */}
             <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
               <div className="col-span-full text-xs font-semibold text-gray-500">
-                استهداف فئة معينة (اختياري، اتركه فارغاً للإرسال للجميع):
+                {t("targetLabel")}
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">المقاطعة الهولندية</label>
+                <label className="block text-xs text-gray-500 mb-1">{t("provinceLabel")}</label>
                 <select
                   value={pushProvince}
                   onChange={(e) => setPushProvince(e.target.value)}
                   className="w-full px-3 py-2 border rounded-xl bg-white text-xs"
-                  title="المقاطعة المستهدفة"
+                  title={t("provinceTitle")}
                 >
-                  <option value="">كل المقاطعات</option>
+                  <option value="">{t("allProvinces")}</option>
                   {DUTCH_PROVINCES.map((p) => (
                     <option key={p} value={p}>
                       {p}
@@ -518,14 +518,14 @@ export default function MobileControlPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">المدينة</label>
+                <label className="block text-xs text-gray-500 mb-1">{t("cityLabel")}</label>
                 <input
                   type="text"
                   value={pushCity}
                   onChange={(e) => setPushCity(e.target.value)}
-                  placeholder="مثال: Amsterdam, Rotterdam"
+                  placeholder={t("cityPlaceholder")}
                   className="w-full px-3 py-1.5 border rounded-xl text-xs"
-                  title="المدينة المستهدفة"
+                  title={t("cityTitle")}
                 />
               </div>
             </div>
@@ -539,8 +539,8 @@ export default function MobileControlPage() {
                 }`}
               >
                 {pushResult.success
-                  ? `تم إرسال الإشعار بنجاح إلى ${pushResult.count} جهاز.`
-                  : "فشل إرسال الإشعار. يرجى التحقق من مفاتيح Expo والاتصال بالخادم."}
+                  ? t("pushSuccess", { count: pushResult.count })
+                  : t("pushFail")}
               </div>
             )}
 
@@ -554,7 +554,7 @@ export default function MobileControlPage() {
               ) : (
                 <Send className="w-4 h-4" />
               )}
-              بث الإشعار الفوري الآن
+              {t("sendPush")}
             </button>
           </form>
         </div>
@@ -565,27 +565,27 @@ export default function MobileControlPage() {
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-gray-800 flex items-center gap-2">
               <Globe className="w-5 h-5 text-[#c8a84e]" />
-              تراجم تطبيق الموبايل الديناميكية
+              {t("transTitle")}
             </h2>
             <button
               onClick={() => setShowAddTrans(!showAddTrans)}
               className="bg-[#1a5632] hover:bg-[#0f3d23] text-white px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 transition-colors"
             >
               <Plus className="w-3.5 h-3.5" />
-              إضافة مفتاح ترجمة
+              {t("addKey")}
             </button>
           </div>
 
           {showAddTrans && (
             <form onSubmit={handleAddTranslation} className="p-4 bg-gray-50 rounded-xl border space-y-3">
-              <h3 className="text-xs font-bold text-gray-700">مفتاح ترجمة جديد</h3>
+              <h3 className="text-xs font-bold text-gray-700">{t("newKey")}</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                 <input
                   type="text"
                   required
                   value={newTrans.key}
                   onChange={(e) => setNewTrans({ ...newTrans, key: e.target.value })}
-                  placeholder="المفتاح (e.g. settings_title)"
+                  placeholder={t("keyPlaceholder")}
                   className="px-3 py-1.5 border rounded-lg text-xs"
                 />
                 <input
@@ -593,7 +593,7 @@ export default function MobileControlPage() {
                   required
                   value={newTrans.ar}
                   onChange={(e) => setNewTrans({ ...newTrans, ar: e.target.value })}
-                  placeholder="الترجمة العربية"
+                  placeholder={t("arPlaceholder")}
                   className="px-3 py-1.5 border rounded-lg text-xs"
                 />
                 <input
@@ -601,7 +601,7 @@ export default function MobileControlPage() {
                   required
                   value={newTrans.en}
                   onChange={(e) => setNewTrans({ ...newTrans, en: e.target.value })}
-                  placeholder="الترجمة الإنجليزية"
+                  placeholder={t("enPlaceholder")}
                   className="px-3 py-1.5 border rounded-lg text-xs"
                 />
                 <input
@@ -609,20 +609,20 @@ export default function MobileControlPage() {
                   required
                   value={newTrans.nl}
                   onChange={(e) => setNewTrans({ ...newTrans, nl: e.target.value })}
-                  placeholder="الترجمة الهولندية"
+                  placeholder={t("nlPlaceholder")}
                   className="px-3 py-1.5 border rounded-lg text-xs"
                 />
               </div>
               <div className="flex gap-2">
                 <button type="submit" className="bg-[#1a5632] text-white px-4 py-1.5 rounded-lg text-xs font-semibold">
-                  إضافة
+                  {t("addBtn")}
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowAddTrans(false)}
                   className="border px-4 py-1.5 rounded-lg text-xs text-gray-500"
                 >
-                  إلغاء
+                  {t("cancelBtn")}
                 </button>
               </div>
             </form>
@@ -632,10 +632,10 @@ export default function MobileControlPage() {
             <table className="w-full text-xs text-right border-collapse">
               <thead>
                 <tr className="bg-gray-50 border-b">
-                  <th className="px-4 py-2 text-gray-500 font-bold">المفتاح</th>
-                  <th className="px-4 py-2 text-gray-500 font-bold">العربية</th>
-                  <th className="px-4 py-2 text-gray-500 font-bold">الإنجليزية</th>
-                  <th className="px-4 py-2 text-gray-500 font-bold">الهولندية</th>
+                  <th className="px-4 py-2 text-gray-500 font-bold">{t("keyHeader")}</th>
+                  <th className="px-4 py-2 text-gray-500 font-bold">{t("arHeader")}</th>
+                  <th className="px-4 py-2 text-gray-500 font-bold">{t("enHeader")}</th>
+                  <th className="px-4 py-2 text-gray-500 font-bold">{t("nlHeader")}</th>
                   <th className="px-4 py-2 w-20"></th>
                 </tr>
               </thead>
@@ -643,75 +643,75 @@ export default function MobileControlPage() {
                 {transLoading ? (
                   <tr>
                     <td colSpan={5} className="text-center py-6 text-gray-400">
-                      جاري التحميل...
+                      {t("loading")}
                     </td>
                   </tr>
                 ) : translations.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="text-center py-6 text-gray-400">
-                      لا توجد تراجم ديناميكية بعد. أضف مفتاحاً للبدء!
+                      {t("noTranslations")}
                     </td>
                   </tr>
                 ) : (
-                  translations.map((t) => (
-                    <tr key={t.key} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 font-semibold text-gray-700">{t.key}</td>
+                  translations.map((tx) => (
+                    <tr key={tx.key} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 font-semibold text-gray-700">{tx.key}</td>
                       <td className="px-4 py-3">
-                        {editingTrans?.key === t.key ? (
+                        {editingTrans?.key === tx.key ? (
                           <input
                             type="text"
                             value={editingTrans.ar}
                             onChange={(e) => setEditingTrans({ ...editingTrans, ar: e.target.value })}
                             className="px-2 py-1 border rounded w-full"
-                            placeholder="الترجمة بالعربية"
-                            title="الترجمة بالعربية"
+                            placeholder={t("arPlaceholder")}
+                            title={t("arPlaceholder")}
                           />
                         ) : (
-                          t.ar
+                          tx.ar
                         )}
                       </td>
                       <td className="px-4 py-3">
-                        {editingTrans?.key === t.key ? (
+                        {editingTrans?.key === tx.key ? (
                           <input
                             type="text"
                             value={editingTrans.en}
                             onChange={(e) => setEditingTrans({ ...editingTrans, en: e.target.value })}
                             className="px-2 py-1 border rounded w-full"
-                            placeholder="الترجمة بالإنجليزية"
-                            title="الترجمة بالإنجليزية"
+                            placeholder={t("enPlaceholder")}
+                            title={t("enPlaceholder")}
                           />
                         ) : (
-                          t.en
+                          tx.en
                         )}
                       </td>
                       <td className="px-4 py-3">
-                        {editingTrans?.key === t.key ? (
+                        {editingTrans?.key === tx.key ? (
                           <input
                             type="text"
                             value={editingTrans.nl}
                             onChange={(e) => setEditingTrans({ ...editingTrans, nl: e.target.value })}
                             className="px-2 py-1 border rounded w-full"
-                            placeholder="الترجمة بالهولندية"
-                            title="الترجمة بالهولندية"
+                            placeholder={t("nlPlaceholder")}
+                            title={t("nlPlaceholder")}
                           />
                         ) : (
-                          t.nl
+                          tx.nl
                         )}
                       </td>
                       <td className="px-4 py-3 flex items-center gap-1.5 justify-end">
-                        {editingTrans?.key === t.key ? (
+                        {editingTrans?.key === tx.key ? (
                           <>
                             <button
                               onClick={handleUpdateTranslation}
                               className="p-1 text-green-600 hover:bg-green-50 rounded"
-                              title="حفظ"
+                              title={t("saveTitle")}
                             >
                               <Check className="w-4 h-4" />
                             </button>
                             <button
                               onClick={() => setEditingTrans(null)}
                               className="p-1 text-gray-400 hover:bg-gray-100 rounded"
-                              title="إلغاء"
+                              title={t("cancelTitle")}
                             >
                               <X className="w-4 h-4" />
                             </button>
@@ -719,16 +719,16 @@ export default function MobileControlPage() {
                         ) : (
                           <>
                             <button
-                              onClick={() => setEditingTrans(t)}
+                              onClick={() => setEditingTrans(tx)}
                               className="p-1 text-blue-600 hover:bg-blue-50 rounded"
-                              title="تعديل"
+                              title={t("editTitle")}
                             >
                               <Edit3 className="w-3.5 h-3.5" />
                             </button>
                             <button
-                              onClick={() => handleDeleteTranslation(t.key)}
+                              onClick={() => handleDeleteTranslation(tx.key)}
                               className="p-1 text-red-500 hover:bg-red-50 rounded"
-                              title="حذف"
+                              title={t("deleteTitle")}
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>

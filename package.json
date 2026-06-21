@@ -2,6 +2,7 @@
   "name": "sy-nl-platform",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "prisma": {
     "seed": "node prisma/seed.cjs"
   },

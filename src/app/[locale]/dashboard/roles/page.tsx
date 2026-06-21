@@ -31,7 +31,7 @@ export default function RolesPage() {
 
   async function suggestPermissionsWithAI() {
     if (!newName.trim()) {
-      alert("يرجى إدخال اسم الدور أولاً (مثال: مسؤول مالي، كاتب مقالات)");
+      alert(t("fillRoleName"));
       return;
     }
     setAiLoading(true);
@@ -47,10 +47,10 @@ export default function RolesPage() {
         setNewPerms(data.permissions || []);
         if (data.reasonAr) setAiReason(data.reasonAr);
       } else {
-        alert("فشل في استدعاء الذكاء الاصطناعي");
+        alert(t("aiError"));
       }
     } catch {
-      alert("خطأ في الاتصال بالخادم");
+      alert(t("connError"));
     }
     setAiLoading(false);
   }
@@ -180,9 +180,9 @@ export default function RolesPage() {
                 {role.isSystem && <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">{t('system')}</span>}
               </div>
               <div className="flex gap-2">
-                <button onClick={() => startEdit(role)} className="text-gray-400 hover:text-[#1a5632]" title="تعديل الصلاحيات" aria-label="تعديل الصلاحيات"><UserCheck className="w-5 h-5" /></button>
+                <button onClick={() => startEdit(role)} className="text-gray-400 hover:text-[#1a5632]" title={t("editPermissions")} aria-label={t("editPermissions")}><UserCheck className="w-5 h-5" /></button>
                 {!role.isSystem && (
-                  <button onClick={() => deleteRole(role.id)} className="text-gray-400 hover:text-red-500" title="حذف الدور" aria-label="حذف الدور"><Trash2 className="w-5 h-5" /></button>
+                  <button onClick={() => deleteRole(role.id)} className="text-gray-400 hover:text-red-500" title={t("deleteRole")} aria-label={t("deleteRole")}><Trash2 className="w-5 h-5" /></button>
                 )}
               </div>
             </div>
@@ -193,7 +193,7 @@ export default function RolesPage() {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-4 max-h-80 overflow-y-auto">
                   {PERMISSION_GROUPS.map(group => (
                     <div key={group.module} className="col-span-full">
-                      <p className="text-xs font-bold text-gray-600 mb-1 mt-2">{group.label}</p>
+                      <p className="text-xs font-bold text-gray-600 mb-1 mt-2">{t("permissions." + group.module)}</p>
                       <div className="grid grid-cols-2 gap-1">
                         {group.permissions.map(p => (
                           <label key={p} className="flex items-center gap-2 text-xs cursor-pointer">

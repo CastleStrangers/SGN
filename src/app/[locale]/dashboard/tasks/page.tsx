@@ -76,7 +76,7 @@ export default function TasksPage() {
             <option value="high">{t("priority.high")}</option>
           </select>
           <select value={assignedTo} onChange={e => setAssignedTo(e.target.value)} className="px-3 py-2.5 border rounded-xl text-sm bg-white flex-1">
-            <option value="">بدون تعيين</option>
+            <option value="">{t("unassigned")}</option>
             {users.map(u => <option key={u.id} value={u.id}>{u.name || u.email}</option>)}
           </select>
           <button type="submit" className="flex items-center gap-2 bg-[#1a5632] hover:bg-[#0f3d23] text-white px-5 py-2.5 rounded-xl text-sm transition-colors">
@@ -103,7 +103,7 @@ export default function TasksPage() {
               <div className="min-w-0">
                 <p className={`font-medium text-gray-900 truncate ${task.status === "completed" ? "line-through text-gray-400" : ""}`}>{task.title}</p>
                 {task.description && <p className="text-sm text-gray-500 truncate">{task.description}</p>}
-                {task.assignedTo && <p className="text-xs text-gray-400 mt-0.5">مكلّف: {userName(task.assignedTo)}</p>}
+                {task.assignedTo && <p className="text-xs text-gray-400 mt-0.5">{t("assignedTo")}: {userName(task.assignedTo)}</p>}
               </div>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">

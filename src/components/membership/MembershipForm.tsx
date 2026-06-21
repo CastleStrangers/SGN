@@ -128,10 +128,10 @@ export default function MembershipForm() {
         setOtpSent(true);
         setStep(3);
       } else {
-        setOtpError(data.error || "فشل الإرسال");
+        setOtpError(data.error || t("sendOtpError"));
       }
     } catch {
-      setOtpError("فشل الاتصال بالخادم");
+      setOtpError(t("connectionError"));
     }
     setOtpSending(false);
   };
@@ -154,7 +154,7 @@ export default function MembershipForm() {
         setOtpError(data.error || t("otpError"));
       }
     } catch {
-      setOtpError("فشل الاتصال بالخادم");
+      setOtpError(t("connectionError"));
     }
     setOtpSending(false);
   };

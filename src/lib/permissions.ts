@@ -94,75 +94,19 @@ export function getModuleFromPermission(perm: Permission): string {
   return perm.split(".")[0];
 }
 
-export const PERMISSION_GROUPS: { module: string; label: string; permissions: Permission[] }[] = [
-  {
-    module: "news",
-    label: "الأخبار",
-    permissions: ["news.create", "news.edit", "news.delete", "news.publish", "news.feature"],
-  },
-  {
-    module: "events",
-    label: "الفعاليات",
-    permissions: ["events.create", "events.edit", "events.delete", "events.publish"],
-  },
-  {
-    module: "tasks",
-    label: "المهام",
-    permissions: ["tasks.create", "tasks.edit", "tasks.delete", "tasks.assign"],
-  },
-  {
-    module: "comments",
-    label: "التعليقات",
-    permissions: ["comments.approve", "comments.delete", "comments.manage"],
-  },
-  {
-    module: "ads",
-    label: "الإعلانات",
-    permissions: ["ads.create", "ads.edit", "ads.delete"],
-  },
-  {
-    module: "surveys",
-    label: "التصويت",
-    permissions: ["surveys.create", "surveys.edit", "surveys.delete", "surveys.view_results"],
-  },
-  {
-    module: "media",
-    label: "الوسائط",
-    permissions: ["media.upload", "media.delete"],
-  },
-  {
-    module: "pages",
-    label: "الصفحات",
-    permissions: ["pages.create", "pages.edit", "pages.delete", "pages.publish"],
-  },
-  {
-    module: "users",
-    label: "المستخدمين",
-    permissions: ["users.view", "users.edit_role", "users.delete"],
-  },
-  {
-    module: "settings",
-    label: "الإعدادات",
-    permissions: ["settings.view", "settings.edit"],
-  },
-  {
-    module: "roles",
-    label: "الأدوار",
-    permissions: ["roles.manage"],
-  },
-  {
-    module: "volunteers",
-    label: "المتطوعون",
-    permissions: ["volunteers.view", "volunteers.manage"],
-  },
-  {
-    module: "subscribers",
-    label: "المشتركين",
-    permissions: ["subscribers.view", "subscribers.export"],
-  },
-  {
-    module: "landing",
-    label: "صفحات الهبوط",
-    permissions: ["landing.create", "landing.edit", "landing.delete", "landing.publish"],
-  },
+export const PERMISSION_GROUPS: { module: string; permissions: Permission[] }[] = [
+  { module: "news", permissions: ["news.create", "news.edit", "news.delete", "news.publish", "news.feature"] },
+  { module: "events", permissions: ["events.create", "events.edit", "events.delete", "events.publish"] },
+  { module: "tasks", permissions: ["tasks.create", "tasks.edit", "tasks.delete", "tasks.assign"] },
+  { module: "comments", permissions: ["comments.approve", "comments.delete", "comments.manage"] },
+  { module: "ads", permissions: ["ads.create", "ads.edit", "ads.delete"] },
+  { module: "surveys", permissions: ["surveys.create", "surveys.edit", "surveys.delete", "surveys.view_results"] },
+  { module: "media", permissions: ["media.upload", "media.delete"] },
+  { module: "pages", permissions: ["pages.create", "pages.edit", "pages.delete", "pages.publish"] },
+  { module: "users", permissions: ["users.view", "users.edit_role", "users.delete"] },
+  { module: "settings", permissions: ["settings.view", "settings.edit"] },
+  { module: "roles", permissions: ["roles.manage"] },
+  { module: "volunteers", permissions: ["volunteers.view", "volunteers.manage"] },
+  { module: "subscribers", permissions: ["subscribers.view", "subscribers.export"] },
+  { module: "landing", permissions: ["landing.create", "landing.edit", "landing.delete", "landing.publish"] },
 ];
