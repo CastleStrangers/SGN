@@ -101,7 +101,7 @@ cd SGN
 :: 3. Deploy to Vercel
 echo.
 echo [3/3] Deploying directly to Vercel staging...
-call vercel --prod
+call vercel --prod --yes
 
 :: 4. Open Staging Site Preview
 echo.

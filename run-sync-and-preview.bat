@@ -138,7 +138,7 @@ cd SGN
 :: 7. Deploy to Vercel
 echo.
 echo [4/5] Deploying SGN to Vercel staging...
-call vercel --prod
+call vercel --prod --yes
 if !errorlevel! neq 0 (
     echo [!] Warning: Vercel deployment command failed.
 ) else (
