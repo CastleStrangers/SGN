@@ -28,15 +28,26 @@ async function main() {
         const client = createClient({ url: `file:${tmpDbPath}` });
 
         try {
-          const tables = await client.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='board_members'");
-          if (tables.rows.length > 0) {
-            const members = await client.execute("SELECT nameAr, nameEn, image FROM board_members");
+          // Check for board_members table first
+          let tableName = "";
+          const tables1 = await client.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='board_members'");
+          if (tables1.rows.length > 0) {
+            tableName = "board_members";
+          } else {
+            const tables2 = await client.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='BoardMember'");
+            if (tables2.rows.length > 0) {
+              tableName = "BoardMember";
+            }
+          }
+
+          if (tableName) {
+            const members = await client.execute(`SELECT nameAr, nameEn, image FROM ${tableName}`);
             console.log(`\nCommit: ${commit}`);
             console.log(`Message: ${execSync(`git log -1 --format=%s ${commit}`, { encoding: "utf-8" }).trim()}`);
-            console.log(`Members with images:`);
+            console.log(`Members count: ${members.rows.length}`);
             console.table(members.rows.map(r => ({ nameAr: r.nameAr, nameEn: r.nameEn, image: r.image })));
           } else {
-            console.log(`\nCommit ${commit}: Table board_members not found`);
+            console.log(`\nCommit ${commit}: BoardMember/board_members table not found`);
           }
         } catch (dbErr) {
           console.log(`\nCommit ${commit} DB query error: ${dbErr.message}`);
