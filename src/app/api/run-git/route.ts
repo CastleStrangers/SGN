@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
-import Database from "better-sqlite3"; // check if better-sqlite3 or sqlite3 is available, wait, we can just use sqlite3 or better-sqlite3
 
 export const dynamic = "force-dynamic";
 
@@ -31,22 +30,22 @@ export async function GET(request: Request) {
       if (dbBuffer && dbBuffer.length > 0) {
         fs.writeFileSync(tmpDbPath, dbBuffer);
         
-        // Open sqlite connection
-        const db = new Database(tmpDbPath, { readonly: true });
-        
-        // Check if table board_members exists
-        const tableCheck = db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='board_members'").get();
-        if (tableCheck) {
-          const members = db.prepare("SELECT id, nameAr, nameEn, image FROM board_members").all();
-          results.push({
-            commit,
-            hasMembers: true,
-            members: members.map((m: any) => ({ nameAr: m.nameAr, nameEn: m.nameEn, image: m.image }))
-          });
-        } else {
-          results.push({ commit, hasMembers: false, reason: "Table board_members does not exist" });
+        // Execute sqlite3 CLI to get table count and then the rows
+        try {
+          const tableCheck = execSync(`sqlite3 "${tmpDbPath}" "SELECT name FROM sqlite_master WHERE type='table' AND name='board_members';"`, { encoding: "utf-8" }).trim();
+          if (tableCheck === "board_members") {
+            const rowsJson = execSync(`sqlite3 "${tmpDbPath}" "SELECT json_group_array(json_object('nameAr', nameAr, 'nameEn', nameEn, 'image', image)) FROM board_members;"`, { encoding: "utf-8" }).trim();
+            results.push({
+              commit,
+              hasMembers: true,
+              members: JSON.parse(rowsJson)
+            });
+          } else {
+            results.push({ commit, hasMembers: false, reason: "Table board_members not found" });
+          }
+        } catch (sqliteErr: any) {
+          results.push({ commit, error: "Sqlite CLI error: " + sqliteErr.message });
         }
-        db.close();
       }
     } catch (err: any) {
       results.push({ commit, error: err.message });
