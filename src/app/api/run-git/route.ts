@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
+import { createClient } from "@libsql/client";
 
 export const dynamic = "force-dynamic";
 
@@ -9,15 +10,17 @@ export async function GET(request: Request) {
   const tmpDbPath = path.join(process.cwd(), "prisma", "dev-check.db");
   const results: any[] = [];
   
-  // Let's get the list of commits that modified prisma/dev.db or prisma/prisma/dev.db
-  const commits = [
-    "c109ed4", "f287b87", "fce8429", "7af49c2", "9dcca45", "442035a", "487bfbc", "3731d17", "a300478",
-    "0ab2a17", "0b30f28", "943bc9a", "a88a96c", "37f1f71", "7d01299", "6e9b083"
-  ];
+  // Get all git commits
+  let commits: string[] = [];
+  try {
+    const commitsRaw = execSync("git log --format=%H", { encoding: "utf-8" });
+    commits = commitsRaw.trim().split("\n");
+  } catch (e: any) {
+    return NextResponse.json({ success: false, error: "Failed to get commits: " + e.message });
+  }
 
   for (const commit of commits) {
     try {
-      // Try to get dev.db from the commit
       let dbBuffer: Buffer | null = null;
       try {
         dbBuffer = execSync(`git show ${commit}:prisma/dev.db`, { maxBuffer: 50 * 1024 * 1024 });
@@ -29,26 +32,32 @@ export async function GET(request: Request) {
 
       if (dbBuffer && dbBuffer.length > 0) {
         fs.writeFileSync(tmpDbPath, dbBuffer);
-        
-        // Execute sqlite3 CLI to get table count and then the rows
+        const client = createClient({ url: `file:${tmpDbPath}` });
+
         try {
-          const tableCheck = execSync(`sqlite3 "${tmpDbPath}" "SELECT name FROM sqlite_master WHERE type='table' AND name='board_members';"`, { encoding: "utf-8" }).trim();
-          if (tableCheck === "board_members") {
-            const rowsJson = execSync(`sqlite3 "${tmpDbPath}" "SELECT json_group_array(json_object('nameAr', nameAr, 'nameEn', nameEn, 'image', image)) FROM board_members;"`, { encoding: "utf-8" }).trim();
-            results.push({
-              commit,
-              hasMembers: true,
-              members: JSON.parse(rowsJson)
-            });
-          } else {
-            results.push({ commit, hasMembers: false, reason: "Table board_members not found" });
+          const tables = await client.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='board_members'");
+          if (tables.rows.length > 0) {
+            const members = await client.execute("SELECT nameAr, nameEn, image FROM board_members");
+            const uploadedMembers = members.rows.filter((m: any) => 
+              m.image && (m.image.includes("178") || m.image.includes("screenshot") || m.image.includes("لقطة"))
+            );
+            if (uploadedMembers.length > 0) {
+              results.push({
+                commit,
+                date: execSync(`git log -1 --format=%cd ${commit}`, { encoding: "utf-8" }).trim(),
+                message: execSync(`git log -1 --format=%s ${commit}`, { encoding: "utf-8" }).trim(),
+                members: uploadedMembers
+              });
+            }
           }
-        } catch (sqliteErr: any) {
-          results.push({ commit, error: "Sqlite CLI error: " + sqliteErr.message });
+        } catch (dbErr: any) {
+          // ignore db query errors for older schemas
+        } finally {
+          client.close();
         }
       }
     } catch (err: any) {
-      results.push({ commit, error: err.message });
+      // ignore git show errors if file doesn't exist in that commit
     }
   }
 
@@ -59,6 +68,6 @@ export async function GET(request: Request) {
     } catch (e) {}
   }
 
-  return NextResponse.json({ success: true, results });
+  return NextResponse.json({ success: true, count: results.length, results });
 }
 
