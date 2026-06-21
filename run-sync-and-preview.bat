@@ -2,7 +2,7 @@
 chcp 65001 > nul
 setlocal enabledelayedexpansion
 title SGN Project Sync, Run and Preview
-cd /d "%~dp0"
+cd /d "%~dp0."
 
 echo ===================================================
 echo   SGN Project Sync, Run and Preview
@@ -11,12 +11,12 @@ echo.
 
 :: 1. Check Dev Server
 echo Checking if Next.js Dev Server is running on port 3000...
-netstat -ano | findstr :3000 >nul
-if %ERRORLEVEL% equ 0 (
-    echo [✓] Next.js Dev Server is already running.
+netstat -ano | findstr /c:":3000 " >nul
+if !errorlevel! equ 0 (
+    echo [OK] Next.js Dev Server is already running.
 ) else (
     echo [-] Next.js Dev Server is not running. Starting in a new window...
-    start "SGN Dev Server" cmd /k "npx next dev -p 3000 --webpack"
+    start "SGN Dev Server" cmd /k "npm run dev"
 )
 
 :: 2. Update Mobile Client URL
@@ -26,7 +26,7 @@ if exist mobile\ (
     cd mobile
     call npm run set:prod
     cd ..
-    echo [✓] Mobile client URL updated.
+    echo [OK] Mobile client URL updated.
 ) else (
     echo [!] Warning: mobile directory not found. Skipping set:prod.
 )
@@ -39,34 +39,38 @@ set dirty=0
 git diff-index --quiet HEAD -- || set dirty=1
 if "!dirty!"=="1" (
     echo - Changes detected.
+    set "msg="
     set /p msg="Enter Commit Message (press Enter for default): "
-    if "!msg!"=="" (
-        set msg="Auto-update: Syncing project components and settings"
+    if not defined msg (
+        set "msg=Auto-update: Syncing project components and settings"
     )
     git commit -m "!msg!"
 ) else (
-    echo [✓] SGN repository is already clean. No new commits.
+    echo [OK] SGN repository is already clean. No new commits.
 )
 
 echo - Pulling latest remote changes to prevent conflicts...
 git pull origin main --rebase
-if %errorlevel% neq 0 (
+if !errorlevel! neq 0 (
     echo [!] WARNING: Pull failed or there are conflicts. Aborting rebase...
     git rebase --abort
 )
 
 echo - Pushing SGN changes to GitHub...
 git push origin main
-if %errorlevel% neq 0 (
+if !errorlevel! neq 0 (
     echo [!] ERROR: Failed to push SGN changes to GitHub.
 ) else (
-    echo [✓] Repository synchronized successfully.
+    echo [OK] Repository synchronized successfully.
 )
 
 :: 4. Deploy to Vercel
 echo.
-echo [3/4] Deploying directly to Vercel staging...
+echo [3/4] Deploying to Vercel staging...
 call vercel --prod
+if !errorlevel! neq 0 (
+    echo [!] Warning: Vercel deployment command skipped or failed.
+)
 
 :: 5. Open Preview URLs
 echo.
