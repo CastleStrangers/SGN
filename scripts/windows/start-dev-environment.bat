@@ -16,18 +16,6 @@ if %errorlevel% neq 0 (
     git commit -m "auto: sync pending changes on startup"
 )
 git push origin main
-
-echo Syncing and pushing parent repository...
-cd ..
-git add .
-set pdirty=0
-git diff-index --quiet HEAD -- || set pdirty=1
-if "!pdirty!"=="1" (
-    git commit -m "auto: sync nested SGN changes on startup"
-    git push origin main
-) else ( echo - Parent repository is clean. )
-cd SGN
-echo.
 :: 1. Start the Next.js Web Developer Server in a new window
 echo [1/3] جاري تشغيل خادم الويب (Next.js) على المنفذ 3000...
 start "خادم الويب SGN Web Server" cmd /k "npm run dev"

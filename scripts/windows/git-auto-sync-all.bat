@@ -1,11 +1,11 @@
 @echo off
 chcp 65001 > nul
 setlocal enabledelayedexpansion
-title Automated Git Sync and Vercel Deploy (SGN + Parent)
+title Automated Git Sync and Vercel Deploy (SGN)
 cd /d "%~dp0..\.."
 
 echo =======================================================
-echo   AUTOMATED GIT SYNC and VERCEL DEPLOY (SGN + PARENT)
+echo   AUTOMATED GIT SYNC and VERCEL DEPLOY (SGN)
 echo =======================================================
 echo.
 
@@ -52,65 +52,19 @@ if %errorlevel% neq 0 (
     )
 )
 
-:: 2. Sync Parent
+:: 2. Deploy to Vercel
 echo.
-echo [2/3] Syncing Parent repository...
-cd ..
-if exist .git\ (
-    echo Checking and correcting Parent repository remote URL...
-    git remote get-url origin 2>nul | findstr "CastleStrangers1979" >nul
-    if !errorlevel! equ 0 (
-        echo - Correcting Parent origin URL to CastleStrangers...
-        git remote set-url origin https://github.com/CastleStrangers/Syrian-Community-App.git
-    )
-    
-    echo Untracking database, log, and cache files in Parent...
-    git rm --cached -f SGN/prisma/dev.db SGN/prisma/dev.db-journal SGN/pm2-error.log SGN/pm2-out.log SGN/tsconfig.tsbuildinfo SGN/git-repair-log.txt SGN/status.txt SGN/status-parent.txt auth.json config.json telemetry-device.json telemetry-session.json >nul 2>&1
-    
-    git add .
-    git diff-index --quiet HEAD --
-    if %errorlevel% neq 0 (
-        echo - Changes detected in Parent. Committing...
-        git commit -m "auto: sync nested SGN changes to parent repository"
-    ) else (
-        echo - Parent repository is already clean.
-    )
-    echo - Pulling Parent remote changes...
-    git pull origin main --rebase
-    if %errorlevel% neq 0 (
-        echo [!] WARNING: Parent pull/rebase failed. Aborting and trying auto-resolve (theirs)...
-        git rebase --abort 2>nul
-        git pull origin main --rebase -X theirs
-    )
-    echo - Pushing Parent changes to origin...
-    git push origin main
-    if %errorlevel% neq 0 (
-        echo.
-        echo [!] WARNING: Parent push failed. Remote and local history diverged.
-        set /p force_push="Do you want to FORCE PUSH the local Parent repository to GitHub? (y/n): "
-        if /i "!force_push!"=="y" (
-            echo - Force pushing Parent repository to GitHub...
-            git push origin main --force
-        )
-    )
-) else (
-    echo [!] Warning: Parent .git directory not found. Skipping Parent sync.
-)
-cd SGN
-
-:: 3. Deploy to Vercel
-echo.
-echo [3/3] Deploying directly to Vercel staging...
+echo [2/2] Deploying directly to Vercel staging...
 call vercel --prod --yes
 
-:: 4. Open Staging Site Preview
+:: 3. Open Staging Site Preview
 echo.
 echo - Opening Staging/Preview website in your browser...
 start https://sgn-msalimaziza-3522s-projects.vercel.app
 
-:: 5. Verification & Auto Exit
+:: 4. Verification & Auto Exit
 echo.
 echo =======================================================
-echo   SUCCESS: All repositories synced, deployed, and clean!
+echo   SUCCESS: SGN repository synced, deployed, and clean!
 echo =======================================================
 timeout /t 10

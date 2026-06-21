@@ -43,20 +43,6 @@ function Sync-Changes {
         Write-Host "Pushing SGN to GitHub..." -ForegroundColor DarkYellow
         git push origin main
         
-        # Also sync and push parent repository
-        Write-Host "Syncing parent repository..." -ForegroundColor DarkYellow
-        Set-Location -LiteralPath "$sgnRoot\.."
-        git add .
-        $parentStatus = git status --porcelain
-        if ($parentStatus) {
-            Write-Host "Parent changes detected. Committing and pushing parent repository..." -ForegroundColor Yellow
-            git commit -m "auto: sync nested SGN changes at $timestamp"
-            git push origin main
-        } else {
-            Write-Host "Parent repository is clean." -ForegroundColor Gray
-        }
-        Set-Location -LiteralPath $sgnRoot
-        
         Write-Host "Updating client staging link (Vercel deploy)..." -ForegroundColor DarkYellow
         vercel --prod --yes
         

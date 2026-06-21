@@ -71,22 +71,12 @@ git commit -m "!msg!"
 echo - Pushing SGN changes to origin...
 git push origin main
 echo.
-echo Syncing and pushing parent repository...
-cd ..
-git add .
-set pdirty=0
-git diff-index --quiet HEAD -- || set pdirty=1
-if "!pdirty!"=="1" (
-    git commit -m "auto: sync nested SGN changes to parent"
-    git push origin main
-) else ( echo - No parent changes. )
-cd SGN
-echo.
 echo Deploying to Vercel...
 call vercel --prod
 echo.
 echo Done! https://sgn-msalimaziza-3522s-projects.vercel.app
 goto end
+
 
 :sync
 cls
@@ -94,7 +84,7 @@ echo ======================================================
 echo   Git Sync + Vercel Deploy
 echo ======================================================
 echo.
-echo [1/3] Syncing SGN repo...
+echo [1/2] Syncing SGN repo...
 git add .
 set dirty=0
 git diff-index --quiet HEAD -- || set dirty=1
@@ -116,34 +106,7 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-echo [2/3] Syncing parent repo...
-cd ..
-git add .
-set pdirty=0
-git diff-index --quiet HEAD -- || set pdirty=1
-if "!pdirty!"=="1" (
-    git commit -m "auto: sync nested SGN changes to parent"
-) else ( echo - No parent changes. )
-echo - Pulling Parent remote changes...
-git pull origin main --rebase
-if %errorlevel% neq 0 (
-    echo [!] WARNING: Parent pull/rebase failed. Aborting rebase...
-    git rebase --abort
-)
-echo - Pushing Parent changes to origin...
-git push origin main
-if %errorlevel% neq 0 (
-    echo.
-    echo [!] WARNING: Parent push failed. This usually happens if remote and local history diverged.
-    set /p force_push="Do you want to FORCE PUSH the local Parent repository to GitHub? (y/n): "
-    if /i "!force_push!"=="y" (
-        echo - Force pushing Parent repository to GitHub...
-        git push origin main --force
-    )
-)
-cd SGN
-echo.
-echo [3/3] Deploying to Vercel...
+echo [2/2] Deploying to Vercel...
 call vercel --prod
 echo.
 start https://sgn-msalimaziza-3522s-projects.vercel.app
