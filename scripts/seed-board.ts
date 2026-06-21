@@ -4,7 +4,7 @@ const members = [
   {
     nameAr: "عبد المنعم الشامان",
     nameEn: "Abdul Munim Al Chaman",
-    image: "https://iyshpeyqzoec7ecx.public.blob.vercel-storage.com/board/uploaded/chairman.png",
+    image: "/images/board/chairman.png",
     titleAr: "رئيس مجلس الإدارة",
     titleEn: "Chairman of the Board",
     isFounder: true,
@@ -30,7 +30,7 @@ const members = [
   {
     nameAr: "خالد فيصل الطويل",
     nameEn: "Khaled Faisal Altawil",
-    image: "https://iyshpeyqzoec7ecx.public.blob.vercel-storage.com/board/uploaded/secretary.png",
+    image: "/images/board/secretary.png",
     titleAr: "الأمين العام للجالية",
     titleEn: "Secretary General",
     isFounder: true,
