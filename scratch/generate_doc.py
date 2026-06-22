@@ -22,6 +22,9 @@ def set_cell_background(cell, color_hex):
     cell._tc.get_or_add_tcPr().append(parse_xml(shading_xml))
 
 def create_document():
+    print("=====================================================")
+    print("جاري إنشاء دليل اختصارات SGN على سطح المكتب...")
+    print("=====================================================")
     doc = Document()
     
     # Page setup
