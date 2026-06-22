@@ -14,14 +14,18 @@ powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [Syst
 :: 2. Create Shortcut for Git Auto Sync
 powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'Git Auto Sync.lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~dp0git-auto-sync-all.bat'; $s.WorkingDirectory = '%~dp0'; $s.IconLocation = 'shell32.dll,147'; $s.Save()"
 
-:: 3. Create Shortcut for syncing the Turso Database
+:: 3. Create Shortcut for Git Push & Deploy (New Interactive)
+powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'SGN Push & Deploy.lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~dp0git-push-project.bat'; $s.WorkingDirectory = '%~dp0'; $s.IconLocation = 'shell32.dll,147'; $s.Save()"
+
+:: 4. Create Shortcut for syncing the Turso Database
 powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'SGN Sync DB (Turso).lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~dp0run-turso-update.bat'; $s.WorkingDirectory = '%~dp0'; $s.IconLocation = 'shell32.dll,238'; $s.Save()"
 
 echo [✓] تم إنشاء الاختصارات بنجاح على سطح المكتب:
 echo.
 echo   1. "SGN Start Dev" -> لتشغيل بيئة التطوير (الويب، الموبايل، والمزامنة) بضغطة واحدة.
-echo   2. "Git Auto Sync" -> لمزامنة مستودع المشروع ومستودع الأب ونشرها فورياً لرابط الزبون.
-echo   3. "SGN Sync DB (Turso)" -> لتنزيل إعدادات Vercel ومزامنة قاعدة البيانات السحابية.
+echo   2. "Git Auto Sync" -> لمزامنة مستودع المشروع التلقائي ونشره فورياً.
+echo   3. "SGN Push & Deploy" -> لرفع المشروع تفاعلياً مع إدخال وصف للتعديلات ونشرها.
+echo   4. "SGN Sync DB (Turso)" -> لتنزيل إعدادات Vercel ومزامنة قاعدة البيانات السحابية.
 echo.
 echo يمكنك الآن إغلاق النوافذ القديمة واستخدام الاختصارات الجديدة دائماً.
 echo.
