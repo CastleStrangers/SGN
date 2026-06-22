@@ -48,6 +48,9 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Prepare Database for Tests
+        run: npx prisma db push --accept-data-loss
+
       - name: Run unit tests
         run: npm run test:run
 
