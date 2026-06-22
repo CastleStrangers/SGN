@@ -5,7 +5,7 @@
  *
  * Usage:
  *   npx tsx scripts/set-env.ts dev   →  http://localhost:3001
- *   npx tsx scripts/set-env.ts prod  →  https://sy-nl.org
+ *   npx tsx scripts/set-env.ts prod  →  https://sgn-msalimaziza-3522s-projects.vercel.app
  *
  * This overwrites the DEV_API_BASE in constants/config.ts
  * so the built APK/IPA connects to the correct server.
@@ -22,8 +22,8 @@ if (!mode || !["dev", "prod"].includes(mode)) {
   process.exit(1);
 }
 
-const PRODUCTION_URL = "https://sy-nl.org";
-const DEV_URL = "http://localhost:3000";
+const PRODUCTION_URL = "https://sgn-msalimaziza-3522s-projects.vercel.app";
+const DEV_URL = "http://localhost:3001";
 const targetUrl = mode === "prod" ? PRODUCTION_URL : DEV_URL;
 
 let content = fs.readFileSync(CONFIG_PATH, "utf-8");
@@ -42,6 +42,12 @@ content = content.replace(
 content = content.replace(
   /const PRODUCTION_WS_URL = "[^"]*"/,
   `const PRODUCTION_WS_URL = "wss://${new URL(PRODUCTION_URL).host}"`,
+);
+
+// Replace the APP_URL
+content = content.replace(
+  /APP_URL: IS_PRODUCTION \? "[^"]*" : DEV_API_BASE/,
+  `APP_URL: IS_PRODUCTION ? "${PRODUCTION_URL}" : DEV_API_BASE`,
 );
 
 fs.writeFileSync(CONFIG_PATH, content, "utf-8");

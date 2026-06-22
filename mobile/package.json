@@ -9,9 +9,9 @@
     "web": "expo start --web",
     "set:dev": "npx tsx scripts/set-env.ts dev",
     "set:prod": "npx tsx scripts/set-env.ts prod",
-    "build:android": "npm run set:prod && expo build:android",
-    "build:ios": "npm run set:prod && expo build:ios",
-    "build:web": "npm run set:prod && expo export:web"
+    "build:android": "npm run set:prod && eas build --platform android",
+    "build:ios": "npm run set:prod && eas build --platform ios",
+    "build:web": "npm run set:prod && npx expo export --platform web"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

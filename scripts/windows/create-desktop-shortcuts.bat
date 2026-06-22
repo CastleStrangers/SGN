@@ -20,12 +20,16 @@ powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [Syst
 :: 4. Create Shortcut for syncing the Turso Database
 powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'SGN Sync DB (Turso).lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~dp0run-turso-update.bat'; $s.WorkingDirectory = '%~dp0'; $s.IconLocation = 'shell32.dll,238'; $s.Save()"
 
+:: 5. Create Shortcut for Mobile App Build & Deploy
+powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'SGN Mobile Build.lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~dp0mobile-build-prod.bat'; $s.WorkingDirectory = '%~dp0'; $s.IconLocation = 'shell32.dll,149'; $s.Save()"
+
 echo [✓] تم إنشاء الاختصارات بنجاح على سطح المكتب:
 echo.
 echo   1. "SGN Start Dev" -> لتشغيل بيئة التطوير (الويب، الموبايل، والمزامنة) بضغطة واحدة.
 echo   2. "Git Auto Sync" -> لمزامنة مستودع المشروع التلقائي ونشره فورياً.
 echo   3. "SGN Push & Deploy" -> لرفع المشروع تفاعلياً مع إدخال وصف للتعديلات ونشرها.
-echo   4. "SGN Sync DB (Turso)" -> لتنزيل إعدادات Vercel ومزامنة قاعدة البيانات السحابية.
+echo   4. "SGN Mobile Build" -> لتهيئة روابط الإنتاج وبناء تطبيق الموبايل (EAS).
+echo   5. "SGN Sync DB (Turso)" -> لتنزيل إعدادات Vercel ومزامنة قاعدة البيانات السحابية.
 echo.
 echo يمكنك الآن إغلاق النوافذ القديمة واستخدام الاختصارات الجديدة دائماً.
 echo.
