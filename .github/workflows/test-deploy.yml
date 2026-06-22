@@ -94,7 +94,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Deploy to Vercel (Preview)
-        uses: vercel/action@v6
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
@@ -125,7 +125,7 @@ jobs:
           DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
 
       - name: Deploy to Vercel (Production)
-        uses: vercel/action@v6
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
