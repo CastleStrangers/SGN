@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
       const now = Date.now();
       const setting = await prisma.appSetting.findUnique({ where: { key: "last_sync_time" } }).catch(() => null);
       const lastSync = Number(setting?.value) || 0;
-      const syncInterval = process.env.NODE_ENV === "development" ? 5 * 60 * 1000 : 30 * 60 * 1000;
+      const syncInterval = 60 * 60 * 1000; // 60 minutes (both dev and prod)
 
       if (now - lastSync > syncInterval) {
         // Prevent concurrent triggers by updating setting immediately
