@@ -94,8 +94,8 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Deploy to Vercel (Preview)
-        if: secrets.VERCEL_TOKEN != ''
         uses: amondnet/vercel-action@v25
+        continue-on-error: true
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
@@ -121,13 +121,12 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Run database migrations
-        if: secrets.VERCEL_TOKEN != ''
         run: npm run db:migrate
+        continue-on-error: true
         env:
           DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
 
       - name: Deploy to Vercel (Production)
-        if: secrets.VERCEL_TOKEN != ''
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -138,7 +137,7 @@ jobs:
           VERCEL_ENV: production
 
       - name: Notify Telegram
-        if: success() && secrets.VERCEL_TOKEN != ''
+        if: success()
         run: |
           curl -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
@@ -146,7 +145,7 @@ jobs:
         continue-on-error: true
 
       - name: Notify Telegram (Failure)
-        if: failure() && secrets.VERCEL_TOKEN != ''
+        if: failure()
         run: |
           curl -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
