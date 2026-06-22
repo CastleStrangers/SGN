@@ -34,11 +34,18 @@ export function HomePageClient() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // NOTE: 't' intentionally excluded — next-intl recreates it on every render
+    // which would cause an infinite fetch loop. Data only needs to load once.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
     Promise.all([
-      fetch("/api/news?limit=10").then(r => r.json()),
-      fetch("/api/news?video=true&limit=4").then(r => r.json())
+      fetch("/api/news?limit=10", { signal: controller.signal }).then(r => r.json()),
+      fetch("/api/news?video=true&limit=4", { signal: controller.signal }).then(r => r.json())
     ])
       .then(([newsData, videoData]) => {
+        clearTimeout(timeout);
         const posts = newsData.posts || [];
         const videoPosts = videoData.posts || [];
 
@@ -57,8 +64,10 @@ export function HomePageClient() {
         })));
         setLoading(false);
       })
-      .catch(() => setLoading(false));
-  }, [t]);
+      .catch(() => { clearTimeout(timeout); setLoading(false); });
+
+    return () => { clearTimeout(timeout); controller.abort(); };
+  }, []); // ← [] بدل [t] لمنع الحلقة اللانهائية
 
   return (
     <div dir="auto" className="min-h-screen bg-background text-foreground">
