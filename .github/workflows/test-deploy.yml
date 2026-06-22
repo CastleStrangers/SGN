@@ -12,6 +12,11 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: "file:./prisma/test.db"
+      NEXTAUTH_SECRET: "test-secret-key-for-ci"
+      NEXTAUTH_URL: "http://localhost:3000"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
     services:
       postgres:
         image: postgres:16
@@ -66,11 +71,6 @@ jobs:
 
       - name: Build project
         run: npm run build
-        env:
-          DATABASE_URL: "file:./prisma/test.db"
-          NEXTAUTH_SECRET: "test-secret-key-for-ci"
-          NEXTAUTH_URL: "http://localhost:3000"
-          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
 
       - name: Run E2E tests
         run: npm run test:e2e
