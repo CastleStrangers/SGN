@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
@@ -16,12 +15,28 @@ import { Newsletter } from "@/components/home/newsletter";
 import { Ads } from "@/components/ads";
 import { CommunityStats } from "@/components/community-stats";
 
-export function HomePageClient() {
+interface PostData {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  image: string | null;
+  videoId: string | null;
+  category: string;
+  source: string;
+  featured: boolean;
+  views: number;
+  createdAt: string;
+  author: { name: string | null } | null;
+}
+
+interface HomePageClientProps {
+  posts: PostData[];
+  videoPosts: PostData[];
+}
+
+export function HomePageClient({ posts, videoPosts }: HomePageClientProps) {
   const t = useTranslations();
-  const [featured, setFeatured] = useState<any[]>([]);
-  const [latest, setLatest] = useState<any[]>([]);
-  const [videos, setVideos] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
 
   function timeAgo(date: string) {
     const diff = Date.now() - new Date(date).getTime();
@@ -33,40 +48,37 @@ export function HomePageClient() {
     return t("common.ago_day", { count: days });
   }
 
-  useEffect(() => {
-    let active = true; // StrictMode safety: ignore results if unmounted
+  const featured = posts.slice(0, 4).map((p) => ({
+    title: p.title,
+    cat: p.category,
+    img: p.image,
+    excerpt: p.excerpt || "",
+    author: p.author?.name || t("site.shortTitle"),
+    time: timeAgo(p.createdAt),
+    slug: p.slug,
+    videoId: p.videoId,
+  }));
 
-    Promise.all([
-      fetch("/api/news?limit=10").then(r => r.json()),
-      fetch("/api/news?video=true&limit=4").then(r => r.json())
-    ])
-      .then(([newsData, videoData]) => {
-        if (!active) return;
-        const posts = newsData.posts || [];
-        const videoPosts = videoData.posts || [];
+  const latest = posts.slice(0, 4).map((p) => ({
+    title: p.title,
+    cat: p.category,
+    img: p.image,
+    time: timeAgo(p.createdAt),
+    slug: p.slug,
+    videoId: p.videoId,
+  }));
 
-        setFeatured(posts.slice(0, 4).map((p: any) => ({
-          title: p.title, cat: p.category, img: p.image,
-          excerpt: p.excerpt, author: p.author?.name || t("site.shortTitle"),
-          time: timeAgo(p.createdAt), slug: p.slug, videoId: p.videoId,
-        })));
-        setLatest(posts.slice(0, 4).map((p: any) => ({
-          title: p.title, cat: p.category, img: p.image, time: timeAgo(p.createdAt), slug: p.slug, videoId: p.videoId,
-        })));
-        setVideos(videoPosts.map((p: any) => ({
-          title: p.title, cat: p.category, img: p.image,
-          excerpt: p.excerpt, author: p.author?.name || t("site.shortTitle"),
-          time: timeAgo(p.createdAt), slug: p.slug, videoId: p.videoId, content: p.content,
-        })));
-        setLoading(false);
-      })
-      .catch(() => {
-        if (active) setLoading(false);
-      });
-
-    return () => { active = false; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const videos = videoPosts.map((p) => ({
+    title: p.title,
+    cat: p.category,
+    img: p.image,
+    excerpt: p.excerpt || "",
+    author: p.author?.name || t("site.shortTitle"),
+    time: timeAgo(p.createdAt),
+    slug: p.slug,
+    videoId: p.videoId,
+    content: "",
+  }));
 
   return (
     <div dir="auto" className="min-h-screen bg-background text-foreground">
@@ -76,29 +88,22 @@ export function HomePageClient() {
       <CommunityStats />
 
       <main className="max-w-7xl mx-auto px-4 py-6">
-        {loading && (
-          <div className="flex items-center justify-center h-96">
-            <div className="animate-spin w-10 h-10 border-4 border-[#1a5632] border-t-transparent rounded-full" />
-          </div>
-        )}
-        {!loading && (<>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 space-y-8">
-              <HeroSection posts={featured} />
-              <CategoryGrid />
-              <div className="grid md:grid-cols-2 gap-6">
-                <FeaturedList posts={featured} />
-              </div>
-            </div>
-            <div className="space-y-6">
-              <Sidebar latest={latest} />
-              <Ads position="sidebar" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-8">
+            <HeroSection posts={featured} />
+            <CategoryGrid />
+            <div className="grid md:grid-cols-2 gap-6">
+              <FeaturedList posts={featured} />
             </div>
           </div>
-          <MoreNews posts={latest} />
-          <LatestVideos posts={videos} />
-          <Ads position="banner" className="my-6" />
-        </>)}
+          <div className="space-y-6">
+            <Sidebar latest={latest} />
+            <Ads position="sidebar" />
+          </div>
+        </div>
+        <MoreNews posts={latest} />
+        <LatestVideos posts={videos} />
+        <Ads position="banner" className="my-6" />
         <Newsletter />
       </main>
     </div>
