@@ -56,7 +56,7 @@ export function HomePageClient({ posts, videoPosts }: HomePageClientProps) {
     author: p.author?.name || t("site.shortTitle"),
     time: timeAgo(p.createdAt),
     slug: p.slug,
-    videoId: p.videoId,
+    videoId: p.videoId || undefined,
   }));
 
   const latest = posts.slice(0, 4).map((p) => ({
@@ -65,7 +65,7 @@ export function HomePageClient({ posts, videoPosts }: HomePageClientProps) {
     img: p.image,
     time: timeAgo(p.createdAt),
     slug: p.slug,
-    videoId: p.videoId,
+    videoId: p.videoId || undefined,
   }));
 
   const videos = videoPosts.map((p) => ({
@@ -76,7 +76,7 @@ export function HomePageClient({ posts, videoPosts }: HomePageClientProps) {
     author: p.author?.name || t("site.shortTitle"),
     time: timeAgo(p.createdAt),
     slug: p.slug,
-    videoId: p.videoId,
+    videoId: p.videoId || undefined,
     content: "",
   }));
 
