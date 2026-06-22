@@ -64,7 +64,14 @@ export function HomePageClient() {
         })));
         setLoading(false);
       })
-      .catch(() => { clearTimeout(timeout); setLoading(false); });
+      .catch((err) => {
+        clearTimeout(timeout);
+        // Don't hide spinner on AbortError — React StrictMode cancels first mount's
+        // fetch intentionally; the second mount will re-fetch and complete normally.
+        if (err?.name !== "AbortError") {
+          setLoading(false);
+        }
+      });
 
     return () => { clearTimeout(timeout); controller.abort(); };
   }, []); // ← [] بدل [t] لمنع الحلقة اللانهائية
