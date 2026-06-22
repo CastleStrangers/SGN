@@ -79,7 +79,7 @@ jobs:
   deploy-preview:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && secrets.VERCEL_TOKEN != ''
+    if: github.event_name == 'pull_request'
     
     steps:
       - uses: actions/checkout@v4
@@ -94,6 +94,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Deploy to Vercel (Preview)
+        if: secrets.VERCEL_TOKEN != ''
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -105,7 +106,7 @@ jobs:
   deploy-production:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && secrets.VERCEL_TOKEN != ''
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     steps:
       - uses: actions/checkout@v4
@@ -120,11 +121,13 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Run database migrations
+        if: secrets.VERCEL_TOKEN != ''
         run: npm run db:migrate
         env:
           DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
 
       - name: Deploy to Vercel (Production)
+        if: secrets.VERCEL_TOKEN != ''
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -135,7 +138,7 @@ jobs:
           VERCEL_ENV: production
 
       - name: Notify Telegram
-        if: success()
+        if: success() && secrets.VERCEL_TOKEN != ''
         run: |
           curl -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
@@ -143,7 +146,7 @@ jobs:
         continue-on-error: true
 
       - name: Notify Telegram (Failure)
-        if: failure()
+        if: failure() && secrets.VERCEL_TOKEN != ''
         run: |
           curl -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
