@@ -205,7 +205,16 @@ def create_document():
         r_when_desc.font.name = 'Arial'
         r_when_desc.font.size = Pt(10.5)
         
-    doc_path = os.path.join(os.path.expanduser("~"), "Desktop", "دليل_اختصارات_SGN.docx")
+    import os
+    try:
+        import winreg
+        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")
+        desktop_raw, _ = winreg.QueryValueEx(key, "Desktop")
+        desktop_path = os.path.expandvars(desktop_raw)
+    except Exception:
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+        
+    doc_path = os.path.join(desktop_path, "دليل_اختصارات_SGN.docx")
     doc.save(doc_path)
     print(f"Document created successfully on Desktop: {doc_path}")
 
