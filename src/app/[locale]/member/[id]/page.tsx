@@ -5,7 +5,7 @@ import { Link } from "@/i18n/routing";
 import {
   Loader2, MapPin, User, Calendar, Briefcase,
   GraduationCap, Heart, Wrench, BadgeCheck,
-  CreditCard, ExternalLink
+  CreditCard, ExternalLink, FileText
 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
@@ -22,6 +22,7 @@ interface MemberProfile {
   profession: string | null;
   skills: string | null;
   maritalStatus: string | null;
+  isCvPublic?: boolean | null;
   createdAt: string;
 }
 
@@ -123,15 +124,27 @@ export default function MemberPage() {
               )}
             </div>
 
-            {/* Digital Card link */}
-            <Link
-              href={`/membership-card/${member.id}`}
-              className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl text-sm font-bold transition-all hover:scale-105"
-            >
-              <CreditCard className="w-4 h-4" />
-              {t('viewCard')}
-              <ExternalLink className="w-3 h-3 opacity-60" />
-            </Link>
+            {/* Action buttons */}
+            <div className="flex flex-wrap justify-center gap-3 mt-5">
+              <Link
+                href={`/membership-card/${member.id}`}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl text-sm font-bold transition-all hover:scale-105"
+              >
+                <CreditCard className="w-4 h-4" />
+                {t('viewCard')}
+                <ExternalLink className="w-3 h-3 opacity-60" />
+              </Link>
+              {member.isCvPublic && (
+                <a
+                  href={`/api/members/${member.id}/pdf`}
+                  download
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-700/80 hover:bg-emerald-700 border border-emerald-600/50 text-white rounded-xl text-sm font-bold transition-all hover:scale-105 cursor-pointer"
+                >
+                  <FileText className="w-4 h-4" />
+                  {t('downloadCvPdf') || "Download CV (PDF)"}
+                </a>
+              )}
+            </div>
           </div>
 
           {/* bottom colored strip */}
