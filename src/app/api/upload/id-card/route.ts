@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { put } from "@vercel/blob";
 import { encryptBuffer } from "@/lib/crypto";
 import fs from "fs/promises";
 import path from "path";

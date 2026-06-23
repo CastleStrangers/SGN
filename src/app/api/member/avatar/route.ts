@@ -4,7 +4,6 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { writeFile, mkdir, unlink } from "fs/promises";
 import path from "path";
-import { put, del } from "@vercel/blob";
 import { getApiMessage } from "@/lib/api-messages";
 
 function t(req: Request, key: string) {
@@ -55,9 +54,9 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: t(req, 'api.noImage') }, { status: 404 });
   }
   try {
-    if (process.env.BLOB_READ_WRITE_TOKEN && member.avatar.startsWith("http")) {
-      await del(member.avatar).catch(() => {});
-    } else {
+    if (member.avatar.startsWith("data:")) {
+      // It's a base64 string, nothing to delete from disk
+    } else if (member.avatar.startsWith("/uploads/")) {
       const filePath = path.join(process.cwd(), "public", member.avatar);
       await unlink(filePath).catch(() => {});
     }
