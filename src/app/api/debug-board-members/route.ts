@@ -7,28 +7,18 @@ import { createClient } from "@libsql/client";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const dbPath = path.join(process.cwd(), "prisma", "dev.db.bak");
-  
-  if (!fs.existsSync(dbPath)) {
-    return NextResponse.json({ error: "dev.db.bak not found" }, { status: 404 });
-  }
+  const { execSync } = require("child_process");
+  const fs = require("fs");
+  const path = require("path");
 
-  const client = createClient({ url: `file:${dbPath}` });
   try {
-    const tableCheck = await client.execute("SELECT name FROM sqlite_master WHERE type='table' AND (name='board_members' OR name='BoardMember')");
-    if (tableCheck.rows.length === 0) {
-      return NextResponse.json({ error: "No board members table found in dev.db.bak" }, { status: 404 });
-    }
-    const tableName = tableCheck.rows[0].name as string;
-    const members = await client.execute(`SELECT id, nameAr, nameEn, image FROM ${tableName}`);
-    return NextResponse.json({
-      success: true,
-      tableName,
-      members: members.rows
-    });
+    const cmd = `git show b5ff1b5163602293256cc783acb44d747affca99:src/app/[locale]/about/align/page.tsx`;
+    const stdout = execSync(cmd, { encoding: "utf8" });
+    
+    fs.writeFileSync(path.join(process.cwd(), "git_output.txt"), stdout, "utf8");
+    
+    return NextResponse.json({ success: true, message: "Wrote to git_output.txt" });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  } finally {
-    client.close();
   }
 }
