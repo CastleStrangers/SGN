@@ -95,11 +95,7 @@ export default function MemberPage() {
         <div className="relative bg-gradient-to-br from-emerald-900 via-emerald-800 to-slate-900 rounded-3xl overflow-hidden shadow-xl mb-6">
 
           {/* bg pattern */}
-          <div className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage: `repeating-linear-gradient(135deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)`
-            }}
-          />
+          <div className="absolute inset-0 opacity-10 bg-repeating-lines" />
           <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/5 blur-2xl" />
           <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-emerald-400/10 blur-2xl" />
 
