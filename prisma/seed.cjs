@@ -1,7 +1,19 @@
 const { PrismaClient } = require("@prisma/client");
+const { PrismaLibSql } = require("@prisma/adapter-libsql");
 const bcrypt = require("bcryptjs");
 
-const prisma = new PrismaClient();
+const tursoUrl = (process.env.TURSO_DATABASE_URL || "").trim();
+const tursoToken = (process.env.TURSO_AUTH_TOKEN || "").trim();
+
+const dbUrl = (tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined")
+  ? tursoUrl
+  : (process.env.DATABASE_URL || "file:./prisma/dev.db");
+
+const adapter = new PrismaLibSql({
+  url: dbUrl,
+  ...(tursoToken && tursoToken !== "undefined" ? { authToken: tursoToken } : {}),
+});
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   const adminPassword = await bcrypt.hash("admin123", 12);
