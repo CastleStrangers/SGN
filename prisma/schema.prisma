@@ -194,6 +194,7 @@ model Member {
   notes        String?
   encryptedIdCard String?
   showInPublicProfile Boolean @default(true)
+  isCvPublic   Boolean  @default(true)
   userId       String?  @unique
   user         User?    @relation(fields: [userId], references: [id])
   registrations EventRegistration[]
