@@ -4,7 +4,7 @@ import { prisma } from '@/lib/db';
 export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = 'https://sgn-msalimaziza-3522s-projects.vercel.app';
+  const base = 'https://sgn-indol.vercel.app';
   const routes = [
     { url: `${base}/`, lastModified: new Date() },
     { url: `${base}/news`, lastModified: new Date() },
