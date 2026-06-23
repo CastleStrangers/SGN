@@ -43,23 +43,26 @@ export async function GET() {
         bioPoints = [];
       }
 
-      let normalizedImage = m.image;
-      // تحويل روابط Vercel Blob المعطّلة إلى المسارات المحلية
-      if (normalizedImage && (normalizedImage.includes('blob.vercel-storage.com') || normalizedImage.startsWith('https://iysh'))) {
-        // استخراج اسم الملف من الرابط إن أمكن
-        normalizedImage = '';
-      }
-      // تحويل مسميات SVG القديمة إلى PNG الحقيقية حيث متوفرة
-      if (normalizedImage && (normalizedImage.includes('chairman.png') || normalizedImage.includes('abdulmunim.svg'))) {
+      let normalizedImage = m.image || '';
+      
+      const nameEn = (m.nameEn || '').toLowerCase();
+      const nameAr = m.nameAr || '';
+      
+      if (nameEn.includes('abdul munim') || nameAr.includes('عبد المنعم')) {
         normalizedImage = '/images/board/chairman.png';
-      } else if (normalizedImage && (normalizedImage.includes('secretary.png') || normalizedImage.includes('khaled.svg'))) {
+      } else if (nameEn.includes('khaled') || nameAr.includes('خالد')) {
         normalizedImage = '/images/board/secretary.png';
-      } else if (normalizedImage && normalizedImage.includes('director.png')) {
+      } else if (nameEn.includes('saleh') || nameAr.includes('صالح')) {
         normalizedImage = '/images/board/director.png';
-      } else if (normalizedImage && normalizedImage.includes('treasurer.png')) {
+      } else if (nameEn.includes('naser') || nameAr.includes('ناصر') || (m.titleAr || '').includes('أمين الصندوق')) {
         normalizedImage = '/images/board/treasurer.png';
       } else {
-        normalizedImage = normalizeBoardImagePath(normalizedImage);
+        // تحويل روابط Vercel Blob المعطّلة إلى المسارات المحلية أو تفريغها
+        if (normalizedImage.includes('blob.vercel-storage.com') || normalizedImage.startsWith('https://iysh')) {
+          normalizedImage = '';
+        } else {
+          normalizedImage = normalizeBoardImagePath(normalizedImage);
+        }
       }
 
       return {
