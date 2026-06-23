@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     const cmd = searchParams.get("cmd") || "git status";
     
     // Whitelist only safe git commands
-    const allowedCommands = ["git status", "git diff", "git log", "git push"];
+    const allowedCommands = ["git"];
     const isAllowed = allowedCommands.some(allowed => cmd.trim().startsWith(allowed));
 
     if (!isAllowed) {
