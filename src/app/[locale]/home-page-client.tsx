@@ -26,7 +26,7 @@ interface PostData {
   source: string;
   featured: boolean;
   views: number;
-  createdAt: string;
+  createdAt: any;
   author: { name: string | null } | null;
 }
 
@@ -38,7 +38,7 @@ interface HomePageClientProps {
 export function HomePageClient({ posts, videoPosts }: HomePageClientProps) {
   const t = useTranslations();
 
-  function timeAgo(date: string) {
+  function timeAgo(date: any) {
     const diff = Date.now() - new Date(date).getTime();
     const mins = Math.floor(diff / 60000);
     if (mins < 60) return t("common.ago_minute", { count: mins || 1 });
