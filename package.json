@@ -13,6 +13,7 @@
     "start": "next start -p 3002",
     "prod": "next build && next start -p 3002",
     "lint": "eslint .",
+    "fix-images": "node fix-images.mjs",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
