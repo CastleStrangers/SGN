@@ -16,10 +16,22 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       originCity: true, nlProvincie: true, nlCity: true,
       educationLevel: true, profession: true, skills: true, maritalStatus: true,
       expNl: true, expOutside: true, createdAt: true,
+      isCvPublic: true,
     },
   });
   if (!member) {
     return NextResponse.json({ error: t(_req, 'api.notFound') }, { status: 404 });
   }
+
+  // Hide CV details if CV is not public
+  if (!member.isCvPublic) {
+    member.educationLevel = null;
+    member.profession = null;
+    member.skills = null;
+    member.maritalStatus = null;
+    member.expNl = null;
+    member.expOutside = null;
+  }
+
   return NextResponse.json(member);
 }
