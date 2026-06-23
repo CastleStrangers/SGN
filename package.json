@@ -9,7 +9,7 @@
   "scripts": {
     "master": "npx tsx scripts/00-master.ts",
     "dev": "next dev -p 3000",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && node prisma/seed.cjs && next build",
     "start": "next start -p 3002",
     "prod": "next build && next start -p 3002",
     "lint": "eslint .",
