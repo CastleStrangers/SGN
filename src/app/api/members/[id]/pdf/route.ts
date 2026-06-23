@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import PDFDocument from "pdfkit";
 import { getApiMessage } from "@/lib/api-messages";
