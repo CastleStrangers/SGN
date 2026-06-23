@@ -33,23 +33,9 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(await file.arrayBuffer());
     const fileName = `avatar-${member.id}-${Date.now()}.${ext}`;
     
-    let url = "";
-    // 1. If Vercel Blob token exists, save to Vercel Blob
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      const blob = await put(`avatars/${fileName}`, buffer, {
-        access: "public",
-        token: process.env.BLOB_READ_WRITE_TOKEN,
-      });
-      url = blob.url;
-    } else {
-      // 2. Otherwise save locally in public/uploads/avatars
-      const uploadDir = path.join(process.cwd(), "public", "uploads", "avatars");
-      await mkdir(uploadDir, { recursive: true });
-      
-      const filePath = path.join(uploadDir, fileName);
-      await writeFile(filePath, buffer);
-      url = `/uploads/avatars/${fileName}`;
-    }
+    // الحل الجذري: تحويل الصورة إلى Base64
+    const mimeType = file.type || `image/${ext === "svg" ? "svg+xml" : ext}`;
+    let url = `data:${mimeType};base64,${buffer.toString("base64")}`;
 
     await prisma.member.update({ where: { id: member.id }, data: { avatar: url } });
     return NextResponse.json({ url });

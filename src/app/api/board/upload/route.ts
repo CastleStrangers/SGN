@@ -38,23 +38,12 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(arrayBuf);
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
-    // 1. If Vercel Blob token exists, save to Vercel Blob
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      const blob = await put(`board/${fileName}`, buffer, {
-        access: "public",
-        token: process.env.BLOB_READ_WRITE_TOKEN,
-      });
-      return NextResponse.json({ url: blob.url });
-    }
+    // الحل الجذري: تحويل الصورة إلى Base64 وتخزينها كبيانات نصية
+    // هذا يلغي الحاجة لـ Vercel Blob أو أي خدمة خارجية تماماً ويحل مشكلة الحظر!
+    const mimeType = file.type || `image/${ext === "svg" ? "svg+xml" : ext}`;
+    const base64Data = `data:${mimeType};base64,${buffer.toString("base64")}`;
 
-    // 2. Otherwise save locally in public/uploads/board
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "board");
-    await fs.mkdir(uploadDir, { recursive: true });
-    
-    const filePath = path.join(uploadDir, fileName);
-    await fs.writeFile(filePath, buffer);
-
-    return NextResponse.json({ url: `/uploads/board/${fileName}` });
+    return NextResponse.json({ url: base64Data });
   } catch (error: any) {
     return NextResponse.json({
       error: `فشل رفع الصورة: ${error?.message || error || "خطأ غير معروف"}`,

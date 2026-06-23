@@ -29,24 +29,13 @@ export async function POST(req: NextRequest) {
 
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}.enc`;
 
-    // 1. If Vercel Blob token exists, save to Vercel Blob
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      const blob = await put(fileName, Buffer.from(encryptedData, "utf8"), {
-        access: "public",
-        token: process.env.BLOB_READ_WRITE_TOKEN,
-      });
-      return NextResponse.json({ url: blob.url });
-    }
+    // الحل الجذري: تخزين المحتوى المشفر مباشرة كـ Base64
+    const base64Encrypted = Buffer.from(encryptedData, "utf8").toString("base64");
+    // we use application/octet-stream since it's an encrypted blob, but keep ext for retrieval
+    const dataUri = `data:application/octet-stream;name=${ext}.enc;base64,${base64Encrypted}`;
 
-    // 2. Otherwise save locally in public/uploads/id-cards
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "id-cards");
-    await fs.mkdir(uploadDir, { recursive: true });
-    
-    const filePath = path.join(uploadDir, fileName);
-    await fs.writeFile(filePath, encryptedData, "utf8");
-
-    // Return the local relative URL
-    return NextResponse.json({ url: `/uploads/id-cards/${fileName}` });
+    // Return the data URI
+    return NextResponse.json({ url: dataUri });
   } catch (e: any) {
     console.error("ID Card upload error:", e);
     return NextResponse.json({ error: e.message || "Failed to upload ID" }, { status: 500 });

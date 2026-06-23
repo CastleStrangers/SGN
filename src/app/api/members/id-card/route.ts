@@ -33,9 +33,20 @@ export async function GET(req: NextRequest) {
     }
 
     let encryptedContent = "";
+    let extension = "jpeg"; // default
 
-    // If it's a relative URL (stored locally)
-    if (member.encryptedIdCard.startsWith("/uploads/")) {
+    // If it's a data URI (from Base64 storage)
+    if (member.encryptedIdCard.startsWith("data:")) {
+      const match = member.encryptedIdCard.match(/^data:.*name=([^;]+)\.enc;base64,(.*)$/);
+      if (match) {
+        extension = match[1];
+        encryptedContent = Buffer.from(match[2], "base64").toString("utf8");
+      } else {
+        // Fallback generic parsing
+        const parts = member.encryptedIdCard.split(",");
+        encryptedContent = Buffer.from(parts[1], "base64").toString("utf8");
+      }
+    } else if (member.encryptedIdCard.startsWith("/uploads/")) {
       const filePath = path.join(process.cwd(), "public", member.encryptedIdCard);
       encryptedContent = await fs.readFile(filePath, "utf8");
     } else {
@@ -50,8 +61,10 @@ export async function GET(req: NextRequest) {
     // Decrypt the content back to buffer
     const decryptedBuffer = decryptBuffer(encryptedContent);
 
-    // Detect file type from original extension in the file path
-    const extension = member.encryptedIdCard.split(".").reverse()[1]?.toLowerCase() || "jpeg";
+    // Detect file type
+    if (!member.encryptedIdCard.startsWith("data:")) {
+      extension = member.encryptedIdCard.split(".").reverse()[1]?.toLowerCase() || "jpeg";
+    }
     const contentType = extension === "pdf" ? "application/pdf" : `image/${extension}`;
 
     return new NextResponse(new Uint8Array(decryptedBuffer), {
