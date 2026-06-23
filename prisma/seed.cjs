@@ -212,8 +212,7 @@ async function main() {
 
   // Seed board members — 23 عضواً بالبيانات الحقيقية الكاملة
   await prisma.boardMember.deleteMany();
-  await prisma.boardMember.createMany({
-    data: [
+  const boardMembers = [
       {
         nameAr: "عبد المنعم الشامان",
         nameEn: "Abdul Munim Al Chaman",
@@ -605,7 +604,27 @@ async function main() {
         website: "https://www.sy-nl.org/",
         kvkNumber: "96718943"
       }
-    ]
+  ];
+
+  // تحديث الصور ديناميكياً من ملف المطابقة (board-mapping.json) إذا توفر
+  const fs = require("fs");
+  const path = require("path");
+  try {
+    const mappingPath = path.join(__dirname, "../src/lib/board-mapping.json");
+    if (fs.existsSync(mappingPath)) {
+      const boardMapping = JSON.parse(fs.readFileSync(mappingPath, "utf-8"));
+      for (const member of boardMembers) {
+        if (boardMapping[member.nameEn]) {
+          member.image = `/images/board/${boardMapping[member.nameEn]}`;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("Could not load board mapping file, using defaults:", e.message);
+  }
+
+  await prisma.boardMember.createMany({
+    data: boardMembers
   });
   console.log("تم إدخال بيانات 23 عضواً من أعضاء مجلس الإدارة بنجاح ✅");
 }
