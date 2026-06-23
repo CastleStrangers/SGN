@@ -5,21 +5,46 @@ import { prisma } from "@/lib/db";
 import PDFDocument from "pdfkit";
 import { getApiMessage } from "@/lib/api-messages";
 
+import { getSessionUser } from "@/lib/mobile-auth";
+
 function t(_req: Request, key: string) {
   const locale = (_req as any).cookies?.get?.('NEXT_LOCALE')?.value || 'ar';
   return getApiMessage(locale, key);
 }
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user) {
+  let user = await getSessionUser(_req);
+  if (!user) {
+    const url = new URL(_req.url);
+    const queryToken = url.searchParams.get("token");
+    if (queryToken) {
+      const dbUser = await prisma.user.findUnique({
+        where: { id: queryToken },
+        select: { id: true, name: true, email: true, role: true }
+      });
+      if (dbUser) {
+        user = {
+          id: dbUser.id,
+          name: dbUser.name,
+          email: dbUser.email,
+          role: dbUser.role || "member"
+        };
+      }
+    }
+  }
+
+  if (!user) {
     return NextResponse.json({ error: t(_req, 'api.unauthorized') }, { status: 401 });
   }
   const { id } = await params;
   const member = await prisma.member.findUnique({ where: { id } });
   if (!member) return NextResponse.json({ error: t(_req, 'api.memberNotFound') }, { status: 404 });
 
-  if (session.user.role !== "admin" && member.userId !== session.user.id) {
+  const isOwner = member.userId === user.id;
+  const isAdmin = user.role === "admin";
+  const isPublic = member.isCvPublic && member.status === "accepted" && member.showInPublicProfile;
+
+  if (!isOwner && !isAdmin && !isPublic) {
     return NextResponse.json({ error: t(_req, 'api.unauthorized') }, { status: 401 });
   }
 
