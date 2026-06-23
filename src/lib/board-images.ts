@@ -9,7 +9,7 @@ export function normalizeBoardImagePath(image?: string | null): string {
     return '/images/board/secretary.png';
   }
 
-  if (/^(https?:)?\/\//i.test(image) || image.startsWith('/')) {
+  if (/^(https?:)?\/\//i.test(image) || image.startsWith('/') || image.startsWith('data:image/')) {
     return image;
   }
 
