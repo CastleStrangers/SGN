@@ -45,24 +45,9 @@ export async function GET() {
 
       let normalizedImage = m.image || '';
       
-      const nameEn = (m.nameEn || '').toLowerCase();
-      const nameAr = m.nameAr || '';
-      
-      if (nameEn.includes('abdul munim') || nameAr.includes('عبد المنعم')) {
-        normalizedImage = '/images/board/chairman.png';
-      } else if (nameEn.includes('khaled') || nameAr.includes('خالد')) {
-        normalizedImage = '/images/board/secretary.png';
-      } else if (nameEn.includes('saleh') || nameAr.includes('صالح')) {
-        normalizedImage = '/images/board/director.png';
-      } else if (nameEn.includes('naser') || nameAr.includes('ناصر') || (m.titleAr || '').includes('أمين الصندوق')) {
-        normalizedImage = '/images/board/treasurer.png';
-      } else {
-        // تحويل روابط Vercel Blob المعطّلة إلى المسارات المحلية أو تفريغها
-        if (normalizedImage.includes('blob.vercel-storage.com') || normalizedImage.startsWith('https://iysh')) {
-          normalizedImage = '';
-        } else {
-          normalizedImage = normalizeBoardImagePath(normalizedImage);
-        }
+      // نعتمد على الصورة الحقيقية المرفوعة، وفي حال عدم وجودها نستخدم دوال المعالجة الأساسية
+      if (normalizedImage) {
+        normalizedImage = normalizeBoardImagePath(normalizedImage);
       }
 
       return {
