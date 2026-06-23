@@ -20,7 +20,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   try {
     const { id } = await params;
     const body = await req.json();
-    const { memberNumber, status, notes, nameAr, nameNl, email, whatsapp, originCity, nlProvincie, nlCity, expNl, expOutside, birthYear, gender, educationLevel, profession, skills, maritalStatus, avatar, showInPublicProfile } = body;
+    const { memberNumber, status, notes, nameAr, nameNl, email, whatsapp, originCity, nlProvincie, nlCity, expNl, expOutside, birthYear, gender, educationLevel, profession, skills, maritalStatus, avatar, showInPublicProfile, isCvPublic } = body;
     const updateData: Record<string, any> = {};
     if (memberNumber !== undefined) updateData.memberNumber = parseInt(memberNumber);
     if (status) updateData.status = status;
@@ -42,6 +42,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     if (maritalStatus !== undefined) updateData.maritalStatus = maritalStatus;
     if (avatar !== undefined) updateData.avatar = avatar;
     if (showInPublicProfile !== undefined) updateData.showInPublicProfile = showInPublicProfile;
+    if (isCvPublic !== undefined) updateData.isCvPublic = isCvPublic;
     const member = await prisma.member.update({
       where: { id },
       data: updateData,
