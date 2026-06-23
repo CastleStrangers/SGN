@@ -14,7 +14,7 @@ interface MemberData {
   avatar?: string | null;
   nlProvincie: string; nlCity: string; expNl: string | null; expOutside: string | null;
   educationLevel: string | null; profession: string | null; skills: string | null; maritalStatus: string | null;
-  status: string | null; notes: string | null; showInPublicProfile?: boolean | null;
+  status: string | null; notes: string | null; showInPublicProfile?: boolean | null; isCvPublic?: boolean | null;
   createdAt: string;
 }
 
@@ -193,20 +193,20 @@ export default function MemberProfilePage() {
               <StatusIcon className="w-3.5 h-3.5" /> {statusLabel}
             </span>
           </div>
-          {member.status === "accepted" && (
-            <div className="mr-auto flex flex-col sm:flex-row gap-2">
+          <div className="mr-auto flex flex-col sm:flex-row gap-2">
+            {member.status === "accepted" && (
               <Link href={`/member/${member.id}`} className="flex items-center gap-1.5 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-sm font-medium transition">
                 <Eye className="w-4 h-4" /> {t('viewPublicProfile')}
               </Link>
-              <a
-                href={`/api/members/${member.id}/pdf`}
-                download
-                className="flex items-center gap-1.5 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-sm font-medium border transition cursor-pointer"
-              >
-                <FileText className="w-4 h-4 text-emerald-800" /> {t('downloadPdf')}
-              </a>
-            </div>
-          )}
+            )}
+            <a
+              href={`/api/members/${member.id}/pdf`}
+              download
+              className="flex items-center gap-1.5 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-sm font-medium border transition cursor-pointer"
+            >
+              <FileText className="w-4 h-4 text-emerald-800" /> {t('downloadPdf')}
+            </a>
+          </div>
         </div>
 
         {member.notes && (
@@ -244,7 +244,7 @@ export default function MemberProfilePage() {
             <div className="sm:col-span-2 text-xs text-gray-400 pt-4 border-t mt-2 space-y-1">
               <span>{t('appliedDate')}{formatDate(member.createdAt, locale)}</span>
               {member.status === "accepted" && (
-                <div className="flex items-center gap-2 mt-2">
+                <div className="flex flex-wrap items-center gap-2 mt-2">
                   <button onClick={async () => {
                     const val = !(member.showInPublicProfile ?? true);
                     const res = await fetch("/api/member/me", {
@@ -256,6 +256,19 @@ export default function MemberProfilePage() {
                   }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition ${member.showInPublicProfile !== false ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
                     {member.showInPublicProfile !== false ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
                     {member.showInPublicProfile !== false ? t('profileVisible') : t('profileHidden')}
+                  </button>
+
+                  <button onClick={async () => {
+                    const val = !(member.isCvPublic ?? true);
+                    const res = await fetch("/api/member/me", {
+                      method: "PATCH",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ isCvPublic: val }),
+                    });
+                    if (res.ok) setMember({ ...member, isCvPublic: val });
+                  }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition ${member.isCvPublic !== false ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
+                    {member.isCvPublic !== false ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                    {member.isCvPublic !== false ? t('cvVisible') : t('cvHidden')}
                   </button>
                 </div>
               )}
