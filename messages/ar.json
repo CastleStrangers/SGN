@@ -259,7 +259,8 @@
     "volunteersCountLabel": "متطوع",
     "rememberMe": "تذكرني",
     "forgotPassword": "نسيت كلمة المرور؟",
-    "loginTerms": "بتسجيل الدخول، أنت توافق على {privacy} و{terms}."
+    "loginTerms": "بتسجيل الدخول، أنت توافق على {privacy} و{terms}.",
+    "loginNoRich": "بتسجيل الدخول، أنت توافق على سياسة الخصوصية وشروط الخدمة."
   },
   "common": {
     "backToHome": "العودة إلى الرئيسية",

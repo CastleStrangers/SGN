@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next';
+﻿import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
@@ -12,9 +12,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: base + '/contact', lastModified: new Date() },
   ];
 
-  let posts = [];
+  let posts: { slug: string | null; updatedAt: Date }[] = [];
   try {
-    posts = await prisma.post.findMany({ where: { published: true }, select: { slug: true, updatedAt: true } });
+    posts = await prisma.post.findMany({ 
+      where: { published: true }, 
+      select: { slug: true, updatedAt: true } 
+    });
   } catch (e) {
     // تجاهل الخطأ أثناء عملية البناء (Build) على Vercel
   }

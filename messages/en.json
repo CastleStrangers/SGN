@@ -259,7 +259,8 @@
     "volunteersCountLabel": "Volunteer",
     "rememberMe": "Remember me",
     "forgotPassword": "Forgot password?",
-    "loginTerms": "By logging in, you agree to the {privacy} and {terms}."
+    "loginTerms": "By logging in, you agree to the {privacy} and {terms}.",
+    "loginNoRich": "By logging in, you agree to the Privacy Policy and Terms of Service."
   },
   "common": {
     "backToHome": "Back to Home",

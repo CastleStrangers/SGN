@@ -127,6 +127,49 @@ This changes `mobile/constants/config.ts` to use `https://sgn-msalimaziza-3522s-
 - **RAG (Retrieval Augmented Generation)**: `src/lib/ai/rag.ts` — extracts keywords from user question, searches News (Post), Events, and Volunteer tables; injects results into system prompt for fact-aware answers
 - **Mobile Chat**: `mobile/app/(tabs)/messages.tsx` — 4th tab in mobile app; AI chat with suggested questions, message bubbles, typing indicator; uses `mobile/lib/chat.ts` API functions
 
+## 📡 Sync System — جلب الأخبار (مهم جداً لا تحذف)
+
+### المصادر
+| المصدر | النوع | الحالة | الموقع |
+|--------|-------|--------|--------|
+| sy-nl.org | Webpage scraping | مُفعّل | `https://www.sy-nl.org/nbdh-aljalyh` |
+| YouTube | RSS Feed | مُفعّل | قناة `UCgsEr_WQEnuymVqvTWXqmtw` |
+| Facebook | Graph API | مُفعّل | `DeSyrischeGemeenschapInNederland` |
+
+### الملفات الأساسية
+- **إعدادات المصادر**: `src/lib/sync/types.ts` — `DEFAULT_SOURCES`
+- **محرك السينك**: `src/lib/sync/index.ts` — `runSync()`
+- **استخراج المقالات**: `src/lib/sync/extractor.ts`
+- **فيسبوك**: `src/lib/sync/facebook.ts` (يحبّذ `pages_read_engagement`)
+- **الحفظ بقاعدة البيانات**: `src/lib/sync/db-sync.ts` (يدعم منع التكرار)
+- **تحميل الوسائط**: `src/lib/sync/media.ts` (يدعم Vercel Blob + محلي)
+- **تصنيف بالذكاء الاصطناعي**: `src/lib/sync/categorizer.ts` (fallback: كلمات مفتاحية)
+
+### كيفية تشغيل المزامنة
+```bash
+# مسح كل المقالات وجلب جديد (⚠️ يحذف الموجود)
+SKIP_CONFIRMATION=true npx tsx scripts/04-reset-and-sync.ts
+
+# مزامنة فيسبوك فقط (يحترم التوكن من .env)
+npx tsx scripts/01-sync-facebook.ts
+
+# أو عبر API (يتطلب admin auth):
+curl -X POST http://localhost:3000/api/sync
+```
+
+### نتائج آخر مزامنة (24 يونيو 2026)
+- **sy-nl.org**: 25 مقالة ✅
+- **YouTube**: 13 فيديو ✅
+- **Facebook**: 31 منشور ✅
+- **الإجمالي**: 69 خبر في قاعدة البيانات
+- قاعدة البيانات: `prisma/dev.db` (SQLite محلياً)
+
+### Facebook — معلومات مهمة
+- **Page ID**: `943115162210802` (من `/me/accounts`)
+- **التوكن**: موجود في `.env` كـ `FACEBOOK_PAGE_TOKEN` (مأخوذ من `/me/accounts` تجديد كل 60 يوم)
+- إذا انتهى التوكن: استخدم `https://graph.facebook.com/v19.0/me/accounts?access_token={USER_TOKEN}` لاستخراج التوكن الجديد للصفحة
+- صلاحية يحتاجها التوكن: `pages_read_engagement`
+
 ## 📌 When You See "OP:..." or Similar Prefixes
 
 The user may reference prior sessions. The `AGENTS.md` file is the authoritative source for project rules.

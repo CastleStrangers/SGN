@@ -259,7 +259,8 @@
     "volunteersCountLabel": "Vrijwilliger",
     "rememberMe": "Onthoud mij",
     "forgotPassword": "Wachtwoord vergeten?",
-    "loginTerms": "Door in te loggen gaat u akkoord met het {privacy} en de {terms}."
+    "loginTerms": "Door in te loggen gaat u akkoord met het {privacy} en de {terms}.",
+    "loginNoRich": "Door in te loggen gaat u akkoord met het Privacybeleid en de Algemene Voorwaarden."
   },
   "common": {
     "backToHome": "Terug naar Home",
