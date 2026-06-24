@@ -43,9 +43,9 @@ export default async function Home() {
     },
   });
 
-  const videoPosts = posts.filter(p => p.videoId || p.source === "youtube").slice(0, 4);
+  const videoPosts = posts.filter((p: any) => p.videoId || p.source === "youtube").slice(0, 4);
 
-  const featured = posts.slice(0, 4).map(p => ({
+  const featured = posts.slice(0, 4).map((p: any) => ({
     title: p.title,
     cat: p.category || "عام",
     img: p.image,
@@ -56,7 +56,7 @@ export default async function Home() {
     videoId: p.videoId || undefined,
   }));
 
-  const latest = posts.slice(0, 4).map(p => ({
+  const latest = posts.slice(0, 4).map((p: any) => ({
     title: p.title,
     img: p.image,
     time: timeAgo(p.createdAt),
@@ -64,7 +64,7 @@ export default async function Home() {
     videoId: p.videoId || undefined,
   }));
 
-  const videos = videoPosts.map(p => ({
+  const videos = videoPosts.map((p: any) => ({
     title: p.title,
     cat: p.category || "عام",
     img: p.image,

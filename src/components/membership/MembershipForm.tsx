@@ -89,7 +89,7 @@ export default function MembershipForm() {
 
   const nextStep = () => {
     if (step === 1) {
-      const required = [];
+      const required: string[] = [];
       if (isEnabled("nameAr") && !form.nameAr) required.push("nameAr");
       if (isEnabled("nameNl") && !form.nameNl) required.push("nameNl");
       if (isEnabled("birthYear") && !form.birthYear) required.push("birthYear");
@@ -97,7 +97,7 @@ export default function MembershipForm() {
       if (required.length) { setStatus("error"); setMsg(t("required")); return; }
     }
     if (step === 2) {
-      const required = [];
+      const required: string[] = [];
       if (isEnabled("originCity") && !form.originCity) required.push("originCity");
       if (isEnabled("whatsapp") && !form.whatsapp) required.push("whatsapp");
       if (isEnabled("nlProvincie") && !form.nlProvincie) required.push("nlProvincie");

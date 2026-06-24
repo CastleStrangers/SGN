@@ -106,7 +106,7 @@ export async function GET(req: Request) {
       const citiesList = ["Rotterdam", "Amsterdam", "Utrecht", "Arnhem", "Eindhoven", "Enschede"];
       const governoratesList = ["دمشق", "حلب", "حمص", "حماة", "اللاذقية", "درعا", "إدلب", "دير الزور"];
 
-      const mockMembers = [];
+      const mockMembers: any[] = [];
       for (let i = 0; i < 45; i++) {
         const nameObj = mockNames[i % mockNames.length];
         const provIdx = i % provincesList.length;

@@ -9,7 +9,8 @@ import { formatDate } from "@/lib/date";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { ArticleContent } from "@/components/article-content";
-import { handleImgError, resolveImage } from "@/lib/image-fallback";
+import { resolveImage } from "@/lib/image-fallback";
+import SafeImage from "@/components/ui/safe-image";
 
 interface Props { params: Promise<{ locale: string; slug: string }> }
 
@@ -82,6 +83,9 @@ export default async function ArticlePage({ params }: Props) {
     articleSection: post.category,
   };
 
+  const imgSrc = resolveImage(post.image, post.title, post.category);
+  const fallbackSrc = resolveImage(null, post.title, post.category);
+
   return (
     <div dir={dir} className="min-h-screen bg-gray-50">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -93,7 +97,7 @@ export default async function ArticlePage({ params }: Props) {
 
         <article className="bg-white rounded-2xl overflow-hidden border shadow-sm">
           {post.image && !post.content.includes("youtube.com/embed") && (
-            <img src={resolveImage(post.image, post.title, post.category)} alt={post.title} loading="lazy" decoding="async" onError={(e) => { (e.currentTarget as HTMLImageElement).src = resolveImage(null, post.title, post.category); }} className="w-full aspect-video max-h-[70vh] object-cover" />
+            <SafeImage src={imgSrc} alt={post.title} fallbackSrc={fallbackSrc} className="w-full aspect-video max-h-[70vh] object-cover" />
           )}
 
           <div className="p-6 md:p-8">

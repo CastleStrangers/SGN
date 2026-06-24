@@ -36,7 +36,7 @@ async function listUsers() {
   }
 
   console.log(`${users.length} مستخدم:\n`)
-  users.forEach((user, i) => {
+  users.forEach((user: any, i: number) => {
     const roleEmoji = user.role === "admin" ? "👑" : "👤"
     console.log(`${i + 1}. ${roleEmoji} ${user.email}`)
     console.log(
