@@ -19,6 +19,10 @@ if (fs.existsSync(envPath)) {
   }
 }
 
+// ─── تحميل board-mapping.json ───
+const mappingPath = path.join(__dirname, "src", "lib", "board-mapping.json");
+const nameToFile = JSON.parse(fs.readFileSync(mappingPath, "utf-8"));
+
 const tursoUrl = process.env.TURSO_DATABASE_URL?.trim();
 const tursoToken = process.env.TURSO_AUTH_TOKEN?.trim();
 const isTurso = !!(tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined");
@@ -36,13 +40,6 @@ if (result.rows.length === 0) {
   process.exit(0);
 }
 
-const imageDir = path.join(__dirname, "public", "images", "board");
-if (!fs.existsSync(imageDir)) {
-  console.log("⚠️ مجلد الصور غير موجود");
-  process.exit(0);
-}
-
-const availableImages = fs.readdirSync(imageDir).filter(f => /\.(png|jpg|jpeg|webp)$/i.test(f));
 let updated = 0;
 
 for (const row of result.rows) {
@@ -50,26 +47,23 @@ for (const row of result.rows) {
   const nameAr = String(row.nameAr || "");
   const nameEn = String(row.nameEn || "");
   const currentImage = String(row.image || "");
-  const firstNameEn = nameEn.split(" ")[0].toLowerCase();
-  const firstNameAr = nameAr.split(" ")[0];
 
-  let match = availableImages.find(f => f.toLowerCase().includes(firstNameEn));
-  if (!match) match = availableImages.find(f => f.toLowerCase().includes(firstNameAr));
-
-  if (match) {
-    const imagePath = `/images/board/${match}`;
+  // بحث بالـ mapping جاهز
+  const filename = nameToFile[nameEn];
+  if (filename) {
+    const imagePath = `/images/board/${filename}`;
     if (currentImage !== imagePath) {
       await db.execute({
         sql: "UPDATE board_members SET image = ? WHERE id = ?",
         args: [imagePath, id],
       });
-      console.log(`✅ ${nameAr} ← ${match}`);
+      console.log(`✅ ${nameAr} ← ${filename}`);
       updated++;
     } else {
       console.log(`⏭️ ${nameAr} → صحيحة`);
     }
   } else {
-    console.log(`❌ ${nameAr} → ما لقينا صورة`);
+    console.log(`❌ ${nameAr} → ما لقينا اسم مطابق بالمفينج`);
   }
 }
 
