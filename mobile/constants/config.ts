@@ -12,8 +12,8 @@
 // Production URLs — change these when your domain changes
 // ---------------------------------------------------------------------------
 
-const PRODUCTION_API_URL = "https://sgn-msalimaziza-3522s-projects.vercel.app/api";
-const PRODUCTION_WS_URL = "wss://sgn-msalimaziza-3522s-projects.vercel.app";
+const PRODUCTION_API_URL = "https://sgn-indol.vercel.app/api";
+const PRODUCTION_WS_URL = "wss://sgn-indol.vercel.app";
 
 // ---------------------------------------------------------------------------
 // Detected environment
@@ -43,7 +43,7 @@ export const CONFIG = {
   WS_URL: IS_PRODUCTION ? PRODUCTION_WS_URL : DEV_API_BASE.replace(/^http/, "ws"),
 
   /** Full app URL for links/share */
-  APP_URL: IS_PRODUCTION ? "https://sgn-msalimaziza-3522s-projects.vercel.app" : DEV_API_BASE,
+  APP_URL: IS_PRODUCTION ? "https://sgn-indol.vercel.app" : DEV_API_BASE,
 
   /**
    * Timeout for API requests (ms)

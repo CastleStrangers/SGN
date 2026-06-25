@@ -60,7 +60,7 @@ call vercel --prod --yes
 :: 3. Open Staging Site Preview
 echo.
 echo - Opening Staging/Preview website in your browser...
-start https://sgn-msalimaziza-3522s-projects.vercel.app
+start https://sgn-indol.vercel.app
 
 :: 4. Verification & Auto Exit
 echo.

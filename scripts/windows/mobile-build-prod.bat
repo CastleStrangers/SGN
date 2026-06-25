@@ -17,7 +17,7 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
-echo   [✓] تم ضبط روابط الـ API على: https://sgn-msalimaziza-3522s-projects.vercel.app
+echo   [✓] تم ضبط روابط الـ API على: https://sgn-indol.vercel.app
 echo.
 
 :: 2. اختيار منصة البناء

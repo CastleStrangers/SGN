@@ -5,7 +5,7 @@
  *
  * Usage:
  *   npx tsx scripts/set-env.ts dev   →  http://localhost:3001
- *   npx tsx scripts/set-env.ts prod  →  https://sgn-msalimaziza-3522s-projects.vercel.app
+ *   npx tsx scripts/set-env.ts prod  →  https://sgn-indol.vercel.app
  *
  * This overwrites the DEV_API_BASE in constants/config.ts
  * so the built APK/IPA connects to the correct server.
@@ -22,7 +22,7 @@ if (!mode || !["dev", "prod"].includes(mode)) {
   process.exit(1);
 }
 
-const PRODUCTION_URL = "https://sgn-msalimaziza-3522s-projects.vercel.app";
+const PRODUCTION_URL = "https://sgn-indol.vercel.app";
 const DEV_URL = "http://localhost:3001";
 const targetUrl = mode === "prod" ? PRODUCTION_URL : DEV_URL;
 
