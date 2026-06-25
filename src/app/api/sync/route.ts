@@ -5,9 +5,13 @@ import { requireAuthorize } from "@/lib/auth-helpers"
 import { runSync } from "@/lib/sync"
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions)
-  if (!session?.user?.id || !(await requireAuthorize(session.user.id, "settings.edit"))) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+  // Allow cron job via CRON_SECRET header
+  const cronSecret = req.headers.get("x-cron-secret")
+  if (!cronSecret || cronSecret !== process.env.CRON_SECRET) {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id || !(await requireAuthorize(session.user.id, "settings.edit"))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
   }
 
   try {
