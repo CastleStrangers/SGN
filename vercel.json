@@ -1,6 +1,6 @@
 {
   "buildCommand": "next build",
-  "installCommand": "npm install --ignore-platform-reqs",
+  "installCommand": "npm install --ignore-platform",
   "outputDirectory": ".next",
   "framework": "nextjs"
 }
