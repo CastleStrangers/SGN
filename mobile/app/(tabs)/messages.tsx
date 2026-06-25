@@ -10,8 +10,8 @@ const SUGGESTED_CARDS = [
   { key: "cardIndTimeframe", promptKey: "promptIndTimeframe", persona: "legal", icon: "⚖️" },
   { key: "cardIntegrationExams", promptKey: "promptIntegrationExams", persona: "integration", icon: "🎓" },
   { key: "cardDuoFunding", promptKey: "promptDuoFunding", persona: "integration", icon: "🎓" },
-  { key: "cardSocialHousing", promptKey: "promptSocialHousing", persona: "integration", icon: "💼" },
-  { key: "cardEvaluateDegree", promptKey: "promptEvaluateDegree", persona: "integration", icon: "💼" },
+  { key: "cardSocialHousing", promptKey: "promptSocialHousing", persona: "employment", icon: "🏠" },
+  { key: "cardEvaluateDegree", promptKey: "promptEvaluateDegree", persona: "employment", icon: "🎓" },
   { key: "cardCommunityNews", promptKey: "promptCommunityNews", persona: "spokesperson", icon: "📢" },
   { key: "cardUpcomingEvents", promptKey: "promptUpcomingEvents", persona: "spokesperson", icon: "📢" },
 ];
@@ -122,6 +122,7 @@ export default function MessagesScreen() {
             { id: "general", label: t("chat.personaGeneral") || "عام", icon: "🤖" },
             { id: "legal", label: t("chat.personaLegal") || "لجوء", icon: "⚖️" },
             { id: "integration", label: t("chat.personaIntegration") || "اندماج", icon: "🎓" },
+            { id: "employment", label: t("chat.personaEmployment") || "العمل", icon: "💼" },
             { id: "spokesperson", label: t("chat.personaSpokesperson") || "إعلام", icon: "📢" },
           ].map((p) => {
             const active = persona === p.id;

@@ -33,7 +33,7 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: tReq(req, 'api.noApplication') }, { status: 404 });
     }
 
-    const allowed = ["nameAr", "nameNl", "email", "whatsapp", "originCity", "nlProvincie", "nlCity", "expNl", "expOutside", "educationLevel", "profession", "skills", "maritalStatus", "showInPublicProfile", "isCvPublic"];
+    const allowed = ["nameAr", "nameNl", "email", "whatsapp", "originCity", "nlProvincie", "nlCity", "expNl", "expOutside", "educationLevel", "profession", "skills", "maritalStatus", "showInPublicProfile", "isCvPublic", "isServiceProvider", "serviceDescription"];
     const updateData: Record<string, any> = {};
     for (const key of allowed) {
       if (body[key] !== undefined) updateData[key] = body[key];

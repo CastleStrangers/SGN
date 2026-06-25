@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { Loader2, Save, User, Phone, MapPin, Mail, BadgeCheck, Clock, XCircle, Eye, Pencil, Camera, Badge, EyeOff, FileText, Calendar, CheckSquare, Flag } from "lucide-react";
+import { Loader2, Save, User, Phone, MapPin, Mail, BadgeCheck, Clock, XCircle, Eye, Pencil, Camera, Badge, EyeOff, FileText, Calendar, CheckSquare, Flag, Briefcase } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { formatDate } from "@/lib/date";
 
@@ -15,6 +15,7 @@ interface MemberData {
   nlProvincie: string; nlCity: string; expNl: string | null; expOutside: string | null;
   educationLevel: string | null; profession: string | null; skills: string | null; maritalStatus: string | null;
   status: string | null; notes: string | null; showInPublicProfile?: boolean | null; isCvPublic?: boolean | null;
+  isServiceProvider?: boolean | null; serviceDescription?: string | null;
   createdAt: string;
 }
 
@@ -69,6 +70,8 @@ export default function MemberProfilePage() {
             profession: d.member.profession || "",
             skills: d.member.skills || "",
             maritalStatus: d.member.maritalStatus || "",
+            isServiceProvider: d.member.isServiceProvider || false,
+            serviceDescription: d.member.serviceDescription || "",
           });
         }
         setLoading(false);
@@ -270,9 +273,29 @@ export default function MemberProfilePage() {
                     {member.isCvPublic !== false ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
                     {member.isCvPublic !== false ? t('cvVisible') : t('cvHidden')}
                   </button>
+
+                  <button onClick={async () => {
+                    const val = !(member.isServiceProvider ?? false);
+                    const res = await fetch("/api/member/me", {
+                      method: "PATCH",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ isServiceProvider: val }),
+                    });
+                    if (res.ok) setMember({ ...member, isServiceProvider: val });
+                  }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition ${member.isServiceProvider ? "bg-amber-50 text-amber-700 border border-amber-200" : "bg-gray-100 text-gray-500"}`}>
+                    <Briefcase className="w-3.5 h-3.5" />
+                    {member.isServiceProvider ? t('isServiceProvider') : "تفعيل كـ مزود خدمة"}
+                  </button>
                 </div>
               )}
             </div>
+
+            {member.isServiceProvider && (
+              <div className="sm:col-span-2 p-4 bg-amber-50 rounded-2xl border border-amber-100 mt-2">
+                <p className="text-xs font-bold text-amber-800 mb-1">{t('serviceDescription')}</p>
+                <p className="text-sm text-amber-700">{member.serviceDescription || "لا يوجد وصف للخدمة بعد."}</p>
+              </div>
+            )}
 
             {/* Registered Events Section */}
             <div className="pt-6 border-t mt-6">
@@ -343,6 +366,29 @@ export default function MemberProfilePage() {
               <Input label={t('profession')} value={form.profession} onChange={v => setForm({...form, profession: v})} />
               <Input label={t('skills')} value={form.skills} onChange={v => setForm({...form, skills: v})} />
               <Select label={t('maritalStatus')} value={form.maritalStatus} onChange={v => setForm({...form, maritalStatus: v})} options={[t('single'), t('married'), t('divorced'), t('widowed')]} />
+
+              <div className="sm:col-span-2 flex items-center gap-3 p-3 bg-slate-50 rounded-xl border">
+                <input
+                  type="checkbox"
+                  id="isServiceProvider"
+                  checked={form.isServiceProvider}
+                  onChange={e => setForm({...form, isServiceProvider: e.target.checked})}
+                  className="w-4 h-4 text-emerald-800 rounded border-gray-300 focus:ring-emerald-500"
+                />
+                <label htmlFor="isServiceProvider" className="text-sm font-medium text-gray-700">{t('isServiceProvider')}</label>
+              </div>
+
+              {form.isServiceProvider && (
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t('serviceDescription')}</label>
+                  <textarea
+                    value={form.serviceDescription}
+                    onChange={e => setForm({...form, serviceDescription: e.target.value})}
+                    className="w-full border rounded-xl px-4 py-2.5 text-sm h-20 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-600/20 focus:border-emerald-600"
+                    placeholder={t('serviceDescriptionPlaceholder')}
+                  />
+                </div>
+              )}
             </div>
             <div>
               <label htmlFor="expNl" className="block text-sm font-medium text-gray-700 mb-1">{t('expNl')}</label>

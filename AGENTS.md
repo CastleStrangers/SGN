@@ -122,10 +122,10 @@ This changes `mobile/constants/config.ts` to use `https://sgn-msalimaziza-3522s-
 - **Responsive**: RTL-first for Arabic, LTR for English/Dutch
 - **Ports**: Web dev = `:3000`, Web prod = `:3001`, Mobile dev = `http://localhost:3001/api`
 - **AI Chatbot**: `POST /api/chat/ai` — uses Ollama (`qwen2.5:7b`, local); system prompt defines assistant as Syrian community expert; rate-limited (30 msg/min); saves to `ChatAISession` + `ChatAIMessage` tables
-- **AI Switch (Gemini → Ollama)**: All AI features (chat, translate, summarize, sentiment, polish-text, extract-id) now use `src/lib/ai/ollama.ts` instead of Google Gemini because the Gemini free-tier quota was exhausted. Ollama runs locally on port 11434. Ollama models: `qwen2.5:7b` (text, default), `llava:7b` (vision). Set via env vars `OLLAMA_MODEL`, `OLLAMA_VISION_MODEL`, `OLLAMA_HOST`.
+- **AI Switch (Gemini → Ollama / Anthropic)**: All AI features now default to **Ollama** (`qwen2.5:7b`) locally. In production, the system supports **Anthropic (Claude)** via Vercel AI Gateway or **OpenAI**. Configure via `AI_PROVIDER`, `ANTHROPIC_BASE_URL`, and `ANTHROPIC_CUSTOM_HEADERS`.
 - **Ollama Models**: `ollama pull qwen2.5:7b` (~4.7GB, excellent Arabic) for text; `ollama pull llava:7b` (~4.5GB) for vision (ID extraction). Must be running (`ollama serve`) before using any AI features.
 - **RAG (Retrieval Augmented Generation)**: `src/lib/ai/rag.ts` — extracts keywords from user question, searches News (Post), Events, and Volunteer tables; injects results into system prompt for fact-aware answers
-- **Mobile Chat**: `mobile/app/(tabs)/messages.tsx` — 4th tab in mobile app; AI chat with suggested questions, message bubbles, typing indicator; uses `mobile/lib/chat.ts` API functions
+- **Mobile Chat**: `mobile/app/(tabs)/messages.tsx` — 4th tab in mobile app; AI chat with suggested questions, message bubbles, typing indicator; uses `mobile/lib/chat.ts` API functions. **Direct Chat**: `mobile/app/direct-chat.tsx` — peer-to-peer messaging between members/service providers with **Push Notifications** via Expo.
 
 ## 📡 Sync System — جلب الأخبار (مهم جداً لا تحذف)
 

@@ -12,7 +12,7 @@
  */
 
 import "dotenv/config"
-import { prisma } from "../src/lib/db"
+import { prisma } from "./db"
 
 async function listUsers() {
   console.log(`\n${"═".repeat(62)}`)

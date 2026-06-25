@@ -1,5 +1,6 @@
 node_modules/
 .next/
+.vs/
 out/
 build/
 V/
@@ -14,6 +15,7 @@ Antigravity/
 !.env.example
 # Database files
 *.db
+*.db.bak
 *.db-journal
 prisma/prisma/
 
@@ -23,3 +25,6 @@ build-imgfix-log.txt
 
 # Environment variables
 .env*.local
+
+# TypeScript cache
+*.tsbuildinfo

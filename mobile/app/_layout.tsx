@@ -7,6 +7,7 @@ import { Appearance, LogBox, ActivityIndicator, View, Text, TextInput, StyleShee
 import * as Notifications from "expo-notifications";
 import { I18nProvider, useI18n } from "../lib/i18n-context";
 import * as Font from "expo-font";
+import { useRouter } from "expo-router";
 
 // تهيئة وتطبيق خط المراعي كخط افتراضي لجميع عناصر النصوص في الموبايل
 const patchText = () => {
@@ -183,9 +184,19 @@ function StackScreens() {
 export default function RootLayout() {
   const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     Notifications.requestPermissionsAsync();
+
+    const notificationSubscription = Notifications.addNotificationResponseReceivedListener(response => {
+      const data = response.notification.request.content.data;
+      if (data?.type === "chat" && data?.senderId) {
+        router.push({ pathname: "/direct-chat", params: { userId: data.senderId, name: data.senderName } });
+      } else if (data?.link) {
+        router.push(data.link as any);
+      }
+    });
 
     const subscription = Appearance.addChangeListener((prefs: { colorScheme: "light" | "dark" | null | undefined }) => {
       setColorScheme(prefs.colorScheme);
@@ -207,7 +218,10 @@ export default function RootLayout() {
     }
     loadFonts();
 
-    return () => subscription.remove();
+    return () => {
+      subscription.remove();
+      notificationSubscription.remove();
+    };
   }, []);
 
   if (!fontsLoaded) {

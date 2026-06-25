@@ -45,10 +45,7 @@ async function main() {
   const isProductionDb = tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined";
 
   if (!isProductionDb) {
-    // Delete existing posts
-    await prisma.post.deleteMany();
-
-    // Create sample news articles
+    // Create sample news articles (upsert to preserve synced articles)
     const posts = [
       {
         title: `اجتماع الجالية مع بلدية أمستردام: خطوات جديدة لدعم الاندماج`,
@@ -178,10 +175,15 @@ async function main() {
     ];
 
     for (const post of posts) {
-      await prisma.post.create({ data: post });
+      await prisma.post.upsert({
+        where: { slug: post.slug },
+        update: {},
+        create: post,
+      });
     }
-    console.log(`${posts.length} articles created`);
+    console.log(`${posts.length} articles created (upserted)`);
 
+    // Seed tasks (delete + recreate since these are test data)
     await prisma.task.deleteMany();
     const tasks = [
       { title: "تنظيم فعالية عيد الفطر", description: "تجهيز القاعة والبرنامج", priority: "high", createdBy: admin.id },
@@ -195,6 +197,7 @@ async function main() {
     }
     console.log(`${tasks.length} tasks created`);
 
+    // Seed contact messages (delete + recreate since these are test data)
     await prisma.contact.deleteMany();
     const contacts = [
       { name: "أحمد محمد", email: "ahmed@example.com", subject: "استفسار عن دورات اللغة", message: "السلام عليكم، أرغب في التسجيل بدورات اللغة الهولندية. هل هناك أماكن متاحة؟", read: false },

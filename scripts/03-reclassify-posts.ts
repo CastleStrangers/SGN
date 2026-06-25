@@ -11,7 +11,7 @@
  */
 
 import "dotenv/config"
-import { prisma } from "../src/lib/db"
+import { prisma } from "./db"
 import { categorizeWithAI } from "../src/lib/sync/categorizer"
 
 async function main() {

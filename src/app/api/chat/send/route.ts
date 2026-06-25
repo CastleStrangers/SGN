@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getApiMessage } from "@/lib/api-messages";
+import { sendPushToUser } from "@/lib/notifications/push";
 
 function t(req: Request, key: string, vars?: Record<string, string>) {
   const locale = (req as any).cookies?.get?.('NEXT_LOCALE')?.value || 'ar';
@@ -31,6 +32,19 @@ export async function POST(req: Request) {
         link: "/messages",
       },
     });
+
+    // Send Real-time Push Notification
+    await sendPushToUser(receiverId, {
+      title: t(req, 'chat.newMessage'),
+      body: t(req, 'api.newMessageFrom', { name: session.user.name || t(req, 'api.newMessageFromSomeone') }) + ": " + message.trim().slice(0, 50),
+      data: {
+        type: "chat",
+        senderId,
+        senderName: session.user.name,
+        link: "/messages"
+      },
+    });
+
     return NextResponse.json(chatMessage, { status: 201 });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });

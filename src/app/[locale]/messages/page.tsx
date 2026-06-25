@@ -39,10 +39,22 @@ export default function MessagesPage() {
   const t = useTranslations("chat");
   const locale = useLocale();
   const isRtl = locale === "ar";
+
   const [mode, setMode] = useState<"users" | "ai">("users");
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const withId = params.get("with");
+      if (withId) {
+        setSelectedId(withId);
+        setMode("users");
+      }
+    }
+  }, []);
   const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
   const [loadingConv, setLoadingConv] = useState(true);
@@ -500,6 +512,7 @@ function AIChatPanel({
             { id: "general", label: t("personaGeneral"), icon: "🤖" },
             { id: "legal", label: t("personaLegal"), icon: "⚖️" },
             { id: "integration", label: t("personaIntegration"), icon: "🎓" },
+            { id: "employment", label: t("personaEmployment"), icon: "💼" },
             { id: "spokesperson", label: t("personaSpokesperson"), icon: "📢" },
           ].map((p) => (
             <button
@@ -557,8 +570,8 @@ function AIChatPanel({
                   <span>{t("personaEmployment")}</span>
                 </h4>
                 <div className={`flex flex-col gap-1.5 ${isRtl ? "text-right" : "text-left"}`}>
-                  <button onClick={() => handleAISend(t("promptSocialHousing"), "integration")} className={`text-xs text-gray-600 hover:text-amber-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardSocialHousing")}</button>
-                  <button onClick={() => handleAISend(t("promptEvaluateDegree"), "integration")} className={`text-xs text-gray-600 hover:text-amber-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardEvaluateDegree")}</button>
+                  <button onClick={() => handleAISend(t("promptSocialHousing"), "employment")} className={`text-xs text-gray-600 hover:text-amber-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardSocialHousing")}</button>
+                  <button onClick={() => handleAISend(t("promptEvaluateDegree"), "employment")} className={`text-xs text-gray-600 hover:text-amber-800 hover:underline ${isRtl ? "text-right" : "text-left"} block w-full`}>← {t("cardEvaluateDegree")}</button>
                 </div>
               </div>
 

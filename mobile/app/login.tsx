@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { COLORS } from "../constants/colors";
 import { login } from "../lib/api";
 import { useI18n } from "../lib/i18n-context";
+import { requestAndRegisterPush } from "../lib/notifications";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -20,6 +21,9 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       await login(email, password);
+      // Register push token after successful login
+      requestAndRegisterPush().catch(err => console.log("Push error:", err));
+
       Alert.alert(t("common.success"), t("login.success"));
       router.replace("/");
     } catch (e: any) {

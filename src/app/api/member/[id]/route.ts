@@ -16,7 +16,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       originCity: true, nlProvincie: true, nlCity: true,
       educationLevel: true, profession: true, skills: true, maritalStatus: true,
       expNl: true, expOutside: true, createdAt: true,
-      isCvPublic: true,
+      isCvPublic: true, isServiceProvider: true, serviceDescription: true,
     },
   });
   if (!member) {
@@ -31,6 +31,20 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     member.maritalStatus = null;
     member.expNl = null;
     member.expOutside = null;
+  }
+
+  // Increment view count asynchronously
+  try {
+    await prisma.member.update({
+      where: { id: member.id },
+      data: { views: { increment: 1 } }
+    });
+    // Record detailed view
+    await prisma.memberView.create({
+      data: { memberId: member.id }
+    });
+  } catch (e) {
+    console.error("View increment error:", e);
   }
 
   return NextResponse.json(member);

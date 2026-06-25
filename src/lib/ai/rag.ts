@@ -121,15 +121,16 @@ export async function buildRAGContext(question: string, locale: string): Promise
       OR: buildKeywordOR(keywords, ["nameAr", "nameNl", "profession", "skills", "nlCity", "originCity"]),
     },
     take: 5,
-    select: { nameAr: true, nameNl: true, profession: true, skills: true, nlCity: true },
+    select: { nameAr: true, nameNl: true, profession: true, skills: true, nlCity: true, isServiceProvider: true, serviceDescription: true },
   });
 
   if (members.length > 0) {
-    parts.push("=== الأعضاء ===");
+    parts.push("=== الأعضاء ومزودو الخدمات ===");
     for (const m of members) {
       const name = `${m.nameAr} / ${m.nameNl}`;
       const info = [m.profession, m.skills, m.nlCity].filter(Boolean).join("، ");
-      parts.push(`- ${name}${info ? ` (${info})` : ""}`);
+      const service = (m as any).isServiceProvider ? ` [يقدم خدمة: ${(m as any).serviceDescription}]` : "";
+      parts.push(`- ${name}${info ? ` (${info})` : ""}${service}`);
     }
   }
 
@@ -143,6 +144,23 @@ export async function buildRAGContext(question: string, locale: string): Promise
     parts.push("=== المهام ===");
     for (const t of tasks) {
       parts.push(`- ${t.title}${t.description ? `: ${t.description}` : ""} [${t.status}، أولوية: ${t.priority}]`);
+    }
+  }
+
+  // Search board members (BoardMember)
+  const board = await prisma.boardMember.findMany({
+    where: {
+      OR: buildKeywordOR(keywords, ["nameAr", "nameEn", "titleAr", "titleEn", "committees", "bioPoints"]),
+    },
+    take: 5,
+  });
+
+  if (board.length > 0) {
+    parts.push("=== أعضاء مجلس الإدارة وفريق العمل ===");
+    for (const b of board) {
+      const name = locale === "ar" ? b.nameAr : b.nameEn;
+      const title = locale === "ar" ? b.titleAr : b.titleEn;
+      parts.push(`- ${name} (${title})${b.isFounder ? " [عضو مؤسس]" : ""}: اللجان: ${b.committees}`);
     }
   }
 

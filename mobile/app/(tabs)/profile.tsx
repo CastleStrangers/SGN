@@ -58,6 +58,8 @@ export default function ProfileScreen() {
   const menuItems = [
     { icon: "heart-outline" as const, label: t("profile.favorites"), route: "/(tabs)/favorites" },
     { icon: "card-outline" as const, label: t("memberProfilePage.sectionTitle"), route: "/member-profile" },
+    { icon: "briefcase-outline" as const, label: t("nav.services") || "دليل الخدمات", route: "/services" },
+    { icon: "folder-open-outline" as const, label: t("memberProfilePage.vaultTitle"), route: "/vault" },
     { icon: "settings-outline" as const, label: t("profile.settings"), route: "/settings" },
   ];
 

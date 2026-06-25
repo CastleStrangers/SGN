@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import fs from "fs/promises";
+import { promises as fs } from "fs";
 import path from "path";
 
 export async function POST(req: Request) {

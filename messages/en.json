@@ -23,6 +23,7 @@
     "signup": "Sign Up",
     "dashboard": "Dashboard",
     "members": "Members",
+    "services": "Services Directory",
     "donate": "Donate",
     "gallery": "Photo Gallery"
   },
@@ -578,6 +579,9 @@
       "cvHidden": "Private CV",
       "cvPublic": "Public (anyone can see experience and education)",
       "cvPrivate": "Private (only you and admins can see experience and education)",
+      "isServiceProvider": "Offer Professional Services",
+      "serviceDescription": "Service Description",
+      "serviceDescriptionPlaceholder": "Describe the services you can provide to the community...",
       "downloadCvPdf": "Download CV (PDF)",
       "choose": "Choose...",
       "saving": "Saving...",
@@ -1155,7 +1159,11 @@
     "accepted": "Accepted",
     "rejected": "Rejected",
     "pending": "Pending Review",
-    "latestArticles": "Latest Articles"
+    "latestArticles": "Latest Articles",
+    "recommendedTasks": "Recommended Tasks for You",
+    "noRecommendations": "No recommendations at the moment",
+    "openVault": "Open Vault",
+    "selectToPreview": "Select a document to preview and analyze"
   },
   "tasksPublic": {
     "backToHome": "Back to Home",

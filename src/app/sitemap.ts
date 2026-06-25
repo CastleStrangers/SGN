@@ -12,12 +12,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: base + '/contact', lastModified: new Date() },
   ];
 
-  let posts: { slug: string | null; updatedAt: Date }[] = [];
+  let posts: Array<{ slug: string | null; updatedAt: Date }> = [];
   try {
-    posts = await prisma.post.findMany({ 
+    const dbPosts = await prisma.post.findMany({
       where: { published: true }, 
       select: { slug: true, updatedAt: true } 
     });
+    posts = dbPosts;
   } catch (e) {
     // تجاهل الخطأ أثناء عملية البناء (Build) على Vercel
   }

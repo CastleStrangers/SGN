@@ -23,6 +23,7 @@
     "signup": "تسجيل جديد",
     "dashboard": "لوحة التحكم",
     "members": "الأعضاء",
+    "services": "دليل الخدمات",
     "donate": "تبرع",
     "gallery": "معرض الصور"
   },
@@ -578,6 +579,9 @@
       "cvHidden": "السيرة الذاتية خاصة",
       "cvPublic": "عام (يمكن للجميع رؤية تفاصيل الخبرات والتعليم)",
       "cvPrivate": "خاص (أنت والمشرفون فقط يمكنكم رؤية تفاصيل الخبرات والتعليم)",
+      "isServiceProvider": "تقديم خدمات مهنية",
+      "serviceDescription": "وصف الخدمات المهنية",
+      "serviceDescriptionPlaceholder": "اشرح طبيعة الخدمات التي يمكنك تقديمها لأبناء الجالية...",
       "downloadCvPdf": "تحميل السيرة الذاتية (PDF)",
       "choose": "اختر...",
       "saving": "جاري الحفظ...",
@@ -1155,7 +1159,11 @@
     "accepted": "مقبول",
     "rejected": "مرفوض",
     "pending": "قيد المراجعة",
-    "latestArticles": "آخر المقالات"
+    "latestArticles": "آخر المقالات",
+    "recommendedTasks": "مهام تطوعية مقترحة لك",
+    "noRecommendations": "لا توجد مهام مقترحة حالياً",
+    "openVault": "فتح المخزن",
+    "selectToPreview": "اختر مستنداً لعرضه وتحليله"
   },
   "tasksPublic": {
     "backToHome": "العودة إلى الرئيسية",

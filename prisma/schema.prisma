@@ -54,6 +54,7 @@ model User {
   pushTokens    PushToken[]
   permissions   UserPermission[]
   members       Member[]
+  serviceReviews ServiceReview[] @relation("UserReviews")
 }
 
 model VerificationToken {
@@ -195,11 +196,27 @@ model Member {
   encryptedIdCard String?
   showInPublicProfile Boolean @default(true)
   isCvPublic   Boolean  @default(true)
+  isServiceProvider Boolean @default(false)
+  serviceDescription String?
   userId       String?  @unique
   user         User?    @relation(fields: [userId], references: [id])
   registrations EventRegistration[]
   taskApplications TaskApplication[]
+  documents    MemberDocument[]
+  serviceReviews ServiceReview[] @relation("MemberReviews")
+  memberViews   MemberView[]
+  views        Int      @default(0)
   createdAt    DateTime @default(now())
+}
+
+model MemberView {
+  id        String   @id @default(cuid())
+  memberId  String
+  viewerId  String?  // Optional: ID of the user who viewed (if logged in)
+  createdAt DateTime @default(now())
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@index([memberId, createdAt])
 }
 
 model AppSetting {
@@ -467,4 +484,34 @@ model MobileTranslation {
   nl        String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model MemberDocument {
+  id          String   @id @default(cuid())
+  memberId    String
+  title       String
+  fileUrl     String
+  fileType    String?  // "image" | "pdf"
+  category    String?  // "id" | "letter" | "certificate"
+  notes       String?
+  analysis    String?  // AI Analysis result
+  member      Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([memberId])
+}
+
+model ServiceReview {
+  id          String   @id @default(cuid())
+  serviceId   String   // Member ID of the service provider
+  reviewerId  String   // User ID of the person reviewing
+  rating      Int      @default(5)
+  comment     String?
+  createdAt   DateTime @default(now())
+  member      Member   @relation("MemberReviews", fields: [serviceId], references: [id], onDelete: Cascade)
+  reviewer    User     @relation("UserReviews", fields: [reviewerId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId])
+  @@index([reviewerId])
 }

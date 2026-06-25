@@ -20,6 +20,7 @@ const mainNav = [
   { key: "nav.videos", href: "/news?category=%D9%81%D9%8A%D8%AF%D9%8A%D9%88%D9%87%D8%A7%D8%AA" },
   { key: "nav.events", href: "/events" },
   { key: "nav.members", href: "/members" },
+  { key: "nav.services", href: "/services" },
   { key: "nav.gallery", href: "/gallery" },
 ];
 

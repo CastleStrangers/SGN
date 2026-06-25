@@ -13,7 +13,7 @@
  */
 
 import "dotenv/config"
-import { prisma } from "../src/lib/db"
+import { prisma } from "./db"
 import { runSync } from "../src/lib/sync"
 
 async function confirmReset(): Promise<boolean> {

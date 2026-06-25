@@ -31,6 +31,13 @@ function buildSystemPrompt(locale: string, userName: string, persona: string, ra
 - البحث عن مدارس الأطفال والجامعات وتقييم الشهادات السورية (IDW).
 - الحصول على السكن البلدي (Sociale huurwoning) وعقود الإيجار وحقوق المستأجرين.
 - كتابة السيرة الذاتية (CV) على الطريقة الهولندية، البحث عن عمل، والمساعدات المالية (Bijstanduitkering).`;
+  } else if (persona === "employment") {
+    personaPrompt = `
+أنت الآن تلعب دور "مستشار التوظيف والسكن الاجتماعي". تخصصك هو:
+- كيفية البحث عن عمل في هولندا (Uitzendbureau, LinkedIn) وكتابة CV بالمعايير الهولندية.
+- شرح الـ Bijstand والمستحقات والالتزامات المتعلقة بها.
+- إجراءات التقديم على سكن اجتماعي (Sociale huurwoning) والمواقع مثل WoningNet أو الفستات.
+- التقديم على إعانات السكن (Huurtoeslag) والتأمين الصحي (Zorgtoeslag).`;
   } else if (persona === "spokesperson") {
     personaPrompt = `
 أنت الآن تلعب دور "الناطق الإعلامي للجالية". تخصصك هو:
@@ -155,7 +162,58 @@ export async function analyzeDocument(imageUrl: string, locale: string): Promise
       : "من فضلك قم بتحليل وقراءة هذه الرسالة وشرح الإجراءات المطلوبة مني.";
 
   const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
-  const provider = process.env.AI_PROVIDER || (isProd ? "openai" : "ollama");
+  const provider = process.env.AI_PROVIDER || (isProd ? (process.env.ANTHROPIC_API_KEY ? "anthropic" : "openai") : "ollama");
+
+  if (provider === "anthropic") {
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const baseUrl = process.env.ANTHROPIC_BASE_URL || "https://api.anthropic.com/v1/messages";
+    const customHeadersRaw = process.env.ANTHROPIC_CUSTOM_HEADERS || "";
+    const { mimeType, data } = await imageUrlToBase64(imageUrl);
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      "anthropic-version": "2023-06-01",
+    };
+    if (apiKey) headers["x-api-key"] = apiKey;
+    if (customHeadersRaw) {
+      const parts = customHeadersRaw.split(":");
+      if (parts.length >= 2) headers[parts[0].trim()] = parts.slice(1).join(":").trim();
+    }
+
+    const res = await fetch(baseUrl, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        model: process.env.ANTHROPIC_VISION_MODEL || "claude-3-5-sonnet-20240620",
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: [
+          {
+            role: "user",
+            content: [
+              { type: "text", text: userPrompt },
+              {
+                type: "image",
+                source: {
+                  type: "base64",
+                  media_type: mimeType,
+                  data: data,
+                },
+              },
+            ],
+          },
+        ],
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`Anthropic vision error ${res.status}: ${err}`);
+    }
+
+    const dataRes = await res.json();
+    return dataRes.content[0]?.text || "";
+  }
 
   if (provider === "openai") {
     const apiKey = process.env.OPENAI_API_KEY;

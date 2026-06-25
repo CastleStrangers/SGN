@@ -12,8 +12,8 @@
 // Production URLs — change these when your domain changes
 // ---------------------------------------------------------------------------
 
-const PRODUCTION_API_URL = "https://sy-nl.org/api";
-const PRODUCTION_WS_URL = "wss://sy-nl.org";
+const PRODUCTION_API_URL = "https://sgn-msalimaziza-3522s-projects.vercel.app/api";
+const PRODUCTION_WS_URL = "wss://sgn-msalimaziza-3522s-projects.vercel.app";
 
 // ---------------------------------------------------------------------------
 // Detected environment
@@ -26,7 +26,7 @@ const IS_PRODUCTION: boolean =
       process.env?.NODE_ENV === "production")) ||
   false;
 
-const DEV_API_BASE = process.env.EXPO_PUBLIC_API_URL || "https://sy-nl.org";
+const DEV_API_BASE = process.env.EXPO_PUBLIC_API_URL || "http://localhost:3001";
 
 // ---------------------------------------------------------------------------
 // Exported configuration
@@ -43,7 +43,7 @@ export const CONFIG = {
   WS_URL: IS_PRODUCTION ? PRODUCTION_WS_URL : DEV_API_BASE.replace(/^http/, "ws"),
 
   /** Full app URL for links/share */
-  APP_URL: IS_PRODUCTION ? "https://sy-nl.org" : DEV_API_BASE,
+  APP_URL: IS_PRODUCTION ? "https://sgn-msalimaziza-3522s-projects.vercel.app" : DEV_API_BASE,
 
   /**
    * Timeout for API requests (ms)
