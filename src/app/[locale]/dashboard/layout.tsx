@@ -68,6 +68,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { label: t("users"), href: "/dashboard/users", icon: Users, admin: true },
     { label: t("roles"), href: "/dashboard/roles", icon: Shield, admin: true },
     { label: t("mobileControl"), href: "/dashboard/mobile-control", icon: Smartphone, admin: true },
+    { label: "النظام الداخلي", href: "/dashboard/regulations", icon: FileText, admin: true },
     { label: t("pages"), href: "/dashboard/pages", icon: FileText, editor: true },
     { label: t("landing"), href: "/dashboard/landing", icon: Globe, admin: true },
     { label: t("donationsPage.title"), href: "/dashboard/donations", icon: Heart, admin: true },

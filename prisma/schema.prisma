@@ -502,6 +502,19 @@ model MemberDocument {
   @@index([memberId])
 }
 
+model Regulation {
+  id            String   @id @default(cuid())
+  title         String
+  description   String   @default("")
+  content       String   @default("[]") // JSON array of sections: [{title, body}]
+  pdfPath       String?
+  pdfSize       Int?
+  version       Int      @default(1)
+  published     Boolean  @default(true)
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+}
+
 model ServiceReview {
   id          String   @id @default(cuid())
   serviceId   String   // Member ID of the service provider
