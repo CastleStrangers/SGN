@@ -13,9 +13,9 @@ export async function GET() {
     prisma.donation.count(),
     prisma.donation.aggregate({ _sum: { amount: true } }),
     prisma.donation.groupBy({ by: ["status"], _count: { id: true }, _sum: { amount: true } }),
-    prisma.$queryRawUnsafe<Array<{ month: string; total: number; count: number }>>(
+    (prisma as any).$queryRawUnsafe(
       `SELECT strftime('%Y-%m', "createdAt") as month, SUM(amount) as total, COUNT(*) as count FROM Donation GROUP BY month ORDER BY month DESC LIMIT 12`
-    ),
+    ) as Promise<Array<{ month: string; total: number; count: number }>>,
   ]);
 
   const byStatus = Object.fromEntries(

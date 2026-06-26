@@ -1,11 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+type PrismaClientType = InstanceType<typeof PrismaClient>;
 
-let prismaInstance: PrismaClient | null = null;
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClientType };
 
-function getPrismaInstance(): PrismaClient {
+let prismaInstance: PrismaClientType | null = null;
+
+function getPrismaInstance(): PrismaClientType {
   if (prismaInstance) return prismaInstance;
 
   const tursoUrl = process.env.TURSO_DATABASE_URL?.trim();
@@ -31,7 +33,7 @@ function getPrismaInstance(): PrismaClient {
 // Export a Proxy that behaves exactly like PrismaClient but initializes lazily.
 // This prevents compile-time or static generation errors when environment variables
 // are not fully loaded in the build worker context.
-export const prisma = new Proxy({} as PrismaClient, {
+export const prisma = new Proxy({} as PrismaClientType, {
   get(target, prop, receiver) {
     const instance = globalForPrisma.prisma ?? getPrismaInstance();
     const value = Reflect.get(instance, prop);
