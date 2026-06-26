@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm install --legacy-peer-deps
+      - run: npm install --legacy-peer-deps --force
       - run: npx prisma generate
       - run: npx tsc --noEmit
 
@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm install --legacy-peer-deps
+      - run: npm install --legacy-peer-deps --force
       - run: npm run lint
 
   test:
@@ -44,7 +44,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm install --legacy-peer-deps
+      - run: npm install --legacy-peer-deps --force
       - run: npx prisma generate
       - run: npx prisma db push --accept-data-loss
       - run: npm test -- --run
@@ -63,7 +63,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm install --legacy-peer-deps
+      - run: npm install --legacy-peer-deps --force
       - run: npx prisma generate
       - run: npx prisma db push --accept-data-loss
       - run: npm run build
