@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { authorize } from "@/lib/permissions";
+import { authorize } from "@/lib/server-permissions";
 import { prisma } from "@/lib/db";
 import { decryptBuffer } from "@/lib/crypto";
 import fs from "fs/promises";

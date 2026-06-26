@@ -4,9 +4,9 @@ import {
   ROLE_DEFAULTS,
   getRolePermissions,
   hasPermission,
-  getModuleFromPermission,
   PERMISSION_GROUPS,
 } from "../permissions";
+import { getModuleFromPermission } from "../server-permissions";
 
 describe("ALL_PERMISSIONS", () => {
   it("includes all permissions (admin gets all)", () => {

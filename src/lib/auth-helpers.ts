@@ -1,4 +1,5 @@
-import { authorize as permAuthorize, hasPermission, getRolePermissions, type Permission } from "./permissions";
+import { authorize as permAuthorize } from "./server-permissions";
+import { hasPermission, getRolePermissions, type Permission } from "./permissions";
 
 export function isAdmin(role: string | undefined | null): boolean {
   return role === "admin";

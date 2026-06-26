@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { authorize, ALL_PERMISSIONS } from "@/lib/permissions";
+import { authorize } from "@/lib/server-permissions";
+import { ALL_PERMISSIONS } from "@/lib/permissions";
 import { ollamaGenerate } from "@/lib/ai/ollama";
 
 export async function POST(req: NextRequest) {
