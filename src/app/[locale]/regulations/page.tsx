@@ -45,9 +45,10 @@ export default function RegulationsPage() {
             <h2 className="text-2xl font-bold mb-4">{t("downloadTitle")}</h2>
             <p className="text-white/80 mb-6 leading-relaxed">{t("downloadDesc")}</p>
             <a
-              href="https://assets.zyrosite.com/A85e9Gq10gtR1yj2/internal-regulations-of-the-syrian-community-in-the-netherlands-v01-AE0Pne463Mikzaxl.pdf"
+              href="/pdfs/internal-regulations-syrian-community-netherlands.pdf"
               target="_blank"
               rel="noopener noreferrer"
+              download
               className="inline-flex items-center gap-2 bg-[#c8a84e] text-[#1a5632] font-bold px-6 py-3 rounded-xl hover:bg-[#b8972e] transition-colors"
             >
               <FileText className="w-5 h-5" />
