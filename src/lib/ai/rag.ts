@@ -4,7 +4,7 @@ const STOP_WORDS = new Set([
   "ما", "هل", "كيف", "أين", "متى", "لماذا", "من", "إلى", "عن", "على", "في", "مع", "هل", "هذا",
   "هذه", "ذلك", "تلك", "كان", "كانت", "يكون", "يكون", "ليس", "إن", "أن", "قد", "لقد", "سوف",
   "سيتم", "يمكن", "يجب", "هو", "هي", "هم", "هن", "أنا", "نحن", "أنت", "أنتم", "أو", "و",
-  "ثم", "أي", "كل", "بعض", "منذ", "حتى", "لا", "لم", "لن", "ما", "من", "اذا", "إذا",
+  "ثم", "أي", "كل", "بعض", "منذ", "حتى", "لا", "لم", "لن", "ما", "من", "اذا", "إذا", "شو", "ليش", "وين", "إيمتى", "مين", "بدي", "عم",
   "the", "a", "an", "is", "are", "was", "were", "be", "been", "being",
   "have", "has", "had", "do", "does", "did", "will", "would", "could",
   "should", "may", "might", "shall", "can", "need", "dare", "ought",
@@ -42,11 +42,37 @@ function buildKeywordOR(keywords: string[], fields: string[]) {
   }));
 }
 
-export async function buildRAGContext(question: string, locale: string): Promise<string> {
+export interface RAGResult {
+  context: string;
+  sources: { title: string; type: string }[];
+}
+
+export async function buildRAGContext(question: string, locale: string): Promise<RAGResult> {
   const keywords = extractKeywords(question);
-  if (keywords.length === 0) return "";
+  if (keywords.length === 0) return { context: "", sources: [] };
 
   const parts: string[] = [];
+  const sources: { title: string; type: string }[] = [];
+
+  // Search FAQs (FAQ)
+  const faqs = await prisma.fAQ.findMany({
+    where: {
+      published: true,
+      OR: buildKeywordOR(keywords, ["questionAr", "questionNl", "questionEn", "answerAr", "answerNl", "answerEn", "tags"]),
+    },
+    take: 5,
+    select: { questionAr: true, questionNl: true, questionEn: true, answerAr: true, answerNl: true, answerEn: true, category: true },
+  });
+
+  if (faqs.length > 0) {
+    parts.push("=== الأسئلة الشائعة (FAQs) ===");
+    for (const f of faqs) {
+      const q = locale === "ar" ? f.questionAr : locale === "nl" ? f.questionNl : f.questionEn;
+      const a = locale === "ar" ? f.answerAr : locale === "nl" ? f.answerNl : f.answerEn;
+      parts.push(`- س: ${q}\n  ج: ${a} (${f.category})`);
+      sources.push({ title: q, type: "faq" });
+    }
+  }
 
   // Search guides (Guide)
   const guides = await prisma.guide.findMany({
@@ -63,6 +89,7 @@ export async function buildRAGContext(question: string, locale: string): Promise
       const title = locale === "ar" ? g.titleAr : locale === "nl" ? g.titleNl : g.titleEn;
       const content = locale === "ar" ? g.contentAr : locale === "nl" ? g.contentNl : g.contentEn;
       parts.push(`- ${title} (التصنيف: ${g.category}): ${content.slice(0, 300)}...`);
+      sources.push({ title, type: "guide" });
     }
   }
 
@@ -81,6 +108,7 @@ export async function buildRAGContext(question: string, locale: string): Promise
     parts.push("=== أخبار الجالية ===");
     for (const n of news) {
       parts.push(`- ${n.title}${n.excerpt ? `: ${n.excerpt}` : ""} (${n.category} - ${formatDate(n.createdAt, locale)})`);
+      sources.push({ title: n.title, type: "news" });
     }
   }
 
@@ -99,6 +127,7 @@ export async function buildRAGContext(question: string, locale: string): Promise
     parts.push("=== الفعاليات القادمة ===");
     for (const e of events) {
       parts.push(`- ${e.title}${e.description ? `: ${e.description}` : ""} (${formatDate(e.date, locale)}${e.location ? `, ${e.location}` : ""})`);
+      sources.push({ title: e.title, type: "event" });
     }
   }
 
@@ -112,6 +141,7 @@ export async function buildRAGContext(question: string, locale: string): Promise
     parts.push("=== المتطوعون ===");
     for (const v of volunteers) {
       parts.push(`- ${v.name}${v.skills ? ` (مهارات: ${v.skills})` : ""}`);
+      sources.push({ title: v.name, type: "volunteer" });
     }
   }
 
@@ -131,6 +161,7 @@ export async function buildRAGContext(question: string, locale: string): Promise
       const info = [m.profession, m.skills, m.nlCity].filter(Boolean).join("، ");
       const service = (m as any).isServiceProvider ? ` [يقدم خدمة: ${(m as any).serviceDescription}]` : "";
       parts.push(`- ${name}${info ? ` (${info})` : ""}${service}`);
+      sources.push({ title: name, type: "member" });
     }
   }
 
@@ -144,6 +175,43 @@ export async function buildRAGContext(question: string, locale: string): Promise
     parts.push("=== المهام ===");
     for (const t of tasks) {
       parts.push(`- ${t.title}${t.description ? `: ${t.description}` : ""} [${t.status}، أولوية: ${t.priority}]`);
+      sources.push({ title: t.title, type: "task" });
+    }
+  }
+
+  // Search regulations (Regulation)
+  const regulations = await prisma.regulation.findMany({
+    where: {
+      published: true,
+      OR: buildKeywordOR(keywords, ["title", "description"]),
+    },
+    take: 3,
+    select: { title: true, description: true },
+  });
+
+  if (regulations.length > 0) {
+    parts.push("=== الأنظمة واللوائح ===");
+    for (const r of regulations) {
+      parts.push(`- ${r.title}: ${r.description}`);
+      sources.push({ title: r.title, type: "regulation" });
+    }
+  }
+
+  // Search landing pages content (LandingPage)
+  const landings = await prisma.landingPage.findMany({
+    where: {
+      published: true,
+      OR: buildKeywordOR(keywords, ["title", "subtitle", "content", "heroHeadline", "heroSubheadline"]),
+    },
+    take: 3,
+    select: { title: true, subtitle: true, content: true },
+  });
+
+  if (landings.length > 0) {
+    parts.push("=== صفحات تعريفية ومعلومات عامة ===");
+    for (const l of landings) {
+      parts.push(`- ${l.title}${l.subtitle ? ` (${l.subtitle})` : ""}: ${l.content.slice(0, 200)}...`);
+      sources.push({ title: l.title, type: "landing" });
     }
   }
 
@@ -161,8 +229,9 @@ export async function buildRAGContext(question: string, locale: string): Promise
       const name = locale === "ar" ? b.nameAr : b.nameEn;
       const title = locale === "ar" ? b.titleAr : b.titleEn;
       parts.push(`- ${name} (${title})${b.isFounder ? " [عضو مؤسس]" : ""}: اللجان: ${b.committees}`);
+      sources.push({ title: name, type: "board" });
     }
   }
 
-  return parts.join("\n");
+  return { context: parts.join("\n"), sources };
 }

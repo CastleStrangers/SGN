@@ -3,6 +3,7 @@ import { apiFetch } from "./api";
 export interface AIMessage {
   role: "user" | "assistant";
   content: string;
+  sources?: { title: string; type: string }[];
 }
 
 export interface AISession {

@@ -51,7 +51,7 @@ export default function MessagesScreen() {
     try {
       const data = await sendAIMessage(text, sessionId || undefined, locale, activePersona);
       setSessionId(data.sessionId);
-      setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: data.reply, sources: data.sources }]);
     } catch {
       setMessages((prev) => [...prev, { role: "assistant", content: t("chat.aiError") }]);
     }
@@ -218,6 +218,18 @@ export default function MessagesScreen() {
             <View style={{ maxWidth: "80%" }}>
               <View style={{ backgroundColor: item.role === "user" ? COLORS.primary : "#fff", borderRadius: 16, borderBottomRightRadius: item.role === "user" ? 4 : 16, borderBottomLeftRadius: item.role === "user" ? 16 : 4, paddingHorizontal: 14, paddingVertical: 10, borderWidth: item.role === "user" ? 0 : 1, borderColor: COLORS.border }}>
                 <Text style={{ fontSize: 14, lineHeight: 20, color: item.role === "user" ? "#fff" : COLORS.text }}>{item.content}</Text>
+
+                {item.sources && item.sources.length > 0 && (
+                  <View style={{ marginTop: 10, borderTopWidth: 1, borderTopColor: "#eee", paddingTop: 8 }}>
+                    <Text style={{ fontSize: 10, fontWeight: "700", color: COLORS.primary, marginBottom: 4 }}>{t("chat.sources") || "المصادر:"}</Text>
+                    {item.sources.map((s, idx) => (
+                      <View key={idx} style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", marginBottom: 2 }}>
+                        <Ionicons name="link-outline" size={10} color={COLORS.primary} style={{ marginHorizontal: 2 }} />
+                        <Text numberOfLines={1} style={{ fontSize: 10, color: COLORS.textSecondary, flex: 1 }}>{s.title}</Text>
+                      </View>
+                    ))}
+                  </View>
+                )}
               </View>
               {item.role === "assistant" && (
                 <TouchableOpacity onPress={() => handleTranslate(item.content, index)} disabled={translatingIdx === index} style={{ marginTop: 4, paddingHorizontal: 4 }}>

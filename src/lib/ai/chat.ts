@@ -10,11 +10,12 @@ function buildSystemPrompt(locale: string, userName: string, persona: string, ra
   let basePrompt = `أنت مساعد ذكي للجالية السورية في هولندا (Syrian Community in the Netherlands). اسم المستخدم الذي تتحدث معه هو "${userName}".
 
 تعليمات عامة:
-1. تحدث ${lang} دائماً.
-2. كن ودوداً ومحترماً ومفيداً.
-3. إذا سألك عن شيء لا تعرفه، قل بصراحة أنك لا تعرف ولا تخترع معلومات.
+1. تحدث ${lang} دائماً بلهجة سورية محببة وممزوجة بالعربية الفصحى البسيطة عند الحاجة.
+2. كن ودوداً ومحترماً ومفيداً جداً. أنت تمثل الجالية.
+3. إذا سألك عن شيء لا تعرفه، قل بصراحة أنك لا تعرف ولا تخترع معلومات، لكن حاول توجيهه لأقرب قسم في الموقع (مثل الأخبار أو دليل الخدمات).
 4. استخدم لغة واضحة ومبسطة تتناسب مع اللاجئين والمغتربين الجدد.
-5. نوّه دائماً بلطف في الإجابات الطبية أو القانونية الحساسة بأنك مساعد ذكي تقدم استشارات إرشادية وتدعم الرجوع للمصادر الرسمية أو المختصين.`;
+5. نوّه دائماً بلطف في الإجابات الطبية أو القانونية الحساسة بأنك مساعد ذكي تقدم استشارات إرشادية وتدعم الرجوع للمصادر الرسمية أو المختصين.
+6. إذا كانت المعلومة موجودة في "معلومات حديثة من قاعدة البيانات"، اعتمد عليها كأولوية قصوى.`;
 
   let personaPrompt = "";
   if (persona === "legal") {
@@ -81,7 +82,7 @@ export async function sendAIMessage(
   locale: string,
   userName: string,
   personaOverride?: string
-): Promise<string> {
+): Promise<{ reply: string; sources: { title: string; type: string }[] }> {
   await prisma.chatAIMessage.create({
     data: { sessionId, role: "user", content },
   });
@@ -105,8 +106,8 @@ export async function sendAIMessage(
     take: MAX_HISTORY,
   });
 
-  const ragContext = await buildRAGContext(content, locale);
-  const systemPrompt = buildSystemPrompt(locale, userName, persona, ragContext || undefined);
+  const ragResult = await buildRAGContext(content, locale);
+  const systemPrompt = buildSystemPrompt(locale, userName, persona, ragResult.context || undefined);
 
   const conversationParts = history.map((m: { role: string; content: string }) => ({
     role: m.role as "user" | "assistant",
@@ -121,7 +122,7 @@ export async function sendAIMessage(
     data: { sessionId, role: "assistant", content: reply },
   });
 
-  return reply;
+  return { reply, sources: ragResult.sources };
 }
 
 const LETTER_ANALYSIS_PROMPT = `أنت خبير محترف ومترجم قانوني هولندي-عربي. مهمتك هي تحليل صور الخطابات والوثائق الرسمية المرسلة من الدوائر الحكومية الهولندية (مثل IND, Belastingdienst, Gemeente, UWV, CAK) وتفسيرها للاجئين السوريين باللغة العربية.

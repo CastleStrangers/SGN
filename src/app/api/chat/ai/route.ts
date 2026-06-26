@@ -62,9 +62,9 @@ export async function POST(req: Request) {
     const sid = sessionId || await getOrCreateSession(session.user.id, persona);
     const userName = session.user.name || session.user.email || "User";
 
-    const reply = await sendAIMessage(sid, session.user.id, message.trim(), userLocale, userName, persona);
+    const { reply, sources } = await sendAIMessage(sid, session.user.id, message.trim(), userLocale, userName, persona);
 
-    return NextResponse.json({ reply, sessionId: sid });
+    return NextResponse.json({ reply, sessionId: sid, sources });
   } catch (e: any) {
     console.error("AI chat error:", e);
     return NextResponse.json({ error: e.message || "Internal server error" }, { status: 500 });
