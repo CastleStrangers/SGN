@@ -23,8 +23,6 @@ export default function RegulationsPage() {
         </div>
 
         <div className="prose prose-lg max-w-none">
-          <p className="text-gray-600 leading-relaxed mb-8">{t("body")}</p>
-
           <div className="grid sm:grid-cols-2 gap-4 mb-10">
             {[
               { icon: BookOpen, title: t("identity"), desc: t("identityDesc") },
