@@ -57,6 +57,8 @@ export default function RegulationsPage() {
           </div>
         )}
 
+        <p className="text-gray-600 leading-relaxed mb-8">{t("body")}</p>
+
         {sections.length > 0 && (
           <div className="grid sm:grid-cols-2 gap-4 mb-10">
             {sections.map((sec, i) => {
