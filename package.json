@@ -9,7 +9,7 @@
   "scripts": {
     "master": "npx tsx scripts/00-master.ts",
     "dev": "next dev -p 3000",
-    "build": "prisma generate && node prisma/seed.cjs && next build",
+    "build": "prisma generate && npx prisma db push --accept-data-loss --url file:./prisma/dev.db && node prisma/seed.cjs && next build",
     "start": "next start -p 3002",
     "prod": "next build && next start -p 3002",
     "lint": "eslint .",
@@ -31,6 +31,7 @@
     "test:e2e": "playwright test",
     "test:all": "vitest run && playwright test",
     "i18n:check": "npx tsx scripts/08-validate-i18n.ts",
+    "faqs:seed": "npx tsx scripts/09-seed-faqs.ts",
     "typecheck": "tsc --noEmit",
     "docker:build": "docker build -t sy-nl .",
     "docker:run": "docker run -p 3001:3001 sy-nl"
