@@ -3,12 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
-import { ArrowLeft, FileText, BookOpen, Shield, Scale, Users, Download, Eye, Loader2 } from "lucide-react";
-
-interface Section {
-  title: string;
-  body: string;
-}
+import { ArrowLeft, FileText, BookOpen, Shield, Scale, Users, Download, Eye } from "lucide-react";
 
 interface Regulation {
   id: string;
@@ -23,22 +18,14 @@ interface Regulation {
 export default function RegulationsPage() {
   const t = useTranslations("regulations");
   const [data, setData] = useState<Regulation | null>(null);
-  const [sections, setSections] = useState<Section[]>([]);
   const [showPdf, setShowPdf] = useState(false);
 
   useEffect(() => {
     fetch("/api/regulations")
       .then((r) => r.json())
-      .then((d) => {
-        if (d.id) {
-          setData(d);
-          setSections(JSON.parse(d.content || "[]"));
-        }
-      })
+      .then((d) => { if (d.id) setData(d); })
       .catch(console.error);
   }, []);
-
-  const sectionIcons = [BookOpen, Shield, Scale, Users];
 
   return (
     <div className="min-h-screen bg-white">
@@ -59,20 +46,20 @@ export default function RegulationsPage() {
 
         <p className="text-gray-600 leading-relaxed mb-8">{t("body")}</p>
 
-        {sections.length > 0 && (
-          <div className="grid sm:grid-cols-2 gap-4 mb-10">
-            {sections.map((sec, i) => {
-              const Icon = sectionIcons[i % sectionIcons.length];
-              return (
-                <div key={i} className="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                  <Icon className="w-6 h-6 text-[#1a5632] mb-3" />
-                  <h3 className="font-bold text-gray-900 mb-1">{sec.title}</h3>
-                  <p className="text-sm text-gray-600">{sec.body}</p>
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <div className="grid sm:grid-cols-2 gap-4 mb-10">
+          {[
+            { icon: BookOpen, title: t("identity"), desc: t("identityDesc") },
+            { icon: Shield, title: t("governance"), desc: t("governanceDesc") },
+            { icon: Scale, title: t("rights"), desc: t("rightsDesc") },
+            { icon: Users, title: t("membership"), desc: t("membershipDesc") },
+          ].map((item) => (
+            <div key={item.title} className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+              <item.icon className="w-6 h-6 text-[#1a5632] mb-3" />
+              <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
+              <p className="text-sm text-gray-600">{item.desc}</p>
+            </div>
+          ))}
+        </div>
 
         <div className="bg-[#1a5632] text-white p-8 rounded-2xl text-center">
           <FileText className="w-10 h-10 text-[#c8a84e] mx-auto mb-4" />
