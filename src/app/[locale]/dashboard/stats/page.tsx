@@ -59,7 +59,7 @@ export default function MemberStatsDashboard() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 bg-[#0B0F19] rounded-3xl min-h-[80vh] text-gray-400">
+      <div className="flex flex-col items-center justify-center py-24 bg-white rounded-3xl min-h-[60vh] text-gray-400 border">
         <Loader2 className="w-12 h-12 animate-spin text-[#00D2FF] mb-4" />
         <p className="text-sm font-medium">{t("loading")}</p>
       </div>
@@ -68,7 +68,7 @@ export default function MemberStatsDashboard() {
 
   if (error || !stats) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 bg-[#0B0F19] rounded-3xl min-h-[80vh] text-red-400 p-6">
+      <div className="flex flex-col items-center justify-center py-24 bg-white rounded-3xl min-h-[60vh] text-red-400 p-6 border">
         <div className="text-5xl mb-4">⚠️</div>
         <p className="text-lg font-bold mb-4">{t("error")}</p>
         <button
@@ -93,8 +93,8 @@ export default function MemberStatsDashboard() {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#1F2937] border border-gray-700 p-3 rounded-xl shadow-xl text-xs text-gray-200">
-          <p className="font-bold mb-1 text-gray-300">{label}</p>
+        <div className="bg-white border border-gray-200 p-3 rounded-xl shadow-lg text-xs text-gray-700">
+          <p className="font-bold mb-1 text-gray-900">{label}</p>
           <p className="flex items-center gap-1.5 font-medium">
             <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: payload[0].fill || payload[0].stroke }} />
             <span>{payload[0].value} {t("memberCount")}</span>
@@ -117,28 +117,28 @@ export default function MemberStatsDashboard() {
   };
 
   return (
-    <div dir={isRtl ? "rtl" : "ltr"} className="bg-[#0B0F19] text-gray-100 p-6 md:p-8 rounded-3xl min-h-screen border border-gray-800 shadow-2xl space-y-8 select-none">
+    <div dir={isRtl ? "rtl" : "ltr"} className="bg-white text-gray-900 p-6 md:p-8 rounded-3xl border shadow-sm space-y-8 select-none">
       
       {/* Header section with live indicators */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-800/80 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-6">
         <div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-gray-900">
               {t("title")}
             </h1>
-            <span className="flex items-center gap-1 bg-[#10B981]/15 text-[#10B981] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+            <span className="flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               {t("realtime")}
             </span>
           </div>
-          <p className="text-gray-400 text-xs md:text-sm mt-1.5 font-medium">
+          <p className="text-gray-500 text-xs md:text-sm mt-1.5 font-medium">
             {t("subtitle")}
           </p>
         </div>
         <button
           onClick={() => fetchStats(true)}
           disabled={refreshing}
-          className="flex items-center justify-center gap-2 self-start bg-gray-800 hover:bg-gray-700 disabled:opacity-50 text-white px-5.5 py-3 rounded-2xl text-xs font-bold transition-all duration-300 shadow-lg shadow-black/35 hover:scale-[1.02] active:scale-[0.98]"
+          className="flex items-center justify-center gap-2 self-start bg-emerald-800 hover:bg-emerald-900 disabled:opacity-50 text-white px-5 py-3 rounded-xl text-xs font-bold transition-all duration-300"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? "animate-spin text-[#00D2FF]" : ""}`} />
           <span>{t("refresh")}</span>
@@ -149,41 +149,41 @@ export default function MemberStatsDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* KPI 1: Total Registered Members */}
-        <div className="bg-[#1F2937]/90 border border-gray-700/60 shadow-xl backdrop-blur-md rounded-2xl p-6 flex items-center justify-between gap-4 transition-all duration-300 hover:border-blue-500/30 hover:shadow-blue-500/5 group">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex items-center justify-between gap-4 transition-all duration-300 hover:shadow-md group">
           <div className="space-y-1">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t("totalMembers")}</p>
-            <p className="text-3xl md:text-4xl font-black bg-gradient-to-r from-[#3B82F6] to-[#00D2FF] bg-clip-text text-transparent tracking-tight">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t("totalMembers")}</p>
+            <p className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
               {stats.total.toLocaleString()}
             </p>
-            <p className="text-[10px] text-gray-500 font-semibold">{t("activeMembers")}</p>
+            <p className="text-[10px] text-gray-400 font-semibold">{t("activeMembers")}</p>
           </div>
-          <div className="w-14 h-14 rounded-2xl bg-[#3B82F6]/10 text-[#3B82F6] flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform duration-300">
+          <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
             <Users className="w-7 h-7" />
           </div>
         </div>
 
         {/* KPI 2: Top Active Province */}
-        <div className="bg-[#1F2937]/90 border border-gray-700/60 shadow-xl backdrop-blur-md rounded-2xl p-6 flex items-center justify-between gap-4 transition-all duration-300 hover:border-emerald-500/30 hover:shadow-emerald-500/5 group">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex items-center justify-between gap-4 transition-all duration-300 hover:shadow-md group">
           <div className="space-y-1">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t("topProvince")}</p>
-            <p className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight truncate max-w-[180px]">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t("topProvince")}</p>
+            <p className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight leading-tight truncate max-w-[180px]">
               {stats.topProvince}
             </p>
-            <p className="text-[10px] text-[#00D2FF] font-semibold">{t("dutchMetrics")}</p>
+            <p className="text-[10px] text-emerald-600 font-semibold">{t("dutchMetrics")}</p>
           </div>
-          <div className="w-14 h-14 rounded-2xl bg-[#00D2FF]/10 text-[#00D2FF] flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform duration-300">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
             <MapPin className="w-7 h-7" />
           </div>
         </div>
 
         {/* KPI 3: Gender Ratio Summary */}
-        <div className="bg-[#1F2937]/90 border border-gray-700/60 shadow-xl backdrop-blur-md rounded-2xl p-6 flex items-center justify-between gap-4 transition-all duration-300 hover:border-rose-500/30 hover:shadow-rose-500/5 group">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex items-center justify-between gap-4 transition-all duration-300 hover:shadow-md group">
           <div className="space-y-2 w-full">
             <div className="flex justify-between items-center">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t("genderRatio")}</p>
-              <span className="text-xs font-black text-white">{ratioString}</span>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t("genderRatio")}</p>
+              <span className="text-xs font-black text-gray-900">{ratioString}</span>
             </div>
-            <div className="w-full bg-gray-800 rounded-full h-3.5 overflow-hidden flex shadow-inner">
+            <div className="w-full bg-gray-100 rounded-full h-3.5 overflow-hidden flex">
               <div className="bg-[#F43F5E]" style={{ width: `${femalePercent}%` }} title={`${t("female")}: ${femalePercent}%`} />
               <div className="bg-[#3B82F6]" style={{ width: `${malePercent}%` }} title={`${t("male")}: ${malePercent}%`} />
             </div>
@@ -200,10 +200,10 @@ export default function MemberStatsDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Donut Chart: Gender Split */}
-        <div className="bg-[#1F2937]/90 border border-gray-700/60 shadow-xl backdrop-blur-md rounded-2xl p-6 flex flex-col justify-between hover:border-gray-600/50 transition-colors duration-300">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex flex-col justify-between hover:shadow-md transition-shadow duration-300">
           <div className="mb-4">
-            <h3 className="text-sm font-bold text-gray-200 uppercase tracking-wider">{t("genderRatio")}</h3>
-            <p className="text-[10px] text-gray-500 mt-0.5">{t("ratioTooltip")}</p>
+            <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">{t("genderRatio")}</h3>
+            <p className="text-[10px] text-gray-400 mt-0.5">{t("ratioTooltip")}</p>
           </div>
 
           <div className="h-[210px] w-full flex items-center justify-center relative">
@@ -220,8 +220,8 @@ export default function MemberStatsDashboard() {
                     outerRadius={80}
                     paddingAngle={3}
                   >
-                    <Cell fill="#3B82F6" /> {/* Male */}
-                    <Cell fill="#F43F5E" /> {/* Female */}
+                    <Cell fill="#3B82F6" />
+                    <Cell fill="#F43F5E" />
                   </Pie>
                   <Tooltip
                     content={({ active, payload }) => {
@@ -230,12 +230,12 @@ export default function MemberStatsDashboard() {
                         const label = data.name === "male" ? t("male") : t("female");
                         const color = data.name === "male" ? "#3B82F6" : "#F43F5E";
                         return (
-                          <div className="bg-[#1F2937] border border-gray-700 p-2.5 rounded-lg text-xs">
+                          <div className="bg-white border border-gray-200 p-2.5 rounded-lg text-xs shadow-lg">
                             <p className="flex items-center gap-1.5 font-bold" style={{ color }}>
                               <span>{label}</span>
                               <span>({data.percentage}%)</span>
                             </p>
-                            <p className="text-gray-300 mt-0.5 font-medium">{data.count} {t("memberCount")}</p>
+                            <p className="text-gray-600 mt-0.5 font-medium">{data.count} {t("memberCount")}</p>
                           </div>
                         );
                       }
@@ -248,12 +248,12 @@ export default function MemberStatsDashboard() {
             
             {/* Overlay total number inside the Donut hole */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-xs text-gray-500 font-bold tracking-widest uppercase">{t("realtime")}</span>
-              <span className="text-2xl font-black text-white">{stats.total}</span>
+              <span className="text-xs text-gray-400 font-bold tracking-widest uppercase">{t("realtime")}</span>
+              <span className="text-2xl font-black text-gray-900">{stats.total}</span>
             </div>
           </div>
 
-          <div className="flex justify-around items-center border-t border-gray-800 pt-4 mt-2 text-xs font-semibold text-gray-400">
+          <div className="flex justify-around items-center border-t border-gray-100 pt-4 mt-2 text-xs font-semibold text-gray-500">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-[#3B82F6] shadow-[0_0_8px_#3B82F6/50]" />
               <span>{t("male")}: {maleObj?.count || 0}</span>
@@ -266,13 +266,13 @@ export default function MemberStatsDashboard() {
         </div>
 
         {/* Glowing Area Chart: Age distribution groups */}
-        <div className="lg:col-span-2 bg-[#1F2937]/90 border border-gray-700/60 shadow-xl backdrop-blur-md rounded-2xl p-6 flex flex-col justify-between hover:border-gray-600/50 transition-colors duration-300">
+        <div className="lg:col-span-2 bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex flex-col justify-between hover:shadow-md transition-shadow duration-300">
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-wider">{t("ageTrendTitle")}</h3>
-              <p className="text-[10px] text-gray-500 mt-0.5">{t("subtitle")}</p>
+              <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">{t("ageTrendTitle")}</h3>
+              <p className="text-[10px] text-gray-400 mt-0.5">{t("subtitle")}</p>
             </div>
-            <div className="w-8 h-8 rounded-xl bg-gray-800 flex items-center justify-center text-emerald-400">
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
               <Activity className="w-4 h-4" />
             </div>
           </div>
@@ -300,8 +300,8 @@ export default function MemberStatsDashboard() {
                       if (active && payload && payload.length) {
                         const data = payload[0].payload;
                         return (
-                          <div className="bg-[#1F2937] border border-gray-700 p-3 rounded-xl shadow-xl text-xs text-gray-200">
-                            <p className="font-bold text-emerald-400 mb-1">{getAgeLabel(data.name)}</p>
+                          <div className="bg-white border border-gray-200 p-3 rounded-xl shadow-lg text-xs text-gray-700">
+                            <p className="font-bold text-emerald-600 mb-1">{getAgeLabel(data.name)}</p>
                             <p className="font-semibold">{data.count} {t("memberCount")}</p>
                           </div>
                         );
@@ -329,13 +329,13 @@ export default function MemberStatsDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Horizontal Bar Chart: Syrian Governorates Origin */}
-        <div className="bg-[#1F2937]/90 border border-gray-700/60 shadow-xl backdrop-blur-md rounded-2xl p-6 hover:border-gray-600/50 transition-colors duration-300">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 hover:shadow-md transition-shadow duration-300">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-wider">{t("governoratesTitle")}</h3>
-              <p className="text-[10px] text-[#10B981] font-bold mt-0.5">{t("syrianMetrics")}</p>
+              <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">{t("governoratesTitle")}</h3>
+              <p className="text-[10px] text-emerald-600 font-bold mt-0.5">{t("syrianMetrics")}</p>
             </div>
-            <div className="text-xs bg-[#10B981]/15 text-[#10B981] px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5">
+            <div className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5">
               <span>{stats.governorateData.length}</span>
               <span>{t("syrianMetrics")}</span>
             </div>
@@ -359,13 +359,13 @@ export default function MemberStatsDashboard() {
         </div>
 
         {/* Horizontal Bar Chart: Dutch Provinces Distribution */}
-        <div className="bg-[#1F2937]/90 border border-gray-700/60 shadow-xl backdrop-blur-md rounded-2xl p-6 hover:border-gray-600/50 transition-colors duration-300">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 hover:shadow-md transition-shadow duration-300">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-wider">{t("provincesTitle")}</h3>
-              <p className="text-[10px] text-[#00D2FF] font-bold mt-0.5">{t("dutchMetrics")}</p>
+              <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">{t("provincesTitle")}</h3>
+              <p className="text-[10px] text-blue-600 font-bold mt-0.5">{t("dutchMetrics")}</p>
             </div>
-            <div className="text-xs bg-[#00D2FF]/15 text-[#00D2FF] px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5">
+            <div className="text-xs bg-blue-50 text-blue-700 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5">
               <span>{stats.provinceData.length}</span>
               <span>{t("dutchMetrics")}</span>
             </div>

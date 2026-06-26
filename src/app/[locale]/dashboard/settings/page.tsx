@@ -20,7 +20,7 @@ export default function SettingsPage() {
             setForm({ name: data.name || "", bio: data.bio || "", phone: data.phone || "", location: data.location || "", website: data.website || "" });
           }
         })
-        .catch(() => {});
+        .catch((e) => console.error("Failed to load profile:", e));
     }
   }, [session]);
 

@@ -15,6 +15,7 @@ interface DocWithMember {
   fileUrl: string;
   category: string | null;
   analysis: string | null;
+  status: string;
   createdAt: string;
   member: {
     id: string;
@@ -29,6 +30,8 @@ export default function AdminVaultPage() {
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
   const [selectedDoc, setSelectedDoc] = useState<DocWithMember | null>(null);
+  const [feedback, setFeedback] = useState<{ type: "success" | "error"; msg: string } | null>(null);
+  const [updating, setUpdating] = useState<string | null>(null);
 
   useEffect(() => {
     fetchDocs();
@@ -48,6 +51,31 @@ export default function AdminVaultPage() {
     }
   };
 
+  const updateDocStatus = async (docId: string, status: string) => {
+    setUpdating(docId);
+    setFeedback(null);
+    try {
+      const res = await fetch(`/api/admin/vault/${docId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (res.ok) {
+        const updated = docs.map(d => d.id === docId ? { ...d, status } : d);
+        setDocs(updated);
+        if (selectedDoc?.id === docId) setSelectedDoc({ ...selectedDoc, status });
+        setFeedback({ type: "success", msg: status === "approved" ? "تم اعتماد المستند بنجاح" : "تم رفض المستند" });
+      } else {
+        const err = await res.json();
+        setFeedback({ type: "error", msg: err.error || "حدث خطأ" });
+      }
+    } catch {
+      setFeedback({ type: "error", msg: "فشل الاتصال بالخادم" });
+    } finally {
+      setUpdating(null);
+    }
+  };
+
   const filteredDocs = docs.filter(d =>
     d.title.toLowerCase().includes(q.toLowerCase()) ||
     d.member.nameAr.includes(q) ||
@@ -56,6 +84,13 @@ export default function AdminVaultPage() {
 
   return (
     <div className="space-y-6">
+      {feedback && (
+        <div className={`p-4 rounded-xl text-sm font-bold ${feedback.type === "success" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"}`}>
+          {feedback.msg}
+          <button onClick={() => setFeedback(null)} className="mr-3 text-xs opacity-70 hover:opacity-100">✕</button>
+        </div>
+      )}
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
@@ -92,11 +127,12 @@ export default function AdminVaultPage() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-right text-sm">
-                  <thead className="bg-gray-50 text-gray-500 font-bold">
+                    <thead className="bg-gray-50 text-gray-500 font-bold">
                     <tr>
                       <th className="px-6 py-3">المستند</th>
                       <th className="px-6 py-3">العضو</th>
                       <th className="px-6 py-3">التاريخ</th>
+                      <th className="px-6 py-3 text-center">الحالة</th>
                       <th className="px-6 py-3 text-center">الذكاء الاصطناعي</th>
                     </tr>
                   </thead>
@@ -123,6 +159,14 @@ export default function AdminVaultPage() {
                         </td>
                         <td className="px-6 py-4 text-gray-400">
                           {new Date(doc.createdAt).toLocaleDateString("ar-SA")}
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                            doc.status === "approved" ? "bg-emerald-100 text-emerald-800" :
+                            doc.status === "rejected" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"
+                          }`}>
+                            {doc.status === "approved" ? "مقبول" : doc.status === "rejected" ? "مرفوض" : "قيد المراجعة"}
+                          </span>
                         </td>
                         <td className="px-6 py-4 text-center">
                           {doc.analysis ? (
@@ -188,13 +232,39 @@ export default function AdminVaultPage() {
                     فتح الملف الأصلي
                   </a>
 
+                  <div className="flex items-center justify-between px-1">
+                    <span className="text-xs text-gray-400">الحالة:</span>
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                      selectedDoc.status === "approved" ? "bg-emerald-100 text-emerald-800" :
+                      selectedDoc.status === "rejected" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"
+                    }`}>
+                      {selectedDoc.status === "approved" ? "مقبول" : selectedDoc.status === "rejected" ? "مرفوض" : "قيد المراجعة"}
+                    </span>
+                  </div>
+
                   <div className="grid grid-cols-2 gap-2">
-                    <button className="flex items-center justify-center gap-2 py-2 border border-emerald-200 text-emerald-700 rounded-xl text-xs font-bold hover:bg-emerald-50 transition-all">
-                      <CheckCircle className="w-3.5 h-3.5" />
+                    <button
+                      onClick={() => updateDocStatus(selectedDoc.id, "approved")}
+                      disabled={updating === selectedDoc.id || selectedDoc.status === "approved"}
+                      className="flex items-center justify-center gap-2 py-2 border border-emerald-200 text-emerald-700 rounded-xl text-xs font-bold hover:bg-emerald-50 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {updating === selectedDoc.id ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <CheckCircle className="w-3.5 h-3.5" />
+                      )}
                       اعتماد المستند
                     </button>
-                    <button className="flex items-center justify-center gap-2 py-2 border border-red-200 text-red-700 rounded-xl text-xs font-bold hover:bg-red-50 transition-all">
-                      <XCircle className="w-3.5 h-3.5" />
+                    <button
+                      onClick={() => updateDocStatus(selectedDoc.id, "rejected")}
+                      disabled={updating === selectedDoc.id || selectedDoc.status === "rejected"}
+                      className="flex items-center justify-center gap-2 py-2 border border-red-200 text-red-700 rounded-xl text-xs font-bold hover:bg-red-50 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {updating === selectedDoc.id ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <XCircle className="w-3.5 h-3.5" />
+                      )}
                       رفض المستند
                     </button>
                   </div>

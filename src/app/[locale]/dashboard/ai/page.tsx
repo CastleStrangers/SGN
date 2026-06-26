@@ -26,7 +26,7 @@ export default function AIPage() {
     fetch("/api/news?limit=50")
       .then(r => r.json())
       .then(d => setPosts(Array.isArray(d) ? d.map((p: any) => ({ id: p.id, title: p.title })) : []))
-      .catch(() => {});
+      .catch((e) => console.error("Failed to load posts:", e));
   }, []);
 
   const handleSubmit = async () => {

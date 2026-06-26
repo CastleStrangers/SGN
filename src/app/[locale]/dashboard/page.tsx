@@ -46,7 +46,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      fetch("/api/dashboard/stats").then(r => r.json()).then(setStats).catch(() => {});
+      fetch("/api/dashboard/stats").then(r => r.json()).then(setStats).catch((e) => console.error("Failed to load stats:", e));
     }
   }, [status]);
 

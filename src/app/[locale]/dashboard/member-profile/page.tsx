@@ -81,12 +81,12 @@ export default function MemberProfilePage() {
     fetch("/api/events/register")
       .then(r => r.ok ? r.json() : [])
       .then(setRegistrations)
-      .catch(() => {});
-
+      .catch((e) => console.error("Failed to load registrations:", e));
+    
     fetch("/api/tasks/apply")
       .then(r => r.ok ? r.json() : [])
       .then(setTaskApplications)
-      .catch(() => {});
+      .catch((e) => console.error("Failed to load task applications:", e));
   }, [session, sessionStatus, router]);
 
   if (sessionStatus === "loading" || loading) {
