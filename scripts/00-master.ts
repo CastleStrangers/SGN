@@ -66,7 +66,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "5",
     name: "👤 إدارة المستخدمين",
-    description: "عرض وإدارة المستخدمين والأدوار",
+    description: "عرض وإدارة المستخدمين وتغيير أدوارهم (admin, editor, ...)",
     script: "05-manage-users.ts",
   },
   {
@@ -89,6 +89,13 @@ const MENU_ITEMS: MenuItem[] = [
     description: "التحقق من التزام الكود بـ i18n",
     script: "08-validate-i18n.ts",
     command: "i18n:check",
+  },
+  {
+    id: "9",
+    name: "🌱 بذر الأسئلة الشائعة",
+    description: "إضافة مجموعة أولية من الأسئلة الشائعة (FAQs)",
+    script: "09-seed-faqs.ts",
+    command: "faqs:seed",
   },
 ]
 

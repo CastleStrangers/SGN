@@ -49,8 +49,8 @@ async function listUsers() {
   console.log(`${"═".repeat(62)}\n`)
 }
 
-async function promoteUser(email: string) {
-  console.log(`\n🔄 جاري ترقية ${email} إلى admin...`)
+async function promoteUser(email: string, role: string = "admin") {
+  console.log(`\n🔄 جاري تغيير دور ${email} إلى ${role}...`)
 
   const user = await prisma.user.findUnique({ where: { email } })
 
@@ -59,17 +59,12 @@ async function promoteUser(email: string) {
     return
   }
 
-  if (user.role === "admin") {
-    console.log(`⚠️  المستخدم بالفعل admin\n`)
-    return
-  }
-
   await prisma.user.update({
     where: { email },
-    data: { role: "admin" },
+    data: { role },
   })
 
-  console.log(`✅ تم ترقية ${email} إلى admin\n`)
+  console.log(`✅ تم تغيير دور ${email} إلى ${role}\n`)
 }
 
 async function demoteUser(email: string) {
@@ -126,15 +121,16 @@ async function main() {
           console.log(`❌ يجب تحديد البريد الإلكتروني\n`)
           process.exit(1)
         }
-        await promoteUser(email)
+        await promoteUser(email, "admin")
         break
 
-      case "demote":
-        if (!email) {
-          console.log(`❌ يجب تحديد البريد الإلكتروني\n`)
+      case "role":
+        const newRole = args[2]
+        if (!email || !newRole) {
+          console.log(`❌ يجب تحديد البريد الإلكتروني والدور الجديد\n`)
           process.exit(1)
         }
-        await demoteUser(email)
+        await promoteUser(email, newRole)
         break
 
       case "delete":
@@ -152,12 +148,11 @@ async function main() {
         console.log(`الأوامر المتاحة:`)
         console.log(`   list               عرض جميع المستخدمين`)
         console.log(`   promote <email>    ترقية إلى admin`)
-        console.log(`   demote <email>     خفض من admin`)
+        console.log(`   role <email> <role> تغيير الدور (admin, editor, moderator, member)`)
         console.log(`   delete <email>     حذف مستخدم\n`)
         console.log(`الأمثلة:`)
         console.log(`   npx tsx scripts/05-manage-users.ts list`)
-        console.log(`   npx tsx scripts/05-manage-users.ts promote user@example.com`)
-        console.log(`   npx tsx scripts/05-manage-users.ts demote user@example.com`)
+        console.log(`   npx tsx scripts/05-manage-users.ts role user@example.com editor`)
         console.log(`   npx tsx scripts/05-manage-users.ts delete user@example.com\n`)
     }
   } catch (err) {

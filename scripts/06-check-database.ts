@@ -10,7 +10,7 @@
  */
 
 import "dotenv/config"
-import { prisma } from "../src/lib/db"
+import { prisma } from "./db"
 
 async function main() {
   console.log(`\n╔════════════════════════════════════════════════════════════╗`)
@@ -60,6 +60,9 @@ async function main() {
     const totalTasks = await prisma.task.count()
     const totalVolunteers = await prisma.volunteer.count()
     const totalContacts = await prisma.contact.count()
+    const totalFAQs = await prisma.fAQ.count()
+    const totalRegulations = await prisma.regulation.count()
+    const totalGuides = await prisma.guide.count()
 
     console.log(`📊 إحصائيات عامة:\n`)
     console.log(`📄 المقالات:`)
@@ -83,6 +86,9 @@ async function main() {
     console.log(`✅ المهام: ${totalTasks}`)
     console.log(`🙋 المتطوعون: ${totalVolunteers}`)
     console.log(`📧 الرسائل: ${totalContacts}`)
+    console.log(`❓ الأسئلة الشائعة: ${totalFAQs}`)
+    console.log(`📜 الأنظمة واللوائح: ${totalRegulations}`)
+    console.log(`📚 الأدلة الإرشادية: ${totalGuides}`)
 
     // آخر 5 مقالات
     const latestPosts = await prisma.post.findMany({

@@ -13,7 +13,8 @@ export type Permission =
   | "volunteers.view" | "volunteers.manage"
   | "subscribers.view" | "subscribers.export"
   | "landing.create" | "landing.edit" | "landing.delete" | "landing.publish"
-  | "regulations.edit";
+  | "regulations.edit"
+  | "faqs.manage";
 
 export const ALL_PERMISSIONS: Permission[] = [
   "news.create", "news.edit", "news.delete", "news.publish", "news.feature",
@@ -31,6 +32,7 @@ export const ALL_PERMISSIONS: Permission[] = [
   "subscribers.view", "subscribers.export",
   "landing.create", "landing.edit", "landing.delete", "landing.publish",
   "regulations.edit",
+  "faqs.manage",
 ];
 
 export const ROLE_DEFAULTS: Record<string, Permission[]> = {
@@ -85,4 +87,5 @@ export const PERMISSION_GROUPS: { module: string; permissions: Permission[] }[] 
   { module: "subscribers", permissions: ["subscribers.view", "subscribers.export"] },
   { module: "landing", permissions: ["landing.create", "landing.edit", "landing.delete", "landing.publish"] },
   { module: "regulations", permissions: ["regulations.edit"] },
+  { module: "faqs", permissions: ["faqs.manage"] },
 ];

@@ -8,5 +8,8 @@ const dbUrl = (tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken 
   ? tursoUrl
   : (process.env.DATABASE_URL || "file:./prisma/dev.db");
 
-const adapter = new PrismaLibSql({ url: dbUrl });
+const adapter = new PrismaLibSql({
+  url: dbUrl,
+  ...(tursoToken && tursoToken !== "undefined" ? { authToken: tursoToken } : {}),
+});
 export const prisma = new PrismaClient({ adapter });

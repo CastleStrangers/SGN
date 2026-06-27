@@ -13,6 +13,7 @@ const adapter = new PrismaLibSql({
   url: dbUrl,
   ...(tursoToken && tursoToken !== "undefined" ? { authToken: tursoToken } : {}),
 });
+console.log(`🌱 Seeding database at: ${dbUrl}`);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
@@ -263,6 +264,23 @@ async function main() {
           "كاتب وشاعر سوري مقيم في لاهاي، ناشط سياسي وثوري قام بتنظيم العديد من الفعاليات الثورية في أوروبا.",
           "عمل في المنظمات التطوعية التي تساعد اللاجئين في هولندا ولبنان والشمال السوري، وهو عضو مؤسس لمنظمة Saru لمساعدة النساء والأطفال.",
           "عمل في الصحافة الأدبية كرئيس تحرير مجلة الرافد السورية ثم مدير القسم الثقافي، وهو عضو اتحاد الكتاب الأحرار."
+        ]),
+        website: "https://www.sy-nl.org/",
+        kvkNumber: "96718943"
+      },
+      {
+        nameAr: "محمد سليم عزيزة",
+        nameEn: "Mohamad Salim Aziza",
+        image: "/images/board/salim.svg",
+        titleAr: "عضو مكتب الأمانة العامة (المسؤول التقني)",
+        titleEn: "Technical Officer - General Secretariat",
+        isFounder: false,
+        isLicensing: false,
+        committees: JSON.stringify(["الأمانة العامة", "اللجنة التقنية", "المكتب الإعلامي"]),
+        bioPoints: JSON.stringify([
+          "مهندس برمجيات وخبير في التحول الرقمي، يمتلك خبرة واسعة في بناء المنصات السحابية وتطبيقات الموبايل.",
+          "المسؤول عن التطوير التقني لمنصة الجالية السورية وتأمين البنية التحتية الرقمية للتواصل بين الأعضاء.",
+          "ناشط في مجال تكنولوجيا المعلومات لدعم المبادرات الإنسانية والمجتمعية للسوريين في أوروبا."
         ]),
         website: "https://www.sy-nl.org/",
         kvkNumber: "96718943"
@@ -646,7 +664,38 @@ async function main() {
   await prisma.boardMember.createMany({
     data: boardMembers
   });
-  console.log("تم إدخال بيانات 23 عضواً من أعضاء مجلس الإدارة بنجاح ✅");
+  console.log(`تم إدخال بيانات ${boardMembers.length} عضواً من أعضاء مجلس الإدارة بنجاح ✅`);
+
+  // Seed initial FAQs
+  const initialFaqs = [
+    {
+      questionAr: "كيف يمكنني الانضمام للجالية السورية في هولندا؟",
+      questionNl: "Hoe kan ik lid worden van de Syrische gemeenschap in Nederland?",
+      questionEn: "How can I join the Syrian community in the Netherlands?",
+      answerAr: "يمكنك الانضمام عن طريق تعبئة نموذج طلب الانتساب في قسم 'حسابي' بعد إنشاء حساب على الموقع.",
+      answerNl: "U kunt lid worden door het aanmeldingsformulier in te vullen in de sectie 'Mijn account' nadat u een account op de website heeft aangemaakt.",
+      answerEn: "You can join by filling out the membership application form in the 'My Account' section after creating an account on the website.",
+      category: "general",
+    },
+    {
+      questionAr: "ما هي شروط الحصول على سكن اجتماعي في هولندا؟",
+      questionNl: "Wat zijn de voorwaarden voor sociale huurwoningen in Nederland?",
+      questionEn: "What are the conditions for social housing in the Netherlands?",
+      answerAr: "تعتمد الشروط على الدخل السنوي (يجب أن يكون أقل من حد معين) ومدة التسجيل في مواقع مثل WoningNet.",
+      answerNl: "De voorwaarden hangen af van het jaarinkomen (moet onder een bepaalde grens liggen) en de inschrijfduur op websites zoals WoningNet.",
+      answerEn: "The conditions depend on annual income (must be below a certain limit) and registration time on websites like WoningNet.",
+      category: "employment",
+    }
+  ];
+
+  for (const faq of initialFaqs) {
+    await prisma.fAQ.upsert({
+      where: { id: faq.questionAr.substring(0, 30) },
+      update: faq,
+      create: { ...faq, id: faq.questionAr.substring(0, 30) },
+    });
+  }
+  console.log(`تم بذر ${initialFaqs.length} من الأسئلة الشائعة بنجاح ✅`);
 }
 
 function getRoleDesc(name) {
