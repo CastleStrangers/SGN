@@ -72,7 +72,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: ${{ github.ref == 'refs/heads/main' && '--prod' || '' }}
-          vercel-version: vercel@latest
+          vercel-version: latest
         env:
           VERCEL_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
 
