@@ -73,9 +73,24 @@ async function main() {
       output += `خطأ في التوكن:\n   ${JSON.stringify(meJson.error, null, 2)}\n`
     } else {
       console.log(`   ✅ التوكن صحيح`)
-      console.log(`   معرف: ${meJson.id}`)
+      console.log(`   معرف الكيان (me): ${meJson.id}`)
       console.log(`   الاسم: ${meJson.name}`)
-      output += `التوكن صحيح:\n   معرف: ${meJson.id}\n   الاسم: ${meJson.name}\n`
+      output += `التوكن صحيح:\n   معرف الكيان: ${meJson.id}\n   الاسم: ${meJson.name}\n`
+
+      // جلب الصفحات المرتبطة بالتوكن
+      console.log(`\n   📄 جلب الصفحات المتاحة لهذا التوكن...`)
+      try {
+        const accountsRes = await fetch(`https://graph.facebook.com/v19.0/me/accounts?access_token=${token}`)
+        const accountsJson = await accountsRes.json()
+        if (accountsJson.data && accountsJson.data.length > 0) {
+          accountsJson.data.forEach((acc: any) => {
+            console.log(`      • صفحة: ${acc.name} (ID: ${acc.id})`)
+            output += `      • صفحة: ${acc.name} (ID: ${acc.id})\n`
+          })
+        } else {
+          console.log(`      ⚠️ لم يتم العثور على صفحات مرتبطة (قد يكون التوكن مخصص لصفحة واحدة بالفعل)`)
+        }
+      } catch (e) {}
     }
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
