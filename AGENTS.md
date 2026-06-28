@@ -120,7 +120,7 @@ This changes `mobile/constants/config.ts` to use `https://sgn-indol.vercel.app`.
 - **API i18n**: `tReq(req, key)` or `getApiMessage(locale, key, vars)` — NEVER hardcoded Arabic
 - **Hydration**: `suppressHydrationWarning` + `mounted` state for client-only values (theme, etc.)
 - **Responsive**: RTL-first for Arabic, LTR for English/Dutch
-- **Ports**: Web dev = `:3000`, Web prod = `:3001`, Mobile dev = `http://localhost:3001/api`
+- **Ports**: Web dev = `:3000` (Experimental/Testing), Web prod = `:3001`, Mobile dev = `http://localhost:3000/api`
 - **AI Chatbot**: `POST /api/chat/ai` — uses Ollama (`qwen2.5:7b`, local); system prompt defines assistant as Syrian community expert; rate-limited (30 msg/min); saves to `ChatAISession` + `ChatAIMessage` tables
 - **AI Switch (Gemini → Ollama / Anthropic)**: All AI features now default to **Ollama** (`qwen2.5:7b`) locally. In production, the system supports **Anthropic (Claude)** via Vercel AI Gateway or **OpenAI**. Configure via `AI_PROVIDER`, `ANTHROPIC_BASE_URL`, and `ANTHROPIC_CUSTOM_HEADERS`.
 - **Ollama Models**: `ollama pull qwen2.5:7b` (~4.7GB, excellent Arabic) for text; `ollama pull llava:7b` (~4.5GB) for vision (ID extraction). Must be running (`ollama serve`) before using any AI features.

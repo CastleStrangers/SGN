@@ -107,7 +107,7 @@ async function main() {
 
     if (newCount > 0) {
       console.log(`🎉 تم استيراد ${newCount} منشور جديد بنجاح!`)
-      console.log(`📍 عرضها على: http://localhost:3001/news\n`)
+      console.log(`📍 عرضها على: http://localhost:3000/news\n`)
     }
 
     console.log(`${"═".repeat(62)}\n`)

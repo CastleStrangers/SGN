@@ -4,7 +4,7 @@
  * Build-time script that sets the API URL for the mobile app.
  *
  * Usage:
- *   npx tsx scripts/set-env.ts dev   →  http://localhost:3001
+ *   npx tsx scripts/set-env.ts dev   →  http://localhost:3000
  *   npx tsx scripts/set-env.ts prod  →  https://sgn-indol.vercel.app
  *
  * This overwrites the DEV_API_BASE in constants/config.ts
@@ -23,7 +23,7 @@ if (!mode || !["dev", "prod"].includes(mode)) {
 }
 
 const PRODUCTION_URL = "https://sgn-indol.vercel.app";
-const DEV_URL = "http://localhost:3001";
+const DEV_URL = "http://localhost:3000";
 const targetUrl = mode === "prod" ? PRODUCTION_URL : DEV_URL;
 
 let content = fs.readFileSync(CONFIG_PATH, "utf-8");
