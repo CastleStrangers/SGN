@@ -97,8 +97,8 @@ describe("getModuleFromPermission", () => {
 });
 
 describe("PERMISSION_GROUPS", () => {
-  it("has 15 modules", () => {
-    expect(PERMISSION_GROUPS.length).toBe(15);
+  it("has 16 modules", () => {
+    expect(PERMISSION_GROUPS.length).toBe(16);
   });
 
   it("each group has module, label, and permissions", () => {
