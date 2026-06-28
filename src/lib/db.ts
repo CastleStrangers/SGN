@@ -10,16 +10,16 @@ let prismaInstance: PrismaClientType | null = null;
 function getPrismaInstance(): PrismaClientType {
   if (prismaInstance) return prismaInstance;
 
+  const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
   const tursoUrl = process.env.TURSO_DATABASE_URL?.trim();
   const tursoToken = process.env.TURSO_AUTH_TOKEN?.trim();
 
-  const dbUrl = (tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined")
-    ? tursoUrl
-    : (process.env.DATABASE_URL || "file:./prisma/dev.db");
+  const useTurso = isProd && tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined";
+  const dbUrl = useTurso ? tursoUrl! : (process.env.DATABASE_URL || "file:./prisma/dev.db");
 
   const adapter = new PrismaLibSql({
     url: dbUrl,
-    ...(tursoToken && tursoToken !== "undefined" ? { authToken: tursoToken } : {}),
+    ...(useTurso && tursoToken ? { authToken: tursoToken } : {}),
   });
   prismaInstance = new PrismaClient({ adapter });
 
