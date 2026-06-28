@@ -209,6 +209,8 @@ export default function LoginPage() {
                   <Mail className={`absolute ${isRtl ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400`} />
                   <input
                     type="email"
+                    id="email"
+                    autoComplete="email"
                     {...register("email", fieldRules.email)}
                     placeholder="example@email.com"
                     className={`w-full ${isRtl ? "pr-10 pl-4" : "pl-10 pr-4"} py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632] focus:border-transparent transition-all text-sm`}
@@ -223,6 +225,8 @@ export default function LoginPage() {
                   <Lock className={`absolute ${isRtl ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400`} />
                   <input
                     type={show ? "text" : "password"}
+                    id="password"
+                    autoComplete="current-password"
                     {...register("password", fieldRules.password)}
                     placeholder="••••••••"
                     className="w-full pr-10 pl-10 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a5632] focus:border-transparent transition-all text-sm"
@@ -230,7 +234,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShow(!show)}
-                    className={`absolute ${isRtl ? "left-3" : "right-3"} top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors`}
+                    className={`absolute ${isRtl ? "left-3" : "right-3"} top-1/2 -translate-y-1/2 z-10 text-gray-400 hover:text-gray-600 transition-colors`}
                   >
                     {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>

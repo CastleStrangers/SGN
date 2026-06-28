@@ -2,16 +2,18 @@ const { PrismaClient } = require("@prisma/client");
 const { PrismaLibSql } = require("@prisma/adapter-libsql");
 const bcrypt = require("bcryptjs");
 
+const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
 const tursoUrl = (process.env.TURSO_DATABASE_URL || "").trim();
 const tursoToken = (process.env.TURSO_AUTH_TOKEN || "").trim();
 
-const dbUrl = (tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined")
+const useTurso = isProd && tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined";
+const dbUrl = useTurso
   ? tursoUrl
   : (process.env.DATABASE_URL || "file:./prisma/dev.db");
 
 const adapter = new PrismaLibSql({
   url: dbUrl,
-  ...(tursoToken && tursoToken !== "undefined" ? { authToken: tursoToken } : {}),
+  ...(useTurso && tursoToken ? { authToken: tursoToken } : {}),
 });
 console.log(`🌱 Seeding database at: ${dbUrl}`);
 const prisma = new PrismaClient({ adapter });
