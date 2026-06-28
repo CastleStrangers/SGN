@@ -52,7 +52,10 @@ export async function runSync(
       const articles = await extractArticles(source)
       result.fetched = articles.length
 
-      for (const article of articles) {
+      // Sort articles from oldest to newest (ascending) to sync in correct chronological order
+      const sortedArticles = [...articles].sort((a, b) => a.publishedAt.getTime() - b.publishedAt.getTime())
+
+      for (const article of sortedArticles) {
         try {
           let category: string
           if (autoCategorize) {
