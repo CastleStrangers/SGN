@@ -1,0 +1,32 @@
+🔍 تقرير التشخيص - 2026-06-28T10:30:18.568Z
+══════════════════════════════════════════════════════════════
+
+متغيرات البيئة:
+   ✅ FACEBOOK_PAGE_TOKEN موجود
+   ✅ FACEBOOK_PAGE_ID = 943115162210802
+   ✅ FACEBOOK_CLIENT_ID/SECRET موجود
+
+خطأ في التوكن:
+   {
+  "message": "Error validating access token: The session is invalid because the user logged out.",
+  "type": "OAuthException",
+  "code": 190,
+  "error_subcode": 467,
+  "fbtrace_id": "A9t0YqoN2mirJiRpu_cNsPX"
+}
+
+خطأ في معرف الصفحة:
+   {
+  "message": "Error validating access token: The session is invalid because the user logged out.",
+  "type": "OAuthException",
+  "code": 190,
+  "error_subcode": 467,
+  "fbtrace_id": "AA6fupSkpOSw5OPkLRQCByh"
+}
+
+الحلول المقترحة:
+   1. تأكد من أن التوكن لم ينته صلاحيته
+   2. تحقق من الصلاحيات (يجب أن تكون pages_read_engagement)
+   3. تأكد من معرف الصفحة الصحيح (61584301535331)
+   4. استخدم Page Access Token بدلاً من User Token
+   5. قد تكون الصفحة خاصة أو محظورة جغرافياً
