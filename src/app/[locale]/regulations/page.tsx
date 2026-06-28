@@ -38,9 +38,9 @@ export default function RegulationsPage() {
         <h1 className="text-4xl font-bold text-gray-900 mb-6">{t("title")}</h1>
 
         {data?.description && (
-          <div className="bg-[#f0f7f2] border border-emerald-200 rounded-2xl p-6 mb-10 flex items-start gap-4">
-            <FileText className="w-6 h-6 text-[#1a5632] flex-shrink-0 mt-1" />
-            <p className="text-gray-700 leading-relaxed">{data.description}</p>
+          <div className="bg-[#f0f7f2] dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 rounded-2xl p-6 mb-10 flex items-start gap-4">
+            <FileText className="w-6 h-6 text-[#1a5632] dark:text-emerald-400 flex-shrink-0 mt-1" />
+            <p className="text-emerald-900 dark:text-emerald-200 leading-relaxed">{data.description}</p>
           </div>
         )}
 
@@ -53,10 +53,10 @@ export default function RegulationsPage() {
             { icon: Scale, title: t("rights"), desc: t("rightsDesc") },
             { icon: Users, title: t("membership"), desc: t("membershipDesc") },
           ].map((item) => (
-            <div key={item.title} className="bg-gray-50 p-6 rounded-xl border border-gray-100">
-              <item.icon className="w-6 h-6 text-[#1a5632] mb-3" />
-              <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
-              <p className="text-sm text-gray-600">{item.desc}</p>
+            <div key={item.title} className="bg-gray-50 dark:bg-[#0c1524] p-6 rounded-xl border border-gray-100 dark:border-gray-800/30">
+              <item.icon className="w-6 h-6 text-[#1a5632] dark:text-[#c8a84e] mb-3" />
+              <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">{item.title}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{item.desc}</p>
             </div>
           ))}
         </div>
