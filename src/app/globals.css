@@ -121,18 +121,26 @@
 
 /* Breaking news ticker - Continuous loop */
 @keyframes marquee-continuous {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 @keyframes marquee-continuous-rtl {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(50%, 0, 0); }
 }
 .animate-marquee-continuous {
-  animation: marquee-continuous 45s linear infinite;
+  display: flex;
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  transform: translate3d(0, 0, 0);
+  animation: marquee-continuous 75s linear infinite;
 }
 [dir="rtl"] .animate-marquee-continuous {
-  animation: marquee-continuous-rtl 45s linear infinite;
+  animation: marquee-continuous-rtl 75s linear infinite;
+}
+.animate-marquee-continuous:hover {
+  animation-play-state: paused !important;
 }
 
 /* TipTap placeholder */
