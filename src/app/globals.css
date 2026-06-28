@@ -119,6 +119,22 @@
   animation: marquee 20s linear infinite;
 }
 
+/* Breaking news ticker - Continuous loop */
+@keyframes marquee-continuous {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-continuous-rtl {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+.animate-marquee-continuous {
+  animation: marquee-continuous 45s linear infinite;
+}
+[dir="rtl"] .animate-marquee-continuous {
+  animation: marquee-continuous-rtl 45s linear infinite;
+}
+
 /* TipTap placeholder */
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
