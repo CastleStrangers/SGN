@@ -53,7 +53,7 @@ export function BreakingNews() {
         {/* الشريط المتحرك التفاعلي */}
         <div className="flex-1 overflow-hidden relative h-full flex items-center">
           <div 
-            className="flex gap-12 whitespace-nowrap hover:[animation-play-state:paused] cursor-pointer animate-marquee-continuous"
+            className="flex gap-12 whitespace-nowrap cursor-pointer animate-marquee-continuous"
           >
             {/* نكرر القائمة مرتين للحصول على تأثير شريط مستمر لا نهائي */}
             {[...posts, ...posts].map((post, index) => (
