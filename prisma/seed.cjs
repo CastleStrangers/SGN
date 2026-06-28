@@ -47,7 +47,7 @@ async function main() {
 
   const isProductionDb = tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined";
 
-  if (!isProductionDb) {
+  if (!isProductionDb && process.env.SEED_MOCK_DATA === "true") {
     // Create sample news articles (upsert to preserve synced articles)
     const posts = [
       {
