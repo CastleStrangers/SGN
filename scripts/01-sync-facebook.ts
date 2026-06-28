@@ -76,7 +76,7 @@ async function main() {
 
     if (totalNew > 0) {
       console.log(`🎉 تم إضافة ${totalNew} مقالة جديدة بنجاح!`)
-      console.log(`📍 عرضها على: http://localhost:3001/news\n`)
+      console.log(`📍 عرضها على: http://localhost:3000/news\n`)
     }
 
     // إعادة تشغيل التطبيق لاستقبال الملفات الجديدة

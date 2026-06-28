@@ -86,7 +86,7 @@ async function main() {
     console.log(`   ⏱️  الوقت:    ${totalDuration.toFixed(1)} ثانية\n`)
 
     console.log(`🎉 اكتملت العملية بنجاح!`)
-    console.log(`📍 عرض البيانات على: http://localhost:3001/news\n`)
+    console.log(`📍 عرض البيانات على: http://localhost:3000/news\n`)
 
     console.log(`${"═".repeat(62)}\n`)
   } catch (err) {
