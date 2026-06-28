@@ -58,6 +58,41 @@ export async function GET() {
       };
     });
 
+    const orderedNames = [
+      "Abdul Munim Al Chaman",
+      "Saleh Al Mohamad",
+      "Khaled Faisal Altawil",
+      "Mohamad Salim Aziza",
+      "Mohamad Raed Kaakeh",
+      "Ahmad Alharfi",
+      "Huda Alhallak",
+      "Raid Dahmoush",
+      "Mahmoud AlNaser",
+      "Omar Al Nwilati",
+      "Rabaa Al-Zreqat",
+      "Faten Rahhal",
+      "Hasan Alhasan (Qutaini)",
+      "Nabil Haj Hussein",
+      "Belal Alrefai",
+      "Mohammad Semhani",
+      "Nehad Sowid",
+      "Mohamad Akram Aljnidi",
+      "Youssef Darwesh",
+      "Mohammed Rabe Aljnidi",
+      "Wassim Hassan",
+      "Mahera Al Tawashi",
+      "Rima Alhrbat",
+      "Feras Abdin"
+    ];
+
+    parsedMembers.sort((a, b) => {
+      const idxA = orderedNames.indexOf(a.nameEn);
+      const idxB = orderedNames.indexOf(b.nameEn);
+      if (idxA === -1) return 1;
+      if (idxB === -1) return -1;
+      return idxA - idxB;
+    });
+
     return NextResponse.json(parsedMembers, { status: 200 });
   } catch (error) {
     console.error("[Board API] Error fetching members:", error);
