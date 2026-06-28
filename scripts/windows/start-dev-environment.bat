@@ -37,7 +37,7 @@ echo.
 
 :: Wait 6 seconds for the dev server to initialize, then open the browser tabs
 timeout /t 6 > nul
-start http://127.0.0.1:3000/login
+start http://localhost:3000/login
 start https://sgn-indol.vercel.app/login
 
 exit

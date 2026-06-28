@@ -23,8 +23,8 @@ if !errorlevel! equ 0 (
     git remote set-url origin https://github.com/CastleStrangers/SGN.git
 )
 
-echo Untracking database, log, and cache files in SGN...
-git rm --cached -f prisma/dev.db prisma/dev.db-journal pm2-error.log pm2-out.log tsconfig.tsbuildinfo git-repair-log.txt status.txt status-parent.txt check-status.bat cmd_output.log dev-server*.log dev-srv*.log verification-report.txt >nul 2>&1
+echo Untracking database, log, environment, and cache files in SGN...
+git rm --cached -f .env .env.local prisma/dev.db prisma/dev.db-journal pm2-error.log pm2-out.log tsconfig.tsbuildinfo git-repair-log.txt status.txt status-parent.txt check-status.bat cmd_output.log dev-server*.log dev-srv*.log verification-report.txt >nul 2>&1
 
 git add .
 git diff-index --quiet HEAD --

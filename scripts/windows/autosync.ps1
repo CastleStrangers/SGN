@@ -29,14 +29,7 @@ function Sync-Changes {
         Write-Host "Staging changes..." -ForegroundColor DarkYellow
         git add .
         
-        # Force add sensitive environment variables if present
-        if (Test-Path ".env") {
-            git add -f .env
-        }
-        if (Test-Path ".env.local") {
-            git add -f .env.local
-        }
-        
+
         Write-Host "Committing SGN changes..." -ForegroundColor DarkYellow
         git commit -m "auto: sync changes at $timestamp"
         
