@@ -2,7 +2,7 @@ npm warn Unknown env config "ignore-platform". This will stop working in the nex
 npm warn Unknown project config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
 
 ╔════════════════════════════════════════════════════════════╗
-║  🔄 بدء المزامنة من Facebook - 2026-06-28T10:20:37.991Z
+║  🔄 بدء المزامنة من Facebook - 2026-06-29T08:53:31.952Z
 ╚════════════════════════════════════════════════════════════╝
 
 Vercel Blob upload failed, falling back to local filesystem: BlobStoreSuspendedError: Vercel Blob: This store has been suspended.
@@ -598,22 +598,22 @@ Vercel Blob upload failed, falling back to local filesystem: BlobStoreSuspendedE
     at async downloadMedia (D:\I-Ai\App\Syrian community in the Netherlands\SGN\src\lib\sync\media.ts:111:20)
     at async runSync (D:\I-Ai\App\Syrian community in the Netherlands\SGN\src\lib\sync\index.ts:74:18)
     at async main (D:\I-Ai\App\Syrian community in the Netherlands\SGN\scripts\01-sync-facebook.ts:40:35)
-Graph API failed: Facebook API Error [190]: Error validating access token: The session is invalid because the user logged out.
+Graph API failed: Facebook API Error [190]: Error validating access token: Session has expired on Monday, 29-Jun-26 01:00:00 PDT. The current time is Monday, 29-Jun-26 01:54:05 PDT.
 
 📊 نتائج المزامنة:
 ──────────────────────────────────────────────────────────────
 
 ✅ المصدر: sy-nl.org
    المجلوب: 25 | جديد: 0 | موجود: 25
-   الأخطاء: 0 | الوقت: 18816ms
+   الأخطاء: 0 | الوقت: 28352ms
 
 ✅ المصدر: youtube
    المجلوب: 15 | جديد: 0 | موجود: 15
-   الأخطاء: 0 | الوقت: 3091ms
+   الأخطاء: 0 | الوقت: 3061ms
 
 ✅ المصدر: facebook-sgn
    المجلوب: 0 | جديد: 0 | موجود: 0
-   الأخطاء: 0 | الوقت: 187ms
+   الأخطاء: 0 | الوقت: 206ms
 
 ──────────────────────────────────────────────────────────────
 
@@ -621,7 +621,7 @@ Graph API failed: Facebook API Error [190]: Error validating access token: The s
    ✅ جديد: 0 مقالة
    ⏭️  موجود: 40 مقالة
    ❌ أخطاء: 0
-   ⏱️  المدة الإجمالية: 22.1 ثانية
+   ⏱️  المدة الإجمالية: 31.6 ثانية
 
 🔄 إعادة تشغيل التطبيق...
 npm warn Unknown env config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
