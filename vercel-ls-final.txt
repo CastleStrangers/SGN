@@ -1,0 +1,27 @@
+npm warn Unknown env config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+Retrieving project…
+> Environment Variables found for msalimaziza-3522s-projects/sgn [257ms]
+
+ name                       value               environments                        created    
+ FACEBOOK_PAGE_ID           Encrypted           Production                          3d ago     
+ CRON_SECRET                Encrypted           Production                          4d ago     
+ TURSO_DATABASE_URL         Encrypted           Production                          4d ago     
+ TURSO_AUTH_TOKEN           Encrypted           Production                          4d ago     
+ DATABASE_URL               Encrypted           Preview, Production                 8d ago     
+ BLOB_READ_WRITE_TOKEN      Encrypted           Production, Preview, Development    17d ago    
+ WHATSAPP_TOKEN             Encrypted           Production                          22d ago    
+ WHATSAPP_INSTANCE_ID       Encrypted           Production                          22d ago    
+ SMTP_PASS                  Encrypted           Production                          22d ago    
+ SMTP_PORT                  Encrypted           Production                          22d ago    
+ SMTP_HOST                  Encrypted           Production                          22d ago    
+ SMTP_FROM_NAME             Encrypted           Production                          22d ago    
+ SMTP_FROM                  Encrypted           Production                          22d ago    
+ SMTP_USER                  Encrypted           Production                          22d ago    
+ GEMINI_API_KEY             Encrypted           Production                          22d ago    
+ FACEBOOK_CLIENT_SECRET     Encrypted           Production                          23d ago    
+ FACEBOOK_CLIENT_ID         Encrypted           Production                          23d ago    
+ GOOGLE_CLIENT_ID           Encrypted           Production                          23d ago    
+ NEXTAUTH_URL               Encrypted           Production                          24d ago    
+ NEXTAUTH_SECRET            Encrypted           Production                          24d ago    
+
