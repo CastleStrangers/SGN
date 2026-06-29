@@ -197,6 +197,7 @@ model Member {
   showInPublicProfile Boolean @default(true)
   isCvPublic   Boolean  @default(true)
   isServiceProvider Boolean @default(false)
+  isPremiumService  Boolean  @default(false)
   serviceDescription String?
   userId       String?  @unique
   user         User?    @relation(fields: [userId], references: [id])
