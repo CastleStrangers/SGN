@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "@/i18n/routing";
 import { FreeSyrianFlag, DutchFlag } from "@/components/flags";
 import { SgnLogo } from "@/components/sgn-logo";
-import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
+import { Facebook, Instagram, Youtube, Twitter, Mail, MessageCircle, MapPin } from "lucide-react";
 import { TikTok } from "@/components/tiktok-icon";
 import { useTranslations, useLocale } from "next-intl";
 
@@ -147,16 +147,16 @@ export function SiteFooter() {
                 {t("contactTitle")}
               </h4>
               <ul className="space-y-2.5 text-xs text-gray-300 w-full flex flex-col items-center">
-                <li className="flex items-center justify-center gap-2 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full">
-                  <span className="text-base leading-none">✉️</span>
+                <li className="flex items-center justify-center gap-2 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full group">
+                  <Mail className="w-4 h-4 text-[#CCAA00] transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
                   <a href="mailto:info@sy-nl.org" className="font-mono text-[11px]">info@sy-nl.org</a>
                 </li>
-                <li className="flex items-center justify-center gap-2 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full">
-                  <span className="text-base leading-none">💬</span>
+                <li className="flex items-center justify-center gap-2 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full group">
+                  <MessageCircle className="w-4 h-4 text-[#CCAA00] transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
                   <a href="https://wa.me/31684603406" target="_blank" rel="noopener noreferrer" dir="ltr" className="font-mono text-[11px]">+31 6 84 60 34 06</a>
                 </li>
-                <li className="flex flex-col items-center justify-center gap-1 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full text-center">
-                  <span className="text-base leading-none">📍</span>
+                <li className="flex flex-col items-center justify-center gap-1.5 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full text-center group">
+                  <MapPin className="w-4 h-4 text-[#CCAA00] transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
                   <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted text-[11px] leading-snug">
                     Laan van Meerdervoort 53-D<br />2517 AE Den Haag
                   </a>
