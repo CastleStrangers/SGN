@@ -24,15 +24,15 @@ interface NLMapProps {
 
 export const NLMap: React.FC<NLMapProps> = ({ selectedProvince, onProvinceSelect }) => {
   return (
-    <div className="relative w-full aspect-[4/5] bg-white rounded-3xl border border-slate-100 p-4 shadow-inner">
+    <div className="relative w-full aspect-[4/5] bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-4 shadow-inner">
       <svg viewBox="0 0 600 700" className="w-full h-full drop-shadow-lg">
         {PROVINCES.map((p) => (
           <path
             key={p.id}
             d={p.path}
             onClick={() => onProvinceSelect(selectedProvince === p.id ? "" : p.id)}
-            className={`cursor-pointer transition-all duration-300 stroke-white stroke-[2] hover:opacity-90 hover:fill-orange-100/50 origin-center [transform-box:fill-box]
-              ${selectedProvince === p.id ? "fill-orange-500 scale-[1.02]" : "fill-slate-200"}`}
+            className={`cursor-pointer transition-all duration-300 stroke-white dark:stroke-slate-900/50 stroke-[2] hover:opacity-90 hover:fill-emerald-100/50 dark:hover:fill-emerald-950/30 origin-center [transform-box:fill-box]
+              ${selectedProvince === p.id ? "fill-emerald-600 dark:fill-emerald-500 scale-[1.02]" : "fill-slate-200 dark:fill-slate-800"}`}
           >
             <title>{p.name}</title>
           </path>
@@ -43,7 +43,7 @@ export const NLMap: React.FC<NLMapProps> = ({ selectedProvince, onProvinceSelect
       <div className="absolute bottom-6 right-6 left-6 flex flex-wrap gap-2 justify-center pointer-events-none">
         {PROVINCES.map(p => (
           <div key={p.id} className={`px-2 py-1 rounded-lg text-[8px] font-bold uppercase tracking-tighter border transition-colors
-            ${selectedProvince === p.id ? "bg-orange-500 text-white border-orange-500" : "bg-white/80 text-slate-400 border-slate-100"}`}>
+            ${selectedProvince === p.id ? "bg-emerald-600 dark:bg-emerald-500 text-white border-emerald-600 dark:border-emerald-500" : "bg-white/80 dark:bg-slate-800/80 text-slate-400 dark:text-slate-500 border-slate-100 dark:border-slate-800"}`}>
             {p.name}
           </div>
         ))}
