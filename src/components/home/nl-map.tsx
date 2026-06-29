@@ -31,8 +31,8 @@ export const NLMap: React.FC<NLMapProps> = ({ selectedProvince, onProvinceSelect
             key={p.id}
             d={p.path}
             onClick={() => onProvinceSelect(selectedProvince === p.id ? "" : p.id)}
-            className={`cursor-pointer transition-all duration-300 stroke-white stroke-[2] hover:opacity-80
-              ${selectedProvince === p.id ? "fill-emerald-600 scale-[1.02]" : "fill-slate-200"}`}
+            className={`cursor-pointer transition-all duration-300 stroke-white stroke-[2] hover:opacity-90 hover:fill-orange-100/50
+              ${selectedProvince === p.id ? "fill-orange-500 scale-[1.02]" : "fill-slate-200"}`}
             style={{ transformOrigin: "center", transformBox: "fill-box" }}
           >
             <title>{p.name}</title>
@@ -44,7 +44,7 @@ export const NLMap: React.FC<NLMapProps> = ({ selectedProvince, onProvinceSelect
       <div className="absolute bottom-6 right-6 left-6 flex flex-wrap gap-2 justify-center pointer-events-none">
         {PROVINCES.map(p => (
           <div key={p.id} className={`px-2 py-1 rounded-lg text-[8px] font-bold uppercase tracking-tighter border transition-colors
-            ${selectedProvince === p.id ? "bg-emerald-600 text-white border-emerald-600" : "bg-white/80 text-slate-400 border-slate-100"}`}>
+            ${selectedProvince === p.id ? "bg-orange-500 text-white border-orange-500" : "bg-white/80 text-slate-400 border-slate-100"}`}>
             {p.name}
           </div>
         ))}

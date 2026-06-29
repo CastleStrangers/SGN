@@ -44,13 +44,17 @@ export async function GET(req: Request) {
       avatar: true,
       whatsapp: true,
       userId: true,
+      isPremiumService: true,
       serviceReviews: {
         select: {
           rating: true,
         }
       }
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: [
+      { isPremiumService: "desc" },
+      { createdAt: "desc" }
+    ],
   });
 
   const formatted = members.map(m => {
