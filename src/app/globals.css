@@ -134,10 +134,10 @@
   backface-visibility: hidden;
   perspective: 1000px;
   transform: translate3d(0, 0, 0);
-  animation: marquee-continuous 75s linear infinite;
+  animation: marquee-continuous 120s linear infinite;
 }
 [dir="rtl"] .animate-marquee-continuous {
-  animation: marquee-continuous-rtl 75s linear infinite;
+  animation: marquee-continuous-rtl 120s linear infinite;
 }
 .animate-marquee-continuous:hover {
   animation-play-state: paused !important;
