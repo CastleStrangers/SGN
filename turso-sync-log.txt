@@ -1,0 +1,3 @@
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Syncing Turso production database using local Prisma binary...
+Prisma Target DB URL: https://sgn-castlestrangers1979.aws-eu-west-1.turso.io?authToken=***
