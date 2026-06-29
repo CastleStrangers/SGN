@@ -147,18 +147,29 @@ export function SiteFooter() {
                 {t("contactTitle")}
               </h4>
               <ul className="space-y-2.5 text-xs text-gray-300 w-full flex flex-col items-center">
-                <li className="flex items-center justify-center gap-2 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full group">
-                  <Mail className="w-4 h-4 text-[#CCAA00] transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
-                  <a href="mailto:info@sy-nl.org" className="font-mono text-[11px]">info@sy-nl.org</a>
+                <li className="flex items-center justify-between gap-3 bg-[#0B132B] hover:bg-black/40 py-2.5 px-4 rounded-xl border border-gray-800/80 hover:border-[#CCAA00]/40 w-full transition-all duration-300 group shadow-sm">
+                  <a href="mailto:info@sy-nl.org" className="font-mono text-xs text-gray-300 hover:text-white transition-colors truncate">
+                    info@sy-nl.org
+                  </a>
+                  <div className="w-8 h-8 rounded-lg bg-[#1C2541] border border-gray-800 flex items-center justify-center text-[#CCAA00] group-hover:bg-[#CCAA00] group-hover:text-black group-hover:rotate-6 transition-all duration-300 flex-shrink-0">
+                    <Mail className="w-4 h-4" />
+                  </div>
                 </li>
-                <li className="flex items-center justify-center gap-2 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full group">
-                  <MessageCircle className="w-4 h-4 text-[#CCAA00] transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
-                  <a href="https://wa.me/31684603406" target="_blank" rel="noopener noreferrer" dir="ltr" className="font-mono text-[11px]">+31 6 84 60 34 06</a>
+                <li className="flex items-center justify-between gap-3 bg-[#0B132B] hover:bg-black/40 py-2.5 px-4 rounded-xl border border-gray-800/80 hover:border-[#CCAA00]/40 w-full transition-all duration-300 group shadow-sm">
+                  <a href="https://wa.me/31684603406" target="_blank" rel="noopener noreferrer" dir="ltr" className="font-mono text-xs text-gray-300 hover:text-white transition-colors">
+                    +31 6 84 60 34 06
+                  </a>
+                  <div className="w-8 h-8 rounded-lg bg-[#1C2541] border border-gray-800 flex items-center justify-center text-[#CCAA00] group-hover:bg-[#25D366] group-hover:text-white group-hover:rotate-6 transition-all duration-300 flex-shrink-0">
+                    <MessageCircle className="w-4 h-4" />
+                  </div>
                 </li>
-                <li className="flex flex-col items-center justify-center gap-1.5 hover:text-[#CCAA00] transition-colors bg-[#0B132B] py-2 px-3 rounded-xl border border-gray-900/60 w-full text-center group">
-                  <MapPin className="w-4 h-4 text-[#CCAA00] transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
-                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted text-[11px] leading-snug">
-                    Laan van Meerdervoort 53-D<br />2517 AE Den Haag
+                <li className="flex flex-col items-center justify-center gap-2.5 bg-[#0B132B] hover:bg-black/40 py-3.5 px-4 rounded-xl border border-gray-800/80 hover:border-[#CCAA00]/40 w-full text-center transition-all duration-300 group shadow-sm">
+                  <div className="w-8 h-8 rounded-lg bg-[#1C2541] border border-gray-800 flex items-center justify-center text-[#CCAA00] group-hover:bg-[#CCAA00] group-hover:text-black group-hover:-translate-y-1 transition-all duration-300 flex-shrink-0">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" className="text-xs text-gray-300 hover:text-white transition-colors leading-relaxed font-sans font-medium hover:underline decoration-dotted decoration-[#CCAA00]/60 underline-offset-4">
+                    Laan van Meerdervoort 53-D<br />
+                    <span className="text-[10px] text-gray-400 font-mono">2517 AE Den Haag</span>
                   </a>
                 </li>
               </ul>
