@@ -1,18 +1,17 @@
-const { prisma } = require('./src/lib/db.ts'); // Wait, src/lib/db.ts is ES module.
-// Let's write the query using raw client or require it via ts-node / tsx if we want, or just write a small JS script that initializes Prisma client manually like we did, and runs the query!
+require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
 const { PrismaLibSql } = require('@prisma/adapter-libsql');
-const libsql = require('@libsql/client');
 
 async function main() {
-  const client = libsql.createClient({
-    url: process.env.DATABASE_URL || 'file:./prisma/dev.db',
+  const dbUrl = process.env.DATABASE_URL || 'file:./prisma/dev.db';
+  console.log("Database URL:", dbUrl);
+  const adapter = new PrismaLibSql({
+    url: dbUrl,
   });
-  const adapter = new PrismaLibSql(client);
   const prisma = new PrismaClient({ adapter });
 
   try {
-    console.log("Running members query...");
+    console.log("Running members query with correct adapter...");
     const members = await prisma.member.findMany({
       where: {
         isServiceProvider: true,
@@ -38,7 +37,7 @@ async function main() {
       console.log("First member isPremiumService:", members[0].isPremiumService);
     }
   } catch (e) {
-    console.error("Query failed with error:", e.message);
+    console.error("Query failed with error:", e.stack || e.message);
   }
 }
 
