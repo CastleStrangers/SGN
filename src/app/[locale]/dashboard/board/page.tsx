@@ -48,6 +48,63 @@ function MemberAvatar({ src, name }: { src: string; name: string }) {
   );
 }
 
+// ─── دالة ضغط الصور في المتصفح ───────────────────────────────────────────────
+function compressImage(file: File, maxWidth = 300, maxHeight = 300): Promise<File> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          resolve(file);
+          return;
+        }
+
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+            const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+            resolve(compressedFile);
+          },
+          "image/jpeg",
+          0.85
+        );
+      };
+      img.onerror = () => resolve(file);
+    };
+    reader.onerror = () => resolve(file);
+  });
+}
+
 // ─── مكوّن رفع الصورة ───────────────────────────────────────────────────────
 function ImageUploader({
   currentUrl,
@@ -70,15 +127,18 @@ function ImageUploader({
     if (!file) return;
     setError("");
     setUploading(true);
-    const newUrl = URL.createObjectURL(file);
-    if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
-    blobUrlRef.current = newUrl;
-    setPreview(newUrl);
-
-    const fd = new FormData();
-    fd.append("file", file);
 
     try {
+      const compressedFile = await compressImage(file);
+      
+      const newUrl = URL.createObjectURL(compressedFile);
+      if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
+      blobUrlRef.current = newUrl;
+      setPreview(newUrl);
+
+      const fd = new FormData();
+      fd.append("file", compressedFile);
+
       const res = await fetch("/api/board/upload", { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "فشل الرفع");
