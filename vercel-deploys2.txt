@@ -1,0 +1,49 @@
+npm warn Unknown env config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+Retrieving project…
+Fetching deployments in msalimaziza-3522s-projects
+> Deployments for msalimaziza-3522s-projects/sgn [275ms]
+
+  Age     Project                            Deployment                                                      Status         Environment     Duration     Username             
+  1m      msalimaziza-3522s-projects/sgn     https://sgn-j882zefl7-msalimaziza-3522s-projects.vercel.app     ● Queued       Production      ?            msalimaziza-1979     
+  1m      msalimaziza-3522s-projects/sgn     https://sgn-jkhmxx818-msalimaziza-3522s-projects.vercel.app     ● Building     Production      --           msalimaziza-1979     
+  3m      msalimaziza-3522s-projects/sgn     https://sgn-mxlp7ks2k-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      57s          msalimaziza-1979     
+  3m      msalimaziza-3522s-projects/sgn     https://sgn-5d2xaqmy2-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      60s          msalimaziza-1979     
+  3m      msalimaziza-3522s-projects/sgn     https://sgn-ojvr3cg91-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      58s          msalimaziza-1979     
+  4m      msalimaziza-3522s-projects/sgn     https://sgn-kf1wrfjzm-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      54s          msalimaziza-1979     
+  12m     msalimaziza-3522s-projects/sgn     https://sgn-lus9evlb2-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      54s          msalimaziza-1979     
+  13m     msalimaziza-3522s-projects/sgn     https://sgn-i9jwj9c53-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      1m           msalimaziza-1979     
+  50m     msalimaziza-3522s-projects/sgn     https://sgn-9e07a4oyf-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      57s          msalimaziza-1979     
+  50m     msalimaziza-3522s-projects/sgn     https://sgn-arkof01ps-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      58s          msalimaziza-1979     
+  51m     msalimaziza-3522s-projects/sgn     https://sgn-943j2dfr9-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      57s          msalimaziza-1979     
+  51m     msalimaziza-3522s-projects/sgn     https://sgn-6skxjoo55-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      54s          msalimaziza-1979     
+  52m     msalimaziza-3522s-projects/sgn     https://sgn-gl4z9as2p-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      57s          msalimaziza-1979     
+  53m     msalimaziza-3522s-projects/sgn     https://sgn-j2pg3bqkl-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      55s          msalimaziza-1979     
+  1h      msalimaziza-3522s-projects/sgn     https://sgn-vzxnt8ivf-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      59s          msalimaziza-1979     
+  1h      msalimaziza-3522s-projects/sgn     https://sgn-kanry4fp1-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      58s          msalimaziza-1979     
+  2h      msalimaziza-3522s-projects/sgn     https://sgn-4a6nawz5h-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      60s          msalimaziza-1979     
+  2h      msalimaziza-3522s-projects/sgn     https://sgn-oy46i3nxt-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      56s          msalimaziza-1979     
+  2h      msalimaziza-3522s-projects/sgn     https://sgn-q2uz0nfx7-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      56s          msalimaziza-1979     
+  2h      msalimaziza-3522s-projects/sgn     https://sgn-nka2dk47u-msalimaziza-3522s-projects.vercel.app     ● Ready        Production      58s          msalimaziza-1979     
+
+https://sgn-j882zefl7-msalimaziza-3522s-projects.vercel.app
+https://sgn-jkhmxx818-msalimaziza-3522s-projects.vercel.app
+https://sgn-mxlp7ks2k-msalimaziza-3522s-projects.vercel.app
+https://sgn-5d2xaqmy2-msalimaziza-3522s-projects.vercel.app
+https://sgn-ojvr3cg91-msalimaziza-3522s-projects.vercel.app
+https://sgn-kf1wrfjzm-msalimaziza-3522s-projects.vercel.app
+https://sgn-lus9evlb2-msalimaziza-3522s-projects.vercel.app
+https://sgn-i9jwj9c53-msalimaziza-3522s-projects.vercel.app
+https://sgn-9e07a4oyf-msalimaziza-3522s-projects.vercel.app
+https://sgn-arkof01ps-msalimaziza-3522s-projects.vercel.app
+https://sgn-943j2dfr9-msalimaziza-3522s-projects.vercel.app
+https://sgn-6skxjoo55-msalimaziza-3522s-projects.vercel.app
+https://sgn-gl4z9as2p-msalimaziza-3522s-projects.vercel.app
+https://sgn-j2pg3bqkl-msalimaziza-3522s-projects.vercel.app
+https://sgn-vzxnt8ivf-msalimaziza-3522s-projects.vercel.app
+https://sgn-kanry4fp1-msalimaziza-3522s-projects.vercel.app
+https://sgn-4a6nawz5h-msalimaziza-3522s-projects.vercel.app
+https://sgn-oy46i3nxt-msalimaziza-3522s-projects.vercel.app
+https://sgn-q2uz0nfx7-msalimaziza-3522s-projects.vercel.app
+https://sgn-nka2dk47u-msalimaziza-3522s-projects.vercel.app
+> To display the next page, run `vercel ls --next 1782721899895`
