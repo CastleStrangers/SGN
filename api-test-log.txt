@@ -1,4 +1,0 @@
-◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
-Database URL: file:./prisma/dev.db
-Running members query with correct adapter...
-Success! Query returned 0 members.
