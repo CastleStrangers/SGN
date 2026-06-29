@@ -167,7 +167,7 @@ export function SiteFooter() {
                   <div className="w-8 h-8 rounded-lg bg-[#1C2541] border border-gray-800 flex items-center justify-center text-[#CCAA00] group-hover:bg-[#CCAA00] group-hover:text-black group-hover:-translate-y-1 transition-all duration-300 flex-shrink-0">
                     <MapPin className="w-4 h-4" />
                   </div>
-                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" className="text-xs text-gray-300 hover:text-white transition-colors leading-relaxed font-sans font-medium hover:underline decoration-dotted decoration-[#CCAA00]/60 underline-offset-4">
+                  <a href="https://www.google.com/maps/place/Laan+van+Meerdervoort+53-D,+2517+AE+Den+Haag" target="_blank" rel="noopener noreferrer" dir="ltr" className="text-xs text-gray-300 hover:text-white transition-colors leading-relaxed font-sans font-medium hover:underline decoration-dotted decoration-[#CCAA00]/60 underline-offset-4">
                     Laan van Meerdervoort 53-D<br />
                     <span className="text-[10px] text-gray-400 font-mono">2517 AE Den Haag</span>
                   </a>
