@@ -89,7 +89,7 @@ export function CommunityStats() {
 
       <div className="relative flex flex-col items-center text-center mb-12">
         {/* Clean bold heading without underline */}
-        <h2 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight mb-4">
+        <h2 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight mb-6">
           {t('title')}
         </h2>
 
