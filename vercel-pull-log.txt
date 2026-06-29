@@ -1,11 +1,11 @@
 npm warn Unknown env config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
 npm warn Unknown project config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
 Retrieving project…
-> Overwriting existing env-pull-test.txt file
+> Overwriting existing .env.vercel file
 > Downloading `development` Environment Variables for msalimaziza-3522s-projects/sgn
 Downloading
 
 Changes:
 + VERCEL_OIDC_TOKEN (Updated)
 
-Updated env-pull-test.txt file  [429ms]
+Updated .env.vercel file  [293ms]
