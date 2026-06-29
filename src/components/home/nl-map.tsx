@@ -31,9 +31,8 @@ export const NLMap: React.FC<NLMapProps> = ({ selectedProvince, onProvinceSelect
             key={p.id}
             d={p.path}
             onClick={() => onProvinceSelect(selectedProvince === p.id ? "" : p.id)}
-            className={`cursor-pointer transition-all duration-300 stroke-white stroke-[2] hover:opacity-90 hover:fill-orange-100/50
+            className={`cursor-pointer transition-all duration-300 stroke-white stroke-[2] hover:opacity-90 hover:fill-orange-100/50 origin-center [transform-box:fill-box]
               ${selectedProvince === p.id ? "fill-orange-500 scale-[1.02]" : "fill-slate-200"}`}
-            style={{ transformOrigin: "center", transformBox: "fill-box" }}
           >
             <title>{p.name}</title>
           </path>
