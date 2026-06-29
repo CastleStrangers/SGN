@@ -88,8 +88,13 @@ export function CommunityStats() {
       <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-80 h-80 bg-teal-500/5 dark:bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative flex flex-col items-center text-center mb-12">
+        {/* Clean bold heading without underline */}
+        <h2 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight mb-4">
+          {t('title')}
+        </h2>
+
         {/* Badge: styled with pulsing dot to show live status */}
-        <div className="inline-flex items-center gap-2 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4 border border-purple-100/80 dark:border-purple-900/30 shadow-sm">
+        <div className="inline-flex items-center gap-2 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 text-xs font-semibold px-4 py-1.5 rounded-full border border-purple-100/80 dark:border-purple-900/30 shadow-sm">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
@@ -97,11 +102,6 @@ export function CommunityStats() {
           <TrendingUp className="w-3.5 h-3.5" />
           {t('badge')}
         </div>
-
-        {/* Clean bold heading without underline */}
-        <h2 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">
-          {t('title')}
-        </h2>
       </div>
 
       <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
