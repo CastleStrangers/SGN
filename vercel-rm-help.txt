@@ -1,0 +1,45 @@
+npm warn Unknown env config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+  ▲ vercel env remove name [environment] [options]
+
+  Remove an Environment Variable (see examples below)                           
+
+  Options:
+
+  -y,  --yes  Skip the confirmation prompt when removing an Environment Variable
+
+
+  Global Options:
+
+       --cwd <DIR>            Sets the current working directory for a single   
+                              run of a command                                  
+  -d,  --debug                Debug mode (default off)                          
+  -Q,  --global-config <DIR>  Path to the global `.vercel` directory            
+  -h,  --help                 Output usage information                          
+  -A,  --local-config <FILE>  Path to the local `vercel.json` file              
+       --no-color             No color mode (default off)                       
+       --non-interactive      Run without interactive prompts; when an agent is 
+                              detected this is the default                      
+  -S,  --scope                Set a custom scope                                
+  -t,  --token <TOKEN>        Login token                                       
+  -v,  --version              Output the version number                         
+
+
+  Examples:
+
+  - Remove a variable from multiple Environments
+
+    $ vercel env rm <name>
+    $ vercel env rm API_TOKEN
+
+  - Remove a variable from a specific Environment
+
+    $ vercel env rm <name> <production | preview | development>
+    $ vercel env rm NPM_RC preview
+
+  - Remove a variable from a specific Environment and Git Branch
+
+    $ vercel env rm <name> <production | preview | development> <gitbranch>
+    $ vercel env rm NPM_RC preview feat1
+

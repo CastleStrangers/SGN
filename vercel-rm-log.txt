@@ -1,0 +1,37 @@
+npm warn Unknown env config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "ignore-platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+> [debug] [2026-06-29T09:13:37.394Z] Found config in file "D:\I-Ai\App\Syrian community in the Netherlands\SGN\vercel.json"
+> [debug] [2026-06-29T09:13:37.396Z] Vercel CLI 53.3.1
+> [debug] [2026-06-29T09:13:37.414Z] Agent/TTY/nonInteractive: isAgent=false agentName=none stdin.isTTY=undefined --non-interactive=false explicitFalse=false => nonInteractive=false
+> [debug] [2026-06-29T09:13:37.416Z] user supplied known subcommand: "env"
+> [debug] [2026-06-29T09:13:37.443Z] Found ".vercel\repo.json" - detected "D:\I-Ai\App\Syrian community in the Netherlands\SGN" as repo root
+> [debug] [2026-06-29T09:13:37.445Z] Spinner invoked (Retrieving project…) with a 1000ms delay
+> [debug] [2026-06-29T09:13:37.447Z] Valid access token, skipping token refresh.
+> [debug] [2026-06-29T09:13:37.486Z] #1 → GET https://api.vercel.com/teams/team_zxRyJLdrgNv0yuaFrxdSxKCz?teamId=team_zxRyJLdrgNv0yuaFrxdSxKCz
+> [debug] [2026-06-29T09:13:37.490Z] #2 → GET https://api.vercel.com/v9/projects/prj_GwsJPWl2DXG1iIgtgUUbmcxtuMDl?teamId=team_zxRyJLdrgNv0yuaFrxdSxKCz
+> [debug] [2026-06-29T09:13:38.061Z] #1 ← 200 OK: sfo1::4bzch-1782724419528-c49e0274f916 [575ms]
+> [debug] [2026-06-29T09:13:38.094Z] #2 ← 200 OK: sfo1::4lxn6-1782724419530-9caff2242109 [604ms]
+> [debug] [2026-06-29T09:13:38.097Z] Fetching Environment Variables of project prj_GwsJPWl2DXG1iIgtgUUbmcxtuMDl and target undefined
+> [debug] [2026-06-29T09:13:38.099Z] #3 → GET https://api.vercel.com/v10/projects/prj_GwsJPWl2DXG1iIgtgUUbmcxtuMDl/env?source=vercel-cli%3Aenv%3Arm&teamId=team_zxRyJLdrgNv0yuaFrxdSxKCz
+> [debug] [2026-06-29T09:13:38.100Z] #4 → GET https://api.vercel.com/projects/prj_GwsJPWl2DXG1iIgtgUUbmcxtuMDl/custom-environments?teamId=team_zxRyJLdrgNv0yuaFrxdSxKCz
+> [debug] [2026-06-29T09:13:38.343Z] #3 ← 200 OK: sfo1::wfwzw-1782724419775-c9adf57f45e0 [244ms]
+> [debug] [2026-06-29T09:13:38.344Z] #4 ← 200 OK: sfo1::7std4-1782724419779-352ac754900e [244ms]
+Error: Environment Variable was not found.
+
+> [debug] [2026-06-29T09:13:40.179Z] Telemetry event tracked
+> [debug] [2026-06-29T09:13:40.374Z] Telemetry subprocess killed due to timeout
+> [debug] [2026-06-29T09:13:40.419Z] Telemetry subprocess exited with code null
+> [debug] [2026-06-29T09:13:40.422Z] Spawning C:\Users\msali\AppData\Roaming\npm\node_modules\vercel\dist\get-latest-worker.cjs
+> '[debug] [2026-06-29T09:13:40.576Z] Notifying parent we're ready
+> '[debug] [2026-06-29T09:13:40.585Z] Received message from parent: {
+  cacheFile: 'C:\\Users\\msali\\AppData\\Local\\com.vercel.cli\\Cache\\package-updates\\vercel-latest.json',
+  distTag: 'latest',
+  name: 'vercel',
+  updateCheckInterval: 86400000
+}
+> '[debug] [2026-06-29T09:13:40.585Z] Disconnecting from parent
+> '[debug] [2026-06-29T09:13:40.588Z] Checking lock file: C:\Users\msali\AppData\Local\com.vercel.cli\Cache\package-updates\vercel-latest.lock
+> '[debug] [2026-06-29T09:13:40.590Z] Found lock file with pid: 36264
+> '[debug] [2026-06-29T09:13:40.592Z] Resetting lock file: Error: kill ESRCH
+> '[debug] [2026-06-29T09:13:40.593Z] Initializing lock file with pid 40324
+> '[debug] [2026-06-29T09:13:40.596Z] Fetching https://registry.npmjs.org/-/package/vercel/dist-tags
