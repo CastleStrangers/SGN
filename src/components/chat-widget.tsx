@@ -137,7 +137,7 @@ export function ChatWidget() {
           </div>
 
           {/* Persona selector tabs */}
-          <div className="bg-gray-50 dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800/50 p-2 flex gap-1 overflow-x-auto scrollbar-none">
+          <div className="bg-gray-50 dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800/50 p-2.5 flex flex-wrap gap-1.5 justify-center">
             {PERSONAS.map((p) => (
               <button
                 key={p.id}
