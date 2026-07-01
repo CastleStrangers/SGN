@@ -169,6 +169,30 @@ export default function HomeScreen() {
           }
         />
       )}
+      {/* Floating Action Button for Smart Chat */}
+      <TouchableOpacity
+        onPress={() => router.push("/messages")}
+        style={{
+          position: "absolute",
+          bottom: 20,
+          right: isRTL ? undefined : 20,
+          left: isRTL ? 20 : undefined,
+          width: 56,
+          height: 56,
+          borderRadius: 28,
+          backgroundColor: COLORS.primary,
+          justifyContent: "center",
+          alignItems: "center",
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 5,
+          elevation: 6,
+          zIndex: 9999,
+        }}
+      >
+        <Ionicons name="chatbubbles" size={24} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 }

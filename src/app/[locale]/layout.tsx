@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/home/site-footer";
 import { LocaleSync } from "@/components/locale-sync";
+import { ChatWidget } from "@/components/chat-widget";
 
 const openGraphLocales: Record<string, string> = {
   ar: "ar_AR",
@@ -46,6 +47,7 @@ export default async function LocaleLayout({ children }: { children: React.React
       <LocaleSync />
       {children}
       <SiteFooter />
+      <ChatWidget />
     </NextIntlClientProvider>
   );
 }
