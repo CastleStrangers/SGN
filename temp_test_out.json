@@ -1,17 +1,5 @@
 {
-  "success": true,
-  "provider": "openai",
-  "translated": {
-    "title": "Hello World",
-    "excerpt": "This is a test article",
-    "content": "<p>This is a test article content.</p>",
-    "category": "test",
-    "tags": [],
-    "source": "test",
-    "sourceUrl": "https://test.com",
-    "author": "test",
-    "publishedAt": "2026-07-01T02:43:56.362Z",
-    "mediaUrls": [],
-    "iframes": []
-  }
+  "success": false,
+  "error": "fetch failed",
+  "stack": "TypeError: fetch failed"
 }
