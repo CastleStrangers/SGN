@@ -56,39 +56,44 @@ export async function runSync(
       const sortedArticles = [...articles].sort((a, b) => a.publishedAt.getTime() - b.publishedAt.getTime())
 
       for (const article of sortedArticles) {
-        try {
-          let finalArticle = article
-          if (source.translate) {
-            const { translateArticle } = await import("./translator")
-            finalArticle = await translateArticle(article)
-          }
+        const isCommunityNews = !source.translate
+        const targetLocales = isCommunityNews ? ["ar"] : ["ar", "nl", "en"]
 
-          let category: string
-          if (autoCategorize) {
-            category = await categorizeWithAI(finalArticle)
-          } else {
-            category = source.category || finalArticle.category
-          }
+        for (const targetLocale of targetLocales) {
+          try {
+            let finalArticle = { ...article }
+            if (source.translate) {
+              const { translateArticleToLocale } = await import("./translator")
+              finalArticle = await translateArticleToLocale(article, targetLocale)
+            }
 
-          if (downloadMedia) {
-            const mediaResult = await processArticleMedia(
-              finalArticle.content,
-              source.url
+            let category: string
+            if (autoCategorize) {
+              category = await categorizeWithAI(finalArticle)
+            } else {
+              category = source.category || finalArticle.category
+            }
+
+            if (downloadMedia) {
+              const mediaResult = await processArticleMedia(
+                finalArticle.content,
+                source.url
+              )
+              finalArticle.content = mediaResult.content
+              finalArticle.image = finalArticle.image
+                ? (await downloadSingleMedia(finalArticle.image, source.url)) || finalArticle.image
+                : mediaResult.thumbnail || finalArticle.image
+            }
+
+            const syncResult = await syncArticleToDb(finalArticle, category, targetLocale)
+            if (syncResult.status === "new") result.new++
+            else if (syncResult.status === "updated") result.updated++
+            else result.skipped++
+          } catch (err) {
+            result.errors.push(
+              `Locale ${targetLocale} - Article "${article.title.slice(0, 50)}": ${err instanceof Error ? err.message : String(err)}`
             )
-            finalArticle.content = mediaResult.content
-            finalArticle.image = finalArticle.image
-              ? (await downloadSingleMedia(finalArticle.image, source.url)) || finalArticle.image
-              : mediaResult.thumbnail || finalArticle.image
           }
-
-          const syncResult = await syncArticleToDb(finalArticle, category)
-          if (syncResult.status === "new") result.new++
-          else if (syncResult.status === "updated") result.updated++
-          else result.skipped++
-        } catch (err) {
-          result.errors.push(
-            `Article "${article.title.slice(0, 50)}": ${err instanceof Error ? err.message : String(err)}`
-          )
         }
       }
     } catch (err) {

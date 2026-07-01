@@ -3,8 +3,8 @@ import { apiFetch } from "./api";
 
 const FAVORITES_KEY = "favorites_sync";
 
-export async function getNews(page: number = 1, category?: string): Promise<any> {
-  const params = new URLSearchParams({ limit: "20", offset: String((page - 1) * 20) });
+export async function getNews(page: number = 1, category?: string, locale: string = "ar"): Promise<any> {
+  const params = new URLSearchParams({ limit: "20", offset: String((page - 1) * 20), locale });
   if (category) params.set("category", category);
   return apiFetch(`/news?${params}`);
 }

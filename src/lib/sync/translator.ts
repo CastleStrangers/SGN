@@ -9,8 +9,19 @@ function cleanJsonResponse(response: string): string {
   return cleaned;
 }
 
+function detectLanguage(article: ExtractedArticle): "ar" | "nl" | "en" {
+  if (/[\u0600-\u06FF]/.test(article.title)) {
+    return "ar";
+  }
+  const url = (article.sourceUrl || "").toLowerCase();
+  const sourceName = (article.source || "").toLowerCase();
+  if (url.includes("nos.nl") || url.includes("netherlands") || sourceName.includes("nos")) {
+    return "nl";
+  }
+  return "en";
+}
+
 export async function translateArticle(article: ExtractedArticle): Promise<ExtractedArticle> {
-  // Skip translation if the title already contains Arabic characters
   const isArabic = /[\u0600-\u06FF]/.test(article.title);
   if (isArabic) {
     return article;
@@ -51,6 +62,73 @@ Content: ${article.content}`;
     console.error("AI translation failed for article:", article.title, error);
   }
 
-  // Fallback to original article if translation fails
+  return article;
+}
+
+export async function translateArticleToLocale(
+  article: ExtractedArticle,
+  targetLocale: string
+): Promise<ExtractedArticle> {
+  const sourceLang = detectLanguage(article);
+  if (sourceLang === targetLocale) {
+    return article;
+  }
+
+  if (targetLocale === "ar") {
+    return translateArticle(article);
+  }
+
+  let prompt = "";
+  let systemPrompt = "";
+
+  if (targetLocale === "nl") {
+    prompt = `Translate the following news article elements into professional and clear Dutch.
+You MUST output your response as a valid JSON object matching this schema:
+{
+  "title": "translated title in Dutch",
+  "excerpt": "translated summary/excerpt in Dutch",
+  "content": "translated article body in Dutch, preserving ALL HTML tags, inline styles, links, image tags, and iframes exactly as they are"
+}
+
+Article to translate:
+Title: ${article.title}
+Excerpt: ${article.excerpt || ""}
+Content: ${article.content}`;
+
+    systemPrompt = "You are a professional translator specializing in translating news into high-quality, professional Dutch. You always respond with a raw JSON object only.";
+  } else if (targetLocale === "en") {
+    prompt = `Translate the following news article elements into professional and clear English.
+You MUST output your response as a valid JSON object matching this schema:
+{
+  "title": "translated title in English",
+  "excerpt": "translated summary/excerpt in English",
+  "content": "translated article body in English, preserving ALL HTML tags, inline styles, links, image tags, and iframes exactly as they are"
+}
+
+Article to translate:
+Title: ${article.title}
+Excerpt: ${article.excerpt || ""}
+Content: ${article.content}`;
+
+    systemPrompt = "You are a professional translator specializing in translating news into high-quality, professional English. You always respond with a raw JSON object only.";
+  }
+
+  try {
+    const response = await generateText(prompt, systemPrompt, { responseFormat: "json" });
+    const cleaned = cleanJsonResponse(response);
+    const parsed = JSON.parse(cleaned);
+
+    if (parsed.title && parsed.content) {
+      return {
+        ...article,
+        title: parsed.title.trim(),
+        excerpt: parsed.excerpt?.trim() || article.excerpt,
+        content: parsed.content.trim(),
+      };
+    }
+  } catch (error) {
+    console.error(`AI translation failed to ${targetLocale} for article:`, article.title, error);
+  }
+
   return article;
 }

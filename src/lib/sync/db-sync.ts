@@ -44,35 +44,38 @@ async function getOrCreateSyncUser(): Promise<string> {
   return user.id
 }
 
-async function findExistingBySourceInfo(source: string, url: string): Promise<boolean> {
+async function findExistingBySourceInfo(source: string, url: string, locale: string): Promise<boolean> {
   const count = await prisma.post.count({
-    where: { tags: { contains: `__source:${source}:${url}` } },
+    where: { tags: { contains: `__source:${source}:${url}` }, locale },
   })
   return count > 0
 }
 
-async function findExistingByContentHash(hash: string): Promise<boolean> {
+async function findExistingByContentHash(hash: string, locale: string): Promise<boolean> {
   const count = await prisma.post.count({
-    where: { tags: { contains: `__hash:${hash}` } },
+    where: { tags: { contains: `__hash:${hash}` }, locale },
   })
   return count > 0
 }
 
 export async function syncArticleToDb(
   article: ExtractedArticle,
-  category: string
+  category: string,
+  locale: string = "ar"
 ): Promise<{ status: "new" | "updated" | "skipped"; id?: string }> {
   const contentHash = generateContentHash(article)
 
   const sourceInfo = `${article.source || "unknown"}:${article.sourceUrl}`
-  const existsByUrl = await findExistingBySourceInfo(article.source || "unknown", article.sourceUrl)
-  const existsByHash = await findExistingByContentHash(contentHash)
+  const existsByUrl = await findExistingBySourceInfo(article.source || "unknown", article.sourceUrl, locale)
+  const existsByHash = await findExistingByContentHash(contentHash, locale)
 
   if (existsByUrl || existsByHash) {
     return { status: "skipped" }
   }
 
-  const slug = generateSlug(article.title)
+  const baseSlug = generateSlug(article.title)
+  const slug = locale === "ar" ? baseSlug : `${baseSlug}-${locale}`
+  
   if (slug) {
     const existingSlug = await prisma.post.findUnique({ where: { slug } })
     if (existingSlug) return { status: "skipped" }
@@ -122,6 +125,7 @@ export async function syncArticleToDb(
       published: true,
       slug: slug || undefined,
       authorId,
+      locale,
       createdAt: article.publishedAt,
     },
   })

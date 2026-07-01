@@ -90,6 +90,7 @@ function NewsPageInner() {
     }
     params.set("limit", String(limit));
     params.set("offset", String(page * limit));
+    params.set("locale", locale);
     if (searchQuery) params.set("search", searchQuery);
 
     fetch(`/api/news?${params}`)

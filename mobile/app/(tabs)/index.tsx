@@ -52,7 +52,7 @@ export default function HomeScreen() {
   async function loadNews() {
     setLoading(true);
     try {
-      const data = await getNews(1, category || undefined);
+      const data = await getNews(1, category || undefined, locale);
       setPosts(Array.isArray(data) ? data : data.posts || []);
     } catch (e) {
       console.error(e);

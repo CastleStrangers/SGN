@@ -32,6 +32,7 @@ export async function GET(req: NextRequest) {
   const offset = Number(searchParams.get("offset")) || 0;
   const search = searchParams.get("search");
   const video = searchParams.get("video") === "true";
+  const locale = searchParams.get("locale") || "ar";
 
   try {
     // طلب مقال واحد بالـ slug ← نرجع content كاملاً
@@ -47,7 +48,7 @@ export async function GET(req: NextRequest) {
     }
 
     // بناء شرط الاستعلام
-    const where: any = { published: true, membersOnly: false };
+    const where: any = { published: true, membersOnly: false, locale };
     if (category) where.category = category;
     if (featured === "true") where.featured = true;
     if (video) where.source = "youtube";
