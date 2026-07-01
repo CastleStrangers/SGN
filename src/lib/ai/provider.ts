@@ -9,12 +9,12 @@ function getConfig(): AIConfig {
   if (configured === "openai") return { provider: "openai", model: process.env.OPENAI_MODEL || "gpt-4o-mini" };
   if (configured === "anthropic") return { provider: "anthropic", model: process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20240620" };
 
-  const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
-  if (isProd) {
-    if (process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_BASE_URL) {
-      return { provider: "anthropic", model: process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20240620" };
-    }
+  // "auto" mode: check for cloud API keys first, fallback to ollama
+  if (process.env.OPENAI_API_KEY) {
     return { provider: "openai", model: process.env.OPENAI_MODEL || "gpt-4o-mini" };
+  }
+  if (process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_BASE_URL) {
+    return { provider: "anthropic", model: process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20240620" };
   }
 
   return { provider: "ollama" };
