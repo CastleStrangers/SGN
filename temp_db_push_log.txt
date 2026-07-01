@@ -7,3 +7,12 @@ The database is already in sync with the Prisma schema.
 
 
 Executing npx -y prisma generate...
+Output2:
+
+✔ Generated Prisma Client (v7.8.0) to .\node_modules\@prisma\client in 3.44s
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+
+Success!
