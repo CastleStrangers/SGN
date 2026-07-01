@@ -8,6 +8,7 @@ import AboutUsBoard, { BoardMember } from "@/components/about-us-board";
 
 export default function AboutPage() {
   const t = useTranslations("about");
+  const tDev = useTranslations("dev");
   const [members, setMembers] = useState<BoardMember[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -83,12 +84,33 @@ export default function AboutPage() {
         </div>
       </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         {loading ? (
           <div className="text-center py-20 text-gray-500 font-medium">{t("boardLoading")}</div>
         ) : (
           <AboutUsBoard members={members} />
         )}
+      </div>
+
+      {/* Developer Promotion Banner */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="bg-gradient-to-r from-[#f0f7f2] to-[#e4efe8] border border-[#1a5632]/10 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+          <div className="text-center md:text-right">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              {tDev("promoTitle")}
+            </h3>
+            <p className="text-gray-600 text-sm max-w-xl">
+              {tDev("promoDesc")}
+            </p>
+          </div>
+          <Link
+            href="/about/developer"
+            className="inline-flex items-center gap-2 bg-[#1a5632] hover:bg-[#0f3d23] text-white px-6 py-3 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all flex-shrink-0"
+          >
+            <span>{tDev("promoBtn")}</span>
+            <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
+          </Link>
+        </div>
       </div>
     </div>
   );

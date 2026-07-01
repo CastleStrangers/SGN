@@ -391,5 +391,23 @@
     "europeNews": "Europe News",
     "economy": "Economy",
     "cultureEuronews": "Culture"
+  },
+  "dev": {
+    "title": "About the Developer & Agency",
+    "subtitle": "Professional Mobile, Web & AI Development Services",
+    "name": "Eng. Mohamad Salim Aziza",
+    "role": "SGN Technical Officer & Lead Developer",
+    "company": "Castle Strangers Software Studio",
+    "bio": "I am the engineer responsible for building and maintaining this mobile app and website for the Syrian Community. Our software studio specializes in crafting state-of-the-art mobile apps, high-performance web applications, and custom AI integrations (like RAG and Chatbots) to help you scale, acquire customers, and succeed digitally.",
+    "services": "Our Software Services:",
+    "service1": "Custom Mobile App Development (iOS & Android)",
+    "service2": "Modern, Fast Web Applications (Next.js, React, Tailwind)",
+    "service3": "Custom AI Solutions & Intelligent Chatbots",
+    "contact": "Work with us on your next project",
+    "whatsapp": "Chat directly on WhatsApp",
+    "email": "Send us an Email",
+    "promoTitle": "Looking for a developer for your project?",
+    "promoDesc": "Get a free technical consultation for your website or mobile app from the studio that developed this platform.",
+    "promoBtn": "View Developer Profile & Services"
   }
 }
