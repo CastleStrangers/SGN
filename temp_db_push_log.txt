@@ -1,0 +1,11 @@
+Starting prisma generate...
+Executing npx -y prisma generate...
+Output:
+
+✔ Generated Prisma Client (v7.8.0) to .\node_modules\@prisma\client in 2.94s
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+
+Success!
