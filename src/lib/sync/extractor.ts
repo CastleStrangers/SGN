@@ -371,7 +371,14 @@ function extractRSS(xml: string, source: SyncSource): ExtractedArticle[] {
     const pubDate = item.match(/<pubDate>([^<]+)<\/pubDate>/)?.[1]?.trim()
     const creator = cleanText(item.match(/<(?:author|dc:creator)>([^<]+)<\/(?:author|dc:creator)>/)?.[1] || "")
     if (!title || title.length < 5) continue
+    
+    // Extract standard enclosures or media elements
+    const enclosureUrl = item.match(/<(?:enclosure|media:content|media:thumbnail)[^>]+url=["']([^"']+)["']/)?.[1] || ""
     const mediaUrls = extractImagesFromHtml(content, true)
+    if (enclosureUrl && !mediaUrls.includes(enclosureUrl)) {
+      mediaUrls.unshift(enclosureUrl)
+    }
+
     const videoIds = extractVideoIdsFromHtml(content)
     const textContent = content.replace(/<[^>]+>/g, "").trim()
     articles.push({
@@ -434,7 +441,8 @@ export async function extractArticles(source: SyncSource): Promise<ExtractedArti
   switch (source.type) {
     case "rss": {
       const raw = await fetchPage(source.url)
-      return extractRSS(raw, source)
+      const parsed = extractRSS(raw, source)
+      return parsed.slice(0, 3)
     }
     case "webpage": {
       const raw = await fetchPage(source.url)
