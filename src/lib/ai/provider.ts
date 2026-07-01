@@ -12,12 +12,12 @@ function getConfig(): AIConfig {
   if (configured === "ollama") return { provider: "ollama" };
   if (configured === "openai") return { provider: "openai", model: process.env.OPENAI_MODEL || "gpt-4o-mini" };
   if (configured === "anthropic") return { provider: "anthropic", model: process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20240620" };
-  if (configured === "gemini") return { provider: "gemini", model: process.env.GEMINI_MODEL || "gemini-1.5-flash" };
+  if (configured === "gemini") return { provider: "gemini", model: process.env.GEMINI_MODEL || "gemini-2.5-flash" };
 
   // "auto" mode: check for cloud API keys first, fallback to ollama
   // Standard Gemini API keys start with "AIzaSy"
   if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.startsWith("AIzaSy")) {
-    return { provider: "gemini", model: process.env.GEMINI_MODEL || "gemini-1.5-flash" };
+    return { provider: "gemini", model: process.env.GEMINI_MODEL || "gemini-2.5-flash" };
   }
   if (process.env.OPENAI_API_KEY) {
     return { provider: "openai", model: process.env.OPENAI_MODEL || "gpt-4o-mini" };
