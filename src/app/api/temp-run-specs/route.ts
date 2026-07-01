@@ -10,8 +10,7 @@ export async function GET(req: Request) {
     const action = url.searchParams.get("action") || "diagnose";
 
     if (action === "diagnose") {
-      // Diagnostic mode: show counts by locale
-      const [ar, nl, en, total, withImage, withoutImage, published, samples] = await Promise.all([
+      const [ar, nl, en, total, withImage, withoutImage, published] = await Promise.all([
         prisma.post.count({ where: { locale: "ar" } }),
         prisma.post.count({ where: { locale: "nl" } }),
         prisma.post.count({ where: { locale: "en" } }),
@@ -19,12 +18,13 @@ export async function GET(req: Request) {
         prisma.post.count({ where: { image: { not: null }, published: true } }),
         prisma.post.count({ where: { image: null, published: true } }),
         prisma.post.count({ where: { published: true } }),
-        prisma.post.findMany({
-          select: { id: true, title: true, locale: true, image: true, source: true, published: true },
-          take: 10,
-          orderBy: { createdAt: "desc" }
-        })
       ]);
+
+      const samples = await prisma.post.findMany({
+        select: { id: true, title: true, locale: true, image: true, source: true, published: true },
+        take: 10,
+        orderBy: { createdAt: "desc" }
+      });
 
       return NextResponse.json({
         counts: { ar, nl, en, total },
@@ -33,35 +33,8 @@ export async function GET(req: Request) {
       });
     }
 
-    if (action === "fix-locale") {
-      // Fix all posts that somehow ended up with wrong or missing locale
-      // In SQLite, null is stored as empty string sometimes due to schema defaults
-
-      // First, get all posts without locale info to see what we have
-      const allPosts = await prisma.post.findMany({
-        select: { id: true, locale: true, source: true },
-      });
-
-      const needsFix = allPosts.filter(p => !p.locale || p.locale === "");
-      
-      let fixed = 0;
-      for (const post of needsFix) {
-        await prisma.post.update({
-          where: { id: post.id },
-          data: { locale: "ar" }
-        });
-        fixed++;
-      }
-
-      return NextResponse.json({
-        message: "Fixed posts without locale",
-        fixed,
-        total: allPosts.length
-      });
-    }
-
     if (action === "fix-images") {
-      // Update posts that have localhost image URLs to use a placeholder
+      // Fix posts that have localhost/local image URLs 
       const localPosts = await prisma.post.findMany({
         where: {
           OR: [
@@ -69,12 +42,11 @@ export async function GET(req: Request) {
             { image: { contains: "/uploads/sync/" } },
           ]
         },
-        select: { id: true, image: true, title: true }
+        select: { id: true, image: true }
       });
 
       let fixed = 0;
       for (const post of localPosts) {
-        // Set image to null so the placeholder kicks in
         await prisma.post.update({
           where: { id: post.id },
           data: { image: null }
@@ -83,15 +55,14 @@ export async function GET(req: Request) {
       }
 
       return NextResponse.json({
-        message: "Fixed posts with localhost/local image URLs",
+        message: "Fixed posts with local image URLs - set to null so placeholders show",
         fixed,
-        examples: localPosts.slice(0, 5).map(p => ({ id: p.id, oldImage: p.image }))
       });
     }
 
     return NextResponse.json({ error: "Unknown action" }, { status: 400 });
 
   } catch (error: any) {
-    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
