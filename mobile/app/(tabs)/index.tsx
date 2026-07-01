@@ -19,6 +19,10 @@ export default function HomeScreen() {
   const categories = [
     { key: "all", apiValue: "" },
     { key: "communityNews", apiValue: "أخبار الجالية" },
+    { key: "netherlandsNews", apiValue: "أخبار هولندا" },
+    { key: "europeNews", apiValue: "أخبار أوروبا" },
+    { key: "economy", apiValue: "اقتصاد" },
+    { key: "cultureEuronews", apiValue: "ثقافيات" },
     { key: "culture", apiValue: "ثقافة وفن" },
     { key: "services", apiValue: "خدمات" },
     { key: "humanitarian", apiValue: "عمل إنساني" },
@@ -29,6 +33,10 @@ export default function HomeScreen() {
   const getCategoryTranslation = (cat: string) => {
     if (!cat) return "";
     if (cat === "أخبار الجالية") return t("categories.communityNews");
+    if (cat === "أخبار هولندا") return t("categories.netherlandsNews");
+    if (cat === "أخبار أوروبا") return t("categories.europeNews");
+    if (cat === "اقتصاد") return t("categories.economy");
+    if (cat === "ثقافيات") return t("categories.cultureEuronews");
     if (cat === "ثقافة وفن") return t("categories.culture");
     if (cat === "خدمات") return t("categories.services");
     if (cat === "عمل إنساني") return t("categories.humanitarian");

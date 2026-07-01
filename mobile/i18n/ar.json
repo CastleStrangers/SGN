@@ -386,6 +386,10 @@
     "services": "خدمات",
     "humanitarian": "عمل إنساني",
     "sports": "رياضة",
-    "tech": "تكنولوجيا"
+    "tech": "تكنولوجيا",
+    "netherlandsNews": "أخبار هولندا",
+    "europeNews": "أخبار أوروبا",
+    "economy": "اقتصاد",
+    "cultureEuronews": "ثقافيات"
   }
 }

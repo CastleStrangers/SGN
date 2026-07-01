@@ -386,6 +386,10 @@
     "services": "Services",
     "humanitarian": "Humanitarian Work",
     "sports": "Sports",
-    "tech": "Technology"
+    "tech": "Technology",
+    "netherlandsNews": "Netherlands News",
+    "europeNews": "Europe News",
+    "economy": "Economy",
+    "cultureEuronews": "Culture"
   }
 }
