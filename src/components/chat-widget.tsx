@@ -105,7 +105,7 @@ export function ChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end" dir={isRtl ? "rtl" : "ltr"}>
       {/* Popover Window */}
       {isOpen && (
         <div
@@ -128,6 +128,8 @@ export function ChatWidget() {
             </div>
             <button
               onClick={() => setIsOpen(false)}
+              title={t("close") || "إغلاق"}
+              aria-label={t("close") || "إغلاق"}
               className="p-1.5 hover:bg-white/10 rounded-xl transition cursor-pointer"
             >
               <X className="w-4 h-4" />
@@ -217,6 +219,7 @@ export function ChatWidget() {
             <button
               onClick={handleClear}
               title={t("aiClear") || "محادثة جديدة"}
+              aria-label={t("aiClear") || "محادثة جديدة"}
               className="p-3 bg-gray-50 hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-gray-500 rounded-2xl transition cursor-pointer"
             >
               <Trash2 className="w-4 h-4" />
@@ -232,6 +235,8 @@ export function ChatWidget() {
             <button
               onClick={() => handleSend()}
               disabled={loading || !input.trim()}
+              title={t("send") || "إرسال"}
+              aria-label={t("send") || "إرسال"}
               className="p-3 bg-[#1a5632] hover:bg-[#0f3d23] disabled:opacity-50 text-white rounded-2xl transition flex items-center justify-center cursor-pointer shadow-md shadow-emerald-950/10"
             >
               <Send className="w-4 h-4" />
@@ -243,6 +248,8 @@ export function ChatWidget() {
       {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
+        title={isOpen ? (t("close") || "إغلاق") : (t("aiTitle") || "المساعد الذكي")}
+        aria-label={isOpen ? (t("close") || "إغلاق") : (t("aiTitle") || "المساعد الذكي")}
         className="w-14 h-14 bg-gradient-to-tr from-[#1a5632] to-[#0f3d23] hover:from-[#0f3d23] hover:to-[#0f3d23] text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 cursor-pointer border border-emerald-700/20 active:scale-95 group relative overflow-hidden"
       >
         <span className="absolute inset-0 bg-white/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-300"></span>
