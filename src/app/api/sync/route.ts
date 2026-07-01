@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { requireAuthorize } from "@/lib/auth-helpers"
-import { runSync } from "@/lib/sync"
+import { runSync, DEFAULT_SOURCES } from "@/lib/sync"
 
 export async function POST(req: Request) {
   // Allow cron job via CRON_SECRET header
@@ -40,19 +40,6 @@ export async function GET() {
     status: "idle",
     lastSync: null,
     schedule: "0 * * * *",
-    sources: [
-      { name: "sy-nl.org", type: "webpage", url: "https://www.sy-nl.org/nbdh-aljalyh" },
-      {
-        name: "facebook-sgn",
-        type: "facebook",
-        url: "https://www.facebook.com/DeSyrischeGemeenschapInNederland",
-        since: "2026-05-14",
-      },
-      {
-        name: "youtube",
-        type: "youtube",
-        url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCgsEr_WQEnuymVqvTWXqmtw",
-      },
-    ],
+    sources: DEFAULT_SOURCES,
   })
 }

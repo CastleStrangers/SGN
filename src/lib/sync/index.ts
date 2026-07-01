@@ -57,25 +57,31 @@ export async function runSync(
 
       for (const article of sortedArticles) {
         try {
+          let finalArticle = article
+          if (source.translate) {
+            const { translateArticle } = await import("./translator")
+            finalArticle = await translateArticle(article)
+          }
+
           let category: string
           if (autoCategorize) {
-            category = await categorizeWithAI(article)
+            category = await categorizeWithAI(finalArticle)
           } else {
-            category = source.category || article.category
+            category = source.category || finalArticle.category
           }
 
           if (downloadMedia) {
             const mediaResult = await processArticleMedia(
-              article.content,
+              finalArticle.content,
               source.url
             )
-            article.content = mediaResult.content
-            article.image = article.image
-              ? (await downloadSingleMedia(article.image, source.url)) || article.image
-              : mediaResult.thumbnail || article.image
+            finalArticle.content = mediaResult.content
+            finalArticle.image = finalArticle.image
+              ? (await downloadSingleMedia(finalArticle.image, source.url)) || finalArticle.image
+              : mediaResult.thumbnail || finalArticle.image
           }
 
-          const syncResult = await syncArticleToDb(article, category)
+          const syncResult = await syncArticleToDb(finalArticle, category)
           if (syncResult.status === "new") result.new++
           else if (syncResult.status === "updated") result.updated++
           else result.skipped++
