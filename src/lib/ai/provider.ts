@@ -1,6 +1,10 @@
 type AIMessage = { role: "system" | "user" | "assistant"; content: string };
 
-type AIConfig = { provider: "ollama" } | { provider: "openai"; model: string } | { provider: "anthropic"; model: string };
+type AIConfig = 
+  | { provider: "ollama" } 
+  | { provider: "openai"; model: string } 
+  | { provider: "anthropic"; model: string }
+  | { provider: "gemini"; model: string };
 
 function getConfig(): AIConfig {
   const configured = process.env.AI_PROVIDER || "auto";
@@ -8,8 +12,13 @@ function getConfig(): AIConfig {
   if (configured === "ollama") return { provider: "ollama" };
   if (configured === "openai") return { provider: "openai", model: process.env.OPENAI_MODEL || "gpt-4o-mini" };
   if (configured === "anthropic") return { provider: "anthropic", model: process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20240620" };
+  if (configured === "gemini") return { provider: "gemini", model: process.env.GEMINI_MODEL || "gemini-1.5-flash" };
 
   // "auto" mode: check for cloud API keys first, fallback to ollama
+  // Standard Gemini API keys start with "AIzaSy"
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.startsWith("AIzaSy")) {
+    return { provider: "gemini", model: process.env.GEMINI_MODEL || "gemini-1.5-flash" };
+  }
   if (process.env.OPENAI_API_KEY) {
     return { provider: "openai", model: process.env.OPENAI_MODEL || "gpt-4o-mini" };
   }
@@ -81,7 +90,6 @@ export async function generateChat(
 
     if (apiKey) headers["x-api-key"] = apiKey;
 
-    // Parse custom headers like "x-ai-gateway-api-key: Bearer ..."
     if (customHeadersRaw) {
       const parts = customHeadersRaw.split(":");
       if (parts.length >= 2) {
@@ -110,6 +118,41 @@ export async function generateChat(
 
     const data = await res.json();
     return data.content[0]?.text || "";
+  }
+
+  if (config.provider === "gemini") {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) throw new Error("GEMINI_API_KEY is required for Gemini provider");
+
+    const contents = messages.map((m) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
+
+    const body: any = {
+      contents,
+      ...(systemPrompt ? { systemInstruction: { parts: [{ text: systemPrompt }] } } : {}),
+      generationConfig: {
+        ...(options?.responseFormat === "json" ? { responseMimeType: "application/json" } : {}),
+      },
+    };
+
+    const modelName = options?.model || config.model;
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`Gemini error ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
   }
 
   const { ollamaGenerate } = await import("./ollama");
