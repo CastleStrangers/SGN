@@ -78,6 +78,8 @@ export function NotificationBell() {
     );
   };
 
+  const isRtl = locale === "ar";
+
   return (
     <div ref={ref} className="relative">
       <button
@@ -96,7 +98,9 @@ export function NotificationBell() {
 
       {open && (
         <div
-          className="fixed left-4 right-4 top-16 sm:absolute sm:top-auto sm:left-auto sm:right-0 mt-2 sm:w-80 md:w-96 bg-card border border-border text-card-foreground rounded-2xl shadow-xl z-50 overflow-hidden max-h-[480px] flex flex-col"
+          className={`fixed left-4 right-4 top-16 sm:absolute sm:top-auto mt-2 sm:w-80 md:w-96 bg-card border border-border text-card-foreground rounded-2xl shadow-xl z-50 overflow-hidden max-h-[480px] flex flex-col ${
+            isRtl ? "sm:left-0 sm:right-auto" : "sm:right-0 sm:left-auto"
+          }`}
           dir="rtl"
         >
 
