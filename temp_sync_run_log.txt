@@ -2,3 +2,78 @@ Starting cleanup and fresh sync...
 Deleting old English/Dutch synced posts from DB...
 Deleted 169 posts successfully.
 Triggering fresh runSync() with rate-limiting and RSS images enabled...
+Fresh sync finished successfully! Results:
+[
+  {
+    "success": true,
+    "source": "sy-nl.org",
+    "fetched": 25,
+    "new": 0,
+    "updated": 0,
+    "skipped": 25,
+    "errors": [],
+    "duration": 26048
+  },
+  {
+    "success": false,
+    "source": "youtube",
+    "fetched": 0,
+    "new": 0,
+    "updated": 0,
+    "skipped": 0,
+    "errors": [
+      "Source \"youtube\": HTTP 404 fetching https://www.youtube.com/feeds/videos.xml?channel_id=UCgsEr_WQEnuymVqvTWXqmtw"
+    ],
+    "duration": 86
+  },
+  {
+    "success": true,
+    "source": "facebook-sgn",
+    "fetched": 0,
+    "new": 0,
+    "updated": 0,
+    "skipped": 0,
+    "errors": [],
+    "duration": 110
+  },
+  {
+    "success": true,
+    "source": "nos-netherlands",
+    "fetched": 3,
+    "new": 3,
+    "updated": 0,
+    "skipped": 0,
+    "errors": [],
+    "duration": 2304
+  },
+  {
+    "success": true,
+    "source": "euronews-europe",
+    "fetched": 3,
+    "new": 3,
+    "updated": 0,
+    "skipped": 0,
+    "errors": [],
+    "duration": 888
+  },
+  {
+    "success": true,
+    "source": "euronews-business",
+    "fetched": 3,
+    "new": 3,
+    "updated": 0,
+    "skipped": 0,
+    "errors": [],
+    "duration": 822
+  },
+  {
+    "success": true,
+    "source": "euronews-culture",
+    "fetched": 3,
+    "new": 3,
+    "updated": 0,
+    "skipped": 0,
+    "errors": [],
+    "duration": 889
+  }
+]
