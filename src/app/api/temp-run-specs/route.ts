@@ -1,25 +1,37 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { translateArticle } from "@/lib/sync/translator";
+import fs from "fs";
+import path from "path";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  try {
-    const posts = await prisma.post.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 12,
-      select: {
-        id: true,
-        title: true,
-        category: true,
-        source: true,
-        image: true,
-        createdAt: true,
-      }
-    });
+  const originalProvider = process.env.AI_PROVIDER;
+  process.env.AI_PROVIDER = "openai";
 
-    return NextResponse.json(posts);
+  try {
+    const article = {
+      title: "Hello World",
+      excerpt: "This is a test article",
+      content: "<p>This is a test article content.</p>",
+      category: "test",
+      tags: [],
+      source: "test",
+      sourceUrl: "https://test.com",
+      author: "test",
+      publishedAt: new Date(),
+      mediaUrls: [],
+      iframes: [],
+    };
+    const translated = await translateArticle(article);
+    const result = { success: true, provider: process.env.AI_PROVIDER, translated };
+    fs.writeFileSync(path.join(process.cwd(), "temp_test_out.json"), JSON.stringify(result, null, 2));
+    process.env.AI_PROVIDER = originalProvider;
+    return NextResponse.json(result);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message });
+    const result = { success: false, error: error.message, stack: error.stack };
+    fs.writeFileSync(path.join(process.cwd(), "temp_test_out.json"), JSON.stringify(result, null, 2));
+    process.env.AI_PROVIDER = originalProvider;
+    return NextResponse.json(result);
   }
 }
