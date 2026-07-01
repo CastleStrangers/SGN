@@ -1,4 +1,5 @@
 {
     "search.useIgnoreFiles": false,
-    "css.lint.unknownAtRules": "ignore"
+    "css.lint.unknownAtRules": "ignore",
+    "python.defaultInterpreterPath": "C:\\Python314\\python.exe"
 }
