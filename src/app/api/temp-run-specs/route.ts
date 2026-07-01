@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
+import { generateChat } from "@/lib/ai/provider";
 
 export async function GET() {
-  const apiKey = process.env.GEMINI_API_KEY;
   try {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-    const data = await res.json();
-    return NextResponse.json(data);
+    const reply = await generateChat(
+      [{ role: "user", content: "مرحبا، هل تعمل بشكل صحيح؟ أجب بكلمة واحدة: نعم" }], 
+      "You are a test helper"
+    );
+    return NextResponse.json({ success: true, reply });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message });
+    return NextResponse.json({ success: false, error: e.message });
   }
 }
