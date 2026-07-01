@@ -1,2 +1,9 @@
 Starting db push and generate...
 Executing npx -y prisma db push --accept-data-loss...
+Output1:
+Datasource "db": SQLite database "dev.db" at "file:./prisma/dev.db"
+
+The database is already in sync with the Prisma schema.
+
+
+Executing npx -y prisma generate...
