@@ -7,55 +7,98 @@ export default function DeveloperProfileScreen() {
   const { t, isRTL } = useI18n();
 
   const handleWhatsApp = () => {
-    Linking.openURL("https://wa.me/31618111116?text=Hello%20Eng.%20Mohamad%20Salim%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20development%20services.");
+    Linking.openURL("https://wa.me/31618111116?text=Hello%20Castle%20Strangers%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20development%20and%20accounting%20systems%20services.");
   };
 
   const handleEmail = () => {
     Linking.openURL("mailto:m.salim.aziza@gmail.com?subject=Software%20Development%20Inquiry");
   };
 
-  const services = [
-    { icon: "laptop-outline", title: t("dev.service2") },
-    { icon: "phone-portrait-outline", title: t("dev.service1") },
-    { icon: "hardware-chip-outline", title: t("dev.service3") },
+  const member1Services = [
+    t("dev.service2"),
+    t("dev.service1"),
+    t("dev.service3"),
+  ];
+
+  const member2Services = [
+    t("dev.service4"),
+    t("dev.service1"),
   ];
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {/* Header Info */}
-      <View style={styles.profileHeader}>
-        <View style={styles.avatarContainer}>
-          <Image
-            source={{ uri: "https://sgn-indol.vercel.app/images/board/Mohammad_Salim_Aziza.png" }}
-            style={styles.avatar}
-            defaultSource={require("../assets/images/icon.png")}
-          />
-        </View>
-        <Text style={styles.name}>{t("dev.name")}</Text>
-        <Text style={styles.role}>{t("dev.role")}</Text>
-        <View style={styles.companyBadge}>
-          <Text style={styles.companyText}>{t("dev.company")}</Text>
-        </View>
+      {/* Title */}
+      <View style={styles.titleContainer}>
+        <Text style={[styles.mainTitle, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.title")}</Text>
+        <Text style={[styles.mainSubtitle, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.subtitle")}</Text>
       </View>
 
-      {/* Detail Card */}
-      <View style={styles.card}>
-        <Text style={[styles.title, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.title")}</Text>
-        <Text style={[styles.subtitle, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.subtitle")}</Text>
-        <Text style={[styles.bio, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.bio")}</Text>
-      </View>
-
-      {/* Services Section */}
-      <View style={styles.card}>
-        <Text style={[styles.sectionTitle, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.services")}</Text>
-        {services.map((item, index) => (
-          <View key={index} style={[styles.serviceRow, { flexDirection: isRTL ? "row-reverse" : "row" }]}>
-            <View style={styles.serviceIconContainer}>
-              <Ionicons name={item.icon as any} size={20} color={COLORS.primary} />
-            </View>
-            <Text style={[styles.serviceText, { textAlign: isRTL ? "right" : "left" }]}>{item.title}</Text>
+      {/* Member 1: Mohamad Salim Aziza */}
+      <View style={styles.memberCard}>
+        <View style={styles.profileHeader}>
+          <View style={styles.avatarContainer}>
+            <Image
+              source={{ uri: "https://sgn-indol.vercel.app/images/board/Mohammad_Salim_Aziza.png" }}
+              style={styles.avatar}
+              defaultSource={require("../assets/images/icon.png")}
+            />
           </View>
-        ))}
+          <Text style={styles.name}>{t("dev.name")}</Text>
+          <Text style={styles.role}>{t("dev.role")}</Text>
+          <View style={styles.companyBadge}>
+            <Text style={styles.companyText}>{t("dev.company")}</Text>
+          </View>
+        </View>
+
+        <View style={styles.bioContainer}>
+          <Text style={[styles.bioText, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.bio")}</Text>
+        </View>
+
+        <View style={styles.servicesContainer}>
+          <Text style={[styles.servicesTitle, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.services")}</Text>
+          {member1Services.map((service, index) => (
+            <View key={index} style={[styles.serviceRow, { flexDirection: isRTL ? "row-reverse" : "row" }]}>
+              <View style={styles.serviceIconContainer}>
+                <Ionicons name="checkmark-circle-outline" size={16} color={COLORS.primary} />
+              </View>
+              <Text style={[styles.serviceText, { textAlign: isRTL ? "right" : "left" }]}>{service}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      {/* Member 2: Mohammad Raid Kaakeh */}
+      <View style={styles.memberCard}>
+        <View style={[styles.profileHeader, { backgroundColor: "#c8a84e" }]}>
+          <View style={styles.avatarContainer}>
+            <Image
+              source={{ uri: "https://sgn-indol.vercel.app/images/board/raed_kaakeh.png" }}
+              style={styles.avatar}
+              defaultSource={require("../assets/images/icon.png")}
+            />
+          </View>
+          <Text style={styles.name}>{t("dev.member2Name")}</Text>
+          <Text style={styles.role}>{t("dev.member2Role")}</Text>
+          <View style={styles.companyBadge}>
+            <Text style={styles.companyText}>{t("dev.company")}</Text>
+          </View>
+        </View>
+
+        <View style={styles.bioContainer}>
+          <Text style={[styles.bioText, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.member2Bio")}</Text>
+        </View>
+
+        <View style={styles.servicesContainer}>
+          <Text style={[styles.servicesTitle, { textAlign: isRTL ? "right" : "left" }]}>{t("dev.services")}</Text>
+          {member2Services.map((service, index) => (
+            <View key={index} style={[styles.serviceRow, { flexDirection: isRTL ? "row-reverse" : "row" }]}>
+              <View style={styles.serviceIconContainer}>
+                <Ionicons name="checkmark-circle-outline" size={16} color="#c8a84e" />
+              </View>
+              <Text style={[styles.serviceText, { textAlign: isRTL ? "right" : "left" }]}>{service}</Text>
+            </View>
+          ))}
+        </View>
       </View>
 
       {/* Call to Actions */}
@@ -87,25 +130,46 @@ const styles = StyleSheet.create({
     gap: 16,
     paddingBottom: 32,
   },
+  titleContainer: {
+    marginBottom: 8,
+    paddingHorizontal: 4,
+  },
+  mainTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: COLORS.text,
+    marginBottom: 4,
+  },
+  mainSubtitle: {
+    fontSize: 14,
+    color: COLORS.primary,
+    fontWeight: "600",
+  },
+  memberCard: {
+    backgroundColor: COLORS.card,
+    borderRadius: 24,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
   profileHeader: {
     backgroundColor: COLORS.primary,
-    borderRadius: 24,
-    padding: 24,
+    padding: 20,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 4,
   },
   avatarContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
     overflow: "hidden",
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: "rgba(255,255,255,0.3)",
-    marginBottom: 12,
+    marginBottom: 8,
   },
   avatar: {
     width: "100%",
@@ -113,76 +177,62 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   name: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#fff",
-    marginBottom: 4,
+    marginBottom: 2,
   },
   role: {
-    fontSize: 13,
-    color: "rgba(255,255,255,0.8)",
+    fontSize: 12,
+    color: "rgba(255,255,255,0.85)",
     textAlign: "center",
-    marginBottom: 12,
+    marginBottom: 8,
+    paddingHorizontal: 12,
   },
   companyBadge: {
     backgroundColor: "rgba(255,255,255,0.15)",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
     borderRadius: 20,
   },
   companyText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "600",
     color: "#fff",
   },
-  card: {
-    backgroundColor: COLORS.card,
-    borderRadius: 20,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: COLORS.text,
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: COLORS.primary,
-    marginBottom: 12,
-  },
-  bio: {
-    fontSize: 14,
-    color: COLORS.textSecondary,
-    lineHeight: 22,
-  },
-  sectionTitle: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: COLORS.text,
-    marginBottom: 12,
-  },
-  serviceRow: {
-    alignItems: "center",
-    gap: 12,
-    paddingVertical: 10,
+  bioContainer: {
+    padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.background,
   },
+  bioText: {
+    fontSize: 13,
+    color: COLORS.textSecondary,
+    lineHeight: 20,
+  },
+  servicesContainer: {
+    padding: 16,
+  },
+  servicesTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: COLORS.text,
+    marginBottom: 10,
+  },
+  serviceRow: {
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 6,
+  },
   serviceIconContainer: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: COLORS.background,
+    width: 24,
+    height: 24,
     alignItems: "center",
     justifyContent: "center",
   },
   serviceText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 13,
     color: COLORS.text,
     fontWeight: "500",
   },
