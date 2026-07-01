@@ -1,0 +1,16 @@
+Error: None
+STDOUT:
+Starting PDF generation via Playwright...
+Saved PDF to public folder: D:\I-Ai\App\Syrian community in the Netherlands\SGN\public\pdfs\SGN_Project_Specifications.pdf
+
+STDERR:
+The filename, directory name, or volume label syntax is incorrect.
+Error in PDF generation process: Error: ENOENT: no such file or directory, copyfile 'D:\I-Ai\App\Syrian community in the Netherlands\SGN\public\pdfs\SGN_Project_Specifications.pdf' -> 'C:\Users\msali\Desktop\SGN_Project_Specifications.pdf'
+    at Object.copyFileSync (node:fs:3674:11)
+    at run (file:///D:/I-Ai/App/Syrian%20community%20in%20the%20Netherlands/SGN/scratch/generate_specs_pdf.js:335:8) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'copyfile',
+  path: 'D:\\I-Ai\\App\\Syrian community in the Netherlands\\SGN\\public\\pdfs\\SGN_Project_Specifications.pdf',
+  dest: 'C:\\Users\\msali\\Desktop\\SGN_Project_Specifications.pdf'
+}

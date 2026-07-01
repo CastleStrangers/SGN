@@ -7,14 +7,28 @@ import { execSync } from "child_process";
 const docxFilename = "SGN_Project_Specifications.docx";
 const pdfFilename = "SGN_Project_Specifications.pdf";
 
-// Get Desktop path
+// Get Desktop path using Registry or fallbacks (supporting OneDrive)
 let desktopPath = "";
 try {
-  // Use powershell to get Desktop folder path accurately on Windows
-  desktopPath = execSync("[Environment]::GetFolderPath('Desktop')").toString().trim();
+  const regCmd = 'reg query "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders" /v Desktop';
+  const regOutput = execSync(regCmd).toString();
+  const match = regOutput.match(/Desktop\s+REG_EXPAND_SZ\s+(.+)/);
+  if (match) {
+    desktopPath = match[1].replace(/%USERPROFILE%/g, os.homedir()).trim();
+  }
 } catch (e) {
-  desktopPath = path.join(os.homedir(), "Desktop");
+  // Silent fallback
 }
+
+if (!desktopPath || !fs.existsSync(desktopPath)) {
+  const oneDriveDesktop = path.join(os.homedir(), "OneDrive", "Desktop");
+  if (fs.existsSync(oneDriveDesktop)) {
+    desktopPath = oneDriveDesktop;
+  } else {
+    desktopPath = path.join(os.homedir(), "Desktop");
+  }
+}
+console.log(`Resolved Desktop Path: ${desktopPath}`);
 
 const sgnPublicDir = path.join(process.cwd(), "public", "pdfs");
 fs.mkdirSync(sgnPublicDir, { recursive: true });
