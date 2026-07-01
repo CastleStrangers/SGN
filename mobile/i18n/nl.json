@@ -391,5 +391,23 @@
     "europeNews": "Europees Nieuws",
     "economy": "Economie",
     "cultureEuronews": "Cultuur"
+  },
+  "dev": {
+    "title": "Over de Ontwikkelaar & Studio",
+    "subtitle": "Professionele Mobiele, Web & AI Ontwikkelingsdiensten",
+    "name": "Ir. Mohamad Salim Aziza",
+    "role": "SGN Technisch Coördinator & Lead Developer",
+    "company": "Castle Strangers Software Studio",
+    "bio": "Ik ben de ingenieur verantwoordelijk voor de ontwikkeling en het onderhoud van deze mobiele app en website van de Syrische Gemeenschap in Nederland. Onze softwarestudio is gespecialiseerd in het bouwen van premium mobiele apps, hoogwaardige webapplicaties (Next.js, React) en op maat gemaakte AI-integraties om uw digitale ambities te realiseren.",
+    "services": "Onze Software Diensten:",
+    "service1": "Mobiele App Ontwikkeling (iOS & Android)",
+    "service2": "Moderne Webapplicaties (Next.js, React, Tailwind)",
+    "service3": "AI Systemen & Slimme Chatbots (RAG, LLMs)",
+    "contact": "Samenwerken aan uw project",
+    "whatsapp": "Direct WhatsApp contact",
+    "email": "Stuur ons een E-mail",
+    "promoTitle": "Op zoek naar een ontwikkelaar voor uw project?",
+    "promoDesc": "Krijg gratis technisch advies voor uw eigen website of mobiele app van de studio die dit platform heeft ontwikkeld.",
+    "promoBtn": "Bekijk Ontwikkelaarsprofiel & Diensten"
   }
 }
