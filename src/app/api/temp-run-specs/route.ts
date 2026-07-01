@@ -1,4 +1,23 @@
-// Temporary file removed to prevent pollution
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/db";
+
 export async function GET() {
-  return new Response("Removed");
+  try {
+    const posts = await prisma.post.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 10,
+      select: {
+        id: true,
+        title: true,
+        category: true,
+        source: true,
+        image: true,
+        createdAt: true,
+      }
+    });
+
+    return NextResponse.json(posts);
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message });
+  }
 }
