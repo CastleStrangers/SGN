@@ -96,6 +96,7 @@ model Post {
   @@index([category, published, createdAt])
   @@index([source, published])
   @@index([featured, published])
+  @@index([locale, published, createdAt])
 }
 
 model Task {
