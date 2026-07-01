@@ -16,12 +16,35 @@ const PERSONAS = [
   { id: "spokesperson", labelKey: "personaSpokesperson" },
 ];
 
-const SUGGESTED_QUESTIONS = [
-  "ما هي أخبار الجالية اليوم؟",
-  "متى موعد الفعالية القادمة؟",
-  "كيف أستطيع التطوع؟",
-  "كيف أتواصل مع الإدارة؟",
-];
+const WELCOME_MESSAGES: Record<string, string> = {
+  general: "مرحباً! أنا المساعد العام للجالية السورية في هولندا. كيف يمكنني مساعدتك اليوم في شؤون الحياة اليومية والخدمات العامة؟",
+  legal: "مرحباً! أنا المستشار القانوني وإجراءات اللجوء للجالية. تفضل بطرح استفساراتك حول الإقامة، لم الشمل، خطوات الـ IND، أو المعاملات القانونية في هولندا.",
+  integration: "مرحباً! أنا مرشد الاندماج واللغة. يسعدني مساعدتك في كل ما يخص امتحانات الاندماج (Inburgering)، تعلم اللغة الهولندية، المدارس، وتقييم الشهادات بالاستعانة بالمنهاج الهولندي.",
+  spokesperson: "مرحباً! أنا الناطق الإعلامي للجالية. يمكنني إجابتك عن أحدث مشاريع وأنشطة الجالية السورية، الفعاليات الثقافية والاجتماعية القادمة، وكيفية التطوع معنا.",
+};
+
+const SUGGESTIONS: Record<string, string[]> = {
+  general: [
+    "ما هي الخدمات المتاحة للاجئين؟",
+    "كيف أتواصل مع إدارة الجالية؟",
+    "كيف أبحث عن سكن اجتماعي؟",
+  ],
+  legal: [
+    "ما هي شروط لم الشمل في هولندا؟",
+    "كم تستغرق موافقة الـ IND عادةً؟",
+    "كيف أحصل على مساعدة قانونية مجانية؟",
+  ],
+  integration: [
+    "ما هي امتحانات الاندماج المطلوبة؟",
+    "كيف أبدأ بتعلم اللغة الهولندية؟",
+    "كيف أسجل أطفالي في المدارس؟",
+  ],
+  spokesperson: [
+    "ما هي آخر مشاريع وأنشطة الجالية؟",
+    "كيف أستطيع التطوع والمساهمة معكم؟",
+    "هل توجد فعاليات قادمة قريبة؟",
+  ],
+};
 
 export function ChatWidget() {
   const t = useTranslations("chat");
@@ -44,16 +67,28 @@ export function ChatWidget() {
       setMessages([
         {
           role: "assistant",
-          content: t("aiWelcome") || "مرحباً! أنا المساعد الذكي للجالية السورية في هولندا. كيف يمكنني مساعدتك اليوم؟",
+          content: WELCOME_MESSAGES[persona] || WELCOME_MESSAGES.general,
         },
       ]);
     }
-  }, [messages, t]);
+  }, [messages, persona]);
 
   // Scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  const handlePersonaChange = (newPersona: string) => {
+    setPersona(newPersona);
+    setSessionId(null);
+    setShowSuggestions(true);
+    setMessages([
+      {
+        role: "assistant",
+        content: WELCOME_MESSAGES[newPersona] || WELCOME_MESSAGES.general,
+      },
+    ]);
+  };
 
   const handleSend = async (textToSend?: string) => {
     const text = (textToSend || input).trim();
@@ -99,7 +134,7 @@ export function ChatWidget() {
     setMessages([
       {
         role: "assistant",
-        content: t("aiWelcome") || "مرحباً! أنا المساعد الذكي للجالية السورية في هولندا. كيف يمكنني مساعدتك اليوم؟",
+        content: WELCOME_MESSAGES[persona] || WELCOME_MESSAGES.general,
       },
     ]);
   };
@@ -141,7 +176,7 @@ export function ChatWidget() {
             {PERSONAS.map((p) => (
               <button
                 key={p.id}
-                onClick={() => setPersona(p.id)}
+                onClick={() => handlePersonaChange(p.id)}
                 className={`px-3 py-1.5 rounded-xl text-[10px] font-bold transition-all whitespace-nowrap cursor-pointer ${
                   persona === p.id
                     ? "bg-[#1a5632] text-white shadow-sm"
@@ -201,7 +236,7 @@ export function ChatWidget() {
                 {t("aiSuggested") || "أسئلة مقترحة"}:
               </p>
               <div className="flex flex-wrap gap-1.5">
-                {SUGGESTED_QUESTIONS.map((q, idx) => (
+                {(SUGGESTIONS[persona] || SUGGESTIONS.general).map((q, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleSend(q)}

@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 type AIMessage = { role: "system" | "user" | "assistant"; content: string };
 
 type AIConfig = 
@@ -6,24 +9,40 @@ type AIConfig =
   | { provider: "anthropic"; model: string }
   | { provider: "gemini"; model: string };
 
+function getEnvVar(key: string): string | undefined {
+  if (process.env[key]) return process.env[key];
+  try {
+    const envPath = path.join(process.cwd(), ".env");
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, "utf-8");
+      const match = content.match(new RegExp(`^${key}\\s*=\\s*["']?([^"'\r\n]+)["']?`, "m"));
+      if (match) return match[1];
+    }
+  } catch (e) {
+    console.error("Error reading .env directly:", e);
+  }
+  return undefined;
+}
+
 function getConfig(): AIConfig {
-  const configured = process.env.AI_PROVIDER || "auto";
+  const configured = getEnvVar("AI_PROVIDER") || "auto";
 
   if (configured === "ollama") return { provider: "ollama" };
-  if (configured === "openai") return { provider: "openai", model: process.env.OPENAI_MODEL || "gpt-4o-mini" };
-  if (configured === "anthropic") return { provider: "anthropic", model: process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20240620" };
-  if (configured === "gemini") return { provider: "gemini", model: process.env.GEMINI_MODEL || "gemini-2.5-flash" };
+  if (configured === "openai") return { provider: "openai", model: getEnvVar("OPENAI_MODEL") || "gpt-4o-mini" };
+  if (configured === "anthropic") return { provider: "anthropic", model: getEnvVar("ANTHROPIC_MODEL") || "claude-3-5-sonnet-20240620" };
+  if (configured === "gemini") return { provider: "gemini", model: getEnvVar("GEMINI_MODEL") || "gemini-2.5-flash" };
 
   // "auto" mode: check for cloud API keys first, fallback to ollama
-  // Standard Gemini API keys start with "AIzaSy"
-  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.startsWith("AIzaSy")) {
-    return { provider: "gemini", model: process.env.GEMINI_MODEL || "gemini-2.5-flash" };
+  const geminiKey = getEnvVar("GEMINI_API_KEY");
+  if (geminiKey && geminiKey.startsWith("AIzaSy")) {
+    return { provider: "gemini", model: getEnvVar("GEMINI_MODEL") || "gemini-2.5-flash" };
   }
-  if (process.env.OPENAI_API_KEY) {
-    return { provider: "openai", model: process.env.OPENAI_MODEL || "gpt-4o-mini" };
+  if (getEnvVar("OPENAI_API_KEY")) {
+    return { provider: "openai", model: getEnvVar("OPENAI_MODEL") || "gpt-4o-mini" };
   }
-  if (process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_BASE_URL) {
-    return { provider: "anthropic", model: process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20240620" };
+  const anthropicKey = getEnvVar("ANTHROPIC_API_KEY") || getEnvVar("ANTHROPIC_BASE_URL");
+  if (anthropicKey) {
+    return { provider: "anthropic", model: getEnvVar("ANTHROPIC_MODEL") || "claude-3-5-sonnet-20240620" };
   }
 
   return { provider: "ollama" };
@@ -49,7 +68,7 @@ export async function generateChat(
   const config = getConfig();
 
   if (config.provider === "openai") {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = getEnvVar("OPENAI_API_KEY");
     if (!apiKey) throw new Error("OPENAI_API_KEY is required for OpenAI provider");
 
     const msgs: any[] = [];
@@ -79,9 +98,9 @@ export async function generateChat(
   }
 
   if (config.provider === "anthropic") {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    const baseUrl = process.env.ANTHROPIC_BASE_URL || "https://api.anthropic.com/v1/messages";
-    const customHeadersRaw = process.env.ANTHROPIC_CUSTOM_HEADERS || "";
+    const apiKey = getEnvVar("ANTHROPIC_API_KEY");
+    const baseUrl = getEnvVar("ANTHROPIC_BASE_URL") || "https://api.anthropic.com/v1/messages";
+    const customHeadersRaw = getEnvVar("ANTHROPIC_CUSTOM_HEADERS") || "";
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -121,7 +140,7 @@ export async function generateChat(
   }
 
   if (config.provider === "gemini") {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = getEnvVar("GEMINI_API_KEY");
     if (!apiKey) throw new Error("GEMINI_API_KEY is required for Gemini provider");
 
     const contents = messages.map((m) => ({
