@@ -15,17 +15,13 @@ function getPrismaInstance(): PrismaClientType {
   const tursoToken = process.env.TURSO_AUTH_TOKEN?.trim();
 
   const useTurso = isProd && tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined";
+  const dbUrl = useTurso ? tursoUrl! : (process.env.DATABASE_URL || "file:./prisma/dev.db");
 
-  if (useTurso) {
-    const adapter = new PrismaLibSql({
-      url: tursoUrl!,
-      authToken: tursoToken,
-    });
-    prismaInstance = new PrismaClient({ adapter });
-  } else {
-    // Native SQLite driver - 100x faster for local development!
-    prismaInstance = new PrismaClient();
-  }
+  const adapter = new PrismaLibSql({
+    url: dbUrl,
+    ...(useTurso && tursoToken ? { authToken: tursoToken } : {}),
+  });
+  prismaInstance = new PrismaClient({ adapter });
 
   if (process.env.NODE_ENV !== "production") {
     globalForPrisma.prisma = prismaInstance;
@@ -47,4 +43,3 @@ export const prisma = new Proxy({} as PrismaClientType, {
     return value;
   },
 });
-

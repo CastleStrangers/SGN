@@ -102,44 +102,26 @@ export async function downloadMedia(
     return null
   }
 
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  // ⚠️ Vercel Blob is suspended — skip blob upload entirely
+  // Try local filesystem storage for development
+  if (process.env.NODE_ENV !== "production") {
     try {
-      const { put } = await import("@vercel/blob")
-      const ext = getExtension(absoluteUrl)
       const hash = crypto.createHash("md5").update(buffer).digest("hex").slice(0, 12)
-      const blobPath = `sync/${hash}.${ext}`
-      const blob = await put(blobPath, buffer, {
-        access: "public",
-        token: process.env.BLOB_READ_WRITE_TOKEN,
-        addRandomSuffix: false,
-        allowOverwrite: true,
-      })
-      if (blob?.url) {
-        return blob.url
-      }
-    } catch (err) {
-      console.error("Vercel Blob upload failed, falling back to local filesystem:", err)
-    }
-  }
+      const ext = getExtension(absoluteUrl)
+      const fileName = `${hash}.${ext}`
+      const filePath = path.join(MEDIA_DIR, fileName)
 
-  const hash = crypto.createHash("md5").update(buffer).digest("hex").slice(0, 12)
-  const ext = getExtension(absoluteUrl)
-  const fileName = `${hash}.${ext}`
-  const filePath = path.join(MEDIA_DIR, fileName)
-
-  try {
-    await mkdir(MEDIA_DIR, { recursive: true })
-    await writeFile(filePath, buffer)
-    return `/uploads/sync/${fileName}`
-  } catch {
-    const { readFile } = await import("fs/promises")
-    try {
-      await readFile(filePath)
+      await mkdir(MEDIA_DIR, { recursive: true })
+      await writeFile(filePath, buffer)
       return `/uploads/sync/${fileName}`
     } catch {
-      return null
+      // Fall through to return external URL
     }
   }
+
+  // In production (or if local save failed), return the original external URL
+  // This is the safest option to ensure images always display
+  return absoluteUrl
 }
 
 export function extractIframeUrl(iframeHtml: string): string | null {
