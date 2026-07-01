@@ -60,6 +60,7 @@ export default function ProfileScreen() {
     { icon: "card-outline" as const, label: t("memberProfilePage.sectionTitle"), route: "/member-profile" },
     { icon: "briefcase-outline" as const, label: t("nav.services") || "دليل الخدمات", route: "/services" },
     { icon: "folder-open-outline" as const, label: t("memberProfilePage.vaultTitle"), route: "/vault" },
+    { icon: "code-working-outline" as const, label: t("dev.title") || "عن المطور والشركة المنفذة", route: "/developer-profile" },
     { icon: "settings-outline" as const, label: t("profile.settings"), route: "/settings" },
   ];
 
