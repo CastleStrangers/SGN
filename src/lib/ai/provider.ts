@@ -32,9 +32,8 @@ function getConfig(): AIConfig {
   if (configured === "anthropic") return { provider: "anthropic", model: getEnvVar("ANTHROPIC_MODEL") || "claude-3-5-sonnet-20240620" };
   if (configured === "gemini") return { provider: "gemini", model: getEnvVar("GEMINI_MODEL") || "gemini-2.5-flash" };
 
-  // "auto" mode: check for cloud API keys first, fallback to ollama
   const geminiKey = getEnvVar("GEMINI_API_KEY");
-  if (geminiKey && geminiKey.startsWith("AIzaSy")) {
+  if (geminiKey && (geminiKey.startsWith("AIzaSy") || geminiKey.startsWith("AQ."))) {
     return { provider: "gemini", model: getEnvVar("GEMINI_MODEL") || "gemini-2.5-flash" };
   }
   if (getEnvVar("OPENAI_API_KEY")) {
