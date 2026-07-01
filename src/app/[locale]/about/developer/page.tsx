@@ -103,7 +103,7 @@ export default function DeveloperPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-end flex-shrink-0">
             {/* WhatsApp Link */}
             <a
-              href="https://wa.me/31687039093?text=Hello%20Eng.%20Mohamad%20Salim%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20development%20services."
+              href="https://wa.me/31618111116?text=Hello%20Eng.%20Mohamad%20Salim%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20development%20services."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba56] text-white px-6 py-3 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all"
@@ -114,7 +114,7 @@ export default function DeveloperPage() {
 
             {/* Email Link */}
             <a
-              href="mailto:info@castle-strangers.nl?subject=Software%20Development%20Inquiry"
+              href="mailto:m.salim.aziza@gmail.com?subject=Software%20Development%20Inquiry"
               className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all"
             >
               <Mail className="w-5 h-5" />

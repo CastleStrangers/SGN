@@ -7,11 +7,11 @@ export default function DeveloperProfileScreen() {
   const { t, isRTL } = useI18n();
 
   const handleWhatsApp = () => {
-    Linking.openURL("https://wa.me/31687039093?text=Hello%20Eng.%20Mohamad%20Salim%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20development%20services.");
+    Linking.openURL("https://wa.me/31618111116?text=Hello%20Eng.%20Mohamad%20Salim%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20development%20services.");
   };
 
   const handleEmail = () => {
-    Linking.openURL("mailto:info@castle-strangers.nl?subject=Software%20Development%20Inquiry");
+    Linking.openURL("mailto:m.salim.aziza@gmail.com?subject=Software%20Development%20Inquiry");
   };
 
   const services = [
