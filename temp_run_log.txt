@@ -1,1 +1,10 @@
-// Log cleared
+Error: None
+STDOUT:
+Resolved Desktop Path: C:\Users\msali\OneDrive\Desktop
+Starting PDF generation via Playwright...
+Saved PDF to public folder: D:\I-Ai\App\Syrian community in the Netherlands\SGN\public\pdfs\SGN_Project_Specifications.pdf
+Copied PDF to Desktop: C:\Users\msali\OneDrive\Desktop\SGN_Project_Specifications.pdf
+Creating Desktop shortcut...
+Desktop shortcut created successfully via VBScript!
+
+STDERR:
