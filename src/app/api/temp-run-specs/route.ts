@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { translateArticle } from "@/lib/sync/translator";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const article = {
