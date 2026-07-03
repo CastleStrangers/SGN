@@ -6,7 +6,7 @@ echo ==========================================
 echo.
 
 echo [1/3] Fixing Turso schema (adding missing columns)...
-node scripts/fix-turso-schema.mjs
+node scripts/fix-turso-schema.cjs
 echo.
 
 echo [2/3] Committing all fixes to Git...
