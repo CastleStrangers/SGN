@@ -17,6 +17,7 @@ const LIST_SELECT = {
   featured: true,
   views: true,
   published: true,
+  locale: true,
   createdAt: true,
   updatedAt: true,
   author: { select: { name: true } },
@@ -47,8 +48,17 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(post);
     }
 
-    // بناء شرط الاستعلام
-    const where: any = { published: true, membersOnly: false, locale };
+    // بناء شرط الاستعلام — نتحقق من locale بشكل آمن
+    // إذا كان locale = "ar"، نجلب أيضاً المقالات التي locale فيها null/فارغ (قديمة)
+    const localeFilter = locale === "ar"
+      ? { OR: [{ locale: "ar" }, { locale: null }, { locale: "" }] }
+      : { locale };
+
+    const where: any = {
+      published: true,
+      ...localeFilter,
+    };
+
     if (category) where.category = category;
     if (featured === "true") where.featured = true;
     if (video) where.source = "youtube";
