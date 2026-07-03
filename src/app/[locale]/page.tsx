@@ -25,13 +25,13 @@ export default async function Home() {
   try {
     [posts, videoPosts] = await Promise.all([
       prisma.post.findMany({
-        where: { published: true, membersOnly: false },
+        where: { published: true },
         orderBy: { createdAt: "desc" },
         take: 10,
         select: LIST_SELECT,
       }),
       prisma.post.findMany({
-        where: { published: true, membersOnly: false, source: "youtube" },
+        where: { published: true, source: "youtube" },
         orderBy: { createdAt: "desc" },
         take: 4,
         select: LIST_SELECT,
