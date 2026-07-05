@@ -163,15 +163,7 @@ echo ======================================================
 echo   Creating Unified Desktop Shortcut
 echo ======================================================
 echo.
-powershell -Command ^
-$ws = New-Object -ComObject WScript.Shell; ^
-$desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'SGN Control Panel.lnk'); ^
-$s = $ws.CreateShortcut($desktop); ^
-$s.TargetPath = '%WORKSPACE_DIR%\sgn.bat'; ^
-$s.WorkingDirectory = '%WORKSPACE_DIR%'; ^
-$s.IconLocation = 'shell32.dll,24'; ^
-$s.Save(); ^
-Write-Host 'Created unified SGN Control Panel desktop shortcut!'
+powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'SGN Control Panel.lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%WORKSPACE_DIR%\sgn.bat'; $s.WorkingDirectory = '%WORKSPACE_DIR%'; $s.IconLocation = 'shell32.dll,24'; $s.Save(); Write-Host 'Created unified SGN Control Panel desktop shortcut!'"
 echo.
 echo [✓] Done! You now have a single 'SGN Control Panel' shortcut on your desktop.
 echo You can safely delete all other old shortcuts.
