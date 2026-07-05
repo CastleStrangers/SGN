@@ -3,6 +3,9 @@ chcp 65001 > nul
 setlocal enabledelayedexpansion
 title لوحة التحكم الموحدة - SGN Control Panel
 
+:: Clear any pre-existing environment variables to avoid pollution
+set "choice="
+
 :: Detect workspace directories based on script location
 if exist "%~dp0scripts\windows" (
     set "WORKSPACE_DIR=%~dp0"
@@ -32,6 +35,7 @@ if not "%~1"=="" (
 
 :menu
 cls
+set "choice="
 echo ======================================================
 echo    SGN Control Panel - Syrian Community NL
 echo    لوحة التحكم الموحدة للجالية السورية في هولندا
