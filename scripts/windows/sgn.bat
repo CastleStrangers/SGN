@@ -3,35 +3,21 @@ chcp 65001 > nul
 setlocal enabledelayedexpansion
 title لوحة التحكم الموحدة - SGN Control Panel
 
-:: Clear any pre-existing environment variables to avoid pollution
+:: Reset choice variable on startup
 set "choice="
 
-:: Detect workspace directories based on script location
+:: Detect workspace folder based on script location and change to it
 if exist "%~dp0scripts\windows" (
-    set "WORKSPACE_DIR=%~dp0"
-    set "SCRIPTS_DIR=%~dp0scripts\windows"
+    cd /d "%~dp0."
 ) else (
-    set "WORKSPACE_DIR=%~dp0..\.."
-    set "SCRIPTS_DIR=%~dp0"
+    cd /d "%~dp0..\.."
 )
 
-:: Strip trailing backslashes to prevent quote escaping bugs in CMD
-if "%WORKSPACE_DIR:~-1%"=="\" set "WORKSPACE_DIR=%WORKSPACE_DIR:~0,-1%"
-if "%SCRIPTS_DIR:~-1%"=="\" set "SCRIPTS_DIR=%SCRIPTS_DIR:~0,-1%"
-
-:: Canonicalize paths (remove trailing slashes if any)
-cd /d "%WORKSPACE_DIR%"
+:: Get clean, canonical absolute paths
 set "WORKSPACE_DIR=%cd%"
-cd /d "%SCRIPTS_DIR%"
-set "SCRIPTS_DIR=%cd%"
+set "SCRIPTS_DIR=%WORKSPACE_DIR%\scripts\windows"
 
 cd /d "%WORKSPACE_DIR%"
-
-:: Handle direct argument from shortcut
-if not "%~1"=="" (
-    set "choice=%~1"
-    goto :!choice! 2>nul
-)
 
 :menu
 cls
