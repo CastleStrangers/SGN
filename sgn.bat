@@ -5,11 +5,9 @@ title لوحة التحكم الموحدة - SGN Control Panel
 
 :: Detect workspace directories based on script location
 if exist "%~dp0scripts\windows" (
-    :: Script is in project root (SGN/)
     set "WORKSPACE_DIR=%~dp0"
     set "SCRIPTS_DIR=%~dp0scripts\windows"
 ) else (
-    :: Script is in SGN/scripts/windows/
     set "WORKSPACE_DIR=%~dp0..\.."
     set "SCRIPTS_DIR=%~dp0"
 )
