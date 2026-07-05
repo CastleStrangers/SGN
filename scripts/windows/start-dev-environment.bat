@@ -8,6 +8,42 @@ echo ========================================================
 echo   جاري تشغيل بيئة تطوير منصة الجالية السورية في هولندا
 echo ========================================================
 echo.
+
+echo [*] جاري تشغيل الفحوصات التلقائية للمشروع...
+echo.
+
+echo [أ] فحص نصوص الترجمات (i18n)...
+call npm run i18n:check
+if %errorlevel% neq 0 (
+    echo.
+    echo ❌ [تنبيه] تم العثور على نصوص عربية مباشرة في الكود!
+    echo يرجى استخدام نظام الترجمة (ar.json / en.json / nl.json).
+    echo.
+    choice /C YN /N /M "هل تريد الاستمرار في تشغيل بيئة التطوير رغم ذلك؟ [Y/N]: "
+    if !errorlevel! neq 1 (
+        echo تم إلغاء التشغيل.
+        pause
+        exit /b 1
+    )
+) else (
+    echo   [✓] فحص i18n سليم 100%%.
+)
+echo.
+
+echo [ب] فحص حالة اتصال وتوكن فيسبوك (Facebook API)...
+call npx tsx scripts/07-diagnose-facebook.ts
+findstr /I "error expired invalid" fb_diagnose_result.txt >nul
+if %errorlevel% equ 0 (
+    echo.
+    echo ⚠️ [تحذير] هناك مشكلة في توكن فيسبوك (انتهت صلاحيته أو غير صالح)!
+    echo يرجى التحقق من الملف: fb_diagnose_result.txt وتجديد التوكن في الـ .env
+    echo.
+    timeout /t 5
+) else (
+    echo   [✓] توكن فيسبوك صالح وسليم.
+)
+echo.
+
 :: 0. Sync and push any pending local changes to GitHub/Vercel staging first
 echo [0/3] جاري رفع ومزامنة أي تعديلات معلقة إلى المستودع...
 git add .

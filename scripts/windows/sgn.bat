@@ -39,6 +39,9 @@ echo ======================================================
 echo   Starting Full Dev Environment
 echo ======================================================
 echo.
+call :run_checks
+if %errorlevel% neq 0 goto end
+echo.
 echo [1/4] Pushing pending changes...
 git add .
 call :trycommit "auto: sync pending changes on startup"
@@ -64,6 +67,9 @@ echo ======================================================
 echo   Deploy to Vercel Staging
 echo ======================================================
 echo.
+call :run_checks
+if %errorlevel% neq 0 goto end
+echo.
 set /p msg="Commit message (leave empty for default): "
 if "!msg!"=="" set "msg=chore: updates to SGN"
 git add .
@@ -83,6 +89,9 @@ cls
 echo ======================================================
 echo   Git Sync + Vercel Deploy
 echo ======================================================
+echo.
+call :run_checks
+if %errorlevel% neq 0 goto end
 echo.
 echo [1/2] Syncing SGN repo...
 git add .
@@ -161,6 +170,41 @@ goto end
 :trycommit
 git diff-index --quiet HEAD -- || (git commit -m "%~1" && git push origin main)
 goto :eof
+
+:run_checks
+echo ======================================================
+echo   [*] جاري تشغيل الفحوصات التلقائية للمشروع...
+echo ======================================================
+echo.
+echo [أ] فحص نصوص الترجمات (i18n)...
+call npm run i18n:check
+if %errorlevel% neq 0 (
+    echo.
+    echo ❌ [تنبيه] تم العثور على نصوص عربية مباشرة في الكود!
+    echo.
+    choice /C YN /N /M "هل تريد الاستمرار رغم ذلك؟ [Y/N]: "
+    if !errorlevel! neq 1 (
+        echo تم إلغاء العملية.
+        exit /b 1
+    )
+) else (
+    echo   [✓] فحص i18n سليم 100%%.
+)
+echo.
+echo [ب] فحص توكن فيسبوك (Facebook API)...
+call npx tsx scripts/07-diagnose-facebook.ts
+findstr /I "error expired invalid" fb_diagnose_result.txt >nul
+if %errorlevel% equ 0 (
+    echo.
+    echo ⚠️ [تحذير] توكن فيسبوك منتهي الصلاحية أو غير صالح!
+    echo يرجى مراجعة: fb_diagnose_result.txt وتجديد التوكن.
+    echo.
+    timeout /t 4
+) else (
+    echo   [✓] توكن فيسبوك صالح وسليم.
+)
+echo.
+exit /b 0
 
 :end
 echo.
