@@ -12,6 +12,10 @@ if exist "%~dp0scripts\windows" (
     set "SCRIPTS_DIR=%~dp0"
 )
 
+:: Strip trailing backslashes to prevent quote escaping bugs in CMD
+if "%WORKSPACE_DIR:~-1%"=="\" set "WORKSPACE_DIR=%WORKSPACE_DIR:~0,-1%"
+if "%SCRIPTS_DIR:~-1%"=="\" set "SCRIPTS_DIR=%SCRIPTS_DIR:~0,-1%"
+
 :: Canonicalize paths (remove trailing slashes if any)
 cd /d "%WORKSPACE_DIR%"
 set "WORKSPACE_DIR=%cd%"
