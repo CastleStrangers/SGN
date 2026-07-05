@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { getOrCreateSession, sendAIMessage } from "@/lib/ai/chat";
+import { getSessionUser } from "@/lib/mobile-auth";
 
 const RATE_LIMIT = 30;
 const RATE_WINDOW_MS = 60_000;
@@ -21,15 +20,15 @@ function checkRateLimit(userId: string): boolean {
 }
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  const user = await getSessionUser(req);
+  if (!user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { searchParams } = new URL(req.url);
   const sessionId = searchParams.get("sessionId");
 
-  const where: any = { userId: session.user.id };
+  const where: any = { userId: user.id };
   if (sessionId) where.id = sessionId;
 
   const sessions = await prisma.chatAISession.findMany({
@@ -43,12 +42,12 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  const user = await getSessionUser(req);
+  if (!user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (!checkRateLimit(session.user.id)) {
+  if (!checkRateLimit(user.id)) {
     return NextResponse.json({ error: "Rate limit exceeded. Try again later." }, { status: 429 });
   }
 
@@ -59,10 +58,10 @@ export async function POST(req: Request) {
     }
 
     const userLocale = locale || "ar";
-    const sid = sessionId || await getOrCreateSession(session.user.id, persona);
-    const userName = session.user.name || session.user.email || "User";
+    const sid = sessionId || await getOrCreateSession(user.id, persona);
+    const userName = user.name || user.email || "User";
 
-    const { reply, sources } = await sendAIMessage(sid, session.user.id, message.trim(), userLocale, userName, persona);
+    const { reply, sources } = await sendAIMessage(sid, user.id, message.trim(), userLocale, userName, persona);
 
     return NextResponse.json({ reply, sessionId: sid, sources });
   } catch (e: any) {

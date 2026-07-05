@@ -1,9 +1,14 @@
-import { View, Text, TextInput, TouchableOpacity, FlatList, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Modal } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Modal, Image, Alert } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { COLORS } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
 import { sendAIMessage, translateMessage, summarizeConversation, type AIMessage } from "../../lib/chat";
+import * as ImagePicker from "expo-image-picker";
+import { getToken } from "../../lib/api";
+import { CONFIG } from "../../constants/config";
+
+const API_URL = CONFIG.API_URL;
 
 const SUGGESTED_CARDS = [
   { key: "cardFamilyReunification", promptKey: "promptFamilyReunification", persona: "legal", icon: "⚖️" },
@@ -87,6 +92,92 @@ export default function MessagesScreen() {
     setMessages([]);
     setShowSuggestions(true);
     setSummary(null);
+  }
+
+  async function handleUploadLetter() {
+    try {
+      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (permissionResult.granted === false) {
+        Alert.alert(t("common.error") || "خطأ", t("chat.permissionRequired") || "يجب السماح بالوصول إلى استوديو الصور لرفع المستندات.");
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 0.8,
+      });
+
+      if (result.canceled || !result.assets || result.assets.length === 0) {
+        return;
+      }
+
+      setLoading(true);
+      setShowSuggestions(false);
+      setSummary(null);
+
+      const localUri = result.assets[0].uri;
+      const filename = localUri.split("/").pop() || "upload.jpg";
+      const match = /\.(\w+)$/.exec(filename);
+      const type = match ? `image/${match[1]}` : `image/jpeg`;
+
+      const formData = new FormData();
+      // @ts-ignore
+      formData.append("file", { uri: localUri, name: filename, type });
+
+      const token = await getToken();
+      const uploadRes = await fetch(`${API_URL}/upload`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (!uploadRes.ok) {
+        const errorData = await uploadRes.json().catch(() => ({}));
+        throw new Error(errorData.error || "Upload failed");
+      }
+
+      const uploadData = await uploadRes.json();
+      if (!uploadData.url) throw new Error("Upload URL is empty");
+
+      const imageUrl = uploadData.url;
+      const attachedDocText = t("chat.attachedDoc") || "📎 خطاب مرفق للتحليل:";
+
+      setMessages((prev) => [...prev, { role: "user", content: `${attachedDocText} ${imageUrl}` }]);
+
+      const analyzeRes = await fetch(`${API_URL}/chat/analyze-letter`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ imageUrl, locale }),
+      });
+
+      if (!analyzeRes.ok) {
+        const errorData = await analyzeRes.json().catch(() => ({}));
+        throw new Error(errorData.error || "Analysis failed");
+      }
+
+      const analyzeData = await analyzeRes.json();
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: analyzeData.analysis },
+      ]);
+
+    } catch (e: any) {
+      console.error(e);
+      Alert.alert(t("common.error") || "خطأ", e.message || "فشل تحميل أو تحليل المستند.");
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: t("chat.aiError") || "عذراً، حدث خطأ. حاول مرة أخرى." },
+      ]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -205,6 +296,31 @@ export default function MessagesScreen() {
                   </TouchableOpacity>
                 ))}
               </View>
+
+              {/* Document Analyzer Trigger Card */}
+              <TouchableOpacity
+                onPress={handleUploadLetter}
+                disabled={loading}
+                style={{
+                  width: "90%",
+                  marginTop: 16,
+                  padding: 16,
+                  borderRadius: 16,
+                  borderWidth: 1,
+                  borderColor: COLORS.border,
+                  borderStyle: "dashed",
+                  backgroundColor: "#f9fafb",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <Ionicons name="document-text-outline" size={24} color={COLORS.primary} />
+                <Text style={{ fontSize: 13, fontWeight: "700", color: COLORS.text }}>{t("chat.analyzeDocument")}</Text>
+                <Text style={{ fontSize: 11, color: COLORS.textSecondary, textAlign: "center" }}>{t("chat.uploadDocument")}</Text>
+                <View style={{ backgroundColor: COLORS.primary, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 10, marginTop: 4 }}>
+                  <Text style={{ color: "#fff", fontSize: 12, fontWeight: "700" }}>{t("chat.chooseDoc")}</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           ) : (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -213,36 +329,52 @@ export default function MessagesScreen() {
             </View>
           )
         }
-        renderItem={({ item, index }: { item: AIMessage; index: number }) => (
-          <View style={{ alignItems: item.role === "user" ? "flex-end" : "flex-start", marginBottom: 10 }}>
-            <View style={{ maxWidth: "80%" }}>
-              <View style={{ backgroundColor: item.role === "user" ? COLORS.primary : "#fff", borderRadius: 16, borderBottomRightRadius: item.role === "user" ? 4 : 16, borderBottomLeftRadius: item.role === "user" ? 16 : 4, paddingHorizontal: 14, paddingVertical: 10, borderWidth: item.role === "user" ? 0 : 1, borderColor: COLORS.border }}>
-                <Text style={{ fontSize: 14, lineHeight: 20, color: item.role === "user" ? "#fff" : COLORS.text }}>{item.content}</Text>
+        renderItem={({ item, index }: { item: AIMessage; index: number }) => {
+          const isAttachedDoc = item.content.startsWith(t("chat.attachedDoc") || "📎 خطاب مرفق للتحليل:");
+          return (
+            <View style={{ alignItems: item.role === "user" ? "flex-end" : "flex-start", marginBottom: 10 }}>
+              <View style={{ maxWidth: "80%" }}>
+                <View style={{ backgroundColor: item.role === "user" ? COLORS.primary : "#fff", borderRadius: 16, borderBottomRightRadius: item.role === "user" ? 4 : 16, borderBottomLeftRadius: item.role === "user" ? 16 : 4, paddingHorizontal: 14, paddingVertical: 10, borderWidth: item.role === "user" ? 0 : 1, borderColor: COLORS.border }}>
+                  {isAttachedDoc ? (
+                    <View style={{ gap: 6, minWidth: 220 }}>
+                      <Text style={{ fontSize: 12, color: item.role === "user" ? "#fff" : COLORS.text, fontWeight: "600" }}>
+                        {t("chat.attachedDoc") || "📎 خطاب مرفق للتحليل:"}
+                      </Text>
+                      <Image
+                        source={{ uri: item.content.replace(t("chat.attachedDoc") || "📎 خطاب مرفق للتحليل:", "").trim() }}
+                        style={{ width: 220, height: 165, borderRadius: 8, marginTop: 4 }}
+                        resizeMode="cover"
+                      />
+                    </View>
+                  ) : (
+                    <Text style={{ fontSize: 14, lineHeight: 20, color: item.role === "user" ? "#fff" : COLORS.text }}>{item.content}</Text>
+                  )}
 
-                {item.sources && item.sources.length > 0 && (
-                  <View style={{ marginTop: 10, borderTopWidth: 1, borderTopColor: "#eee", paddingTop: 8 }}>
-                    <Text style={{ fontSize: 10, fontWeight: "700", color: COLORS.primary, marginBottom: 4 }}>{t("chat.sources") || "المصادر:"}</Text>
-                    {item.sources.map((s, idx) => (
-                      <View key={idx} style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", marginBottom: 2 }}>
-                        <Ionicons name="link-outline" size={10} color={COLORS.primary} style={{ marginHorizontal: 2 }} />
-                        <Text numberOfLines={1} style={{ fontSize: 10, color: COLORS.textSecondary, flex: 1 }}>{s.title}</Text>
-                      </View>
-                    ))}
-                  </View>
+                  {item.sources && item.sources.length > 0 && (
+                    <View style={{ marginTop: 10, borderTopWidth: 1, borderTopColor: "#eee", paddingTop: 8 }}>
+                      <Text style={{ fontSize: 10, fontWeight: "700", color: COLORS.primary, marginBottom: 4 }}>{t("chat.sources") || "المصادر:"}</Text>
+                      {item.sources.map((s, idx) => (
+                        <View key={idx} style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", marginBottom: 2 }}>
+                          <Ionicons name="link-outline" size={10} color={COLORS.primary} style={{ marginHorizontal: 2 }} />
+                          <Text numberOfLines={1} style={{ fontSize: 10, color: COLORS.textSecondary, flex: 1 }}>{s.title}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  )}
+                </View>
+                {item.role === "assistant" && (
+                  <TouchableOpacity onPress={() => handleTranslate(item.content, index)} disabled={translatingIdx === index} style={{ marginTop: 4, paddingHorizontal: 4 }}>
+                    {translatingIdx === index ? (
+                      <ActivityIndicator size="small" color={COLORS.primary} />
+                    ) : (
+                      <Text style={{ fontSize: 11, color: COLORS.textSecondary }}>{t("chat.translate")}</Text>
+                    )}
+                  </TouchableOpacity>
                 )}
               </View>
-              {item.role === "assistant" && (
-                <TouchableOpacity onPress={() => handleTranslate(item.content, index)} disabled={translatingIdx === index} style={{ marginTop: 4, paddingHorizontal: 4 }}>
-                  {translatingIdx === index ? (
-                    <ActivityIndicator size="small" color={COLORS.primary} />
-                  ) : (
-                    <Text style={{ fontSize: 11, color: COLORS.textSecondary }}>{t("chat.translate")}</Text>
-                  )}
-                </TouchableOpacity>
-              )}
             </View>
-          </View>
-        )}
+          );
+        }}
         ListFooterComponent={
           loading ? (
             <View style={{ alignItems: "flex-start", marginBottom: 10 }}>
@@ -263,12 +395,29 @@ export default function MessagesScreen() {
       {/* Input */}
       <View style={{ padding: 12, borderTopWidth: 1, borderTopColor: COLORS.border, backgroundColor: COLORS.card }}>
         <View style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", gap: 8 }}>
+          <TouchableOpacity
+            onPress={handleUploadLetter}
+            disabled={loading}
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              backgroundColor: "#f3f4f6",
+              alignItems: "center",
+              justifyContent: "center",
+              borderWidth: 1,
+              borderColor: COLORS.border,
+            }}
+          >
+            <Ionicons name="add" size={24} color={COLORS.textSecondary} />
+          </TouchableOpacity>
           <TextInput
             value={input}
             onChangeText={setInput}
             placeholder={t("chat.aiPlaceholder")}
             placeholderTextColor={COLORS.textSecondary}
             onSubmitEditing={() => handleSend()}
+            editable={!loading}
             style={{ flex: 1, borderWidth: 1, borderColor: COLORS.border, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10, fontSize: 14, textAlign: isRTL ? "right" : "left", backgroundColor: COLORS.background }}
           />
           <TouchableOpacity

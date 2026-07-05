@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { analyzeDocument } from "@/lib/ai/chat";
 import { getApiMessage } from "@/lib/api-messages";
+import { getSessionUser } from "@/lib/mobile-auth";
 
 function t(req: Request, key: string) {
   const locale = (req as any).cookies?.get?.('NEXT_LOCALE')?.value || 'ar';
@@ -10,8 +9,8 @@ function t(req: Request, key: string) {
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  const user = await getSessionUser(req);
+  if (!user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

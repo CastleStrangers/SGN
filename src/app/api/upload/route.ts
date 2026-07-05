@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { requireAuthorize } from "@/lib/auth-helpers";
 import { getApiMessage } from "@/lib/api-messages";
+import { getSessionUser } from "@/lib/mobile-auth";
 import fs from "fs/promises";
 import path from "path";
 
@@ -12,8 +11,8 @@ function t(req: Request, key: string) {
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id || !(await requireAuthorize(session.user.id, "media.upload")))
+  const user = await getSessionUser(req);
+  if (!user?.id || !(await requireAuthorize(user.id, "media.upload")))
     return NextResponse.json({ error: t(req, 'api.unauthorized') }, { status: 403 });
 
   try {
