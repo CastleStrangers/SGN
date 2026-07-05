@@ -9,6 +9,38 @@ echo         أداة رفع المشروع وتحديث رابط العميل (
 echo =======================================================
 echo.
 
+echo [*] جاري تشغيل الفحوصات التلقائية للمشروع...
+echo.
+echo [أ] فحص نصوص الترجمات (i18n)...
+call npm run i18n:check
+if %errorlevel% neq 0 (
+    echo.
+    echo ❌ [تنبيه] تم العثور على نصوص عربية مباشرة في الكود!
+    echo.
+    choice /C YN /N /M "هل تريد الاستمرار رغم ذلك؟ [Y/N]: "
+    if !errorlevel! neq 1 (
+        echo تم إلغاء عملية الرفع.
+        pause
+        exit /b 1
+    )
+) else (
+    echo   [✓] فحص i18n سليم 100%%.
+)
+echo.
+echo [ب] فحص توكن فيسبوك (Facebook API)...
+call npx tsx scripts/07-diagnose-facebook.ts
+findstr /I "error expired invalid" fb_diagnose_result.txt >nul
+if %errorlevel% equ 0 (
+    echo.
+    echo ⚠️ [تحذير] توكن فيسبوك منتهي الصلاحية أو غير صالح!
+    echo يرجى مراجعة: fb_diagnose_result.txt وتجديد التوكن.
+    echo.
+    timeout /t 4
+) else (
+    echo   [✓] توكن فيسبوك صالح وسليم.
+)
+echo.
+
 :: 1. إنشاء اختصار على سطح المكتب تلقائياً عند تشغيل السكريبت
 echo [1/5] جاري التحقق من اختصار سطح المكتب...
 powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'SGN Push & Deploy.lnk'); $s = $ws.CreateShortcut($desktop); $s.TargetPath = '%~f0'; $s.WorkingDirectory = '%~dp0'; $s.IconLocation = 'shell32.dll,147'; $s.Save()" 2>nul
