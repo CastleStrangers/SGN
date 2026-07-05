@@ -2,7 +2,25 @@
 chcp 65001 > nul
 setlocal enabledelayedexpansion
 title لوحة التحكم الموحدة - SGN Control Panel
-cd /d "%~dp0..\.."
+
+:: Detect workspace directories based on script location
+if exist "%~dp0scripts\windows" (
+    :: Script is in project root (SGN/)
+    set "WORKSPACE_DIR=%~dp0"
+    set "SCRIPTS_DIR=%~dp0scripts\windows"
+) else (
+    :: Script is in SGN/scripts/windows/
+    set "WORKSPACE_DIR=%~dp0..\.."
+    set "SCRIPTS_DIR=%~dp0"
+)
+
+:: Canonicalize paths (remove trailing slashes if any)
+cd /d "%WORKSPACE_DIR%"
+set "WORKSPACE_DIR=%cd%"
+cd /d "%SCRIPTS_DIR%"
+set "SCRIPTS_DIR=%cd%"
+
+cd /d "%WORKSPACE_DIR%"
 
 :: Handle direct argument from shortcut
 if not "%~1"=="" (
@@ -63,7 +81,7 @@ echo ======================================================
 echo   Starting Full Dev Environment
 echo ======================================================
 echo.
-call "%~dp0start-dev-environment.bat"
+call "%SCRIPTS_DIR%\start-dev-environment.bat"
 goto end
 
 :sync
@@ -72,7 +90,7 @@ echo ======================================================
 echo   Git Sync + Vercel Deploy
 echo ======================================================
 echo.
-call "%~dp0..\..\sync-and-deploy.bat"
+call "%WORKSPACE_DIR%\sync-and-deploy.bat"
 goto end
 
 :mobile
@@ -81,7 +99,7 @@ echo ======================================================
 echo   Mobile App Build & Deploy
 echo ======================================================
 echo.
-call "%~dp0mobile-build-prod.bat"
+call "%SCRIPTS_DIR%\mobile-build-prod.bat"
 goto end
 
 :db
@@ -97,7 +115,7 @@ echo [2/3] Downloading production variables from Vercel...
 call npx vercel env pull --environment=production .env.production
 echo.
 echo [3/3] Running Turso Cloud schema update...
-call "%~dp0run-turso-update.bat"
+call "%SCRIPTS_DIR%\run-turso-update.bat"
 goto end
 
 :repair
@@ -106,18 +124,17 @@ echo ======================================================
 echo   Emergency Git Repair - Nested Repo Conflict
 echo ======================================================
 echo.
-set "PARENT_DIR=%~dp0..\.."
-if exist "%PARENT_DIR%\..\.git" (
+if exist "%WORKSPACE_DIR%\..\.git" (
     echo [!] Found accidental .git folder in the parent directory:
-    echo     D:\I-Ai\App\Syrian community in the Netherlands\.git
+    echo     %WORKSPACE_DIR%\..\.git
     echo.
     echo [*] Removing the accidental parent .git folder...
-    rmdir /s /q "%PARENT_DIR%\..\.git"
-    if exist "%PARENT_DIR%\..\.git" (
+    rmdir /s /q "%WORKSPACE_DIR%\..\.git"
+    if exist "%WORKSPACE_DIR%\..\.git" (
         echo ❌ Failed to remove parent .git folder. Please delete it manually.
     ) else (
         echo [✓] Success! Accidental parent .git folder deleted.
-        echo please restart VS Code to refresh source control view.
+        echo Please restart VS Code to refresh source control view.
     )
 ) else (
     echo [✓] No parent .git folder found.
@@ -130,7 +147,7 @@ echo ======================================================
 echo   AI News Re-classification (Ollama)
 echo ======================================================
 echo.
-call "%~dp0run-reclassify.bat"
+call "%SCRIPTS_DIR%\run-reclassify.bat"
 goto end
 
 :specs
@@ -139,7 +156,7 @@ echo ======================================================
 echo   Generate Project Specifications PDF
 echo ======================================================
 echo.
-call "%~dp0generate-specs-pdf.bat"
+call "%SCRIPTS_DIR%\generate-specs-pdf.bat"
 goto end
 
 :shortcuts
@@ -152,14 +169,14 @@ powershell -Command ^
 $ws = New-Object -ComObject WScript.Shell; ^
 $desktop = [System.IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'SGN Control Panel.lnk'); ^
 $s = $ws.CreateShortcut($desktop); ^
-$s.TargetPath = '%~dp0sgn.bat'; ^
-$s.WorkingDirectory = '%~dp0'; ^
+$s.TargetPath = '%WORKSPACE_DIR%\sgn.bat'; ^
+$s.WorkingDirectory = '%WORKSPACE_DIR%'; ^
 $s.IconLocation = 'shell32.dll,24'; ^
 $s.Save(); ^
 Write-Host 'Created unified SGN Control Panel desktop shortcut!'
 echo.
 echo [✓] Done! You now have a single 'SGN Control Panel' shortcut on your desktop.
-echo You can safely delete all other old shortcuts in your 'SGN Scriptes' folder.
+echo You can safely delete all other old shortcuts.
 goto end
 
 :end
