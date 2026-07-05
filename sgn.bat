@@ -27,7 +27,7 @@ echo.
 echo  [1]  Start Dev Environment (Next.js, Expo, Autosync)
 echo  [2]  Git Sync + Vercel Deploy (Auto Sync Changes)
 echo  [3]  Mobile App Build (Android APK, iOS, Web)
-echo  [4]  Database Update & Sync (Turso Cloud & Local DB)
+echo  [4]  Database Update and Sync (Turso Cloud and Local DB)
 echo  [5]  Emergency Git Repair (Nested Repo Conflict)
 echo  [6]  AI News Re-classification (Ollama)
 echo  [7]  Generate Project Specifications PDF
@@ -78,7 +78,7 @@ goto end
 :db
 cls
 echo ======================================================
-echo   Database Update & Sync (Local & Turso Cloud)
+echo   Database Update and Sync (Local and Turso Cloud)
 echo ======================================================
 echo.
 echo [1/3] Running local Prisma db push...
