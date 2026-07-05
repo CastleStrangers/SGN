@@ -30,11 +30,18 @@ if (!desktopPath || !fs.existsSync(desktopPath)) {
 }
 console.log(`Resolved Desktop Path: ${desktopPath}`);
 
+// Resolve the "SGN Scriptes" target folder path
+let targetFolder = path.join(desktopPath, "SGN Scriptes");
+if (!fs.existsSync(targetFolder)) {
+  fs.mkdirSync(targetFolder, { recursive: true });
+}
+console.log(`Target folder resolved: ${targetFolder}`);
+
 const sgnPublicDir = path.join(process.cwd(), "public", "pdfs");
 fs.mkdirSync(sgnPublicDir, { recursive: true });
 
 const destPdfPathPublic = path.join(sgnPublicDir, pdfFilename);
-const destPdfPathDesktop = path.join(desktopPath, pdfFilename);
+const destPdfPathDesktop = path.join(targetFolder, pdfFilename);
 
 const htmlContent = `
 <!DOCTYPE html>
@@ -199,7 +206,7 @@ const htmlContent = `
       <div class="logo-sub">Syrian Community in the Netherlands</div>
     </div>
     <h1>وثيقة المواصفات والشرح التفصيلي لمشروع SGN</h1>
-    <div class="subtitle">دليل شامل للأقسام، الميزات، لوحة التحكم، ومجلس الإدارة</div>
+    <div class="subtitle">دليل شامل للأقسام، الميزات، لوحة التحكم الموحدة، ومجلس الإدارة</div>
   </div>
 
   <h2>1. مقدمة عن المنصة (Introduction)</h2>
@@ -258,7 +265,7 @@ const htmlContent = `
   <p>تحتوي المنصة على لوحة تحكم إدارية متكاملة تتيح للمشرفين التحكم بالعمليات اليومية وإدارتها:</p>
   
   <h3>4.1 شاشة إدارة الأعضاء والمنتسبين (Members Management)</h3>
-  <p>تتيح للمشرفين مراجعة كافة طلبات الانتساب الجديدة، مراجعة المستندات المرفقة، واتخاذ قرار القبول أو الرفض. بعد القبول، يتم تفعيل البطاقة الرقمية للعضو. كما تتيح الشاشة تصدير بيانات الأعضاء كملفات Excel أو PDF وإدارتها بشكل سلس.</p>
+  <p>Tتيح للمشرفين مراجعة كافة طلبات الانتساب الجديدة، مراجعة المستندات المرفقة، واتخاذ قرار القبول أو الرفض. بعد القبول، يتم تفعيل البطاقة الرقمية للعضو. كما تتيح الشاشة تصدير بيانات الأعضاء كملفات Excel أو PDF وإدارتها بشكل سلس.</p>
 
   <h3>4.2 شاشة إدارة الفعاليات والمتطوعين (Events & Volunteers)</h3>
   <p>شاشة مخصصة لإضافة فعاليات الجالية ومواعيدها ومواقعها الجغرافية ومتابعة الأعضاء المسجلين فيها. وقسم لإضافة الفرص التطوعية ومتابعة المتقدمين وتقييم مهاراتهم للأنشطة المختلفة.</p>
@@ -271,7 +278,20 @@ const htmlContent = `
 
   <div class="page-break"></div>
 
-  <h2>5. أعضاء مجلس الإدارة الحالي (Board of Directors)</h2>
+  <h2>5. دليل لوحة التحكم الموحدة للسكريبتات (SGN CLI Control Panel Guide)</h2>
+  <p>تضم المنصة أداة برمجية موحدة (SGN Control Panel) لتسهيل إدارة وتطوير المشروع دون تعقيد. تفصيل الخيارات الثمانية كالتالي:</p>
+  <ul>
+    <li><strong>1. تشغيل بيئة التطوير (Start Dev Environment):</strong> تشغيل خادم الويب (Next.js) وخادم الموبايل (Expo) ونظام المزامنة التلقائية معاً في بيئة واحدة وبشكل متكامل لتجربة الموقع والتطبيق محلياً.</li>
+    <li><strong>2. مزامنة التعديلات ونشرها (Git Sync + Vercel Deploy):</strong> جلب آخر تحديثات المشروع وحفظ وإيداع كافة تعديلاتك البرمجية الجديدة ورفعها لـ GitHub لتحديث ونشر النسخة النهائية على السيرفر الفعلي.</li>
+    <li><strong>3. بناء تطبيق الجوال (Mobile App Build):</strong> تحويل روابط خادم التطبيق لبيئة الإنتاج وبناء ملف التوزيع (Android APK) سحابياً باستخدام EAS Build.</li>
+    <li><strong>4. تحديث ومزامنة قاعدة البيانات (Database Update and Sync):</strong> تحديث جداول قاعدة البيانات ومزامنتها محلياً وسحابياً على قاعدة بيانات Turso.</li>
+    <li><strong>5. إصلاح تعارض مستودعات Git (Emergency Git Repair):</strong> حذف مجلدات .git العشوائية المتكونة بالخطأ في المجلدات الأبوية لإصلاح تتبع التعديلات في VS Code.</li>
+    <li><strong>6. تصنيف الأخبار بالذكاء الاصطناعي (AI News Re-classification):</strong> تشغيل نموذج Ollama المحلي لتحليل وتصنيف الأخبار تلقائياً.</li>
+    <li><strong>7. توليد وثيقة مواصفات المشروع (Generate Project Specs PDF):</strong> تحديث وتوليد هذا الملف المنسق وتحديث نسخته وحفظه مباشرة على جهازك.</li>
+    <li><strong>8. إنشاء اختصار سطح المكتب الموحد (Create Desktop Shortcut):</strong> إنشاء اختصار مباشر للوحة التحكم على سطح المكتب.</li>
+  </ul>
+
+  <h2>6. أعضاء مجلس الإدارة الحالي (Board of Directors)</h2>
   <p>يتكون مجلس الإدارة المسجل رسمياً والنشط في قاعدة البيانات من 24 عضواً يشرفون على المكاتب المختلفة:</p>
 
   <table>
@@ -310,7 +330,7 @@ const htmlContent = `
     </tbody>
   </table>
 
-  <h2>6. قواعد التطوير والرفع (Development Rules)</h2>
+  <h2>7. قواعد التطوير والرفع (Development Rules)</h2>
   <ul>
     <li><strong>المزامنة الشاملة:</strong> أي ميزة أو تعديل أو إضافة للمفاتيح اللغوية (i18n) يجب أن تتم في ملفات ترجمة الويب والموبايل معاً لضمان عدم حدوث تعارضات.</li>
     <li><strong>قاعدة النشر الفوري:</strong> يجب رفع كل تعديل فوراً لـ GitHub وتحديث خادم الإنتاج ورابط العميل Vercel (sgn-indol.vercel.app).</li>
@@ -349,20 +369,19 @@ async function run() {
     });
     console.log(`Saved PDF to public folder: ${destPdfPathPublic}`);
     
-    // Copy PDF to Desktop
+    // Copy PDF to SGN Scriptes folder on Desktop
     fs.copyFileSync(destPdfPathPublic, destPdfPathDesktop);
-    console.log(`Copied PDF to Desktop: ${destPdfPathDesktop}`);
+    console.log(`Copied PDF to Target Folder: ${destPdfPathDesktop}`);
     
-    // Create Desktop shortcut (.lnk) pointing to the project public PDF
+    // Create Desktop shortcut (.lnk) pointing to the generated PDF
     try {
       console.log("Creating Desktop shortcut...");
-      // Dynamically load win32com inside python if needed, or use a quick VBScript to avoid pywin32 import errors on node process
       const vbsPath = path.join(os.tmpdir(), "create_link.vbs");
       const vbsContent = `
         Set shell = CreateObject("WScript.Shell")
         Set link = shell.CreateShortcut("${desktopPath}\\SGN Project Specifications.lnk")
-        link.TargetPath = "${destPdfPathPublic}"
-        link.WorkingDirectory = "${sgnPublicDir}"
+        link.TargetPath = "${destPdfPathDesktop}"
+        link.WorkingDirectory = "${targetFolder}"
         link.Description = "SGN Project Specifications"
         link.Save
       `;
