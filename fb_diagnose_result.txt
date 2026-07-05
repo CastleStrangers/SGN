@@ -1,4 +1,4 @@
-🔍 تقرير التشخيص - 2026-07-05T01:38:39.814Z
+🔍 تقرير التشخيص - 2026-07-05T09:12:21.628Z
 ══════════════════════════════════════════════════════════════
 
 متغيرات البيئة:
@@ -8,20 +8,20 @@
 
 خطأ في التوكن:
    {
-  "message": "Error validating access token: Session has expired on Monday, 29-Jun-26 04:00:00 PDT. The current time is Saturday, 04-Jul-26 18:38:41 PDT.",
+  "message": "Error validating access token: Session has expired on Monday, 29-Jun-26 04:00:00 PDT. The current time is Sunday, 05-Jul-26 02:12:22 PDT.",
   "type": "OAuthException",
   "code": 190,
   "error_subcode": 463,
-  "fbtrace_id": "AcnkyBPi2SrkvH9ABe1Xql6"
+  "fbtrace_id": "AU5UlHyrpDeL7wRGbmnhzhE"
 }
 
 خطأ في معرف الصفحة:
    {
-  "message": "Error validating access token: Session has expired on Monday, 29-Jun-26 04:00:00 PDT. The current time is Saturday, 04-Jul-26 18:38:41 PDT.",
+  "message": "Error validating access token: Session has expired on Monday, 29-Jun-26 04:00:00 PDT. The current time is Sunday, 05-Jul-26 02:12:22 PDT.",
   "type": "OAuthException",
   "code": 190,
   "error_subcode": 463,
-  "fbtrace_id": "Ahe_VYibaxUa5qN-8wGfSAA"
+  "fbtrace_id": "A3uKV7C40a9jgi5smwis7oF"
 }
 
 الحلول المقترحة:
