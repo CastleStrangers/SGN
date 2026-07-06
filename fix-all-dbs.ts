@@ -60,10 +60,12 @@ async function main() {
     return
   }
 
-  const adapter = new PrismaLibSql({
+  const { createClient } = await import('@libsql/client')
+  const client = createClient({
     url: urlMatch[1],
     authToken: tokenMatch[1]
   })
+  const adapter = new PrismaLibSql(client)
   
   const livePrisma = new PrismaClient({ adapter })
   await updateDb(livePrisma, "الحية (Turso)")
