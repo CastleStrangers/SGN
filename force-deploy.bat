@@ -1,24 +1,22 @@
 @echo off
-chcp 65001 > nul
 echo ==================================================
-echo   رفع التحديثات النهائية إلى الموقع المباشر (Vercel)
+echo   Force Deploy to Vercel
 echo ==================================================
 echo.
-echo [1] جاري سحب أحدث التغييرات (إذا وجدت)...
+echo [1] Pulling latest changes...
 git pull origin main
 echo.
-echo [2] جاري إضافة الأكواد للإصلاح الجذري...
+echo [2] Adding files...
 git add .
 echo.
-echo [3] جاري تأكيد التغييرات...
-git commit -m "Fix categories logic and DB updater"
+echo [3] Committing changes...
+git commit -m "Fix URL encoding for Arabic categories"
 echo.
-echo [4] جاري رفع التحديثات إلى السيرفر الحي...
+echo [4] Pushing to GitHub (Vercel will deploy automatically)...
 git push origin main
 echo.
 echo ==================================================
-echo ✅ تمت عملية الرفع بنجاح!
-echo ⏳ سيرفر Vercel سيقوم الآن بتطبيق الأكواد (يستغرق دقيقة واحدة).
-echo يرجى الانتظار دقيقة، ثم الذهاب للوحة التحكم وتشغيل الخيار [9] مرة أخيرة.
+echo SUCCESS! 
+echo Please wait exactly 1 minute for Vercel to build.
 echo ==================================================
 pause
