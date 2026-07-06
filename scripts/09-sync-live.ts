@@ -5,10 +5,15 @@
  */
 import * as dotenv from "dotenv"
 import path from "path"
+import { fileURLToPath } from "url"
 
 // Force production flags so src/lib/db.ts connects to Turso
 process.env.NODE_ENV = "production"
 process.env.VERCEL = "1"
+
+// Setup __dirname for ES Modules
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // Load the live environment variables
 dotenv.config({ path: path.resolve(__dirname, "../.env.production") })
@@ -18,13 +23,13 @@ if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
   process.exit(1)
 }
 
-// Import dynamically after env is set
-const { prisma } = require("../src/lib/db")
-const { runSync } = require("../src/lib/sync")
-
 async function main() {
   const startTime = Date.now()
   console.log(`🔄 جاري الاتصال بالموقع المباشر وجلب أحدث الأخبار...`)
+
+  // Import dynamically after env is set to ensure it uses production DB
+  const { prisma } = await import("../src/lib/db")
+  const { runSync } = await import("../src/lib/sync")
 
   try {
     const results = await runSync()
