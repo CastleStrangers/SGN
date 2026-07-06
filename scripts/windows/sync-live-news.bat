@@ -9,19 +9,11 @@ echo ======================================================
 echo   Push Live News (Update Client Site)
 echo ======================================================
 echo.
-echo This tool will fetch the latest news from Facebook/Web
-echo and push them DIRECTLY to the live client website.
-echo No dashboard login required.
+echo This tool will send a direct command to the live client
+echo website to fetch and update its own database instantly.
+echo No dashboard login or database keys required.
 echo.
 
-if not exist ".env.production" (
-    echo [1/2] Fetching live database keys from Vercel...
-    call npx vercel env pull --environment=production .env.production
-    echo.
-)
-
-echo [2/2] Connecting to Live Database and Syncing News...
-echo.
 call npx tsx scripts/09-sync-live.ts
 
 echo.

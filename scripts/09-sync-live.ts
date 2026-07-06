@@ -1,56 +1,57 @@
 /**
  * scripts/09-sync-live.ts
- * يجبر النظام على الاتصال بقاعدة البيانات الحية (Turso) 
- * وجلب أحدث الأخبار لكي يراها العميل فوراً.
+ * يرسل أمر مزامنة مباشر إلى واجهة برمجة الموقع الحي (API)
+ * لكي يقوم الموقع بجلب الأخبار وتخزينها في قاعدة بياناته الحية فوراً.
  */
 import * as dotenv from "dotenv"
 import path from "path"
 import { fileURLToPath } from "url"
 
-// Force production flags so src/lib/db.ts connects to Turso
-process.env.NODE_ENV = "production"
-process.env.VERCEL = "1"
-
-// Setup __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Load the live environment variables
-dotenv.config({ path: path.resolve(__dirname, "../.env.production") })
-
-if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
-  console.error("❌ خطأ: لم يتم العثور على مفاتيح Turso في ملف .env.production")
-  process.exit(1)
-}
+// جلب مفتاح الأمان السري من ملف .env المحلي
+dotenv.config({ path: path.resolve(__dirname, "../.env") })
 
 async function main() {
-  const startTime = Date.now()
-  console.log(`🔄 جاري الاتصال بالموقع المباشر وجلب أحدث الأخبار...`)
+  console.log(`\n======================================================`)
+  console.log(`🔄 جاري الاتصال بالموقع المباشر لإصدار أمر المزامنة...`)
+  console.log(`======================================================\n`)
 
-  // Import dynamically after env is set to ensure it uses production DB
-  const { prisma } = await import("../src/lib/db")
-  const { runSync } = await import("../src/lib/sync")
-
+  const cronSecret = process.env.CRON_SECRET || "sgn-cron-secret-2026"
+  
   try {
-    const results = await runSync()
-    let totalNew = 0, totalSkipped = 0, totalErrors = 0
+    const res = await fetch("https://sgn-indol.vercel.app/api/sync", {
+      method: "POST",
+      headers: {
+        "x-cron-secret": cronSecret,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({})
+    })
     
-    for (const r of results) {
-      totalNew += r.new
-      totalSkipped += r.skipped
-      totalErrors += r.errors.length
-      const status = r.success ? "✅" : "❌"
-      console.log(` ${status} ${r.source}: مجلوب (${r.fetched}) | جديد (${r.new}) | موجود (${r.skipped})`)
+    if (res.ok) {
+       const data = await res.json()
+       let totalNew = 0, totalSkipped = 0
+       
+       if (data.results) {
+         for (const r of data.results) {
+           totalNew += r.new
+           totalSkipped += r.skipped
+           const status = r.success ? "✅" : "❌"
+           console.log(` ${status} ${r.source}: مجلوب (${r.fetched}) | جديد (${r.new}) | موجود (${r.skipped})`)
+         }
+       }
+       
+       console.log(`\n🎉 اكتملت المزامنة بنجاح! تم إضافة ${totalNew} خبر جديد على الموقع الحي.`)
+       console.log(`📍 الأخبار الآن ظاهرة للعميل على: https://sgn-indol.vercel.app/news\n`)
+    } else {
+       console.error(`\n❌ فشل الاتصال بالموقع الحي. (الرمز: ${res.status})`)
+       console.error(`الرد من الخادم:`, await res.text())
+       console.log(`\n⚠️ ملاحظة: تأكد من إضافة المتغير CRON_SECRET بقيمة sgn-cron-secret-2026 في لوحة تحكم Vercel.`)
     }
-
-    const totalDuration = (Date.now() - startTime) / 1000
-    console.log(`\n🎉 اكتملت المزامنة بنجاح في ${totalDuration.toFixed(1)} ثانية!`)
-    console.log(`📍 الأخبار الآن ظاهرة على: https://sgn-indol.vercel.app/news`)
-  } catch (err) {
-    console.error(`\n❌ فشل الإجراء:`, err)
-    process.exit(1)
-  } finally {
-    if (prisma) await prisma.$disconnect()
+  } catch(err) {
+     console.error("\n❌ حدث خطأ غير متوقع أثناء الاتصال بالموقع:", err)
   }
 }
 
