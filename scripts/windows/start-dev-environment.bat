@@ -15,9 +15,9 @@ echo.
 echo [1/2] Starting Next.js Web Server on port 3000...
 start "SGN Web Dev Server" cmd /k "npm run dev"
 
-:: 2. Start Expo Mobile Server
+:: 2. Start Expo Mobile Server (Standard LAN mode for stability)
 echo [2/2] Starting Expo Mobile Server...
-start "SGN Mobile Expo Server" cmd /k "cd mobile && npx expo start --tunnel"
+start "SGN Mobile Expo Server" cmd /k "cd mobile && npx expo start"
 
 :: 3. Start Git Autosync Watcher
 echo.
