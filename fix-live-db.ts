@@ -45,14 +45,9 @@ async function main() {
     })
     console.log(`✅ تم نقل ${euro.count} خبر إلى قسم "أخبار أوروبا"`)
 
-    const econ = await prisma.post.updateবিজ({
+    const econ = await prisma.post.updateMany({
       where: { source: 'euronews-business' },
       data: { category: 'اقتصاد' }
-    }).catch(async () => {
-       return await prisma.post.updateMany({
-         where: { source: 'euronews-business' },
-         data: { category: 'اقتصاد' }
-       })
     })
     console.log(`✅ تم نقل ${econ.count} خبر إلى قسم "اقتصاد"`)
 
