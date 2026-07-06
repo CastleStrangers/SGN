@@ -44,8 +44,8 @@ export function Sidebar({ latest }: { latest: Post[] }) {
       <div className="bg-white rounded-2xl border overflow-hidden">
         <div className="bg-[#1a5632] text-white px-4 py-3 font-bold text-sm">{t("sidebar.latestTitle")}</div>
         <div className="divide-y">
-          {latest.slice(0, 4).map(item => (
-            <Link key={item.title} href={item.slug ? `/news/${item.slug}` : "/news"} className="flex gap-3 p-3 hover:bg-gray-50 transition-colors">
+          {latest.slice(0, 4).map((item, index) => (
+            <Link key={`${item.slug || item.title}-${index}`} href={item.slug ? `/news/${item.slug}` : "/news"} className="flex gap-3 p-3 hover:bg-gray-50 transition-colors">
               <div className="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
                 <img
                   src={resolveImage(item.img || (item.videoId ? `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg` : null), item.title, item.cat)}
