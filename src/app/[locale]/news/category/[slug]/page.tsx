@@ -52,7 +52,8 @@ export default function CategoryPage() {
 
   useEffect(() => {
     if (!slug || Array.isArray(slug)) return;
-    const category = CATEGORY_API[slug] || slug;
+    const decodedSlug = decodeURIComponent(slug);
+    const category = CATEGORY_API[decodedSlug] || decodedSlug;
     fetch(`/api/news?category=${encodeURIComponent(category)}&limit=50`)
       .then(r => r.json())
       .then(data => { setPosts(data.posts || []); setLoading(false); })
