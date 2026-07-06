@@ -68,10 +68,12 @@ export async function runSync(
             }
 
             let category: string
-            if (autoCategorize) {
+            if (source.category) {
+              category = source.category
+            } else if (autoCategorize) {
               category = await categorizeWithAI(finalArticle)
             } else {
-              category = source.category || finalArticle.category
+              category = finalArticle.category
             }
 
             if (downloadMedia) {
