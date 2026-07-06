@@ -17,18 +17,18 @@ function getPrismaInstance(): PrismaClientType {
   const useTurso = isProd && tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined";
   const dbUrl = useTurso ? tursoUrl! : (process.env.DATABASE_URL || "file:./prisma/dev.db");
 
-  let adapter: any = null;
   if (useTurso) {
     const { createClient } = require("@libsql/client");
     const client = createClient({
       url: dbUrl,
       ...(tursoToken ? { authToken: tursoToken } : {}),
     });
-    adapter = new PrismaLibSql(client);
+    const adapter = new PrismaLibSql(client);
+    prismaInstance = new PrismaClient({ adapter });
   } else {
     // For local SQLite, we don't need the LibSQL adapter
+    prismaInstance = new PrismaClient();
   }
-  prismaInstance = new PrismaClient({ adapter });
 
   if (process.env.NODE_ENV !== "production") {
     globalForPrisma.prisma = prismaInstance;

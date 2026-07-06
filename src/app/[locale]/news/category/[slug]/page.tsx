@@ -47,7 +47,8 @@ export default function CategoryPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const catKey = typeof slug === "string" ? (CATEGORY_KEYS[slug] || slug) : slug;
+  const decodedForCat = typeof slug === "string" ? decodeURIComponent(slug) : slug;
+  const catKey = typeof decodedForCat === "string" ? (CATEGORY_KEYS[decodedForCat] || decodedForCat) : decodedForCat;
   const catName = tc(catKey) || catKey;
 
   useEffect(() => {
