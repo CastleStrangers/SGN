@@ -1,7 +1,6 @@
 @echo off
-chcp 65001 > nul
 echo ==================================================
-echo   إصلاح جذري لجميع قواعد البيانات (المحلية والحية)
+echo   Fix Local and Live Databases
 echo ==================================================
 echo.
 call npx tsx fix-all-dbs.ts
