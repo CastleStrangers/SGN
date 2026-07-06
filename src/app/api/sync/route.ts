@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/auth"
 import { requireAuthorize } from "@/lib/auth-helpers"
 import { runSync, DEFAULT_SOURCES } from "@/lib/sync"
 
+import { revalidatePath } from "next/cache"
+
 export async function POST(req: Request) {
   // Allow cron job via CRON_SECRET header
   const cronSecret = req.headers.get("x-cron-secret")
@@ -20,6 +22,9 @@ export async function POST(req: Request) {
       autoCategorize: body.autoCategorize !== false,
       downloadMedia: body.downloadMedia !== false,
     })
+
+    // كسر التخزين المؤقت لكي تظهر الأخبار الجديدة للعميل فوراً
+    revalidatePath("/", "layout")
 
     return NextResponse.json({ success: true, results })
   } catch (err) {
