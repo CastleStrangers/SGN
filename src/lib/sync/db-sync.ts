@@ -44,18 +44,18 @@ async function getOrCreateSyncUser(): Promise<string> {
   return user.id
 }
 
-async function findExistingBySourceInfo(source: string, url: string, locale: string): Promise<boolean> {
-  const count = await prisma.post.count({
+async function findExistingBySourceInfo(source: string, url: string, locale: string) {
+  return await prisma.post.findFirst({
     where: { tags: { contains: `__source:${source}:${url}` }, locale },
+    select: { id: true, category: true }
   })
-  return count > 0
 }
 
-async function findExistingByContentHash(hash: string, locale: string): Promise<boolean> {
-  const count = await prisma.post.count({
+async function findExistingByContentHash(hash: string, locale: string) {
+  return await prisma.post.findFirst({
     where: { tags: { contains: `__hash:${hash}` }, locale },
+    select: { id: true, category: true }
   })
-  return count > 0
 }
 
 export async function syncArticleToDb(
@@ -66,10 +66,18 @@ export async function syncArticleToDb(
   const contentHash = generateContentHash(article)
 
   const sourceInfo = `${article.source || "unknown"}:${article.sourceUrl}`
-  const existsByUrl = await findExistingBySourceInfo(article.source || "unknown", article.sourceUrl, locale)
-  const existsByHash = await findExistingByContentHash(contentHash, locale)
+  const existingByUrl = await findExistingBySourceInfo(article.source || "unknown", article.sourceUrl, locale)
+  const existingByHash = await findExistingByContentHash(contentHash, locale)
 
-  if (existsByUrl || existsByHash) {
+  const existing = existingByUrl || existingByHash
+  if (existing) {
+    if (existing.category !== category) {
+      await prisma.post.update({
+        where: { id: existing.id },
+        data: { category },
+      })
+      return { status: "updated", id: existing.id }
+    }
     return { status: "skipped" }
   }
 
