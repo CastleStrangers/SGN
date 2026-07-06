@@ -32,10 +32,11 @@ echo  [5]  Emergency Git Repair (Nested Repo Conflict)
 echo  [6]  AI News Re-classification (Ollama)
 echo  [7]  Generate Project Specifications PDF
 echo  [8]  Create Unified Control Panel Desktop Shortcut
+echo  [9]  Push Live News (Update Client Site)
 echo  [0]  Exit
 echo.
 echo ======================================================
-set /p choice="Enter option (0-8): "
+set /p choice="Enter option (0-9): "
 
 if "%choice%"=="1" goto dev
 if "%choice%"=="2" goto sync
@@ -45,6 +46,7 @@ if "%choice%"=="5" goto repair
 if "%choice%"=="6" goto reclassify
 if "%choice%"=="7" goto specs
 if "%choice%"=="8" goto shortcuts
+if "%choice%"=="9" goto livenews
 if "%choice%"=="0" exit /b
 goto menu
 
@@ -142,6 +144,15 @@ powershell -Command "$ws = New-Object -ComObject WScript.Shell; $desktop = [Syst
 echo.
 echo [!] Done! You now have a single 'SGN Control Panel' shortcut on your desktop.
 echo You can safely delete all other old shortcuts.
+goto end
+
+:livenews
+cls
+echo ======================================================
+echo   Pushing Live News to Client Site...
+echo ======================================================
+echo.
+call "%SCRIPTS_DIR%\sync-live-news.bat"
 goto end
 
 :end
