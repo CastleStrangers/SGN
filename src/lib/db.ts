@@ -15,12 +15,10 @@ function getPrismaInstance(): PrismaInstance {
   const useTurso = isProd && tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined";
   
   if (useTurso) {
-    const { createClient } = require("@libsql/client");
-    const libsql = createClient({
+    const adapter = new PrismaLibSql({
       url: tursoUrl!,
       authToken: tursoToken!,
     });
-    const adapter = new PrismaLibSql(libsql);
     globalForPrisma.prisma = new PrismaClient({ adapter });
   } else {
     globalForPrisma.prisma = new PrismaClient();
