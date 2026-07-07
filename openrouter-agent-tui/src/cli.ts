@@ -48,7 +48,7 @@ const readFileTool = tool({
   inputSchema: z.object({
     filePath: z.string().describe('The path of the file to read (relative or absolute).'),
   }),
-  execute: async ({ filePath }) => {
+  execute: async ({ filePath }: { filePath: string }) => {
     try {
       const resolved = path.resolve(filePath);
       const content = await fs.promises.readFile(resolved, 'utf-8');
@@ -66,7 +66,7 @@ const writeFileTool = tool({
     filePath: z.string().describe('The destination path of the file.'),
     content: z.string().describe('The file content to write.'),
   }),
-  execute: async ({ filePath, content }) => {
+  execute: async ({ filePath, content }: { filePath: string; content: string }) => {
     try {
       const resolved = path.resolve(filePath);
       await fs.promises.mkdir(path.dirname(resolved), { recursive: true });
@@ -84,7 +84,7 @@ const runCommandTool = tool({
   inputSchema: z.object({
     command: z.string().describe('The shell command line to run.'),
   }),
-  execute: async ({ command }) => {
+  execute: async ({ command }: { command: string }) => {
     try {
       const { stdout, stderr } = await execPromise(command);
       return { success: true, stdout, stderr };
