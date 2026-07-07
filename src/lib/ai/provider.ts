@@ -7,7 +7,8 @@ type AIConfig =
   | { provider: "ollama" } 
   | { provider: "openai"; model: string } 
   | { provider: "anthropic"; model: string }
-  | { provider: "gemini"; model: string };
+  | { provider: "gemini"; model: string }
+  | { provider: "groq"; model: string };
 
 function getEnvVar(key: string): string | undefined {
   if (process.env[key]) return process.env[key];
@@ -31,6 +32,7 @@ function getConfig(): AIConfig {
   if (configured === "openai") return { provider: "openai", model: getEnvVar("OPENAI_MODEL") || "gpt-4o-mini" };
   if (configured === "anthropic") return { provider: "anthropic", model: getEnvVar("ANTHROPIC_MODEL") || "claude-3-5-sonnet-20240620" };
   if (configured === "gemini") return { provider: "gemini", model: getEnvVar("GEMINI_MODEL") || "gemini-2.5-flash" };
+  if (configured === "groq") return { provider: "groq", model: getEnvVar("GROQ_MODEL") || "llama-3.3-70b-versatile" };
 
   const geminiKey = getEnvVar("GEMINI_API_KEY");
   if (geminiKey && (geminiKey.startsWith("AIzaSy") || geminiKey.startsWith("AQ."))) {
@@ -42,6 +44,9 @@ function getConfig(): AIConfig {
   const anthropicKey = getEnvVar("ANTHROPIC_API_KEY") || getEnvVar("ANTHROPIC_BASE_URL");
   if (anthropicKey) {
     return { provider: "anthropic", model: getEnvVar("ANTHROPIC_MODEL") || "claude-3-5-sonnet-20240620" };
+  }
+  if (getEnvVar("GROQ_API_KEY")) {
+    return { provider: "groq", model: getEnvVar("GROQ_MODEL") || "llama-3.3-70b-versatile" };
   }
 
   return { provider: "ollama" };
@@ -65,6 +70,36 @@ export async function generateChat(
   options?: { model?: string; responseFormat?: "text" | "json" }
 ): Promise<string> {
   const config = getConfig();
+
+  if (config.provider === "groq") {
+    const apiKey = getEnvVar("GROQ_API_KEY");
+    if (!apiKey) throw new Error("GROQ_API_KEY is required for Groq provider");
+
+    const msgs: any[] = [];
+    if (systemPrompt) msgs.push({ role: "system", content: systemPrompt });
+    msgs.push(...messages);
+
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: options?.model || config.model,
+        messages: msgs,
+        ...(options?.responseFormat === "json" ? { response_format: { type: "json_object" } } : {}),
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`Groq error ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    return data.choices[0]?.message?.content || "";
+  }
 
   if (config.provider === "openai") {
     const apiKey = getEnvVar("OPENAI_API_KEY");
