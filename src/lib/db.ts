@@ -1,9 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+type PrismaInstance = InstanceType<typeof PrismaClient>;
 
-function getPrismaInstance() {
+const globalForPrisma = globalThis as unknown as { prisma: PrismaInstance };
+
+function getPrismaInstance(): PrismaInstance {
   if (globalForPrisma.prisma) return globalForPrisma.prisma;
 
   const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
@@ -27,7 +29,7 @@ function getPrismaInstance() {
   return globalForPrisma.prisma;
 }
 
-export const prisma = new Proxy({} as PrismaClient, {
+export const prisma = new Proxy({} as PrismaInstance, {
   get(target, prop, receiver) {
     const instance = getPrismaInstance();
     const value = Reflect.get(instance, prop);
