@@ -8,7 +8,11 @@ type AIConfig =
   | { provider: "openai"; model: string } 
   | { provider: "anthropic"; model: string }
   | { provider: "gemini"; model: string }
-  | { provider: "groq"; model: string };
+  | { provider: "groq"; model: string }
+  | { provider: "deepseek"; model: string }
+  | { provider: "github"; model: string }
+  | { provider: "cerebras"; model: string }
+  | { provider: "siliconflow"; model: string };
 
 function getEnvVar(key: string): string | undefined {
   if (process.env[key]) return process.env[key];
@@ -33,6 +37,10 @@ function getConfig(): AIConfig {
   if (configured === "anthropic") return { provider: "anthropic", model: getEnvVar("ANTHROPIC_MODEL") || "claude-3-5-sonnet-20240620" };
   if (configured === "gemini") return { provider: "gemini", model: getEnvVar("GEMINI_MODEL") || "gemini-2.5-flash" };
   if (configured === "groq") return { provider: "groq", model: getEnvVar("GROQ_MODEL") || "llama-3.3-70b-versatile" };
+  if (configured === "deepseek") return { provider: "deepseek", model: getEnvVar("DEEPSEEK_MODEL") || "deepseek-chat" };
+  if (configured === "github") return { provider: "github", model: getEnvVar("GITHUB_MODEL") || "gpt-4o" };
+  if (configured === "cerebras") return { provider: "cerebras", model: getEnvVar("CEREBRAS_MODEL") || "llama3.1-70b" };
+  if (configured === "siliconflow") return { provider: "siliconflow", model: getEnvVar("SILICONFLOW_MODEL") || "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B" };
 
   const geminiKey = getEnvVar("GEMINI_API_KEY");
   if (geminiKey && (geminiKey.startsWith("AIzaSy") || geminiKey.startsWith("AQ."))) {
@@ -47,6 +55,18 @@ function getConfig(): AIConfig {
   }
   if (getEnvVar("GROQ_API_KEY")) {
     return { provider: "groq", model: getEnvVar("GROQ_MODEL") || "llama-3.3-70b-versatile" };
+  }
+  if (getEnvVar("DEEPSEEK_API_KEY")) {
+    return { provider: "deepseek", model: getEnvVar("DEEPSEEK_MODEL") || "deepseek-chat" };
+  }
+  if (getEnvVar("GITHUB_TOKEN")) {
+    return { provider: "github", model: getEnvVar("GITHUB_MODEL") || "gpt-4o" };
+  }
+  if (getEnvVar("CEREBRAS_API_KEY")) {
+    return { provider: "cerebras", model: getEnvVar("CEREBRAS_MODEL") || "llama3.1-70b" };
+  }
+  if (getEnvVar("SILICONFLOW_API_KEY")) {
+    return { provider: "siliconflow", model: getEnvVar("SILICONFLOW_MODEL") || "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B" };
   }
 
   return { provider: "ollama" };
@@ -95,6 +115,126 @@ export async function generateChat(
     if (!res.ok) {
       const err = await res.text().catch(() => "");
       throw new Error(`Groq error ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    return data.choices[0]?.message?.content || "";
+  }
+
+  if (config.provider === "deepseek") {
+    const apiKey = getEnvVar("DEEPSEEK_API_KEY");
+    if (!apiKey) throw new Error("DEEPSEEK_API_KEY is required for DeepSeek provider");
+
+    const msgs: any[] = [];
+    if (systemPrompt) msgs.push({ role: "system", content: systemPrompt });
+    msgs.push(...messages);
+
+    const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: options?.model || config.model,
+        messages: msgs,
+        ...(options?.responseFormat === "json" ? { response_format: { type: "json_object" } } : {}),
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`DeepSeek error ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    return data.choices[0]?.message?.content || "";
+  }
+
+  if (config.provider === "github") {
+    const apiKey = getEnvVar("GITHUB_TOKEN");
+    if (!apiKey) throw new Error("GITHUB_TOKEN is required for GitHub provider");
+
+    const msgs: any[] = [];
+    if (systemPrompt) msgs.push({ role: "system", content: systemPrompt });
+    msgs.push(...messages);
+
+    const res = await fetch("https://models.github.ai/inference/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: options?.model || config.model,
+        messages: msgs,
+        ...(options?.responseFormat === "json" ? { response_format: { type: "json_object" } } : {}),
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`GitHub Models error ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    return data.choices[0]?.message?.content || "";
+  }
+
+  if (config.provider === "cerebras") {
+    const apiKey = getEnvVar("CEREBRAS_API_KEY");
+    if (!apiKey) throw new Error("CEREBRAS_API_KEY is required for Cerebras provider");
+
+    const msgs: any[] = [];
+    if (systemPrompt) msgs.push({ role: "system", content: systemPrompt });
+    msgs.push(...messages);
+
+    const res = await fetch("https://api.cerebras.ai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: options?.model || config.model,
+        messages: msgs,
+        ...(options?.responseFormat === "json" ? { response_format: { type: "json_object" } } : {}),
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`Cerebras error ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    return data.choices[0]?.message?.content || "";
+  }
+
+  if (config.provider === "siliconflow") {
+    const apiKey = getEnvVar("SILICONFLOW_API_KEY");
+    if (!apiKey) throw new Error("SILICONFLOW_API_KEY is required for SiliconFlow provider");
+
+    const msgs: any[] = [];
+    if (systemPrompt) msgs.push({ role: "system", content: systemPrompt });
+    msgs.push(...messages);
+
+    const res = await fetch("https://api.siliconflow.cn/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: options?.model || config.model,
+        messages: msgs,
+        ...(options?.responseFormat === "json" ? { response_format: { type: "json_object" } } : {}),
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`SiliconFlow error ${res.status}: ${err}`);
     }
 
     const data = await res.json();
