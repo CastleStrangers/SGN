@@ -203,6 +203,28 @@ curl -X POST http://localhost:3000/api/sync
 - **الإجمالي**: 69 خبر في قاعدة البيانات (تم حذف 10 مقالات وهمية)
 - قاعدة البيانات: `prisma/dev.db` (SQLite محلياً)
 
+## ⚠️ Prisma v7 API Changes (مهم)
+
+- **PrismaLibSql constructor** يأخذ `Config` مباشرة (ليس `Client`):
+  ```typescript
+  // ✅ جديد
+  const adapter = new PrismaLibSql({ url: tursoUrl, authToken: tursoToken });
+  
+  // ❌ قديم (Prisma v6)
+  const client = createClient({ url: tursoUrl, authToken: tursoToken });
+  const adapter = new PrismaLibSql(client);
+  ```
+- **`PrismaClient` لا ينفع كـ type** — استخدم `InstanceType<typeof PrismaClient>` بدلاً من `PrismaClient` في type annotations
+- **import من `@prisma/client`** وليس `.prisma/client` (صلاح Vercel build)
+
+## 🤖 Groq AI Provider
+
+- **مجاني تماماً** — Llama 3.3 70B عبر API
+- **30 RPM** (request per minute) — كافي للاستخدام العادي
+- **تفعيل:** ضع `GROQ_API_KEY` في `.env` (احصل عليه من https://console.groq.com/keys)
+- **الاستخدام:** `AI_PROVIDER=groq` في `.env` — يُكتشف تلقائياً قبل OpenAI
+- **النموذج الافتراضي:** `llama-3.3-70b-versatile` — ممتاز للعربية
+
 ### Facebook — معلومات مهمة
 - **Page ID**: `943115162210802` (من `/me/accounts`)
 - **التوكن**: موجود في `.env` كـ `FACEBOOK_PAGE_TOKEN` (مأخوذ من `/me/accounts` تجديد كل 60 يوم)
