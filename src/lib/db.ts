@@ -14,15 +14,16 @@ function getPrismaInstance(): PrismaInstance {
 
   const useTurso = isProd && tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined";
   
-  if (useTurso) {
-    const adapter = new PrismaLibSql({
-      url: tursoUrl!,
-      authToken: tursoToken!,
-    });
-    globalForPrisma.prisma = new PrismaClient({ adapter });
-  } else {
-    globalForPrisma.prisma = new PrismaClient();
-  }
+  const dbUrl = useTurso
+    ? tursoUrl!
+    : (process.env.DATABASE_URL || "file:./prisma/dev.db").trim();
+
+  const adapter = new PrismaLibSql({
+    url: dbUrl,
+    ...(useTurso && tursoToken ? { authToken: tursoToken } : {}),
+  });
+
+  globalForPrisma.prisma = new PrismaClient({ adapter });
 
   return globalForPrisma.prisma;
 }
