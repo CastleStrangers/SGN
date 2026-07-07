@@ -49,6 +49,7 @@ const readFileTool = tool({
     filePath: z.string().describe('The path of the file to read (relative or absolute).'),
   }),
   execute: async ({ filePath }: { filePath: string }) => {
+    console.log(`\n${GRAY}├── Running Tool:${RESET} ${BLUE}read_file${RESET} (${GRAY}filePath: "${filePath}"${RESET})`);
     try {
       const resolved = path.resolve(filePath);
       const content = await fs.promises.readFile(resolved, 'utf-8');
@@ -67,6 +68,7 @@ const writeFileTool = tool({
     content: z.string().describe('The file content to write.'),
   }),
   execute: async ({ filePath, content }: { filePath: string; content: string }) => {
+    console.log(`\n${GRAY}├── Running Tool:${RESET} ${BLUE}write_file${RESET} (${GRAY}filePath: "${filePath}"${RESET})`);
     try {
       const resolved = path.resolve(filePath);
       await fs.promises.mkdir(path.dirname(resolved), { recursive: true });
@@ -85,6 +87,7 @@ const runCommandTool = tool({
     command: z.string().describe('The shell command line to run.'),
   }),
   execute: async ({ command }: { command: string }) => {
+    console.log(`\n${GRAY}├── Running Tool:${RESET} ${BLUE}run_command${RESET} (${GRAY}command: "${command}"${RESET})`);
     try {
       const { stdout, stderr } = await execPromise(command);
       return { success: true, stdout, stderr };
@@ -225,38 +228,11 @@ async function main() {
     try {
       const result = await callModel(client, {
         model: config.model,
-        messages: sessionHistory,
+        input: sessionHistory as any,
         tools: tools,
       });
 
       spinner.stop();
-
-      // Setup tool call visual logging
-      const textStream = result.getTextStream();
-      
-      // We can hook into tool calls during the execution loop.
-      // Wait, result tracks executions. Let's print tool execution outputs.
-      if (config.display.toolDisplay !== 'hidden') {
-        // Since result automatically resolves tool execution, let's print them.
-        const responseData = await result.getResponse();
-        
-        // Print tool usage summary
-        if (responseData.choices?.[0]?.message?.tool_calls) {
-          const calls = responseData.choices[0].message.tool_calls;
-          for (const call of calls) {
-            const toolName = call.function.name;
-            const args = call.function.arguments;
-            if (config.display.toolDisplay === 'emoji') {
-              console.log(`🔧 ${BOLD}${toolName}${RESET}(${GRAY}${args}${RESET})`);
-            } else if (config.display.toolDisplay === 'grouped') {
-              console.log(`${GRAY}├── Running Tool:${RESET} ${BLUE}${toolName}${RESET} (${GRAY}${args}${RESET})`);
-            } else if (config.display.toolDisplay === 'minimal') {
-              process.stdout.write(`${GRAY}[${toolName}]${RESET} `);
-            }
-          }
-          if (config.display.toolDisplay === 'minimal') console.log();
-        }
-      }
 
       // Read final text
       const finalResponse = await result.getText();
