@@ -41,6 +41,9 @@ Title: ${article.title}
 Excerpt: ${article.excerpt || ""}
 Content: ${article.content}`;
 
+    // 3-second delay to respect GitHub Models API rate limit (15 RPM)
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
     const response = await generateText(
       prompt,
       "You are a professional media translator specializing in translating Dutch and English news into high-quality, professional Arabic. You always respond with a raw JSON object only.",
@@ -114,6 +117,9 @@ Content: ${article.content}`;
   }
 
   try {
+    // 3-second delay to respect GitHub Models API rate limit (15 RPM)
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
     const response = await generateText(prompt, systemPrompt, { responseFormat: "json" });
     const cleaned = cleanJsonResponse(response);
     const parsed = JSON.parse(cleaned);
