@@ -163,7 +163,18 @@ export async function analyzeDocument(imageUrl: string, locale: string): Promise
       : "من فضلك قم بتحليل وقراءة هذه الرسالة وشرح الإجراءات المطلوبة مني.";
 
   const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
-  const provider = process.env.AI_PROVIDER || (isProd ? (process.env.ANTHROPIC_API_KEY ? "anthropic" : "openai") : "ollama");
+  let provider = process.env.AI_PROVIDER || (isProd ? (process.env.ANTHROPIC_API_KEY ? "anthropic" : "openai") : "ollama");
+
+  // Fallback for providers that don't support vision
+  if (provider === "deepseek" || provider === "cerebras" || provider === "siliconflow") {
+    if (process.env.OPENAI_API_KEY) {
+      provider = "openai";
+    } else if (process.env.ANTHROPIC_API_KEY) {
+      provider = "anthropic";
+    } else {
+      provider = "ollama";
+    }
+  }
 
   if (provider === "anthropic") {
     const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -244,6 +255,40 @@ export async function analyzeDocument(imageUrl: string, locale: string): Promise
     if (!res.ok) {
       const err = await res.text().catch(() => "");
       throw new Error(`Groq vision error ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    return data.choices[0]?.message?.content || "";
+  }
+
+  if (provider === "github") {
+    const apiKey = process.env.GITHUB_TOKEN;
+    if (!apiKey) throw new Error("GITHUB_TOKEN is required for GitHub provider");
+
+    const res = await fetch("https://models.github.ai/inference/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: process.env.GITHUB_MODEL || "gpt-4o",
+        messages: [
+          { role: "system", content: systemPrompt },
+          {
+            role: "user",
+            content: [
+              { type: "text", text: userPrompt },
+              { type: "image_url", image_url: { url: imageUrl } }
+            ]
+          }
+        ],
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`GitHub Models vision error ${res.status}: ${err}`);
     }
 
     const data = await res.json();
