@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
     // بناء شرط الاستعلام — نتحقق من locale بشكل آمن
     // إذا كان locale = "ar"، نجلب أيضاً المقالات التي locale فيها null/فارغ (قديمة)
     const localeFilter = locale === "ar"
-      ? { OR: [{ locale: "ar" }, { locale: null }, { locale: "" }] }
+      ? { OR: [{ locale: "ar" }, { locale: "" }] }
       : { locale };
 
     const where: any = {

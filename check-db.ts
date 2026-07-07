@@ -8,7 +8,7 @@ async function main() {
     const category = "أخبار الجالية"
     const limit = 50
     const offset = 0
-    const localeFilter = { OR: [{ locale: "ar" }, { locale: null }, { locale: "" }] }
+    const localeFilter = { OR: [{ locale: "ar" }, { locale: "" }] }
 
     const where: any = {
       published: true,
