@@ -1,13 +1,16 @@
-import { generateText } from "./src/lib/ai/provider";
+import { generateText, getEnvVar } from "./src/lib/ai/provider";
 
 async function testProvider(name: string, envVar: string) {
   console.log(`\n--- Testing ${name} ---`);
-  // Check if API key is present
-  const key = process.env[envVar];
+  // Get API key using getEnvVar which reads from .env
+  const key = getEnvVar(envVar);
   if (!key) {
     console.log(`Skipped: ${envVar} is not defined in environment variables.`);
     return;
   }
+
+  // Set the key in process.env so the provider can read it if it relies on process.env
+  process.env[envVar] = key;
 
   try {
     process.env.AI_PROVIDER = name.toLowerCase();

@@ -14,7 +14,7 @@ type AIConfig =
   | { provider: "cerebras"; model: string }
   | { provider: "siliconflow"; model: string };
 
-function getEnvVar(key: string): string | undefined {
+export function getEnvVar(key: string): string | undefined {
   if (process.env[key]) return process.env[key];
   try {
     const envPath = path.join(process.cwd(), ".env");
