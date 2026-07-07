@@ -1,10 +1,9 @@
 import { PrismaClient } from '@prisma/client'
-import type { PrismaClient as PrismaClientType } from '.prisma/client'
 import { PrismaLibSql } from '@prisma/adapter-libsql'
 import fs from 'fs'
 import path from 'path'
 
-async function updateDb(prisma: PrismaClientType, name: string) {
+async function updateDb(prisma: any, name: string) {
   console.log(`\n--- جاري تحديث قاعدة البيانات: ${name} ---`)
   try {
     const nos = await prisma.post.updateMany({
