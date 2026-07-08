@@ -8,10 +8,24 @@ async function main() {
   })
 
   try {
-    // 1. Fetch Facebook posts from backup database
-    console.log("Fetching Facebook posts from backup...")
+    // 1. Fetch distinct sources and total posts from backup database
+    console.log("Querying backup database statistics...")
+    const statsResult = await backupClient.execute({
+      sql: "SELECT count(*) as total FROM Post",
+      args: []
+    })
+    console.log(`Total posts in backup: ${statsResult.rows[0]?.total}`)
+
+    const sourcesResult = await backupClient.execute({
+      sql: "SELECT distinct source FROM Post",
+      args: []
+    })
+    console.log("Distinct sources in backup:")
+    sourcesResult.rows.forEach(r => console.log(`  - "${r.source}"`))
+
+    console.log("\nFetching Facebook posts from backup...")
     const result = await backupClient.execute({
-      sql: "SELECT * FROM Post WHERE source LIKE ? OR tags LIKE ?",
+      sql: "SELECT * FROM Post WHERE source LIKE ? OR tags LIKE ? OR source IS NULL",
       args: ["%facebook%", "%__source:facebook%"]
     })
 
