@@ -55,11 +55,11 @@ export default function CategoryPage() {
     if (!slug || Array.isArray(slug)) return;
     const decodedSlug = decodeURIComponent(slug);
     const category = CATEGORY_API[decodedSlug] || decodedSlug;
-    fetch(`/api/news?category=${encodeURIComponent(category)}&limit=50`)
+    fetch(`/api/news?category=${encodeURIComponent(category)}&limit=50&locale=${locale}`)
       .then(r => r.json())
       .then(data => { setPosts(data.posts || []); setLoading(false); })
       .catch(() => setLoading(false));
-  }, [slug]);
+  }, [slug, locale]);
 
   const dir = locale === "ar" ? "rtl" : "ltr";
 
