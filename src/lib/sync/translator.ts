@@ -28,21 +28,30 @@ async function generateTextWithRetry(
 ): Promise<string> {
   let retries = 3;
   let delayTime = 6000; // wait 6 seconds on first retry
+  let currentOptions = { ...options }; // mutable copy for retry adjustments
 
   while (retries > 0) {
     try {
       // 2.1 seconds base delay between calls (guarantees max 28 RPM to stay safely under Groq's 30 RPM limit)
       await new Promise((resolve) => setTimeout(resolve, 2100));
-      return await generateText(prompt, systemPrompt, options);
+      return await generateText(prompt, systemPrompt, currentOptions);
     } catch (error) {
       const errMsg = error instanceof Error ? error.message : String(error);
       const isRateLimit = errMsg.includes("429") || errMsg.includes("rate limit") || errMsg.includes("Too many requests");
+      const isJsonError = errMsg.includes("400") && errMsg.includes("json_validate_failed");
       
       if (isRateLimit && retries > 1) {
         console.warn(`\n[Sync AI API] Rate limit hit (429). Retrying in ${delayTime / 1000} seconds... (${retries - 1} retries left)`);
         await new Promise((resolve) => setTimeout(resolve, delayTime));
         retries--;
         delayTime *= 2; // exponential backoff
+      } else if (isJsonError && retries > 1) {
+        // Groq sometimes fails JSON validation — retry without JSON format constraint
+        console.warn(`\n[Sync AI API] JSON validation error. Retrying without JSON format constraint...`);
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        retries--;
+        // On retry, use text format - the cleanJsonResponse will parse it
+        currentOptions = { responseFormat: "text" };
       } else {
         throw error;
       }
