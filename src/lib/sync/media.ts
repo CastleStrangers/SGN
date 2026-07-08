@@ -102,25 +102,8 @@ export async function downloadMedia(
     return null
   }
 
-  // ⚠️ Vercel Blob is suspended — skip blob upload entirely
-  // Try local filesystem storage for development
-  if (process.env.NODE_ENV !== "production") {
-    try {
-      const hash = crypto.createHash("md5").update(buffer).digest("hex").slice(0, 12)
-      const ext = getExtension(absoluteUrl)
-      const fileName = `${hash}.${ext}`
-      const filePath = path.join(MEDIA_DIR, fileName)
-
-      await mkdir(MEDIA_DIR, { recursive: true })
-      await writeFile(filePath, buffer)
-      return `/uploads/sync/${fileName}`
-    } catch {
-      // Fall through to return external URL
-    }
-  }
-
-  // In production (or if local save failed), return the original external URL
-  // This is the safest option to ensure images always display
+  // Always return the external URL to ensure images work on both local and production (Vercel)
+  // Local filesystem storage is skipped because those paths break when data is uploaded to Turso/Vercel
   return absoluteUrl
 }
 
