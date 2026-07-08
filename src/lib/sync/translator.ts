@@ -24,7 +24,7 @@ function detectLanguage(article: ExtractedArticle): "ar" | "nl" | "en" {
 async function generateTextWithRetry(
   prompt: string,
   systemPrompt: string,
-  options: { responseFormat: string }
+  options: { responseFormat: "text" | "json" }
 ): Promise<string> {
   let retries = 3;
   let delayTime = 6000; // wait 6 seconds on first retry
