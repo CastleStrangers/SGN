@@ -20,7 +20,7 @@ export function BreakingNews() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/news?limit=15")
+    fetch(`/api/news?limit=15&locale=${locale}`)
       .then(r => r.json())
       .then(data => {
         setPosts(data.posts || []);
@@ -29,7 +29,7 @@ export function BreakingNews() {
       .catch(() => {
         setLoading(false);
       });
-  }, []);
+  }, [locale]);
 
   if (loading) {
     return (

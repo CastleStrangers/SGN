@@ -18,20 +18,21 @@ const LIST_SELECT = {
   author: { select: { name: true } },
 } as const;
 
-export default async function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   let posts: any[] = [];
   let videoPosts: any[] = [];
 
   try {
     [posts, videoPosts] = await Promise.all([
       prisma.post.findMany({
-        where: { published: true },
+        where: { published: true, locale },
         orderBy: { createdAt: "desc" },
         take: 10,
         select: LIST_SELECT,
       }),
       prisma.post.findMany({
-        where: { published: true, source: "youtube" },
+        where: { published: true, source: "youtube", locale },
         orderBy: { createdAt: "desc" },
         take: 4,
         select: LIST_SELECT,
