@@ -31,8 +31,8 @@ async function generateTextWithRetry(
 
   while (retries > 0) {
     try {
-      // 6.5 seconds base delay between calls (guarantees max 9 RPM to stay safely under the 15 RPM limit)
-      await new Promise((resolve) => setTimeout(resolve, 6500));
+      // 2.1 seconds base delay between calls (guarantees max 28 RPM to stay safely under Groq's 30 RPM limit)
+      await new Promise((resolve) => setTimeout(resolve, 2100));
       return await generateText(prompt, systemPrompt, options);
     } catch (error) {
       const errMsg = error instanceof Error ? error.message : String(error);
