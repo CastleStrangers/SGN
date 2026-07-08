@@ -108,57 +108,6 @@ export async function translateArticleToLocale(
     return translateArticle(article);
   }
 
-  let prompt = "";
-  let systemPrompt = "";
-
-  if (targetLocale === "nl") {
-    prompt = `Translate the following news article elements into professional and clear Dutch.
-You MUST output your response as a valid JSON object matching this schema:
-{
-  "title": "translated title in Dutch",
-  "excerpt": "translated summary/excerpt in Dutch",
-  "content": "translated article body in Dutch, preserving ALL HTML tags, inline styles, links, image tags, and iframes exactly as they are"
-}
-
-Article to translate:
-Title: ${article.title}
-Excerpt: ${article.excerpt || ""}
-Content: ${article.content}`;
-
-    systemPrompt = "You are a professional translator specializing in translating news into high-quality, professional Dutch. You always respond with a raw JSON object only.";
-  } else if (targetLocale === "en") {
-    prompt = `Translate the following news article elements into professional and clear English.
-You MUST output your response as a valid JSON object matching this schema:
-{
-  "title": "translated title in English",
-  "excerpt": "translated summary/excerpt in English",
-  "content": "translated article body in English, preserving ALL HTML tags, inline styles, links, image tags, and iframes exactly as they are"
-}
-
-Article to translate:
-Title: ${article.title}
-Excerpt: ${article.excerpt || ""}
-Content: ${article.content}`;
-
-    systemPrompt = "You are a professional translator specializing in translating news into high-quality, professional English. You always respond with a raw JSON object only.";
-  }
-
-  try {
-    const response = await generateTextWithRetry(prompt, systemPrompt, { responseFormat: "json" });
-    const cleaned = cleanJsonResponse(response);
-    const parsed = JSON.parse(cleaned);
-
-    if (parsed.title && parsed.content) {
-      return {
-        ...article,
-        title: parsed.title.trim(),
-        excerpt: parsed.excerpt?.trim() || article.excerpt,
-        content: parsed.content.trim(),
-      };
-    }
-  } catch (error) {
-    console.error(`AI translation failed to ${targetLocale} for article:`, article.title, error);
-  }
-
+  // Skip translating to English/Dutch to save API quota and prevent 429 rate limit blocks
   return article;
 }
