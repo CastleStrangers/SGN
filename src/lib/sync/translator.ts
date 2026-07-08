@@ -31,8 +31,8 @@ async function generateTextWithRetry(
 
   while (retries > 0) {
     try {
-      // 4.5 seconds base delay between calls (guarantees max 13 RPM to stay under the 15 RPM limit)
-      await new Promise((resolve) => setTimeout(resolve, 4500));
+      // 6.5 seconds base delay between calls (guarantees max 9 RPM to stay safely under the 15 RPM limit)
+      await new Promise((resolve) => setTimeout(resolve, 6500));
       return await generateText(prompt, systemPrompt, options);
     } catch (error) {
       const errMsg = error instanceof Error ? error.message : String(error);
