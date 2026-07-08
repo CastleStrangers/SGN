@@ -28,16 +28,22 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       prisma.post.findMany({
         where: { published: true, locale },
         orderBy: { createdAt: "desc" },
-        take: 10,
+        take: 20,
         select: LIST_SELECT,
       }),
       prisma.post.findMany({
         where: { published: true, source: "youtube", locale },
         orderBy: { createdAt: "desc" },
-        take: 4,
+        take: 6,
         select: LIST_SELECT,
       }),
     ]);
+  } catch (e) {
+    console.error("[Home] Failed to fetch posts:", e);
+  }
+
+  return <HomePageClient posts={posts} videoPosts={videoPosts} />;
+}
   } catch (e) {
     console.error("[Home] Failed to fetch posts:", e);
   }
