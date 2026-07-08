@@ -1,4 +1,5 @@
 import { createClient } from "@libsql/client";
+import "dotenv/config";
 
 const local = createClient({ url: "file:./prisma/dev.db" });
 const turso = createClient({
