@@ -48,11 +48,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(post);
     }
 
-    // بناء شرط الاستعلام — نتحقق من locale بشكل آمن
-    // إذا كان locale = "ar"، نجلب أيضاً المقالات التي locale فيها null/فارغ (قديمة)
-    const localeFilter = locale === "ar"
-      ? { OR: [{ locale: "ar" }, { locale: "" }] }
-      : { locale };
+    // فلترة صارمة حسب اللغة فقط — لا نُدرج المقالات بدون locale
+    const localeFilter = { locale };
 
     const where: any = {
       published: true,
