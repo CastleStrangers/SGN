@@ -74,11 +74,22 @@ async function main() {
       return
     }
 
-    // 2. Fetch current local posts to avoid duplicates
+    // 2. Get the local admin user ID
+    const localUsers = await local.execute('SELECT "id" FROM "User" ORDER BY "id" ASC LIMIT 1')
+    if (localUsers.rows.length === 0) {
+      console.error("❌ No users found in local database! Cannot insert posts.")
+      return
+    }
+    const localAdminId = String(localUsers.rows[0].id)
+    console.log(`Using local admin ID: ${localAdminId}`)
+
+    // 3. Fetch current local posts to avoid duplicates
     const localResult = await local.execute('SELECT "title" FROM "Post"')
     const localTitles = new Set(localResult.rows.map(r => String(r.title)))
 
-    // 3. Insert into local SQLite
+    // 4. Disable foreign key checks temporarily and insert posts
+    await local.execute("PRAGMA foreign_keys = OFF")
+    
     let inserted = 0
     let skipped = 0
 
@@ -94,17 +105,23 @@ async function main() {
       const cols = Object.keys(post)
       const placeholders = cols.map(() => "?").join(", ")
       const colList = cols.map((c) => `"${c}"`).join(", ")
-      const values = cols.map((c) => post[c])
+      const values = cols.map((c) => c === "authorId" ? localAdminId : post[c])
 
-      await local.execute({
-        sql: `INSERT INTO "Post" (${colList}) VALUES (${placeholders})`,
-        args: values,
-      })
-      inserted++
+      try {
+        await local.execute({
+          sql: `INSERT INTO "Post" (${colList}) VALUES (${placeholders})`,
+          args: values,
+        })
+        inserted++
+      } catch (insertErr: any) {
+        console.error(`  ❌ Failed to insert "${title.slice(0, 50)}": ${insertErr.message}`)
+      }
     }
 
+    await local.execute("PRAGMA foreign_keys = ON")
+
     console.log(`\n✅ Successfully completed!`)
-    console.log(`   - Restored/Inserted: ${inserted} posts`)
+    console.log(`   - Restored/Inserted: ${inserted} Facebook posts`)
     console.log(`   - Skipped (existing): ${skipped} posts`)
 
   } catch (err: any) {
