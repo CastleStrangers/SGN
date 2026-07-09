@@ -24,7 +24,12 @@ const CATEGORIES = [
   "\u0641\u064a\u062f\u064a\u0648\u0647\u0627\u062a",
   "\u0641\u0639\u0627\u0644\u064a\u0627\u062a",
   "\u0645\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631",
-  "\u062e\u062f\u0645\u0627\u062a"
+  "\u062e\u062f\u0645\u0627\u062a",
+  "\u0623\u062e\u0628\u0627\u0631 \u0639\u0627\u0645\u0629",
+  "\u0633\u064a\u0627\u0633\u0629",
+  "\u0631\u064a\u0627\u0636\u0629",
+  "\u062a\u0643\u0646\u0648\u0644\u0648\u062c\u064a\u0627",
+  "\u0635\u062d\u0629"
 ];
 
 import { resolveImage } from "@/lib/image-fallback";
@@ -45,6 +50,7 @@ function NewsPageInner() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<{name: string, count: number}[]>([]);
   const [activeCategory, setActiveCategory] = useState(() =>
     urlCategory ? decodeURIComponent(urlCategory) : "\u0627\u0644\u0643\u0644"
   );
@@ -72,6 +78,16 @@ function NewsPageInner() {
     setActiveCategory(cat);
     setPage(0);
   }, [urlCategory]);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch('/api/news/categories');
+      const data = await res.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Failed to fetch categories:', error);
+    }
+  };
 
   const fetchPosts = () => {
     if (activeCategory === "\u062e\u062f\u0645\u0627\u062a") {
@@ -104,6 +120,7 @@ function NewsPageInner() {
   };
 
   useEffect(() => { fetchPosts(); }, [activeCategory, page]);
+  useEffect(() => { fetchCategories(); }, []);
 
   const handleCategoryClick = (cat: string) => {
     if (cat === "\u0645\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631") {
@@ -182,17 +199,28 @@ function NewsPageInner() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8 overflow-x-auto scrollbar-none pb-2 border-b border-gray-100">
           <div className="flex gap-2.5 min-w-max pb-1">
-            {CATEGORIES.map((cat) => (
+            <button
+              key="all"
+              onClick={() => handleCategoryClick("\u0627\u0644\u0643\u0644")}
+              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 transform active:scale-95 ${
+                activeCategory === "\u0627\u0644\u0643\u0644"
+                  ? "bg-gradient-to-r from-[#1a5632] to-[#113d22] text-white shadow-md shadow-[#1a5632]/25 scale-105"
+                  : "bg-white text-gray-700 border border-gray-200 hover:border-[#1a5632]/40 hover:text-[#1a5632] shadow-sm"
+              }`}
+            >
+              {t('all')}
+            </button>
+            {categories.map((cat) => (
               <button
-                key={cat}
-                onClick={() => handleCategoryClick(cat)}
+                key={cat.name}
+                onClick={() => handleCategoryClick(cat.name)}
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 transform active:scale-95 ${
-                  activeCategory === cat
+                  activeCategory === cat.name
                     ? "bg-gradient-to-r from-[#1a5632] to-[#113d22] text-white shadow-md shadow-[#1a5632]/25 scale-105"
                     : "bg-white text-gray-700 border border-gray-200 hover:border-[#1a5632]/40 hover:text-[#1a5632] shadow-sm"
                 }`}
               >
-                {CATEGORY_LABELS[cat] || cat}
+                {CATEGORY_LABELS[cat.name] || cat.name} ({cat.count})
               </button>
             ))}
           </div>
@@ -295,9 +323,12 @@ function NewsPageInner() {
                 <Filter className="w-4 h-4" /> <span>{t('categories')}</span>
               </div>
               <div className="p-3 space-y-1">
-                {CATEGORIES.map((cat) => (
-                  <button key={cat} onClick={() => handleCategoryClick(cat)} className={`block w-full text-right px-4 py-2.5 rounded-xl text-sm transition-all ${activeCategory === cat ? "bg-[#1a5632]/10 text-[#1a5632] font-bold" : "text-gray-700 hover:bg-gray-50"}`}>
-                    {CATEGORY_LABELS[cat] || cat}
+                <button onClick={() => handleCategoryClick("\u0627\u0644\u0643\u0644")} className={`block w-full text-right px-4 py-2.5 rounded-xl text-sm transition-all ${activeCategory === "\u0627\u0644\u0643\u0644" ? "bg-[#1a5632]/10 text-[#1a5632] font-bold" : "text-gray-700 hover:bg-gray-50"}`}>
+                  {t('all')}
+                </button>
+                {categories.map((cat) => (
+                  <button key={cat.name} onClick={() => handleCategoryClick(cat.name)} className={`block w-full text-right px-4 py-2.5 rounded-xl text-sm transition-all ${activeCategory === cat.name ? "bg-[#1a5632]/10 text-[#1a5632] font-bold" : "text-gray-700 hover:bg-gray-50"}`}>
+                    {CATEGORY_LABELS[cat.name] || cat.name} ({cat.count})
                   </button>
                 ))}
               </div>
