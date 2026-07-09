@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -10,11 +10,39 @@ function t(req: Request, key: string) {
   return getApiMessage(locale, key);
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || !(await requireAuthorize(session.user.id, "users.view"))) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const users = await prisma.user.findMany({ select: { id: true, name: true, email: true, role: true, roleId: true, createdAt: true }, orderBy: { createdAt: "desc" } });
-  return NextResponse.json(users);
+
+  const { searchParams } = new URL(req.url);
+  const limit = Math.min(Number(searchParams.get("limit")) || 50, 200);
+  const offset = Number(searchParams.get("offset")) || 0;
+  const search = searchParams.get("search");
+  const role = searchParams.get("role");
+
+  const where: any = {};
+  if (role) where.role = role;
+  if (search) {
+    where.OR = [
+      { name: { contains: search } },
+      { email: { contains: search } },
+    ];
+  }
+
+  const SELECT = { id: true, name: true, email: true, role: true, roleId: true, createdAt: true };
+
+  const [users, total] = await Promise.all([
+    prisma.user.findMany({
+      where,
+      select: SELECT,
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      skip: offset,
+    }),
+    prisma.user.count({ where }),
+  ]);
+
+  return NextResponse.json({ users, total, limit, offset });
 }
 
 export async function PATCH(req: Request) {

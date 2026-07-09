@@ -5,6 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../../lib/i18n-context";
 import { sendAIMessage, translateMessage, summarizeConversation, type AIMessage } from "../../lib/chat";
 import * as ImagePicker from "expo-image-picker";
+import * as Speech from "expo-speech";
+import * as Audio from "expo-av";
 import { getToken } from "../../lib/api";
 import { CONFIG } from "../../constants/config";
 
@@ -33,6 +35,8 @@ export default function MessagesScreen() {
   const [summarizing, setSummarizing] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
   const [persona, setPersona] = useState<string>("general");
+  const [isRecording, setIsRecording] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const flatRef = useRef<FlatList>(null);
 
   useEffect(() => {
@@ -92,6 +96,59 @@ export default function MessagesScreen() {
     setMessages([]);
     setShowSuggestions(true);
     setSummary(null);
+  }
+
+  // Speech-to-Text
+  async function startRecording() {
+    try {
+      const { status } = await Audio.requestPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(t("common.error") || "ERROR", t("chat.microphonePermissionRequired") || "يجب السماح بالوصول للميكروفون");
+        return;
+      }
+
+      setIsRecording(true);
+      
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+
+      // Simulate recording for 5 seconds then stop
+      setTimeout(async () => {
+        setIsRecording(false);
+        await recording.stopAndUnloadAsync();
+        const uri = recording.getURI();
+        if (uri) {
+          // For now, just show a message that speech-to-text requires backend processing
+          Alert.alert(t("chat.recordingComplete") || "تم التسجيل", t("chat.sttRequiresBackend") || "تحويل الصوت إلى نص يتطلب معالجة من الخادم");
+        }
+      }, 5000);
+    } catch (error) {
+      console.error(error);
+      setIsRecording(false);
+      Alert.alert(t("common.error") || "ERROR", t("chat.recordingError") || "فشل التسجيل الصوتي");
+    }
+  }
+
+  // Text-to-Speech
+  async function speakText(text: string) {
+    if (isSpeaking) {
+      await Speech.stop();
+      setIsSpeaking(false);
+      return;
+    }
+
+    setIsSpeaking(true);
+    try {
+      await Speech.speak(text, {
+        language: locale === 'ar' ? 'ar-SA' : locale === 'nl' ? 'nl-NL' : 'en-US',
+        rate: 0.9,
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSpeaking(false);
+    }
   }
 
   async function handleUploadLetter() {
@@ -363,13 +420,19 @@ export default function MessagesScreen() {
                   )}
                 </View>
                 {item.role === "assistant" && (
-                  <TouchableOpacity onPress={() => handleTranslate(item.content, index)} disabled={translatingIdx === index} style={{ marginTop: 4, paddingHorizontal: 4 }}>
-                    {translatingIdx === index ? (
-                      <ActivityIndicator size="small" color={COLORS.primary} />
-                    ) : (
-                      <Text style={{ fontSize: 11, color: COLORS.textSecondary }}>{t("chat.translate")}</Text>
-                    )}
-                  </TouchableOpacity>
+                  <View style={{ flexDirection: isRTL ? "row-reverse" : "row", gap: 8, marginTop: 4, paddingHorizontal: 4 }}>
+                    <TouchableOpacity onPress={() => handleTranslate(item.content, index)} disabled={translatingIdx === index}>
+                      {translatingIdx === index ? (
+                        <ActivityIndicator size="small" color={COLORS.primary} />
+                      ) : (
+                        <Text style={{ fontSize: 11, color: COLORS.textSecondary }}>{t("chat.translate")}</Text>
+                      )}
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => speakText(item.content)} style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", gap: 4 }}>
+                      <Ionicons name={isSpeaking ? "volume-mute" : "volume-high"} size={16} color={COLORS.primary} />
+                      <Text style={{ fontSize: 11, color: COLORS.primary }}>{isSpeaking ? t("chat.stopSpeaking") : t("chat.speak")}</Text>
+                    </TouchableOpacity>
+                  </View>
                 )}
               </View>
             </View>
@@ -410,6 +473,22 @@ export default function MessagesScreen() {
             }}
           >
             <Ionicons name="add" size={24} color={COLORS.textSecondary} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={startRecording}
+            disabled={isRecording || loading}
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              backgroundColor: isRecording ? "#fee2e2" : "#f3f4f6",
+              alignItems: "center",
+              justifyContent: "center",
+              borderWidth: 1,
+              borderColor: isRecording ? "#ef4444" : COLORS.border,
+            }}
+          >
+            <Ionicons name={isRecording ? "mic" : "mic-outline"} size={24} color={isRecording ? "#ef4444" : COLORS.textSecondary} />
           </TouchableOpacity>
           <TextInput
             value={input}

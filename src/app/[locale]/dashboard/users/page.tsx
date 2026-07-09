@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { Shield, Trash2, ChevronDown, UserCheck } from "lucide-react";
+import { Shield, Trash2, ChevronDown, UserCheck, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
@@ -16,7 +16,11 @@ export default function UsersPage() {
   const router = useRouter();
   const locale = useLocale();
   const [users, setUsers] = useState<User[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
+  const [search, setSearch] = useState("");
   const [roles, setRoles] = useState<Role[]>([]);
+  const PAGE_SIZE = 50;
 
   const role = (session?.user as any)?.role;
   const currentId = (session?.user as any)?.id;
@@ -26,15 +30,21 @@ export default function UsersPage() {
   }, [role, router]);
 
   const fetchData = async () => {
+    const params = new URLSearchParams();
+    params.set("limit", String(PAGE_SIZE));
+    params.set("offset", String(page * PAGE_SIZE));
+    if (search) params.set("search", search);
+
     const [usersRes, rolesRes] = await Promise.all([
-      fetch("/api/users"),
+      fetch(`/api/users?${params}`),
       fetch("/api/roles").catch(() => null),
     ]);
     const usersData = await usersRes.json();
-    if (Array.isArray(usersData)) setUsers(usersData);
+    if (usersData.users) { setUsers(usersData.users); setTotal(usersData.total); }
+    else if (Array.isArray(usersData)) { setUsers(usersData); setTotal(usersData.length); }
     if (rolesRes && rolesRes.ok) setRoles(await rolesRes.json());
   };
-  useEffect(() => { if (status === "authenticated" && role === "admin") fetchData(); }, [status, role]);
+  useEffect(() => { if (status === "authenticated" && role === "admin") fetchData(); }, [status, role, page, search]);
 
   const updateRole = async (id: string, newRole: string) => {
     const res = await fetch("/api/users", {
@@ -63,7 +73,13 @@ export default function UsersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">{t("title")}</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">{t("title")} ({total})</h1>
+
+      <div className="relative mb-4">
+        <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <input type="text" value={search} onChange={e => { setSearch(e.target.value); setPage(0); }} placeholder={t("search") || "بحث..."} title={t("search")} aria-label={t("search")} className="w-full pr-10 p-3 border rounded-xl text-sm bg-white" />
+      </div>
+
       <div className="bg-white rounded-2xl border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -131,6 +147,18 @@ export default function UsersPage() {
         </div>
         {users.length === 0 && <p className="text-center text-gray-400 py-8">{t("noUsers")}</p>}
       </div>
+
+      {total > PAGE_SIZE && (
+        <div className="flex items-center justify-center gap-2 mt-4">
+          <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0} className="px-4 py-2 border rounded-xl text-sm bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
+            {t("previous") || "← السابق"}
+          </button>
+          <span className="text-sm text-gray-500">{t("pageInfo") || `صفحة ${page + 1} من ${Math.ceil(total / PAGE_SIZE)}`}</span>
+          <button onClick={() => setPage(p => p + 1)} disabled={(page + 1) * PAGE_SIZE >= total} className="px-4 py-2 border rounded-xl text-sm bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
+            {t("next") || "التالي →"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

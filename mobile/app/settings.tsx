@@ -1,19 +1,51 @@
-import { View, Text, TouchableOpacity, Alert, Platform } from "react-native";
+import { View, Text, TouchableOpacity, Alert, Platform, Appearance } from "react-native";
 import { useState, useEffect } from "react";
-import { COLORS } from "../constants/colors";
+import { COLORS, LIGHT_THEME, DARK_THEME } from "../constants/colors";
 import { registerPushToken } from "../lib/news";
 import { getToken } from "../lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../lib/i18n-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SettingsScreen() {
   const { t, locale, setLocale, isRTL, locales } = useI18n();
   const [pushEnabled, setPushEnabled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     checkAuth();
+    loadThemePreference();
   }, []);
+
+  async function loadThemePreference() {
+    try {
+      const savedTheme = await AsyncStorage.getItem("theme_preference");
+      if (savedTheme === "dark") {
+        setIsDarkMode(true);
+        Appearance.setColorScheme("dark");
+      } else if (savedTheme === "light") {
+        setIsDarkMode(false);
+        Appearance.setColorScheme("light");
+      } else {
+        // Use system default
+        setIsDarkMode(Appearance.getColorScheme() === "dark");
+      }
+    } catch (e) {
+      console.error("Failed to load theme preference:", e);
+    }
+  }
+
+  async function toggleTheme() {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    try {
+      await AsyncStorage.setItem("theme_preference", newMode ? "dark" : "light");
+      Appearance.setColorScheme(newMode ? "dark" : "light");
+    } catch (e) {
+      console.error("Failed to save theme preference:", e);
+    }
+  }
 
   async function checkAuth() {
     const token = await getToken();
@@ -87,6 +119,28 @@ export default function SettingsScreen() {
             ))}
           </View>
         </View>
+
+        <View style={{ height: 1, backgroundColor: COLORS.border, marginVertical: 4 }} />
+
+        {/* Dark mode toggle */}
+        <TouchableOpacity
+          onPress={toggleTheme}
+          style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 12 }}
+        >
+          <View style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: "center", gap: 12 }}>
+            <Ionicons name={isDarkMode ? "moon" : "sunny-outline"} size={22} color={COLORS.primary} />
+            <Text style={{ fontSize: 15, color: COLORS.text }}>{t("settings.darkMode") || "الوضع الليلي"}</Text>
+          </View>
+          <View style={{
+            width: 48, height: 28, borderRadius: 14,
+            backgroundColor: isDarkMode ? COLORS.primary : COLORS.border,
+            justifyContent: "center",
+            paddingHorizontal: 4,
+            alignItems: isDarkMode ? "flex-end" : "flex-start",
+          }}>
+            <View style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: "#fff" }} />
+          </View>
+        </TouchableOpacity>
 
         <View style={{ height: 1, backgroundColor: COLORS.border, marginVertical: 4 }} />
 

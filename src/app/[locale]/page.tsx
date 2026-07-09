@@ -44,9 +44,3 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
   return <HomePageClient posts={posts} videoPosts={videoPosts} />;
 }
-  } catch (e) {
-    console.error("[Home] Failed to fetch posts:", e);
-  }
-
-  return <HomePageClient posts={posts} videoPosts={videoPosts} />;
-}

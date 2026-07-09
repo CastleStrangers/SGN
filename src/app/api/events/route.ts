@@ -16,10 +16,27 @@ function t(req: Request, key: string) {
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const upcoming = searchParams.get("upcoming");
+
+  const limit = Math.min(Number(searchParams.get("limit")) || 50, 200);
+  const offset = Number(searchParams.get("offset")) || 0;
+  const search = searchParams.get("search");
+
   const where: any = {};
   if (upcoming === "true") where.date = { gte: new Date() };
-  const events = await prisma.event.findMany({ where, orderBy: { date: "asc" } });
-  return NextResponse.json(events);
+  if (search) {
+    where.OR = [
+      { title: { contains: search } },
+      { description: { contains: search } },
+      { location: { contains: search } },
+    ];
+  }
+
+  const [events, total] = await Promise.all([
+    prisma.event.findMany({ where, orderBy: { date: "asc" }, take: limit, skip: offset }),
+    prisma.event.count({ where }),
+  ]);
+
+  return NextResponse.json({ events, total, limit, offset });
 }
 
 export async function POST(req: Request) {

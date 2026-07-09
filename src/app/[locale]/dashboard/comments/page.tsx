@@ -20,8 +20,9 @@ export default function CommentsPage() {
   }, [role]);
 
   const fetchComments = async () => {
-    const res = await fetch("/api/comments?all=true"); const data = await res.json();
-    if (Array.isArray(data)) setComments(data);
+    const res = await fetch("/api/comments?all=true&limit=200"); const data = await res.json();
+    if (data.comments) setComments(data.comments);
+    else if (Array.isArray(data)) setComments(data);
   };
 
   useEffect(() => { if (status === "authenticated" && role === "admin") fetchComments(); }, [status, role]);

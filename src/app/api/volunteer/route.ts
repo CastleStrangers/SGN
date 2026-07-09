@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -25,14 +25,32 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || !(await requireAuthorize(session.user.id, "volunteers.view")))
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   try {
-    const volunteers = await prisma.volunteer.findMany({ orderBy: { createdAt: "desc" } });
-    return NextResponse.json(volunteers);
+    const { searchParams } = new URL(req.url);
+    const limit = Math.min(Number(searchParams.get("limit")) || 50, 200);
+    const offset = Number(searchParams.get("offset")) || 0;
+    const search = searchParams.get("search");
+
+    const where: any = {};
+    if (search) {
+      where.OR = [
+        { name: { contains: search } },
+        { email: { contains: search } },
+        { skills: { contains: search } },
+      ];
+    }
+
+    const [volunteers, total] = await Promise.all([
+      prisma.volunteer.findMany({ where, orderBy: { createdAt: "desc" }, take: limit, skip: offset }),
+      prisma.volunteer.count({ where }),
+    ]);
+
+    return NextResponse.json({ volunteers, total, limit, offset });
   } catch {
-    return NextResponse.json([], { status: 500 });
+    return NextResponse.json({ volunteers: [], total: 0, limit: 50, offset: 0 }, { status: 500 });
   }
 }

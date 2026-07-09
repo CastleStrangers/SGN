@@ -29,10 +29,13 @@ export default function MembersPage() {
   const t = useTranslations("membersDashboard");
   const locale = useLocale();
   const [members, setMembers] = useState<Member[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
+  const [page, setPage] = useState(0);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const PAGE_SIZE = 50;
   const [editing, setEditing] = useState<Member | null>(null);
   const [editForm, setEditForm] = useState<EditForm>({
     memberNumber: "", nameAr: "", nameNl: "", email: "", whatsapp: "",
@@ -62,17 +65,26 @@ export default function MembersPage() {
   const fetchMembers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/members");
+      const params = new URLSearchParams();
+      params.set("limit", String(PAGE_SIZE));
+      params.set("offset", String(page * PAGE_SIZE));
+      if (search) params.set("search", search);
+      if (filter !== "all") params.set("status", filter);
+
+      const res = await fetch(`/api/members?${params}`);
       const data = await res.json();
-      setMembers(Array.isArray(data) ? data : []);
+      if (data.members) { setMembers(data.members); setTotal(data.total); }
+      else if (Array.isArray(data)) { setMembers(data); setTotal(data.length); }
     } catch {
       setMembers([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { fetchMembers(); }, []);
+  useEffect(() => { fetchMembers(); }, [page, filter]);
+  useEffect(() => { setPage(0); }, [search]);
 
   const updateStatus = async (id: string, status: string) => {
     await fetch(`/api/members/${id}`, {
@@ -144,8 +156,8 @@ export default function MembersPage() {
   };
 
   const selectAll = () => {
-    if (selected.size === filtered.length) setSelected(new Set());
-    else setSelected(new Set(filtered.map(m => m.id)));
+    if (selected.size === members.length) setSelected(new Set());
+    else setSelected(new Set(members.map(m => m.id)));
   };
 
   const doBatch = async (action: string) => {
@@ -231,12 +243,7 @@ export default function MembersPage() {
     setAiVerifying(false);
   };
 
-  const filtered = members.filter(m => {
-    const q = search.toLowerCase();
-    const matchSearch = m.nameAr.includes(q) || m.nameNl.toLowerCase().includes(q) || m.whatsapp.includes(q);
-    const matchFilter = filter === "all" || m.status === filter;
-    return matchSearch && matchFilter;
-  });
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
     <div>
@@ -285,11 +292,11 @@ export default function MembersPage() {
 
       {loading ? (
         <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-emerald-800" /></div>
-      ) : filtered.length === 0 ? (
+      ) : members.length === 0 ? (
         <div className="text-center py-12 text-gray-500">{t("noMembers")}</div>
       ) : (
         <div className="space-y-3">
-          {filtered.map(m => (
+          {members.map(m => (
             <div key={m.id} className="bg-white rounded-xl border p-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
@@ -367,6 +374,23 @@ export default function MembersPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-4">
+          <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0} className="px-4 py-2 border rounded-xl text-sm bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
+            {t("previous") || "← السابق"}
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button key={i} onClick={() => setPage(i)} className={`w-9 h-9 rounded-xl text-sm font-medium transition ${i === page ? "bg-emerald-800 text-white" : "bg-white border hover:bg-gray-50"}`}>
+              {i + 1}
+            </button>
+          ))}
+          <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1} className="px-4 py-2 border rounded-xl text-sm bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
+            {t("next") || "التالي →"}
+          </button>
         </div>
       )}
 

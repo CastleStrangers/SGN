@@ -14,6 +14,8 @@ const LIGHT = {
   success: "#16a34a",
   textWhite: "#ffffff",
   textWhiteMuted: "#ffffffc2",
+  shadow: "rgba(0, 0, 0, 0.1)",
+  overlay: "rgba(0, 0, 0, 0.5)",
 };
 
 const DARK = {
@@ -30,7 +32,12 @@ const DARK = {
   success: "#22c55e",
   textWhite: "#ffffff",
   textWhiteMuted: "#ffffffc2",
+  shadow: "rgba(0, 0, 0, 0.3)",
+  overlay: "rgba(0, 0, 0, 0.7)",
 };
+
+export const LIGHT_THEME = LIGHT;
+export const DARK_THEME = DARK;
 
 export const COLORS = new Proxy(LIGHT, {
   get(target, prop) {

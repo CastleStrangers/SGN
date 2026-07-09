@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { MessageSquare, X, Trash2, Send, Loader2, Sparkles, Bot } from "lucide-react";
+import { MessageSquare, X, Trash2, Send, Loader2, Sparkles, Bot, Mic, MicOff } from "lucide-react";
 
 interface AIMessage {
   role: "user" | "assistant";
@@ -58,6 +58,8 @@ export function ChatWidget() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [persona, setPersona] = useState<string>("general");
   const [showSuggestions, setShowSuggestions] = useState(true);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -139,6 +141,69 @@ export function ChatWidget() {
     ]);
   };
 
+  // Speech-to-Text
+  const startRecording = async () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert(t("voiceNotSupported") || "متصفحك لا يدعم التسجيل الصوتي");
+      return;
+    }
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    
+    recognition.lang = locale === 'ar' ? 'ar-SA' : locale === 'nl' ? 'nl-NL' : 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      setIsRecording(true);
+    };
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(transcript);
+      setIsRecording(false);
+    };
+
+    recognition.onerror = () => {
+      setIsRecording(false);
+    };
+
+    recognition.onend = () => {
+      setIsRecording(false);
+    };
+
+    recognition.start();
+  };
+
+  // Text-to-Speech
+  const speakText = (text: string) => {
+    if (!('speechSynthesis' in window)) {
+      alert(t("speechNotSupported") || "متصفحك لا يدعم التحدث الصوتي");
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = locale === 'ar' ? 'ar-SA' : locale === 'nl' ? 'nl-NL' : 'en-US';
+    utterance.rate = 0.9;
+    
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const handleSpeak = (content: string) => {
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    } else {
+      speakText(content);
+    }
+  };
+
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end" dir={isRtl ? "rtl" : "ltr"}>
       {/* Popover Window */}
@@ -210,6 +275,16 @@ export function ChatWidget() {
                   }`}
                 >
                   <p className="m-0 whitespace-pre-line">{msg.content}</p>
+                  {msg.role === "assistant" && (
+                    <button
+                      onClick={() => handleSpeak(msg.content)}
+                      className="mt-2 text-[10px] text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 flex items-center gap-1 cursor-pointer"
+                      title={isSpeaking ? (t("stopSpeaking") || "إيقاف التحدث") : (t("speak") || "تحدث")}
+                    >
+                      {isSpeaking ? <MicOff className="w-3 h-3" /> : <Mic className="w-3 h-3" />}
+                      {isSpeaking ? (t("stopSpeaking") || "إيقاف") : (t("speak") || "تحدث")}
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
@@ -258,6 +333,19 @@ export function ChatWidget() {
               className="p-3 bg-gray-50 hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-gray-500 rounded-2xl transition cursor-pointer"
             >
               <Trash2 className="w-4 h-4" />
+            </button>
+            <button
+              onClick={startRecording}
+              disabled={isRecording || loading}
+              title={isRecording ? (t("recording") || "جاري التسجيل...") : (t("startRecording") || "تسجيل صوتي")}
+              aria-label={isRecording ? (t("recording") || "جاري التسجيل...") : (t("startRecording") || "تسجيل صوتي")}
+              className={`p-3 rounded-2xl transition flex items-center justify-center cursor-pointer ${
+                isRecording 
+                  ? "bg-red-500 hover:bg-red-600 text-white animate-pulse" 
+                  : "bg-gray-50 hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-gray-500"
+              }`}
+            >
+              {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
             </button>
             <input
               type="text"

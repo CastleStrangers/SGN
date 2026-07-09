@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   serverExternalPackages: [],
   transpilePackages: ["next-auth"],
   allowedDevOrigins: ["beer-singing-occupation-eugene.trycloudflare.com"],
+  reactStrictMode: true,
+  compress: true,
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.watchOptions = {

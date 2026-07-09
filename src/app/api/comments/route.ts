@@ -19,11 +19,31 @@ export async function GET(req: NextRequest) {
   if (searchParams.get("all") === "true") {
     if (!session?.user?.id || !(await requireAuthorize(session.user.id, "comments.manage")))
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    const all = await prisma.comment.findMany({
-      include: { replies: true },
-      orderBy: { createdAt: "desc" },
-    });
-    return NextResponse.json(all);
+
+    const limit = Math.min(Number(searchParams.get("limit")) || 50, 200);
+    const offset = Number(searchParams.get("offset")) || 0;
+    const search = searchParams.get("search");
+
+    const where: any = {};
+    if (search) {
+      where.OR = [
+        { author: { contains: search } },
+        { content: { contains: search } },
+      ];
+    }
+
+    const [all, total] = await Promise.all([
+      prisma.comment.findMany({
+        where,
+        include: { replies: true },
+        orderBy: { createdAt: "desc" },
+        take: limit,
+        skip: offset,
+      }),
+      prisma.comment.count({ where }),
+    ]);
+
+    return NextResponse.json({ comments: all, total, limit, offset });
   }
 
   if (!postId) return NextResponse.json({ error: "postId required" }, { status: 400 });
