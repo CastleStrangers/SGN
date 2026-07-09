@@ -48,14 +48,9 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(post);
     }
 
-    // فلترة حسب اللغة - نقبل المقالات بدون locale أيضاً
+    // فلترة حسب اللغة - مؤقتاً نعرض جميع المقالات بغض النظر عن locale
     const where: any = {
       published: true,
-      OR: [
-        { locale },
-        { locale: null },
-        { locale: "" },
-      ],
     };
 
     if (category) where.category = category;
