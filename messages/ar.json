@@ -1227,6 +1227,17 @@
     "cardDuoFunding": "شروط تمويل DUO للغة؟",
     "promptDuoFunding": "ما هي شروط تمويل DUO لدراسة اللغة؟",
     "cardSocialHousing": "التقديم على سكن اجتماعي؟",
+    "startRecording": "تسجيل صوتي",
+    "recording": "جاري التسجيل...",
+    "stopRecording": "إيقاف التسجيل",
+    "voiceNotSupported": "متصفحك لا يدعم التسجيل الصوتي",
+    "speak": "تحدث",
+    "stopSpeaking": "إيقاف التحدث",
+    "speechNotSupported": "متصفحك لا يدعم التحدث الصوتي",
+    "microphonePermissionRequired": "يجب السماح بالوصول للميكروفون",
+    "recordingComplete": "تم التسجيل",
+    "sttRequiresBackend": "تحويل الصوت إلى نص يتطلب معالجة من الخادم",
+    "recordingError": "فشل التسجيل الصوتي",
     "promptSocialHousing": "كيف أقدم على سكن اجتماعي في هولندا؟",
     "cardEvaluateDegree": "كيفية تقييم وتعديل الشهادات؟",
     "promptEvaluateDegree": "ما هي متطلبات تعديل شهادتي السورية؟",
@@ -1617,5 +1628,64 @@
     "promoDesc": "تعرف على الشركة المطورة لهذا الموقع والتطبيق، واحصل على استشارة تقنية مجانية لتطوير موقعك أو تطبيقك الخاص.",
     "promoBtn": "عرض ملف المطور والخدمات",
     "backToAbout": "العودة إلى من نحن"
+  },
+  "liveStreams": {
+    "title": "البث المباشر",
+    "subtitle": "تابع البثوث المباشرة والفعاليات الحية للجالية السورية في هولندا",
+    "live": "مباشر",
+    "scheduled": "مجدول",
+    "ended": "منتهي",
+    "watchNow": "شاهد الآن",
+    "noStreams": "لا توجد بثوث مباشرة حالياً",
+    "anonymous": "مجهول"
+  },
+  "courses": {
+    "title": "الدورات التعليمية",
+    "subtitle": "تعلم مهارات جديدة مع دورات أونلاين مخصصة للجالية السورية",
+    "categories": {
+      "title": "التصنيفات",
+      "language": "اللغة",
+      "integration": "الاندماج",
+      "employment": "التوظيف",
+      "health": "الصحة",
+      "culture": "الثقافة"
+    },
+    "allCourses": "جميع الدورات",
+    "noCourses": "لا توجد دورات متاحة حالياً",
+    "featured": "مميز",
+    "free": "مجاني",
+    "instructor": "المدرس",
+    "lessons": "دروس",
+    "enroll": "سجل الآن"
+  },
+  "jobs": {
+    "title": "لوحة الوظائف",
+    "subtitle": "ابحث عن فرص عمل مناسبة في هولندا",
+    "categories": {
+      "title": "التصنيفات",
+      "technology": "التكنولوجيا",
+      "healthcare": "الرعاية الصحية",
+      "education": "التعليم",
+      "construction": "البناء",
+      "retail": "البيع بالتجزئة",
+      "hospitality": "الضيافة",
+      "general": "عام"
+    },
+    "types": {
+      "title": "أنواع الوظائف",
+      "fullTime": "دوام كامل",
+      "partTime": "دوام جزئي",
+      "contract": "تعاقد",
+      "internship": "تدريب"
+    },
+    "allJobs": "جميع الوظائف",
+    "noJobs": "لا توجد وظائف متاحة حالياً",
+    "featured": "مميز",
+    "remote": "عن بعد",
+    "applications": "تقديمات",
+    "apply": "قدم الآن"
+  },
+  "settings": {
+    "darkMode": "الوضع الليلي"
   }
 }
