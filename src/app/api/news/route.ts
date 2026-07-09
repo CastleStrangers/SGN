@@ -48,12 +48,14 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(post);
     }
 
-    // فلترة صارمة حسب اللغة فقط — لا نُدرج المقالات بدون locale
-    const localeFilter = { locale };
-
+    // فلترة حسب اللغة - نقبل المقالات بدون locale أيضاً
     const where: any = {
       published: true,
-      ...localeFilter,
+      OR: [
+        { locale },
+        { locale: null },
+        { locale: "" },
+      ],
     };
 
     if (category) where.category = category;
