@@ -109,7 +109,7 @@ export const DEFAULT_SOURCES: SyncSource[] = [
     url: "https://feeds.nos.nl/nosnieuwsalgemeen",
     enabled: true,
     category: "أخبار هولندا",
-    translate: false,
+    translate: true,
   },
   {
     name: "euronews-europe",
@@ -117,7 +117,7 @@ export const DEFAULT_SOURCES: SyncSource[] = [
     url: "https://www.euronews.com/rss?level=theme&name=news",
     enabled: true,
     category: "أخبار أوروبا",
-    translate: false,
+    translate: true,
   },
   {
     name: "euronews-business",
@@ -125,7 +125,7 @@ export const DEFAULT_SOURCES: SyncSource[] = [
     url: "https://www.euronews.com/rss?level=vertical&name=business",
     enabled: true,
     category: "اقتصاد",
-    translate: false,
+    translate: true,
   },
   {
     name: "euronews-culture",
@@ -133,6 +133,6 @@ export const DEFAULT_SOURCES: SyncSource[] = [
     url: "https://www.euronews.com/rss?level=vertical&name=culture",
     enabled: true,
     category: "ثقافيات",
-    translate: false,
+    translate: true,
   },
 ]
