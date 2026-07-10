@@ -47,12 +47,11 @@ export async function GET(req: NextRequest) {
       prisma.post.update({ where: { id: post.id }, data: { views: { increment: 1 } } }).catch(() => {});
       return NextResponse.json(post);
     }
-
-    // فلترة حسب اللغة - مؤقتاً نعرض جميع المقالات بغض النظر عن locale
+    // فلترة حسب اللغة
     const where: any = {
       published: true,
+      locale,
     };
-
     if (category) where.category = category;
     if (featured === "true") where.featured = true;
     if (video) where.source = "youtube";
