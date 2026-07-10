@@ -50,10 +50,9 @@ function NewsPageInner() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const [categories, setCategories] = useState<{name: string, count: number}[]>([]);
-  const [activeCategory, setActiveCategory] = useState(() =>
-    urlCategory ? decodeURIComponent(urlCategory) : "\u0627\u0644\u0643\u0644"
-  );
+  const [activeCategory, setActiveCategory] = useState("\u0627\u0644\u0643\u0644");
   const [page, setPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
@@ -120,7 +119,10 @@ function NewsPageInner() {
   };
 
   useEffect(() => { fetchPosts(); }, [activeCategory, page]);
-  useEffect(() => { fetchCategories(); }, []);
+  useEffect(() => {
+    setMounted(true);
+    fetchCategories();
+  }, []);
 
   const handleCategoryClick = (cat: string) => {
     if (cat === "\u0645\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631") {
@@ -210,7 +212,7 @@ function NewsPageInner() {
             >
               {t('all')}
             </button>
-            {categories.map((cat) => (
+            {mounted && categories.map((cat) => (
               <button
                 key={cat.name}
                 onClick={() => handleCategoryClick(cat.name)}
@@ -326,7 +328,7 @@ function NewsPageInner() {
                 <button onClick={() => handleCategoryClick("\u0627\u0644\u0643\u0644")} className={`block w-full text-right px-4 py-2.5 rounded-xl text-sm transition-all ${activeCategory === "\u0627\u0644\u0643\u0644" ? "bg-[#1a5632]/10 text-[#1a5632] font-bold" : "text-gray-700 hover:bg-gray-50"}`}>
                   {t('all')}
                 </button>
-                {categories.map((cat) => (
+                {mounted && categories.map((cat) => (
                   <button key={cat.name} onClick={() => handleCategoryClick(cat.name)} className={`block w-full text-right px-4 py-2.5 rounded-xl text-sm transition-all ${activeCategory === cat.name ? "bg-[#1a5632]/10 text-[#1a5632] font-bold" : "text-gray-700 hover:bg-gray-50"}`}>
                     {CATEGORY_LABELS[cat.name] || cat.name} ({cat.count})
                   </button>
