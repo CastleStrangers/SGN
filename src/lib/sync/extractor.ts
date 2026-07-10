@@ -442,7 +442,7 @@ export async function extractArticles(source: SyncSource): Promise<ExtractedArti
     case "rss": {
       const raw = await fetchPage(source.url)
       const parsed = extractRSS(raw, source)
-      return parsed.slice(0, 3)
+      return parsed.slice(0, 10)
     }
     case "webpage": {
       const raw = await fetchPage(source.url)
