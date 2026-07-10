@@ -397,7 +397,8 @@
       "systemSuffix": "(Systeem)",
       "deleteUser": "Gebruiker verwijderen",
       "deleteConfirm": "Bevestig verwijdering van deze gebruiker?",
-      "errorGeneric": "Fout"
+      "errorGeneric": "Fout",
+      "search": "Zoeken..."
     },
     "pagesPage": {
       "title": "Pagina's Beheren",

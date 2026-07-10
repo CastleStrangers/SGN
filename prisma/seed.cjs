@@ -698,6 +698,54 @@ async function main() {
     });
   }
   console.log(`تم بذر ${initialFaqs.length} من الأسئلة الشائعة بنجاح ✅`);
+
+  // بذر بيانات أعضاء مزودي خدمات مهنية لتشغيل دليل الخدمات
+  await prisma.member.deleteMany();
+  const mockMembers = [
+    {
+      nameAr: "عبد الله اليوسف",
+      nameNl: "Abdullah Al-Youssef",
+      birthYear: 1990,
+      gender: "male",
+      originCity: "حلب",
+      whatsapp: "31684603406",
+      email: "abdullah@example.com",
+      nlProvincie: "Noord-Holland",
+      nlCity: "Amsterdam",
+      profession: "مطور تطبيقات ويب وموبايل",
+      skills: "Next.js, React Native, TypeScript, Node.js",
+      serviceDescription: "مطور برمجيات سوري مقيم في أمستردام، أقدم خدمات تطوير وتصميم مواقع الويب وتطبيقات الموبايل للشركات والأفراد بجودة احترافية.",
+      isServiceProvider: true,
+      showInPublicProfile: true,
+      status: "accepted",
+      isPremiumService: true,
+      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150",
+    },
+    {
+      nameAr: "يارا الأحمد",
+      nameNl: "Yara Al-Ahmad",
+      birthYear: 1994,
+      gender: "female",
+      originCity: "دمشق",
+      whatsapp: "31684603406",
+      email: "yara@example.com",
+      nlProvincie: "Zuid-Holland",
+      nlCity: "Rotterdam",
+      profession: "مترجمة ومستشارة شؤون اندماج",
+      skills: "ترجمة محلفة, استشارات قانونية, معاملة اللجوء",
+      serviceDescription: "أقدم خدمات الترجمة القانونية المحلفة من الهولندية إلى العربية وبالعكس، بالإضافة لمساعدة العائلات في معاملات الاندماج ولم الشمل.",
+      isServiceProvider: true,
+      showInPublicProfile: true,
+      status: "accepted",
+      isPremiumService: false,
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150",
+    }
+  ];
+
+  for (const member of mockMembers) {
+    await prisma.member.create({ data: member });
+  }
+  console.log(`تم إدخال بيانات ${mockMembers.length} من مزودي الخدمات المهنية بنجاح ✅`);
 }
 
 function getRoleDesc(name) {

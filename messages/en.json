@@ -397,7 +397,8 @@
       "systemSuffix": "(System)",
       "deleteUser": "Delete user",
       "deleteConfirm": "Confirm deleting this user?",
-      "errorGeneric": "Error"
+      "errorGeneric": "Error",
+      "search": "Search..."
     },
     "pagesPage": {
       "title": "Manage Pages",

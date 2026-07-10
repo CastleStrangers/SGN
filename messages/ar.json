@@ -397,7 +397,8 @@
       "systemSuffix": "(نظام)",
       "deleteUser": "حذف المستخدم",
       "deleteConfirm": "تأكيد حذف هذا المستخدم؟",
-      "errorGeneric": "خطأ"
+      "errorGeneric": "خطأ",
+      "search": "بحث..."
     },
     "pagesPage": {
       "title": "إدارة الصفحات",
