@@ -70,6 +70,7 @@ function NewsPageInner() {
     "\u0641\u0639\u0627\u0644\u064a\u0627\u062a": t('events'),
     "\u0645\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631": t('gallery'),
     "\u062e\u062f\u0645\u0627\u062a": t('services'),
+    "\u0645\u0646\u0648\u0639\u0627\u062a": t('variety'),
   };
 
   useEffect(() => {
