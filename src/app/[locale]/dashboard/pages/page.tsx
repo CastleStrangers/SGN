@@ -8,9 +8,7 @@ import { RichTextEditor } from "@/components/rich-text-editor";
 import { formatDate } from "@/lib/date";
 
 interface Page { id: string; title: string; slug: string; content: string; excerpt: string; image: string; category: string; tags: string; source: string; featured: boolean; published: boolean; createdAt: string; views?: number; membersOnly?: boolean; }
-
-const CATEGORIES = ["أخبار الجالية", "أخبار هولندا", "أخبار أوروبا", "اقتصاد وأعمال", "ثقافة وفن", "رياضة", "تكنولوجيا", "عمل إنساني", "خدمات"];
-
+const CATEGORIES = ["أخبار الجالية", "أخبار هولندا", "أخبار أوروبا", "اقتصاد وأعمال", "ثقافة وفن", "رياضة", "تكنولوجيا", "عمل إنساني", "خدمات", "منوعات"];
 export default function PagesPage() {
   const { data: session, status } = useSession();
   const t = useTranslations("dashboard.pagesPage");
