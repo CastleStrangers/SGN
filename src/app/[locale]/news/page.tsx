@@ -29,7 +29,8 @@ const CATEGORIES = [
   "\u0633\u064a\u0627\u0633\u0629",
   "\u0631\u064a\u0627\u0636\u0629",
   "\u062a\u0643\u0646\u0648\u0644\u0648\u062c\u064a\u0627",
-  "\u0635\u062d\u0629"
+  "\u0635\u062d\u0629",
+  "\u0645\u0646\u0648\u0639\u0627\u062a"
 ];
 
 import { resolveImage } from "@/lib/image-fallback";
