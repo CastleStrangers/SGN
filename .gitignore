@@ -28,3 +28,6 @@ build-imgfix-log.txt
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Cloned tools
+OmniRoute/
