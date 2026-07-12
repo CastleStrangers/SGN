@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { applyGuardrails } from "@/lib/guardrails";
 
 type AIMessage = { role: "system" | "user" | "assistant"; content: string };
 
@@ -12,7 +13,8 @@ type AIConfig =
   | { provider: "deepseek"; model: string }
   | { provider: "github"; model: string }
   | { provider: "cerebras"; model: string }
-  | { provider: "siliconflow"; model: string };
+  | { provider: "siliconflow"; model: string }
+  | { provider: "omniroute"; model: string };
 
 export function getEnvVar(key: string): string | undefined {
   if (process.env[key]) return process.env[key];
@@ -41,6 +43,7 @@ function getConfig(): AIConfig {
   if (configured === "github") return { provider: "github", model: getEnvVar("GITHUB_MODEL") || "gpt-4o" };
   if (configured === "cerebras") return { provider: "cerebras", model: getEnvVar("CEREBRAS_MODEL") || "llama3.1-70b" };
   if (configured === "siliconflow") return { provider: "siliconflow", model: getEnvVar("SILICONFLOW_MODEL") || "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B" };
+  if (configured === "omniroute") return { provider: "omniroute", model: getEnvVar("OMNIROUTE_MODEL") || "auto/best-free" };
 
   const geminiKey = getEnvVar("GEMINI_API_KEY");
   if (geminiKey && (geminiKey.startsWith("AIzaSy") || geminiKey.startsWith("AQ."))) {
@@ -69,6 +72,10 @@ function getConfig(): AIConfig {
     return { provider: "siliconflow", model: getEnvVar("SILICONFLOW_MODEL") || "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B" };
   }
 
+  if (getEnvVar("OMNIROUTE_API_KEY") || getEnvVar("OMNIROUTE_BASE_URL") || getEnvVar("OMNIROUTE_MODEL")) {
+    return { provider: "omniroute", model: getEnvVar("OMNIROUTE_MODEL") || "auto/best-free" };
+  }
+
   return { provider: "ollama" };
 }
 
@@ -90,6 +97,13 @@ export async function generateChat(
   options?: { model?: string; responseFormat?: "text" | "json" }
 ): Promise<string> {
   const config = getConfig();
+
+  const guarded = applyGuardrails({ messages, systemPrompt });
+  if (guarded.blocked) {
+    throw new Error(guarded.reason || "Request blocked by guardrails");
+  }
+  messages = guarded.messages as AIMessage[];
+  systemPrompt = guarded.systemPrompt;
 
   if (config.provider === "groq") {
     const apiKey = getEnvVar("GROQ_API_KEY");
@@ -235,6 +249,40 @@ export async function generateChat(
     if (!res.ok) {
       const err = await res.text().catch(() => "");
       throw new Error(`SiliconFlow error ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    return data.choices[0]?.message?.content || "";
+  }
+
+  if (config.provider === "omniroute") {
+    const baseUrl = (getEnvVar("OMNIROUTE_BASE_URL") || "http://localhost:20128/v1").replace(/\/$/, "");
+    const apiKey = getEnvVar("OMNIROUTE_API_KEY");
+
+    const msgs: any[] = [];
+    if (systemPrompt) msgs.push({ role: "system", content: systemPrompt });
+    msgs.push(...messages);
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (apiKey) {
+      headers["Authorization"] = `Bearer ${apiKey}`;
+    }
+
+    const res = await fetch(`${baseUrl}/chat/completions`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        model: options?.model || config.model,
+        messages: msgs,
+        ...(options?.responseFormat === "json" ? { response_format: { type: "json_object" } } : {}),
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`OmniRoute error ${res.status}: ${err}`);
     }
 
     const data = await res.json();

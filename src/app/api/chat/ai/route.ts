@@ -2,22 +2,10 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getOrCreateSession, sendAIMessage } from "@/lib/ai/chat";
 import { getSessionUser } from "@/lib/mobile-auth";
+import { createRateLimiter } from "@/lib/rate-limit";
+import { applyGuardrails } from "@/lib/guardrails";
 
-const RATE_LIMIT = 30;
-const RATE_WINDOW_MS = 60_000;
-const rateMap = new Map<string, { count: number; resetAt: number }>();
-
-function checkRateLimit(userId: string): boolean {
-  const now = Date.now();
-  const entry = rateMap.get(userId);
-  if (!entry || now > entry.resetAt) {
-    rateMap.set(userId, { count: 1, resetAt: now + RATE_WINDOW_MS });
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT) return false;
-  entry.count++;
-  return true;
-}
+const chatLimiter = createRateLimiter({ maxRequests: 30, windowMs: 60_000, name: "ai-chat" });
 
 export async function GET(req: Request) {
   const user = await getSessionUser(req);
@@ -47,8 +35,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (!checkRateLimit(user.id)) {
-    return NextResponse.json({ error: "Rate limit exceeded. Try again later." }, { status: 429 });
+  if (chatLimiter.isLimited(user.id)) {
+    const retryAfter = Math.ceil((chatLimiter.getResetTime(user.id) - Date.now()) / 1000);
+    return NextResponse.json(
+      { error: `Rate limit exceeded. Try again in ${retryAfter}s.` },
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
+    );
   }
 
   try {
@@ -57,11 +49,24 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "message is required" }, { status: 400 });
     }
 
+    const guarded = applyGuardrails({
+      messages: [{ role: "user", content: message.trim() }],
+    });
+
+    if (guarded.blocked) {
+      return NextResponse.json(
+        { error: guarded.reason || "Message blocked by guardrails" },
+        { status: 400 }
+      );
+    }
+
+    const cleanMessage = guarded.messages[0].content;
+
     const userLocale = locale || "ar";
     const sid = sessionId || await getOrCreateSession(user.id, persona);
     const userName = user.name || user.email || "User";
 
-    const { reply, sources } = await sendAIMessage(sid, user.id, message.trim(), userLocale, userName, persona);
+    const { reply, sources } = await sendAIMessage(sid, user.id, cleanMessage, userLocale, userName, persona);
 
     return NextResponse.json({ reply, sessionId: sid, sources });
   } catch (e: any) {
