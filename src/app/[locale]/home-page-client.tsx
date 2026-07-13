@@ -11,6 +11,7 @@ import { Sidebar } from "@/components/home/sidebar";
 import { MoreNews } from "@/components/home/more-news";
 import { LatestVideos } from "@/components/home/latest-videos";
 import { Newsletter } from "@/components/home/newsletter";
+import { HomeProvinceMap } from "@/components/home/home-province-map";
 
 import { Ads } from "@/components/ads";
 import { CommunityStats } from "@/components/community-stats";
@@ -86,6 +87,7 @@ export function HomePageClient({ posts, videoPosts }: HomePageClientProps) {
       <SiteHeader />
       <BreakingNews />
       <CommunityStats />
+      <HomeProvinceMap />
 
       <main className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
