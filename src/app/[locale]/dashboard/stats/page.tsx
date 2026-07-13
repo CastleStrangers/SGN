@@ -10,6 +10,7 @@ import {
   Loader2, RefreshCw, Printer, Calendar, Info
 } from "lucide-react";
 import Image from "next/image";
+import NetherlandsMap from "@/components/dashboard/NetherlandsMap";
 
 interface MemberStats {
   total: number;
