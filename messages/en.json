@@ -866,6 +866,7 @@
     "pending": "Pending Review",
     "accepted": "Accepted",
     "rejected": "Rejected",
+    "registered": "Registered",
     "excel": "Excel",
     "noMembers": "No applications",
     "confirmDelete": "Confirm deletion?",
