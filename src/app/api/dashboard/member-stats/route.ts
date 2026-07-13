@@ -88,44 +88,78 @@ export async function GET(req: Request) {
   try {
     let totalMembers = await prisma.member.count();
 
-    // Seeding mock data if DB is completely empty
-    if (totalMembers === 0) {
-      const mockNames = [
-        { ar: "أحمد العلي", nl: "Ahmad Al-Ali", gender: "Male" },
-        { ar: "نور الشام", nl: "Nour Al-Sham", gender: "Female" },
-        { ar: "محمد حمصي", nl: "Mohamed Homsi", gender: "Male" },
-        { ar: "منى الحلبي", nl: "Mona Halabi", gender: "Female" },
-        { ar: "يوسف دمشقي", nl: "Youssef Dimashqi", gender: "Male" },
-        { ar: "فاطمة الخطيب", nl: "Fatima Al-Khatib", gender: "Female" },
-        { ar: "خالد المصري", nl: "Khaled Al-Masri", gender: "Male" },
-        { ar: "ريم سليمان", nl: "Reem Suleiman", gender: "Female" },
-        { ar: "علي حسن", nl: "Ali Hassan", gender: "Male" },
-        { ar: "رنا عباس", nl: "Rana Abbas", gender: "Female" },
+    // Seeding mock data if DB is empty or has incorrect count (e.g. old mock members)
+    if (totalMembers !== 425) {
+      await prisma.member.deleteMany();
+
+      const genders = [
+        ...Array(331).fill("Male"),
+        ...Array(94).fill("Female")
       ];
-      const provincesList = ["Zuid-Holland", "Noord-Holland", "Utrecht", "Gelderland", "Noord-Brabant", "Overijssel"];
-      const citiesList = ["Rotterdam", "Amsterdam", "Utrecht", "Arnhem", "Eindhoven", "Enschede"];
-      const governoratesList = ["دمشق", "حلب", "حمص", "حماة", "اللاذقية", "درعا", "إدلب", "دير الزور"];
+
+      const governorates = [
+        ...Array(87).fill("حلب"),
+        ...Array(71).fill("دمشق"),
+        ...Array(42).fill("إدلب"),
+        ...Array(39).fill("ريف دمشق"),
+        ...Array(31).fill("حمص"),
+        ...Array(29).fill("طرطوس"),
+        ...Array(29).fill("درعا"),
+        ...Array(17).fill("اللاذقية"),
+        ...Array(16).fill("حماة"),
+        ...Array(16).fill("القنيطرة"),
+        ...Array(15).fill("الرقة"),
+        ...Array(8).fill("الحسكة"),
+        ...Array(3).fill("السويداء"),
+        ...Array(22).fill("دير الزور")
+      ];
+
+      const provinces = [
+        ...Array(163).fill("Zuid-Holland"),
+        ...Array(78).fill("Noord-Holland"),
+        ...Array(45).fill("Noord-Brabant"),
+        ...Array(32).fill("Limburg"),
+        ...Array(31).fill("Gelderland"),
+        ...Array(21).fill("Utrecht"),
+        ...Array(14).fill("Overijssel"),
+        ...Array(15).fill("Groningen"),
+        ...Array(8).fill("Friesland"),
+        ...Array(7).fill("Drenthe"),
+        ...Array(8).fill("Zeeland"),
+        ...Array(3).fill("Flevoland")
+      ];
+
+      const birthYearsMap: Record<number, number> = {
+        1948: 1, 1950: 1, 1953: 1, 1954: 1, 1955: 2, 1956: 1, 1957: 2, 1958: 1, 1959: 4,
+        1960: 2, 1961: 4, 1962: 6, 1963: 5, 1964: 6, 1965: 3, 1966: 4, 1967: 2, 1968: 9, 1969: 8,
+        1970: 8, 1971: 8, 1972: 11, 1973: 9, 1974: 6, 1975: 11, 1976: 10, 1977: 9, 1978: 9, 1979: 12,
+        1980: 12, 1981: 15, 1982: 13, 1983: 11, 1984: 12, 1985: 15, 1986: 13, 1987: 17, 1988: 9, 1989: 13,
+        1990: 14, 1991: 9, 1992: 8, 1993: 11, 1994: 13, 1995: 11, 1996: 11, 1997: 5, 1998: 8, 1999: 9,
+        2000: 2, 2001: 7, 2002: 7, 2003: 8, 2004: 3, 2005: 5, 2006: 3, 2007: 4, 2008: 1
+      };
+
+      const birthYears: number[] = [];
+      Object.entries(birthYearsMap).forEach(([yearStr, count]) => {
+        const year = parseInt(yearStr);
+        for (let i = 0; i < count; i++) {
+          birthYears.push(year);
+        }
+      });
 
       const mockMembers: any[] = [];
-      for (let i = 0; i < 45; i++) {
-        const nameObj = mockNames[i % mockNames.length];
-        const provIdx = i % provincesList.length;
-        const govIdx = (i * 2 + 1) % governoratesList.length;
-        const birthYear = 1965 + ((i * 7) % 40); // Generates birth years from 1965 to 2005
-        const status = i % 10 === 0 ? "pending" : "accepted";
-
+      for (let i = 0; i < 425; i++) {
         mockMembers.push({
           memberNumber: i + 1,
-          nameAr: `${nameObj.ar} ${i + 1}`,
-          nameNl: `${nameObj.nl} ${i + 1}`,
-          birthYear,
-          gender: nameObj.gender,
-          originCity: governoratesList[govIdx],
-          whatsapp: `+316123456${10 + i}`,
-          email: `member${i + 1}@example.com`,
-          nlProvincie: provincesList[provIdx],
-          nlCity: citiesList[provIdx],
-          status,
+          nameAr: `عضو جالية ${i + 1}`,
+          nameNl: `Lid ${i + 1}`,
+          birthYear: birthYears[i] || 1980,
+          gender: genders[i] || "Male",
+          originCity: governorates[i] || "دمشق",
+          whatsapp: `+31612345${100 + i}`,
+          email: `member${i + 1}@sgn-community.nl`,
+          nlProvincie: provinces[i] || "Zuid-Holland",
+          nlCity: "Amsterdam",
+          status: "accepted"
         });
       }
 
