@@ -9,14 +9,12 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const [totalCount, totalAmount, statusBreakdown, monthlyTotals] = await Promise.all([
-    prisma.donation.count(),
-    prisma.donation.aggregate({ _sum: { amount: true } }),
-    prisma.donation.groupBy({ by: ["status"], _count: { id: true }, _sum: { amount: true } }),
-    (prisma as any).$queryRawUnsafe(
-      `SELECT strftime('%Y-%m', "createdAt") as month, SUM(amount) as total, COUNT(*) as count FROM Donation GROUP BY month ORDER BY month DESC LIMIT 12`
-    ) as Promise<Array<{ month: string; total: number; count: number }>>,
-  ]);
+  const totalCount = await prisma.donation.count();
+  const totalAmount = await prisma.donation.aggregate({ _sum: { amount: true } });
+  const statusBreakdown = await prisma.donation.groupBy({ by: ["status"], _count: { id: true }, _sum: { amount: true } });
+  const monthlyTotals = await (prisma as any).$queryRawUnsafe(
+    `SELECT strftime('%Y-%m', "createdAt") as month, SUM(amount) as total, COUNT(*) as count FROM Donation GROUP BY month ORDER BY month DESC LIMIT 12`
+  ) as Array<{ month: string; total: number; count: number }>;
 
   const byStatus = Object.fromEntries(
     statusBreakdown.map((s: { status: string; _count: { id: number }; _sum: { amount: number | null } }) => [

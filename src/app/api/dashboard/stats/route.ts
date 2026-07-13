@@ -10,20 +10,18 @@ export async function GET() {
   const now = new Date();
   const days30 = new Date(now.getTime() - 30 * 86400000);
 
-  const [tasks, users, messages, events, subscribers, posts, comments, volunteers, ads, allComments, members, topPosts] = await Promise.all([
-    prisma.task.count(),
-    prisma.user.count(),
-    prisma.contact.count(),
-    prisma.event.count(),
-    prisma.subscriber.count(),
-    prisma.post.count(),
-    prisma.comment.count(),
-    prisma.volunteer.count(),
-    prisma.ad.count(),
-    prisma.comment.findMany({ select: { createdAt: true }, where: { createdAt: { gte: days30 } } }),
-    prisma.member.findMany({ select: { status: true, createdAt: true } }),
-    prisma.post.findMany({ select: { title: true, views: true, slug: true }, orderBy: { views: "desc" }, take: 10 }),
-  ]);
+  const tasks = await prisma.task.count();
+  const users = await prisma.user.count();
+  const messages = await prisma.contact.count();
+  const events = await prisma.event.count();
+  const subscribers = await prisma.subscriber.count();
+  const posts = await prisma.post.count();
+  const comments = await prisma.comment.count();
+  const volunteers = await prisma.volunteer.count();
+  const ads = await prisma.ad.count();
+  const allComments = await prisma.comment.findMany({ select: { createdAt: true }, where: { createdAt: { gte: days30 } } });
+  const members = await prisma.member.findMany({ select: { status: true, createdAt: true } });
+  const topPosts = await prisma.post.findMany({ select: { title: true, views: true, slug: true }, orderBy: { views: "desc" }, take: 10 });
 
   const totalViews = await prisma.post.aggregate({ _sum: { views: true } });
   const totalAdClicks = await prisma.ad.aggregate({ _sum: { clicks: true } });

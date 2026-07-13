@@ -136,25 +136,23 @@ export async function GET(req: Request) {
       totalMembers = await prisma.member.count();
     }
 
-    // Optimized aggregation queries
-    const [genderGroups, provinceGroups, originGroups, birthYearGroups] = await Promise.all([
-      prisma.member.groupBy({
-        by: ["gender"],
-        _count: { id: true },
-      }),
-      prisma.member.groupBy({
-        by: ["nlProvincie"],
-        _count: { id: true },
-      }),
-      prisma.member.groupBy({
-        by: ["originCity"],
-        _count: { id: true },
-      }),
-      prisma.member.groupBy({
-        by: ["birthYear"],
-        _count: { id: true },
-      }),
-    ]);
+    // Optimized sequential aggregation queries to prevent SQLite/LibSQL deadlocks
+    const genderGroups = await prisma.member.groupBy({
+      by: ["gender"],
+      _count: { id: true },
+    });
+    const provinceGroups = await prisma.member.groupBy({
+      by: ["nlProvincie"],
+      _count: { id: true },
+    });
+    const originGroups = await prisma.member.groupBy({
+      by: ["originCity"],
+      _count: { id: true },
+    });
+    const birthYearGroups = await prisma.member.groupBy({
+      by: ["birthYear"],
+      _count: { id: true },
+    });
 
     // Normalize and aggregate gender data
     let maleCount = 0;
