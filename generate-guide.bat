@@ -1,4 +1,5 @@
 @echo off
+cd /d "%~dp0"
 title SGN - Generate Control Panel Guide PDF
 echo ===================================================
 echo   Generating SGN Control Panel Guide PDF...
