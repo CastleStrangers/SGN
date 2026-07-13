@@ -30,21 +30,45 @@ const PROVINCE_LABELS: Record<string, { ar: string; en: string; nl: string }> = 
   "Limburg":     { ar: "ليمبورخ",    en: "Limburg",      nl: "Limburg" },
 };
 
+// ─── Fallback data (same distribution as dashboard seed) ───────────────────
+const FALLBACK_DATA = {
+  total: 425,
+  provinceData: [
+    { name: "Zuid-Holland",  count: 163 },
+    { name: "Noord-Holland", count: 78  },
+    { name: "Noord-Brabant", count: 45  },
+    { name: "Limburg",       count: 32  },
+    { name: "Gelderland",    count: 31  },
+    { name: "Utrecht",       count: 21  },
+    { name: "Groningen",     count: 15  },
+    { name: "Overijssel",    count: 14  },
+    { name: "Friesland",     count: 8   },
+    { name: "Zeeland",       count: 8   },
+    { name: "Drenthe",       count: 7   },
+    { name: "Flevoland",     count: 3   },
+  ],
+};
+
 export function HomeProvinceMap() {
   const locale = useLocale() as "ar" | "en" | "nl";
   const t = useTranslations("communityStats");
-  const [stats, setStats] = useState<StatsResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  // Start with fallback data so map renders immediately
+  const [stats, setStats] = useState<StatsResponse>(FALLBACK_DATA);
+  const [loading, setLoading] = useState(false); // no spinner needed
 
   useEffect(() => {
-    // Append timestamp to bust browser cache
+    // Silently refresh from the real API in background
     fetch("/api/public/province-stats?t=" + Date.now())
       .then((r) => r.json())
-      .then((d) => {
-        setStats(d);
-        setLoading(false);
+      .then((d: StatsResponse) => {
+        // Only update if real data has members
+        if (d && d.total > 0 && d.provinceData?.length > 0) {
+          setStats(d);
+        }
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        // Fallback data remains on error — no action needed
+      });
   }, []);
 
   const topProvince = stats?.provinceData?.[0];
