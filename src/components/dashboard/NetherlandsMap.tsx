@@ -186,14 +186,13 @@ export default function NetherlandsMap({ data }: NetherlandsMapProps) {
       {/* ── Floating Tooltip ── */}
       {hovered && activePData && activeTier && (
         <div
-          style={{ position: "absolute", left: tooltipPos.x, top: tooltipPos.y }}
-          className="pointer-events-none z-50 backdrop-blur-md border border-white/15 text-white rounded-2xl py-2.5 px-4 shadow-2xl"
           style={{
             position: "absolute",
             left: tooltipPos.x,
             top: tooltipPos.y,
             backgroundColor: activeTier.base + "ee",
           }}
+          className="pointer-events-none z-50 backdrop-blur-md border border-white/15 text-white rounded-2xl py-2.5 px-4 shadow-2xl"
         >
           <p className="text-sm font-black tracking-wide leading-tight">{activeLabel}</p>
           <p className="text-[11px] font-semibold text-white/80 mt-0.5">
