@@ -117,7 +117,7 @@ export async function GET() {
     cache = { data: result, time: Date.now() };
 
     return NextResponse.json(result, {
-      headers: { "Cache-Control": "public, max-age=600" },
+      headers: { "Cache-Control": "no-store, max-age=0, must-revalidate" },
     });
   } catch (err) {
     console.error("[province-stats] error:", err);

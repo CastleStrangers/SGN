@@ -37,7 +37,8 @@ export function HomeProvinceMap() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/public/province-stats")
+    // Append timestamp to bust browser cache
+    fetch("/api/public/province-stats?t=" + Date.now())
       .then((r) => r.json())
       .then((d) => {
         setStats(d);
