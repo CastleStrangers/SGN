@@ -481,16 +481,9 @@ export default function MemberStatsDashboard() {
                 <h3 className="text-center text-xs font-bold text-[#1a5632] bg-emerald-50 py-1.5 px-3 rounded-lg mb-4 inline-block mx-auto w-auto">
                   {columns.provChartTitle}
                 </h3>
-                <div className="h-[250px] w-full border rounded-xl overflow-hidden shadow-inner bg-gray-50">
+                <div className="h-[350px] w-full overflow-hidden">
                   {mounted && (
-                    <ResponsiveContainer width="100%" height="100%">
-                      <Treemap
-                        data={stats.provinceData}
-                        dataKey="count"
-                        stroke="#fff"
-                        content={<CustomizedTreemapContent />}
-                      />
-                    </ResponsiveContainer>
+                    <NetherlandsMap data={stats.provinceData} />
                   )}
                 </div>
               </div>
