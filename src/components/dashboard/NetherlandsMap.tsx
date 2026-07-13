@@ -5,6 +5,8 @@ import { useLocale } from "next-intl";
 
 interface NetherlandsMapProps {
   data: { name: string; count: number }[];
+  /** Extra tailwind classes applied to the outer SVG wrapper div */
+  mapClassName?: string;
 }
 
 const PROVINCES = [
@@ -44,7 +46,7 @@ function getTier(count: number, max: number): Tier {
   return                 TIERS[4];
 }
 
-export default function NetherlandsMap({ data }: NetherlandsMapProps) {
+export default function NetherlandsMap({ data, mapClassName = "max-h-[400px]" }: NetherlandsMapProps) {
   const locale = useLocale() as "ar" | "en" | "nl";
   const [hovered, setHovered] = useState<string | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -91,10 +93,10 @@ export default function NetherlandsMap({ data }: NetherlandsMapProps) {
       onMouseMove={handleMouseMove}
     >
       {/* ── Map ── */}
-      <div className="flex-1 flex items-center justify-center p-3 min-h-0">
+      <div className={`flex-1 flex items-center justify-center p-3 min-h-0 ${mapClassName}`}>
         <svg
           viewBox="0 0 600 700"
-          className="w-full h-full max-h-[360px]"
+          className="w-full h-full"
           xmlns="http://www.w3.org/2000/svg"
         >
           {PROVINCES.map((p) => {

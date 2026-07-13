@@ -81,9 +81,9 @@ export function HomeProvinceMap() {
 
       <div className="grid lg:grid-cols-3 gap-8 items-start">
         {/* Map — bigger */}
-        <div className="lg:col-span-2 rounded-3xl overflow-hidden shadow-2xl bg-slate-900 min-h-[420px]">
+        <div className="lg:col-span-2 rounded-3xl overflow-hidden shadow-2xl bg-slate-950 h-[520px]">
           {loading ? (
-            <div className="flex items-center justify-center h-[420px]">
+            <div className="flex items-center justify-center h-full">
               <div className="flex flex-col items-center gap-3 text-gray-400">
                 <div className="w-10 h-10 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
                 <span className="text-sm font-medium">
@@ -92,7 +92,9 @@ export function HomeProvinceMap() {
               </div>
             </div>
           ) : (
-            <NetherlandsMap data={stats?.provinceData || []} />
+            <div className="w-full h-full">
+              <NetherlandsMap data={stats?.provinceData || []} mapClassName="h-full" />
+            </div>
           )}
         </div>
 
