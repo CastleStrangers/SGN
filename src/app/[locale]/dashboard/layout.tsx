@@ -1,10 +1,9 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
-import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Link } from "@/i18n/routing";
-import { LayoutDashboard, CheckSquare, Users, FileText, LogOut, Menu, X, MessageSquare, Sparkles, MessageCircle, Mail, Calendar, HandHeart, Globe, Megaphone, User, BarChart3, Shield, Image as ImageIcon, Facebook, Heart, Building2, Smartphone } from "lucide-react";
+import { Link, useRouter, usePathname } from "@/i18n/routing";
+import { LayoutDashboard, CheckSquare, Users, FileText, LogOut, Menu, X, MessageSquare, Sparkles, MessageCircle, Mail, Calendar, HandHeart, Globe, Megaphone, User, BarChart3, Shield, Image as ImageIcon, Facebook, Heart, Building2, Smartphone, Search, ChevronDown, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SgnLogo } from "@/components/sgn-logo";
@@ -17,6 +16,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const t = useTranslations("dashboard");
   const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({
+    overview: false,
+    content: false,
+    community: false,
+    interactions: true,
+    system: true,
+  });
+
+  const pathname = usePathname();
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -49,35 +58,80 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return true;
   }
 
-  const nav = [
-    { label: t("viewSite"), href: "/", icon: Globe },
-    { label: t("title"), href: "/dashboard", icon: LayoutDashboard },
-    { label: t("ai"), href: "/dashboard/ai", icon: Sparkles },
-    { label: t("tasks"), href: "/dashboard/tasks", icon: CheckSquare },
-    { label: t("members"), href: "/dashboard/members", icon: Users },
-    { label: "إدارة المستندات", href: "/dashboard/members/vault", icon: Shield, admin: true },
-    { label: t("board"), href: "/dashboard/board", icon: Building2, admin: true },
-    { label: t("memberProfile"), href: "/dashboard/member-profile", icon: User },
-    { label: t("statsLink"), href: "/dashboard/stats", icon: BarChart3 },
-    { label: t("membershipSettings"), href: "/dashboard/membership-settings", icon: CheckSquare },
-    { label: t("volunteers"), href: "/dashboard/volunteers", icon: HandHeart, editor: true },
-    { label: t("events"), href: "/dashboard/events", icon: Calendar, editor: true },
-    { label: t("messages"), href: "/dashboard/messages", icon: MessageSquare },
-    { label: t("subscribers"), href: "/dashboard/subscribers", icon: Mail, admin: true },
-    { label: t("comments"), href: "/dashboard/comments", icon: MessageCircle, admin: true },
-    { label: t("users"), href: "/dashboard/users", icon: Users, admin: true },
-    { label: t("roles"), href: "/dashboard/roles", icon: Shield, admin: true },
-    { label: t("mobileControl"), href: "/dashboard/mobile-control", icon: Smartphone, admin: true },
-    { label: "النظام الداخلي", href: "/dashboard/regulations", icon: FileText, admin: true },
-    { label: t("pages"), href: "/dashboard/pages", icon: FileText, editor: true },
-    { label: t("landing"), href: "/dashboard/landing", icon: Globe, admin: true },
-    { label: t("donationsPage.title"), href: "/dashboard/donations", icon: Heart, admin: true },
-    { label: t("ads"), href: "/dashboard/ads", icon: Megaphone, admin: true },
-    { label: t("surveys"), href: "/dashboard/surveys", icon: BarChart3, admin: true },
-    { label: t("media"), href: "/dashboard/media", icon: ImageIcon, admin: true },
-    { label: t("facebookSync"), href: "/dashboard/facebook-sync", icon: Facebook, admin: true },
-    { label: t("settings"), href: "/dashboard/settings", icon: User },
+  const toggleGroup = (groupId: string) => {
+    setCollapsedGroups(prev => ({ ...prev, [groupId]: !prev[groupId] }));
+  };
+
+  const navGroups = [
+    {
+      id: "overview",
+      title: t("navGroups.overview"),
+      items: [
+        { label: t("viewSite"), href: "/", icon: Globe },
+        { label: t("title"), href: "/dashboard", icon: LayoutDashboard },
+        { label: t("ai"), href: "/dashboard/ai", icon: Sparkles },
+        { label: t("statsLink"), href: "/dashboard/stats", icon: BarChart3 },
+        { label: t("memberProfile"), href: "/dashboard/member-profile", icon: User },
+        { label: t("settings"), href: "/dashboard/settings", icon: User },
+      ]
+    },
+    {
+      id: "content",
+      title: t("navGroups.content"),
+      items: [
+        { label: t("pages"), href: "/dashboard/pages", icon: FileText, editor: true },
+        { label: t("events"), href: "/dashboard/events", icon: Calendar, editor: true },
+        { label: "النظام الداخلي", href: "/dashboard/regulations", icon: FileText, admin: true },
+        { label: t("board"), href: "/dashboard/board", icon: Building2, admin: true },
+        { label: t("landing"), href: "/dashboard/landing", icon: Globe, admin: true },
+        { label: t("media"), href: "/dashboard/media", icon: ImageIcon, admin: true },
+        { label: t("facebookSync"), href: "/dashboard/facebook-sync", icon: Facebook, admin: true },
+      ]
+    },
+    {
+      id: "community",
+      title: t("navGroups.community"),
+      items: [
+        { label: t("members"), href: "/dashboard/members", icon: Users },
+        { label: "إدارة المستندات", href: "/dashboard/members/vault", icon: Shield, admin: true },
+        { label: t("membershipSettings"), href: "/dashboard/membership-settings", icon: CheckSquare },
+        { label: t("volunteers"), href: "/dashboard/volunteers", icon: HandHeart, editor: true },
+        { label: t("tasks"), href: "/dashboard/tasks", icon: CheckSquare },
+      ]
+    },
+    {
+      id: "interactions",
+      title: t("navGroups.interactions"),
+      items: [
+        { label: t("messages"), href: "/dashboard/messages", icon: MessageSquare },
+        { label: t("comments"), href: "/dashboard/comments", icon: MessageCircle, admin: true },
+        { label: t("subscribers"), href: "/dashboard/subscribers", icon: Mail, admin: true },
+        { label: t("donationsPage.title"), href: "/dashboard/donations", icon: Heart, admin: true },
+        { label: t("ads"), href: "/dashboard/ads", icon: Megaphone, admin: true },
+        { label: t("surveys"), href: "/dashboard/surveys", icon: BarChart3, admin: true },
+      ]
+    },
+    {
+      id: "system",
+      title: t("navGroups.system"),
+      items: [
+        { label: t("mobileControl"), href: "/dashboard/mobile-control", icon: Smartphone, admin: true },
+        { label: t("users"), href: "/dashboard/users", icon: Users, admin: true },
+        { label: t("roles"), href: "/dashboard/roles", icon: Shield, admin: true },
+      ]
+    }
   ];
+
+  // Filter groups by accessible items and search query
+  const filteredGroups = navGroups.map(group => {
+    const accessible = group.items.filter(item => canAccess(item));
+    const matching = accessible.filter(item => {
+      if (!searchQuery) return true;
+      const term = searchQuery.toLowerCase();
+      return item.label.toLowerCase().includes(term) || group.title.toLowerCase().includes(term);
+    });
+    return { ...group, items: matching };
+  }).filter(group => group.items.length > 0);
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -96,16 +150,72 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <button onClick={() => setOpen(false)} className="lg:hidden p-1 hover:bg-gray-100 rounded" title="Close Menu" aria-label="Close Menu"><X className="w-5 h-5" /></button>
           </div>
         </div>
-        <nav className="p-3 space-y-1">
-          {nav.filter(n => canAccess(n)).map((n) => (
-            <Link key={n.href} href={n.href} className="flex items-center gap-3 px-3 py-2.5 text-gray-700 hover:bg-gray-100 rounded-xl text-sm transition-colors">
-              <n.icon className="w-5 h-5 text-gray-400" />
-              {n.label}
-            </Link>
-          ))}
+
+        {/* Search Box */}
+        <div className="p-3 border-b">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder={t("navSearchPlaceholder")}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-8 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#1a5632] focus:bg-white transition-all text-gray-800"
+              dir="auto"
+            />
+            <Search className="absolute right-2.5 top-2.5 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute left-2.5 top-2 w-3.5 h-3.5 text-gray-400 hover:text-gray-600 flex items-center justify-center font-bold text-xs"
+                title="Clear"
+              >
+                ×
+              </button>
+            )}
+          </div>
+        </div>
+
+        <nav className="p-3 space-y-4">
+          {filteredGroups.map(group => {
+            const isCollapsed = collapsedGroups[group.id] && !searchQuery;
+            return (
+              <div key={group.id} className="space-y-1">
+                <button
+                  onClick={() => toggleGroup(group.id)}
+                  className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-bold text-gray-400 hover:text-gray-600 transition-colors uppercase tracking-wider group"
+                >
+                  <span>{group.title}</span>
+                  <span className="text-gray-300 group-hover:text-gray-500 transition-transform duration-150">
+                    {isCollapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                  </span>
+                </button>
+                {!isCollapsed && (
+                  <div className="space-y-0.5 transition-all">
+                    {group.items.map((n) => {
+                      const isActive = pathname === n.href;
+                      return (
+                        <Link
+                          key={n.href}
+                          href={n.href}
+                          className={`flex items-center gap-3 px-3 py-2 text-sm rounded-xl transition-all duration-150 ${
+                            isActive
+                              ? "bg-emerald-50 text-[#1a5632] font-bold shadow-sm"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                          }`}
+                        >
+                          <n.icon className={`w-4 h-4 shrink-0 ${isActive ? "text-[#1a5632]" : "text-gray-400"}`} />
+                          <span className="truncate">{n.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
           <hr className="my-3" />
-          <button onClick={() => signOut()} className="flex items-center gap-3 px-3 py-2.5 text-red-600 hover:bg-red-50 rounded-xl text-sm w-full transition-colors">
-            <LogOut className="w-5 h-5" />
+          <button onClick={() => signOut()} className="flex items-center gap-3 px-3 py-2.5 text-red-600 hover:bg-red-50 rounded-xl text-sm w-full transition-colors font-medium">
+            <LogOut className="w-4 h-4 shrink-0" />
             {t("logout")}
           </button>
         </nav>

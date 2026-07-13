@@ -280,6 +280,14 @@
     "anonymous": "Anonymous"
   },
   "dashboard": {
+    "navGroups": {
+      "overview": "Overview & Insights",
+      "content": "Content & Portal",
+      "community": "Members & Community",
+      "interactions": "Interactions & Push",
+      "system": "System & Settings"
+    },
+    "navSearchPlaceholder": "Search dashboard...",
     "welcome": "Welcome",
     "title": "Dashboard",
     "shortTitle": "Community Platform",

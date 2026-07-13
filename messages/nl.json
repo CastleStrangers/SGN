@@ -280,6 +280,14 @@
     "anonymous": "Anoniem"
   },
   "dashboard": {
+    "navGroups": {
+      "overview": "Overzicht & Statistieken",
+      "content": "Inhoud & Portaal",
+      "community": "Leden & Gemeenschap",
+      "interactions": "Interacties & Push",
+      "system": "Systeeminstellingen"
+    },
+    "navSearchPlaceholder": "Zoeken in dashboard...",
     "welcome": "Welkom",
     "title": "Dashboard",
     "shortTitle": "Gemeenschapsplatform",

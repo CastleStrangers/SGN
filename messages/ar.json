@@ -280,6 +280,14 @@
     "anonymous": "مجهول"
   },
   "dashboard": {
+    "navGroups": {
+      "overview": "نظرة عامة وإحصائيات",
+      "content": "المحتوى والبوابة",
+      "community": "الأعضاء والمجتمع",
+      "interactions": "التواصل والتفاعل",
+      "system": "إعدادات النظام"
+    },
+    "navSearchPlaceholder": "بحث في لوحة التحكم...",
     "welcome": "مرحباً بك",
     "title": "لوحة التحكم",
     "shortTitle": "منصة الجالية",
