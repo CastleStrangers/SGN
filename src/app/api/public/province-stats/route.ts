@@ -85,8 +85,8 @@ const TTL = 10 * 60 * 1000;
 
 export async function GET() {
   try {
-    // Return cached result if still fresh
-    if (cache && Date.now() - cache.time < TTL) {
+    // Return cached result if still fresh and valid (non-empty)
+    if (cache && cache.data && cache.data.total > 0 && Date.now() - cache.time < TTL) {
       return NextResponse.json(cache.data, {
         headers: { "Cache-Control": "public, max-age=600" },
       });
