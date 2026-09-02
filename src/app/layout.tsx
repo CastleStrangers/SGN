@@ -20,18 +20,8 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sy-nl.org"),
-  title: { default: "الجالية السورية في هولندا", template: "%s | الجالية السورية في هولندا" },
-  description: "الموقع الرسمي للجالية السورية في هولندا — أخبار الجالية، فعاليات، خدمات، ومنصة تفاعلية لأبناء الجالية السورية",
-  keywords: ["الجالية السورية", "هولندا", "أخبار", "فعاليات", "سوريون في هولندا", "syrische gemeenschap", "Nederland"],
-  openGraph: {
-    type: "website",
-    locale: "ar_AR",
-    siteName: "الجالية السورية في هولندا",
-    title: "الجالية السورية في هولندا",
-    description: "الموقع الرسمي للجالية السورية في هولندا",
-    url: "https://sy-nl.org",
-  },
-  twitter: { card: "summary_large_image", title: "الجالية السورية في هولندا", description: "الموقع الرسمي للجالية السورية في هولندا" },
+  title: { default: "SGN", template: "%s" },
+  description: "Syrian Community in the Netherlands — Platform for Syrian expats in the Netherlands",
   icons: { icon: "/logo.png", apple: "/logo.png" },
   alternates: { canonical: "https://sy-nl.org" },
   robots: { index: true, follow: true },
