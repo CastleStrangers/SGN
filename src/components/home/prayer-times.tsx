@@ -57,7 +57,8 @@ export function PrayerTimesWidget() {
           // Localize Hijri date
           const hijri = date.hijri;
           const monthName = locale === "ar" ? hijri.month.ar : hijri.month.en;
-          setHijriDate(`${hijri.day} ${monthName} ${hijri.year} هـ`);
+          const suffix = locale === "ar" ? "هـ" : "AH";
+          setHijriDate(`${hijri.day} ${monthName} ${hijri.year} ${suffix}`);
           
           const dayName = locale === "ar" ? hijri.weekday.ar : hijri.weekday.en;
           setWeekday(dayName);
