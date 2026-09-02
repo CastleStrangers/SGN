@@ -274,14 +274,16 @@ function MemberCard({
 
       {/* الاسم والمنصب */}
       <h3 className="text-lg font-bold text-gray-900 mb-1">
-        {isRtl ? member.nameAr : (member.nameEn || member.nameAr)}
+        {isRtl ? member.nameAr : (member.nameEn || "Board Member")}
       </h3>
-      <p className="text-xs text-gray-400 mb-4 font-mono uppercase tracking-wider">
-        {isRtl ? member.nameEn : (member.nameEn ? member.nameAr : "")}
-      </p>
+      {isRtl && member.nameEn && (
+        <p className="text-xs text-gray-400 mb-4 font-mono uppercase tracking-wider">
+          {member.nameEn}
+        </p>
+      )}
 
       <div className="text-sm font-medium text-[#1a5632] bg-emerald-50 px-3 py-2 rounded-full mb-6 min-h-[40px] flex items-center justify-center leading-tight">
-        {isRtl ? member.titleAr : (member.titleEn || member.titleAr)}
+        {isRtl ? member.titleAr : (member.titleEn || "Board Member")}
       </div>
 
       {/* زر فتح السيرة */}
