@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { Sparkles, Clock, TrendingUp, Heart, Play } from "lucide-react";
 import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
