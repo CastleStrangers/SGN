@@ -6,6 +6,11 @@ import { apiFetch } from "../lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useI18n } from "../lib/i18n-context";
 
+interface ServiceMember {
+  id: string;
+  nameAr: string;
+  profession: string;
+  nlCity: string;
   nlProvincie: string;
   serviceDescription: string | null;
   avatar: string | null;

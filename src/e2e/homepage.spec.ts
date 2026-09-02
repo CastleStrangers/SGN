@@ -18,7 +18,7 @@ test.describe("Homepage", () => {
       if (msg.type() === "error") errors.push(msg.text());
     });
     await page.goto("/ar");
-    expect(errors.filter((e) => !e.includes("favicon"))).toEqual([]);
+    expect(errors.filter((e) => !e.includes("favicon")).length).toBe(0);
   });
 });
 
