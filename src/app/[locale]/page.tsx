@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { HomePageClient } from "./home-page-client";
+import { isPureLocaleText, localizeCategory } from "@/lib/language-guard";
 
 export const revalidate = 60;
 
@@ -24,20 +25,31 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   let videoPosts: any[] = [];
 
   try {
-    [posts, videoPosts] = await Promise.all([
+    const [rawPosts, rawVideoPosts] = await Promise.all([
       prisma.post.findMany({
         where: { published: true, locale },
         orderBy: { createdAt: "desc" },
-        take: 20,
+        take: 30,
         select: LIST_SELECT,
       }),
       prisma.post.findMany({
         where: { published: true, source: "youtube", locale },
         orderBy: { createdAt: "desc" },
-        take: 6,
+        take: 10,
         select: LIST_SELECT,
       }),
     ]);
+
+    // Enforce strict language isolation: Arabic must have Arabic chars, En/Nl must NOT
+    posts = rawPosts
+      .filter((p) => isPureLocaleText(p.title, locale))
+      .map((p) => ({ ...p, category: localizeCategory(p.category, locale) }))
+      .slice(0, 20);
+
+    videoPosts = rawVideoPosts
+      .filter((p) => isPureLocaleText(p.title, locale))
+      .map((p) => ({ ...p, category: localizeCategory(p.category, locale) }))
+      .slice(0, 6);
   } catch (e) {
     console.error("[Home] Failed to fetch posts:", e);
   }

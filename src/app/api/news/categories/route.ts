@@ -5,11 +5,16 @@ export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
+    const { searchParams } = new URL(req.url);
+    const locale = searchParams.get("locale") || "ar";
+    const { localizeCategory } = await import("@/lib/language-guard");
+
     const categories = await prisma.post.groupBy({
       by: ['category'],
       _count: true,
       where: {
         published: true,
+        locale,
       },
       orderBy: {
         _count: {
@@ -20,7 +25,8 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       categories.map(c => ({
-        name: c.category,
+        name: localizeCategory(c.category, locale),
+        rawName: c.category,
         count: c._count,
       })),
       {

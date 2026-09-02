@@ -61,19 +61,25 @@ export async function GET(req: NextRequest) {
     ];
 
     // جلب القائمة والعدد الإجمالي معاً
-    const [posts, total] = await Promise.all([
+    const [rawPosts, rawTotal] = await Promise.all([
       prisma.post.findMany({
         where,
         orderBy: { createdAt: "desc" },
-        take: limit,
+        take: limit * 2, // fetch slightly more to allow pure language filter
         skip: offset,
         select: LIST_SELECT,
       }),
       prisma.post.count({ where }),
     ]);
 
+    const { isPureLocaleText, localizeCategory } = await import("@/lib/language-guard");
+    const posts = rawPosts
+      .filter((p) => isPureLocaleText(p.title, locale))
+      .map((p) => ({ ...p, category: localizeCategory(p.category, locale) }))
+      .slice(0, limit);
+
     return NextResponse.json(
-      { posts, total, limit, offset },
+      { posts, total: Math.min(rawTotal, posts.length < limit ? posts.length : rawTotal), limit, offset },
       {
         headers: {
           "Cache-Control": "public, s-maxage=1, stale-while-revalidate=5",
