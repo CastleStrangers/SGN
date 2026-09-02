@@ -44,6 +44,7 @@
     "@prisma/client": "^7.8.0",
     "@radix-ui/react-toast": "^1.2.14",
     "@reduxjs/toolkit": "^2.12.0",
+    "@swc/core": "^1.16.1",
     "@tailwindcss/typography": "^0.5.19",
     "@tiptap/pm": "^3.25.0",
     "@tiptap/react": "^3.25.0",
