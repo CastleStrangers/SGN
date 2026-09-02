@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useLocale } from "next-intl";
+import { formatLocalizedNumber } from "@/lib/language-guard";
 
 interface NetherlandsMapProps {
   data: { name: string; count: number }[];
@@ -167,7 +168,7 @@ export default function NetherlandsMap({ data, mapClassName = "max-h-[400px]" }:
                   textAnchor="middle" dominantBaseline="middle"
                   fill="#ffffff" fontSize="11" fontWeight="900"
                 >
-                  {c}
+                  {formatLocalizedNumber(c, locale)}
                 </text>
                 {/* Percentage */}
                 <text
@@ -175,7 +176,7 @@ export default function NetherlandsMap({ data, mapClassName = "max-h-[400px]" }:
                   textAnchor="middle" dominantBaseline="middle"
                   fill={tier.ring} fontSize="8.5" fontWeight="700"
                 >
-                  {pctVal}%
+                  {formatLocalizedNumber(pctVal, locale)}%
                 </text>
               </g>
             );
@@ -203,7 +204,7 @@ export default function NetherlandsMap({ data, mapClassName = "max-h-[400px]" }:
                 {tier.label[locale]}
                 {rng && (
                   <span className="text-slate-400 font-normal ms-1">
-                    ({rng.min}–{rng.max} · {pMin}–{pMax}%)
+                    ({formatLocalizedNumber(rng.min, locale)}–{formatLocalizedNumber(rng.max, locale)} · {formatLocalizedNumber(pMin, locale)}–{formatLocalizedNumber(pMax, locale)}%)
                   </span>
                 )}
               </span>
@@ -249,14 +250,14 @@ export default function NetherlandsMap({ data, mapClassName = "max-h-[400px]" }:
               <p className="text-[10px] text-white/60 font-medium">
                 {locale === "ar" ? "العدد" : locale === "nl" ? "Aantal" : "Count"}
               </p>
-              <p className="text-2xl font-black text-white leading-none">{activeCount}</p>
+              <p className="text-2xl font-black text-white leading-none">{formatLocalizedNumber(activeCount, locale)}</p>
             </div>
             <div className="pb-0.5">
               <p className="text-[10px] text-white/60 font-medium">
                 {locale === "ar" ? "النسبة" : locale === "nl" ? "Aandeel" : "Share"}
               </p>
               <p className="text-xl font-black leading-none" style={{ color: activeTier.ring }}>
-                {activePct}%
+                {formatLocalizedNumber(activePct, locale)}%
               </p>
             </div>
           </div>
@@ -271,7 +272,7 @@ export default function NetherlandsMap({ data, mapClassName = "max-h-[400px]" }:
             />
           </div>
           <p className="text-[9px] text-white/40 mt-1">
-            {locale === "ar" ? `من إجمالي ${total} عضو` : locale === "nl" ? `van ${total} leden` : `of ${total} members`}
+            {locale === "ar" ? `من إجمالي ${formatLocalizedNumber(total, locale)} عضو` : locale === "nl" ? `van ${formatLocalizedNumber(total, locale)} leden` : `of ${formatLocalizedNumber(total, locale)} members`}
           </p>
         </div>
       )}

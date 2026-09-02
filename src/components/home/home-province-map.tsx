@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import NetherlandsMap from "@/components/dashboard/NetherlandsMap";
 import { Users, MapPin, TrendingUp } from "lucide-react";
+import { formatLocalizedNumber } from "@/lib/language-guard";
 
 interface ProvinceData {
   name: string;
@@ -136,7 +137,7 @@ export function HomeProvinceMap() {
               </p>
             </div>
             <p className="text-4xl font-black text-gray-900 dark:text-white">
-              {loading ? "—" : (stats?.total || 0).toLocaleString()}
+              {loading ? "—" : formatLocalizedNumber(stats?.total || 0, locale)}
             </p>
           </div>
 
@@ -153,7 +154,7 @@ export function HomeProvinceMap() {
             <p className="text-2xl font-black text-gray-900 dark:text-white">{topProvinceLabel}</p>
             {topProvince && (
               <p className="text-sm text-emerald-600 dark:text-emerald-400 font-bold mt-1">
-                {topProvince.count} {locale === "ar" ? "عضو" : locale === "nl" ? "leden" : "members"}
+                {formatLocalizedNumber(topProvince.count, locale)} {locale === "ar" ? "عضو" : locale === "nl" ? "leden" : "members"}
               </p>
             )}
           </div>
@@ -174,11 +175,11 @@ export function HomeProvinceMap() {
                     const pct = Math.round((p.count / max) * 100);
                     return (
                       <div key={p.name} className="flex items-center gap-3">
-                        <span className="text-xs font-black text-gray-400 w-4">#{i + 1}</span>
+                        <span className="text-xs font-black text-gray-400 w-4">#{formatLocalizedNumber(i + 1, locale)}</span>
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between items-baseline mb-1">
                             <span className="text-xs font-bold text-gray-700 dark:text-gray-300 truncate">{label}</span>
-                            <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 ms-2 shrink-0">{p.count}</span>
+                            <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 ms-2 shrink-0">{formatLocalizedNumber(p.count, locale)}</span>
                           </div>
                           <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                             <div

@@ -28,6 +28,16 @@ export function isPureLocaleText(text: string | null | undefined, locale: string
   return !hasArabic;
 }
 
+export function formatLocalizedNumber(num: number | string | undefined | null, locale: string): string {
+  if (num === undefined || num === null) return "";
+  const n = typeof num === "string" ? parseFloat(num) : num;
+  if (isNaN(n)) return String(num);
+  if (locale === "ar") {
+    return new Intl.NumberFormat("ar-EG-u-nu-arab").format(n);
+  }
+  return new Intl.NumberFormat("en-US").format(n);
+}
+
 export const CATEGORY_TRANSLATIONS: Record<string, { ar: string; en: string; nl: string }> = {
   "أخبار الجالية": {
     ar: "أخبار الجالية",

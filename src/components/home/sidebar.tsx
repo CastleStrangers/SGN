@@ -19,15 +19,16 @@ const followItems = [
   { icon: TikTok, label: "sidebar.follow.tiktok", color: "bg-black", href: "https://www.tiktok.com/@sgn_syria" },
 ];
 
-const statsItems = [
-  { key: "sidebar.stats.members", value: "+2,500" },
-  { key: "sidebar.stats.events", value: "48" },
-  { key: "sidebar.stats.volunteers", value: "320" },
-  { key: "sidebar.stats.years", value: "5" },
-];
-
 export function Sidebar({ latest }: { latest: Post[] }) {
   const t = useTranslations();
+  const locale = useLocale();
+
+  const statsItems = [
+    { key: "sidebar.stats.members", value: locale === "ar" ? "+٢,٥٠٠" : "+2,500" },
+    { key: "sidebar.stats.events", value: locale === "ar" ? "٤٨" : "48" },
+    { key: "sidebar.stats.volunteers", value: locale === "ar" ? "٣٢٠" : "320" },
+    { key: "sidebar.stats.years", value: locale === "ar" ? "٥" : "5" },
+  ];
   return (
     <aside className="space-y-6">
       <div className="bg-gradient-to-br from-[#1a5632] to-[#0f3d23] text-white rounded-2xl p-6 text-center">
