@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Newspaper, Users, Calendar, Eye, TrendingUp } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatLocalizedNumber } from "@/lib/language-guard";
 
 interface StatsData {
   posts?: number;
@@ -18,7 +19,7 @@ const defaultStats: StatsData = {
 };
 
 // Component for animating numbers counting up smoothly
-function AnimatedNumber({ value }: { value: number }) {
+function AnimatedNumber({ value, locale }: { value: number; locale: string }) {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
@@ -52,17 +53,16 @@ function AnimatedNumber({ value }: { value: number }) {
     requestAnimationFrame(animate);
   }, [value]);
 
-  const formatNumber = (n: number) => {
-    if (n >= 1000000) return (n / 1000000).toFixed(1) + "M";
-    if (n >= 1000) return (n / 1000).toFixed(1) + "K";
-    return n.toString();
-  };
-
-  return <>{formatNumber(displayValue)}</>;
+  return (
+    <span style={{ fontFamily: locale === "ar" ? "var(--font-almarai), sans-serif" : "system-ui, -apple-system, sans-serif" }}>
+      {formatLocalizedNumber(displayValue, locale)}
+    </span>
+  );
 }
 
 export function CommunityStats() {
   const t = useTranslations('communityStats');
+  const locale = useLocale();
   const [stats, setStats] = useState<StatsData>(defaultStats);
 
   const cards = [
@@ -125,7 +125,7 @@ export function CommunityStats() {
               </div>
               
               <p className="text-3.5xl md:text-4.5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-1">
-                <AnimatedNumber value={value} />
+                <AnimatedNumber value={value} locale={locale} />
               </p>
               <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">{card.label}</p>
             </div>
