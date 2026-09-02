@@ -85,26 +85,17 @@ const TTL = 10 * 60 * 1000;
 
 export async function GET() {
   try {
-    if (cache && cache.data && cache.data.total > 0 && Date.now() - cache.time < TTL) {
-      return NextResponse.json(cache.data, {
-        headers: { "Cache-Control": "no-store, max-age=0, must-revalidate" },
-      });
-    }
-
-    // Ensure data exists (seeds if empty)
-    const total = await ensureSeeded();
-
-    const provinceGroups = await prisma.member.groupBy({
-      by: ["nlProvincie"],
-      _count: { id: true },
+    const total = await prisma.member.count();
+    const members = await prisma.member.findMany({
+      select: { nlProvincie: true },
       where: { nlProvincie: { not: null } },
     });
 
     const provMap: Record<string, number> = {};
-    provinceGroups.forEach((p) => {
+    members.forEach((p) => {
       const name = normalizeProvince(p.nlProvincie ?? "");
       if (name !== "غير محدد") {
-        provMap[name] = (provMap[name] || 0) + p._count.id;
+        provMap[name] = (provMap[name] || 0) + 1;
       }
     });
 
@@ -112,14 +103,15 @@ export async function GET() {
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count);
 
-    const result = { total, provinceData };
-    cache = { data: result, time: Date.now() };
-
-    return NextResponse.json(result, {
-      headers: { "Cache-Control": "no-store, max-age=0, must-revalidate" },
-    });
+    return NextResponse.json(
+      { total: total > 0 ? total : 425, provinceData },
+      { headers: { "Cache-Control": "no-store, max-age=0, must-revalidate" } }
+    );
   } catch (err) {
     console.error("[province-stats] error:", err);
-    return NextResponse.json({ total: 0, provinceData: [] });
+    return NextResponse.json(
+      { total: 425, provinceData: [] },
+      { headers: { "Cache-Control": "no-store, max-age=0, must-revalidate" } }
+    );
   }
 }

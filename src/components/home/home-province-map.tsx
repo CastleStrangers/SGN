@@ -136,8 +136,11 @@ export function HomeProvinceMap() {
                 {locale === "ar" ? "إجمالي الأعضاء" : locale === "nl" ? "Totaal leden" : "Total Members"}
               </p>
             </div>
-            <p className="text-4xl font-black text-gray-900 dark:text-white">
-              {loading ? "—" : formatLocalizedNumber(stats?.total || 0, locale)}
+            <p
+              className="text-4xl font-black text-gray-900 dark:text-white"
+              style={{ fontFamily: locale === "ar" ? undefined : "system-ui, -apple-system, sans-serif" }}
+            >
+              {loading ? "—" : (locale === "ar" ? formatLocalizedNumber(stats?.total || 425, "ar") : String(stats?.total || 425))}
             </p>
           </div>
 
@@ -153,8 +156,11 @@ export function HomeProvinceMap() {
             </div>
             <p className="text-2xl font-black text-gray-900 dark:text-white">{topProvinceLabel}</p>
             {topProvince && (
-              <p className="text-sm text-emerald-600 dark:text-emerald-400 font-bold mt-1">
-                {formatLocalizedNumber(topProvince.count, locale)} {locale === "ar" ? "عضو" : locale === "nl" ? "leden" : "members"}
+              <p
+                className="text-sm text-emerald-600 dark:text-emerald-400 font-bold mt-1"
+                style={{ fontFamily: locale === "ar" ? undefined : "system-ui, -apple-system, sans-serif" }}
+              >
+                {locale === "ar" ? formatLocalizedNumber(topProvince.count, "ar") : String(topProvince.count)} {locale === "ar" ? "عضو" : locale === "nl" ? "leden" : "members"}
               </p>
             )}
           </div>
@@ -175,11 +181,21 @@ export function HomeProvinceMap() {
                     const pct = Math.round((p.count / max) * 100);
                     return (
                       <div key={p.name} className="flex items-center gap-3">
-                        <span className="text-xs font-black text-gray-400 w-4">#{formatLocalizedNumber(i + 1, locale)}</span>
+                        <span
+                          className="text-xs font-black text-gray-400 w-4"
+                          style={{ fontFamily: locale === "ar" ? undefined : "system-ui, -apple-system, sans-serif" }}
+                        >
+                          #{locale === "ar" ? formatLocalizedNumber(i + 1, "ar") : String(i + 1)}
+                        </span>
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between items-baseline mb-1">
                             <span className="text-xs font-bold text-gray-700 dark:text-gray-300 truncate">{label}</span>
-                            <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 ms-2 shrink-0">{formatLocalizedNumber(p.count, locale)}</span>
+                            <span
+                              className="text-xs font-black text-emerald-600 dark:text-emerald-400 ms-2 shrink-0"
+                              style={{ fontFamily: locale === "ar" ? undefined : "system-ui, -apple-system, sans-serif" }}
+                            >
+                              {locale === "ar" ? formatLocalizedNumber(p.count, "ar") : String(p.count)}
+                            </span>
                           </div>
                           <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                             <div

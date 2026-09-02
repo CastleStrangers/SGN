@@ -167,16 +167,18 @@ export default function NetherlandsMap({ data, mapClassName = "max-h-[400px]" }:
                   x={p.x} y={p.y - 8}
                   textAnchor="middle" dominantBaseline="middle"
                   fill="#ffffff" fontSize="11" fontWeight="900"
+                  fontFamily={locale === "ar" ? undefined : "system-ui, -apple-system, sans-serif"}
                 >
-                  {formatLocalizedNumber(c, locale)}
+                  {locale === "ar" ? formatLocalizedNumber(c, "ar") : String(c)}
                 </text>
                 {/* Percentage */}
                 <text
                   x={p.x} y={p.y + 8}
                   textAnchor="middle" dominantBaseline="middle"
                   fill={tier.ring} fontSize="8.5" fontWeight="700"
+                  fontFamily={locale === "ar" ? undefined : "system-ui, -apple-system, sans-serif"}
                 >
-                  {formatLocalizedNumber(pctVal, locale)}%
+                  {locale === "ar" ? formatLocalizedNumber(pctVal, "ar") : String(pctVal)}%
                 </text>
               </g>
             );
