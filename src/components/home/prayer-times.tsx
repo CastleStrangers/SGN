@@ -169,7 +169,7 @@ export function PrayerTimesWidget() {
             <div className="flex items-center justify-center gap-2 py-2 px-3 bg-gray-50 border border-gray-100 rounded-2xl text-xs text-gray-500 font-medium shadow-sm">
               <Calendar className="w-4 h-4 text-[#1a5632]" />
               <span>
-                {weekday ? `${weekday}، ` : ""}
+                {weekday ? `${weekday}${locale === "ar" ? "، " : ", "}` : ""}
                 {hijriDate}
               </span>
             </div>
