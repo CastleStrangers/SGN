@@ -24,21 +24,38 @@ export async function GET(req: NextRequest) {
     const local = createClient({ url: `file:${localDbPath}` });
     const turso = createClient({ url: tursoUrl, authToken: tursoToken });
 
-    const tables = [
-      "User", "Account", "Session", "VerificationToken",
-      "Post", "Task", "Contact", "Comment", "Event", "Subscriber",
-      "Volunteer", "Member", "MemberView", "AppSetting",
-      "Notification", "ActivityLog", "PasswordResetToken", "OtpCode",
-      "Survey", "SurveyOption", "SurveyVote", "Ad", "Favorite",
-      "PushToken", "Role", "UserPermission", "ChatMessage",
-      "ChatAISession", "ChatAIMessage", "Donation", "LandingPage",
-      "Guide", "EventRegistration", "TaskApplication", "board_members",
+    await turso.execute("PRAGMA foreign_keys = OFF;");
+
+    const deleteOrder = [
+      "Comment", "Favorite", "Post", "TaskApplication", "EventRegistration",
+      "Account", "Session", "VerificationToken", "UserPermission", "User",
+      "Task", "Contact", "Event", "Subscriber", "Volunteer", "Member", "MemberView",
+      "AppSetting", "Notification", "ActivityLog", "PasswordResetToken", "OtpCode",
+      "SurveyVote", "SurveyOption", "Survey", "Ad", "PushToken", "Role", "ChatMessage",
+      "ChatAIMessage", "ChatAISession", "Donation", "LandingPage", "Guide", "board_members",
       "MobileTranslation", "MemberDocument", "ServiceReview",
+    ];
+
+    for (const table of deleteOrder) {
+      try {
+        await turso.execute(`DELETE FROM "${table}"`);
+      } catch (e) {}
+    }
+
+    const insertOrder = [
+      "User", "Account", "Session", "VerificationToken", "Role", "UserPermission",
+      "Post", "Comment", "Favorite", "Event", "EventRegistration",
+      "Task", "TaskApplication", "Contact", "Subscriber", "Volunteer",
+      "Member", "MemberView", "MemberDocument", "ServiceReview",
+      "AppSetting", "Notification", "ActivityLog", "PasswordResetToken", "OtpCode",
+      "Survey", "SurveyOption", "SurveyVote", "Ad", "PushToken", "ChatMessage",
+      "ChatAISession", "ChatAIMessage", "Donation", "LandingPage", "Guide", "board_members",
+      "MobileTranslation",
     ];
 
     const results: Record<string, { count: number; error?: string }> = {};
 
-    for (const table of tables) {
+    for (const table of insertOrder) {
       try {
         const rows = await local.execute(`SELECT * FROM "${table}"`);
         if (rows.rows.length === 0) {
@@ -50,7 +67,6 @@ export async function GET(req: NextRequest) {
         const placeholders = cols.map(() => "?").join(", ");
         const colList = cols.map((c) => `"${c}"`).join(", ");
 
-        await turso.execute(`DELETE FROM "${table}"`);
         for (const row of rows.rows) {
           const values = cols.map((c) => (row as Record<string, any>)[c]);
           await turso.execute({
