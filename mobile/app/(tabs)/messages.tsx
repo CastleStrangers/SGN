@@ -6,7 +6,7 @@ import { useI18n } from "../../lib/i18n-context";
 import { sendAIMessage, translateMessage, summarizeConversation, type AIMessage } from "../../lib/chat";
 import * as ImagePicker from "expo-image-picker";
 import * as Speech from "expo-speech";
-import * as Audio from "expo-av";
+import { Audio } from "expo-av";
 import { getToken } from "../../lib/api";
 import { CONFIG } from "../../constants/config";
 
