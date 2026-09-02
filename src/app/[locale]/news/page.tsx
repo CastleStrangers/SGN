@@ -82,7 +82,7 @@ function NewsPageInner() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch('/api/news/categories');
+      const res = await fetch(`/api/news/categories?locale=${locale}`);
       const data = await res.json();
       setCategories(data);
     } catch (error) {
