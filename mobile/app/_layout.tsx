@@ -190,9 +190,9 @@ export default function RootLayout() {
     Notifications.requestPermissionsAsync();
 
     const notificationSubscription = Notifications.addNotificationResponseReceivedListener(response => {
-      const data = response.notification.request.content.data;
+      const data = response.notification.request.content.data as Record<string, any> | undefined;
       if (data?.type === "chat" && data?.senderId) {
-        router.push({ pathname: "/direct-chat", params: { userId: data.senderId, name: data.senderName } });
+        router.push({ pathname: "/direct-chat", params: { userId: String(data.senderId), name: String(data.senderName || "") } });
       } else if (data?.link) {
         router.push(data.link as any);
       }
