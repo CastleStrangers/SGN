@@ -43,7 +43,7 @@ export async function sendAIMessage(
   sessionId?: string,
   locale: string = "ar",
   persona?: string
-): Promise<{ reply: string; sessionId: string }> {
+): Promise<{ reply: string; sessionId: string; sources?: { title: string; type: string }[] }> {
   return apiFetch("/chat/ai", {
     method: "POST",
     body: JSON.stringify({ message, sessionId, locale, persona }),

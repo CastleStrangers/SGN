@@ -42,3 +42,39 @@ export async function requestAndRegisterPush() {
     console.error("Error registering push token", e);
   }
 }
+
+import { apiFetch } from "./api";
+
+export interface DBNotification {
+  id: string;
+  userId: string;
+  title: string;
+  message: string;
+  type?: string;
+  read: boolean;
+  link?: string | null;
+  createdAt: string;
+}
+
+export async function getNotifications(): Promise<DBNotification[]> {
+  return await apiFetch("/notifications");
+}
+
+export async function markNotificationRead(id: string) {
+  return await apiFetch("/notifications", {
+    method: "PATCH",
+    body: JSON.stringify({ id }),
+  });
+}
+
+export async function markAllNotificationsRead() {
+  return await apiFetch("/notifications", {
+    method: "PATCH",
+    body: JSON.stringify({ id: "all" }),
+  });
+}
+
+export async function getNotificationAISummary(locale: string = "ar"): Promise<string> {
+  const res = await apiFetch(`/notifications/ai-summary?locale=${locale}`);
+  return res.summary || "";
+}
