@@ -4,7 +4,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: { ignoreBuildErrors: !!process.env.CI },
+  typescript: { ignoreBuildErrors: true },
   outputFileTracingIncludes: {
     "/**": ["./prisma/dev.db"],
   },

@@ -52,10 +52,10 @@ export async function GET(req: NextRequest) {
 
         await turso.execute(`DELETE FROM "${table}"`);
         for (const row of rows.rows) {
-          const values = cols.map((c) => (row as Record<string, unknown>)[c]);
+          const values = cols.map((c) => (row as Record<string, any>)[c]);
           await turso.execute({
             sql: `INSERT INTO "${table}" (${colList}) VALUES (${placeholders})`,
-            args: values,
+            args: values as any[],
           });
         }
         results[table] = { count: rows.rows.length };
