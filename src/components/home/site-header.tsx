@@ -53,7 +53,7 @@ export function SiteHeader() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <SgnLogo size={64} className="w-14 h-14 lg:w-16 lg:h-16" priority />
-            <div className="flex items-center gap-2" dir="rtl">
+            <div className="flex items-center gap-2" dir={isRtl ? "rtl" : "ltr"}>
               <FreeSyrianFlag className="w-8 h-5 flex-shrink-0 transition-transform hover:scale-105" />
               <span className="text-sm sm:text-base font-bold text-[#1a5632] whitespace-nowrap px-0.5">
                 {t("site.shortTitle")}
