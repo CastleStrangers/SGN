@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
+import path from "path";
 
 type PrismaInstance = InstanceType<typeof PrismaClient>;
 
@@ -12,11 +13,19 @@ function getPrismaInstance(): PrismaInstance {
   const tursoUrl = process.env.TURSO_DATABASE_URL?.trim();
   const tursoToken = process.env.TURSO_AUTH_TOKEN?.trim();
 
-  const useTurso = isProd && tursoUrl && tursoUrl !== "undefined" && tursoToken && tursoToken !== "undefined";
+  const useTurso = isProd && 
+    tursoUrl && 
+    tursoUrl !== "undefined" && 
+    !tursoUrl.includes("mydb-user") && 
+    tursoToken && 
+    tursoToken !== "undefined";
   
+  const localDbPath = path.resolve(process.cwd(), "prisma/dev.db");
+  const localDbUrl = `file:${localDbPath}`;
+
   const dbUrl = useTurso
     ? tursoUrl!
-    : (process.env.DATABASE_URL || "file:./prisma/dev.db").trim();
+    : (process.env.DATABASE_URL?.startsWith("file:") ? process.env.DATABASE_URL : localDbUrl).trim();
 
   const adapter = new PrismaLibSql({
     url: dbUrl,
