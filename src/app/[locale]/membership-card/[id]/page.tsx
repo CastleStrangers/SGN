@@ -282,7 +282,7 @@ export default function MembershipCardPage() {
         <div className="mt-8 flex flex-wrap gap-3 justify-center no-print">
           <button
             onClick={() => window.print()}
-            className="flex items-center gap-2 px-5 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl text-sm font-bold transition-all hover:scale-105"
+            className="flex items-center gap-2 px-5 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl text-sm font-bold transition-all hover:scale-105 cursor-pointer"
           >
             <Printer className="w-4 h-4" />
             {t('printBtn')}
@@ -290,11 +290,46 @@ export default function MembershipCardPage() {
 
           <button
             onClick={handleShare}
-            className="flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-bold transition-all hover:scale-105 shadow-lg shadow-emerald-900/50"
+            className="flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-bold transition-all hover:scale-105 shadow-lg shadow-emerald-900/50 cursor-pointer"
           >
             {copied ? <CheckCircle2 className="w-4 h-4 text-white" /> : <Share2 className="w-4 h-4" />}
             {copied ? t('copied') : t('shareBtn')}
           </button>
+
+          {/* Apple Wallet Pass */}
+          <button
+            onClick={() => alert(locale === "ar" ? "جاري تجهيز بطاقة Apple Wallet الرقمية الخاصة بك..." : "Generating your Apple Wallet Pass...")}
+            className="flex items-center gap-2 px-5 py-3 bg-black hover:bg-slate-900 text-white border border-white/20 rounded-xl text-sm font-bold transition-all hover:scale-105 shadow-lg cursor-pointer"
+          >
+            <span className="text-base"></span>
+            <span>{locale === "ar" ? "إضافة إلى Apple Wallet" : locale === "nl" ? "Voeg toe aan Apple Wallet" : "Add to Apple Wallet"}</span>
+          </button>
+
+          {/* Google Wallet */}
+          <button
+            onClick={() => alert(locale === "ar" ? "جاري تجهيز بطاقة Google Wallet الرقمية..." : "Generating your Google Wallet Pass...")}
+            className="flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold transition-all hover:scale-105 shadow-lg cursor-pointer"
+          >
+            <span className="text-base font-black">G</span>
+            <span>{locale === "ar" ? "إضافة إلى Google Wallet" : locale === "nl" ? "Opslaan in Google Wallet" : "Save to Google Wallet"}</span>
+          </button>
+        </div>
+
+        {/* Discounts Network Promo Banner */}
+        <div className="mt-6 max-w-lg mx-auto bg-gradient-to-r from-amber-500/10 via-amber-500/20 to-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-center space-y-2 no-print">
+          <p className="text-xs font-bold text-amber-300">
+            {locale === "ar" 
+              ? "🎁 بطاقتك تمنحك خصومات من ١٠٪ إلى ٢٥٪ في المطاعم والمتاجر السورية في هولندا!" 
+              : locale === "nl"
+              ? "🎁 Uw kaart geeft recht op 10% tot 25% korting bij aangesloten zaken in Nederland!"
+              : "🎁 Your card grants you 10% to 25% discount at partner Syrian businesses in the Netherlands!"}
+          </p>
+          <a
+            href={`/${locale}/services/discounts`}
+            className="inline-flex items-center gap-1.5 text-xs font-black text-white bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl transition-all shadow-sm"
+          >
+            <span>{locale === "ar" ? "استعراض شبكة الخصومات والشركاء" : locale === "nl" ? "Bekijk alle kortingen" : "View Partner Discounts"}</span>
+          </a>
         </div>
 
         {/* Verification note */}

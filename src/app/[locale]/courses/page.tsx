@@ -70,6 +70,67 @@ export default async function CoursesPage({ params }: Props) {
           </div>
         </div>
 
+        {/* Flagship Academy Programs */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {/* Kids Arabic Academy */}
+          <div className="bg-gradient-to-br from-emerald-800 to-teal-900 text-white rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden flex flex-col justify-between space-y-4">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 bg-emerald-700/50 text-emerald-200 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">
+                <span>⭐ {locale === 'ar' ? 'أكاديمية الجيل الثاني' : locale === 'nl' ? 'Tweede Generatie Academie' : 'Second Generation Academy'}</span>
+              </div>
+              <h3 className="text-2xl font-black tracking-tight">
+                {locale === 'ar' ? 'أكاديمية تعليم اللغة العربية للأطفال' : locale === 'nl' ? 'Arabische Taalacademie voor Kinderen' : 'Arabic Language Academy for Children'}
+              </h3>
+              <p className="text-xs md:text-sm text-emerald-100 leading-relaxed">
+                {locale === 'ar'
+                  ? 'برنامج تربوي متكامل مصمم خصيصاً للأطفال السوريين في هولندا للحفاظ على لغتهم الأم وهويتهم وثقافتهم، عبر جلسات أسبوعية ممتعة ومعلمين معتمدين.'
+                  : locale === 'nl'
+                  ? 'Een compleet onderwijsprogramma ontworpen voor kinderen in Nederland om de Arabische moedertaal en cultuur te leren via interactieve lessen.'
+                  : 'A specialized educational program for youth in the Netherlands to master the Arabic mother tongue through interactive weekly sessions.'}
+              </p>
+            </div>
+            <div className="pt-2">
+              <a
+                href="https://wa.me/31612345678?text=Hello%20Arabic%20Academy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-emerald-950 hover:bg-emerald-50 text-xs font-black rounded-xl shadow transition-all"
+              >
+                <span>{locale === 'ar' ? 'التسجيل في فصول الأكاديمية' : locale === 'nl' ? 'Aanmelden voor de academie' : 'Enroll in Academy Classes'}</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Inburgering Exam Simulator */}
+          <div className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden flex flex-col justify-between space-y-4">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 bg-blue-800/50 text-blue-200 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/30">
+                <span>🏛️ {locale === 'ar' ? 'الاندماج الهولندي' : locale === 'nl' ? 'Inburgering Nederland' : 'Dutch Integration'}</span>
+              </div>
+              <h3 className="text-2xl font-black tracking-tight">
+                {locale === 'ar' ? 'محاكي امتحانات الاندماج (Inburgering & KNM)' : locale === 'nl' ? 'Inburgering Oefenexamens (KNM & ONA)' : 'Inburgering Exam Simulator (KNM & ONA)'}
+              </h3>
+              <p className="text-xs md:text-sm text-blue-100 leading-relaxed">
+                {locale === 'ar'
+                  ? 'نماذج تدريبية تفاعلية تحاكي أسئلة امتحان معرفة المجتمع الهولندي (KNM) وسوق العمل (ONA) مع شروحات مبسطة باللغة العربية.'
+                  : locale === 'nl'
+                  ? 'Interactieve oefenexamens voor Kennis van de Nederlandse Maatschappij (KNM) en de arbeidsmarkt (ONA).'
+                  : 'Interactive practice exams for Knowledge of Dutch Society (KNM) and the Dutch job market (ONA).'}
+              </p>
+            </div>
+            <div className="pt-2">
+              <a
+                href="https://wa.me/31612345678?text=Hello%20Inburgering"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-400 text-white text-xs font-black rounded-xl shadow transition-all"
+              >
+                <span>{locale === 'ar' ? 'بدء التدريب المجاني على الامتحانات' : locale === 'nl' ? 'Start gratis oefenen' : 'Start Free Practice'}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* Courses */}
         <div>
           <h2 className="text-xl font-bold text-gray-900 mb-4">{t('allCourses')}</h2>
