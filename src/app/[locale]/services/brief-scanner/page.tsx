@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useLocale } from "next-intl";
+import Link from "next/link";
 import { 
   FileText, Upload, Sparkles, AlertTriangle, CheckCircle2, 
-  Calendar, CreditCard, ShieldCheck, Crown, ArrowRight,
+  Calendar, CreditCard, ShieldCheck, Crown, ArrowRight, ArrowLeft,
   RefreshCw, Building2, HelpCircle, FileSearch
 } from "lucide-react";
 import { formatLocalizedDigits } from "@/lib/language-guard";
@@ -68,6 +69,17 @@ export default function BriefScannerPage() {
   return (
     <div dir={dir} className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 px-4">
       <div className="max-w-4xl mx-auto space-y-8">
+        {/* Back Navigation */}
+        <div>
+          <Link
+            href={`/${locale}/services`}
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+          >
+            {isAr ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
+            <span>{isAr ? "العودة إلى الخدمات" : isNl ? "Terug naar Diensten" : "Back to Services"}</span>
+          </Link>
+        </div>
+
         {/* Hero Section */}
         <div className="text-center space-y-4">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold px-4 py-1.5 rounded-full border border-emerald-500/20">
