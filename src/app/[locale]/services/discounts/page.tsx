@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useLocale } from "next-intl";
+import Link from "next/link";
 import { 
   Percent, Sparkles, MapPin, Phone, MessageCircle, ExternalLink, 
   Search, ShieldCheck, Tag, Utensils, Scale, Wrench, ShoppingBag, 
-  Car, HeartPulse, Crown
+  Car, HeartPulse, Crown, ArrowLeft, ArrowRight
 } from "lucide-react";
 import { formatLocalizedDigits } from "@/lib/language-guard";
 
@@ -123,8 +124,19 @@ export default function DiscountsPage() {
   return (
     <div dir={dir} className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 px-4">
       <div className="max-w-6xl mx-auto space-y-8">
+        {/* Back Navigation */}
+        <div>
+          <Link
+            href={`/${locale}/services`}
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+          >
+            {isAr ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
+            <span>{isAr ? "العودة إلى الخدمات" : isNl ? "Terug naar Diensten" : "Back to Services"}</span>
+          </Link>
+        </div>
+
         {/* Header */}
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold px-4 py-1.5 rounded-full border border-amber-500/20">
             <Percent className="w-3.5 h-3.5" />
             <span>
