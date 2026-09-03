@@ -74,7 +74,6 @@ const QUESTIONS: Question[] = [
       "Onaangekondigd vrienden en familie meenemen",
       "Altijd weigeren omdat buren liever geen bezoek willen"
     ],
-    optionsNl2?: [],
     correctAnswer: 0,
     explanationAr: "الدقة في المواعيد (Punctualiteit) هي قيمة أساسية جداً في المجتمع الهولندي. يُفضل دائماً الحضور في الوقت المتفق عليه أو إرسال رسالة اعتذار إذا تأخرت أكثر من ٥ دقائق.",
     explanationEn: "Punctuality is a key Dutch cultural value. It is expected to arrive precisely on time or notify the host if delayed by even a few minutes.",
