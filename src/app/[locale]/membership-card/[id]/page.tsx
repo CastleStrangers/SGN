@@ -135,6 +135,16 @@ export default function MembershipCardPage() {
       <SiteHeader />
 
       <main className="max-w-2xl mx-auto px-4 py-10">
+        {/* Back Navigation */}
+        <div className="mb-6 no-print">
+          <Link
+            href={`/${locale}/members`}
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-emerald-400 transition-colors"
+          >
+            {locale === "ar" ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
+            <span>{locale === "ar" ? "العودة إلى دليل الأعضاء" : locale === "nl" ? "Terug naar Ledenlijst" : "Back to Members"}</span>
+          </Link>
+        </div>
 
         {/* Page Title */}
         <div className="text-center mb-8 no-print">
