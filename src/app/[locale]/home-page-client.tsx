@@ -1,6 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { formatLocalizedDigits } from "@/lib/language-guard";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
 import { BreakingNews } from "@/components/home/breaking-news";
@@ -38,15 +39,16 @@ interface HomePageClientProps {
 
 export function HomePageClient({ posts, videoPosts }: HomePageClientProps) {
   const t = useTranslations();
+  const locale = useLocale();
 
   function timeAgo(date: any) {
     const diff = Date.now() - new Date(date).getTime();
     const mins = Math.floor(diff / 60000);
-    if (mins < 60) return t("common.ago_minute", { count: mins || 1 });
+    if (mins < 60) return t("common.ago_minute", { count: formatLocalizedDigits(mins || 1, locale) });
     const hrs = Math.floor(mins / 60);
-    if (hrs < 24) return t("common.ago_hour", { count: hrs });
+    if (hrs < 24) return t("common.ago_hour", { count: formatLocalizedDigits(hrs, locale) });
     const days = Math.floor(hrs / 24);
-    return t("common.ago_day", { count: days });
+    return t("common.ago_day", { count: formatLocalizedDigits(days, locale) });
   }
 
   const featured = posts.slice(0, 4).map((p) => ({

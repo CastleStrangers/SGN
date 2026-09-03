@@ -28,6 +28,8 @@ export function isPureLocaleText(text: string | null | undefined, locale: string
   return !hasArabic;
 }
 
+const ARABIC_DIGITS = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+
 export function formatLocalizedNumber(num: number | string | undefined | null, locale: string): string {
   if (num === undefined || num === null) return "";
   const n = typeof num === "string" ? parseFloat(num) : num;
@@ -36,6 +38,15 @@ export function formatLocalizedNumber(num: number | string | undefined | null, l
     return new Intl.NumberFormat("ar-EG-u-nu-arab").format(n);
   }
   return new Intl.NumberFormat("en-US").format(n);
+}
+
+export function formatLocalizedDigits(str: string | number | null | undefined, locale: string): string {
+  if (str === undefined || str === null) return "";
+  const s = String(str);
+  if (locale === "ar") {
+    return s.replace(/[0-9]/g, (d) => ARABIC_DIGITS[parseInt(d, 10)] ?? d);
+  }
+  return s.replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 1632));
 }
 
 export const CATEGORY_TRANSLATIONS: Record<string, { ar: string; en: string; nl: string }> = {

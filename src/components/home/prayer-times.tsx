@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { MapPin, Clock, Calendar, AlertCircle } from "lucide-react";
+import { formatLocalizedDigits } from "@/lib/language-guard";
 
 interface Timings {
   Fajr: string;
@@ -58,7 +59,9 @@ export function PrayerTimesWidget() {
           const hijri = date.hijri;
           const monthName = locale === "ar" ? hijri.month.ar : hijri.month.en;
           const suffix = locale === "ar" ? "هـ" : "AH";
-          setHijriDate(`${hijri.day} ${monthName} ${hijri.year} ${suffix}`);
+          const dayStr = formatLocalizedDigits(hijri.day, locale);
+          const yearStr = formatLocalizedDigits(hijri.year, locale);
+          setHijriDate(`${dayStr} ${monthName} ${yearStr} ${suffix}`);
           
           const dayName = locale === "ar" ? hijri.weekday.ar : hijri.weekday.en;
           setWeekday(dayName);
@@ -207,7 +210,7 @@ export function PrayerTimesWidget() {
                       isNext ? "text-[#1a5632] font-bold" : "text-gray-500"
                     }`}
                   >
-                    {getTimingVal(key)}
+                    {formatLocalizedDigits(getTimingVal(key), locale)}
                   </span>
                 </div>
               );
