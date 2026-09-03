@@ -104,7 +104,7 @@ export default function BriefScannerPage() {
             {freeScansLeft <= 1 && (
               <button 
                 onClick={() => setShowVipModal(true)}
-                className="text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1"
+                className="text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 cursor-pointer"
               >
                 <Crown className="w-3.5 h-3.5" />
                 {isAr ? "ترقية إلى VIP" : isNl ? "Upgrade naar VIP" : "Upgrade to VIP"}
@@ -146,7 +146,7 @@ export default function BriefScannerPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <button
               onClick={() => { setSelectedDemo("cjib"); handleScan("cjib"); }}
-              className={`p-3.5 rounded-2xl border text-start transition-all flex items-center gap-3 ${
+              className={`p-3.5 rounded-2xl border text-start transition-all flex items-center gap-3 cursor-pointer ${
                 selectedDemo === "cjib"
                   ? "border-red-500 bg-red-50/50 dark:bg-red-950/20"
                   : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300"
@@ -167,7 +167,7 @@ export default function BriefScannerPage() {
 
             <button
               onClick={() => { setSelectedDemo("ind"); handleScan("ind"); }}
-              className={`p-3.5 rounded-2xl border text-start transition-all flex items-center gap-3 ${
+              className={`p-3.5 rounded-2xl border text-start transition-all flex items-center gap-3 cursor-pointer ${
                 selectedDemo === "ind"
                   ? "border-amber-500 bg-amber-50/50 dark:bg-amber-950/20"
                   : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300"
@@ -188,7 +188,7 @@ export default function BriefScannerPage() {
 
             <button
               onClick={() => { setSelectedDemo("belastingdienst"); handleScan("belastingdienst"); }}
-              className={`p-3.5 rounded-2xl border text-start transition-all flex items-center gap-3 ${
+              className={`p-3.5 rounded-2xl border text-start transition-all flex items-center gap-3 cursor-pointer ${
                 selectedDemo === "belastingdienst"
                   ? "border-blue-500 bg-blue-50/50 dark:bg-blue-950/20"
                   : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300"
@@ -408,7 +408,7 @@ export default function BriefScannerPage() {
                     alert(isAr ? "جاري تحويلك لبوابة الدفع الهولندية الآمنة iDEAL..." : "Doorsturen naar beveiligde iDEAL betaling...");
                     setShowVipModal(false);
                   }}
-                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <CreditCard className="w-4 h-4" />
                   <span>{isAr ? "الدفع الآمن عبر iDEAL (٢.٩٩ € / شهر)" : isNl ? "Veilig betalen met iDEAL (€ 2,99 / mnd)" : "Pay Securely via iDEAL (€ 2.99 / mo)"}</span>
@@ -416,7 +416,7 @@ export default function BriefScannerPage() {
 
                 <button
                   onClick={() => setShowVipModal(false)}
-                  className="w-full py-2.5 text-xs text-slate-500 hover:text-slate-700 font-semibold"
+                  className="w-full py-2.5 text-xs text-slate-500 hover:text-slate-700 font-semibold cursor-pointer"
                 >
                   {isAr ? "إغلاق" : isNl ? "Sluiten" : "Close"}
                 </button>
