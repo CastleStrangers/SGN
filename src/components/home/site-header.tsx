@@ -23,6 +23,7 @@ const mainNav = [
   { key: "nav.services", href: "/services" },
   { key: "nav.briefScanner", href: "/services/brief-scanner" },
   { key: "nav.discounts", href: "/services/discounts" },
+  { key: "nav.pricing", href: "/pricing" },
   { key: "nav.cvBuilder", href: "/services/cv-builder" },
   { key: "nav.gallery", href: "/gallery" },
 ];
