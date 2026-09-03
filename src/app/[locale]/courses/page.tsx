@@ -126,10 +126,8 @@ export default async function CoursesPage({ params }: Props) {
             </div>
             <div className="pt-2">
               <a
-                href="https://wa.me/31612345678?text=Hello%20Inburgering"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-400 text-white text-xs font-black rounded-xl shadow transition-all"
+                href={locale === "ar" ? "/courses/inburgering-quiz" : `/${locale}/courses/inburgering-quiz`}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-400 text-white text-xs font-black rounded-xl shadow transition-all cursor-pointer"
               >
                 <span>{locale === 'ar' ? 'بدء التدريب المجاني على الامتحانات' : locale === 'nl' ? 'Start gratis oefenen' : 'Start Free Practice'}</span>
               </a>
