@@ -21,6 +21,7 @@ const mainNav = [
   { key: "nav.events", href: "/events" },
   { key: "nav.members", href: "/members" },
   { key: "nav.services", href: "/services" },
+  { key: "nav.briefScanner", href: "/services/brief-scanner" },
   { key: "nav.gallery", href: "/gallery" },
 ];
 
