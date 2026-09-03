@@ -19,24 +19,30 @@ export default async function CoursesPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'courses' });
 
-  const courses = await prisma.course.findMany({
-    where: {
-      published: true,
-    },
-    include: {
-      instructor: {
-        select: { name: true, image: true },
+  let courses: any[] = [];
+  try {
+    courses = await prisma.course.findMany({
+      where: {
+        published: true,
       },
-      _count: {
-        select: { lessons: true, enrollments: true },
+      include: {
+        instructor: {
+          select: { name: true, image: true },
+        },
+        _count: {
+          select: { lessons: true, enrollments: true },
+        },
       },
-    },
-    orderBy: [
-      { featured: 'desc' },
-      { createdAt: 'desc' },
-    ],
-    take: 20,
-  });
+      orderBy: [
+        { featured: 'desc' },
+        { createdAt: 'desc' },
+      ],
+      take: 20,
+    });
+  } catch (err) {
+    console.error("[CoursesPage] Error loading courses:", err);
+    courses = [];
+  }
 
   const categories = [
     { id: 'language', label: t('categories.language'), icon: '📚' },

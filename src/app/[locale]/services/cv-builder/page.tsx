@@ -32,36 +32,71 @@ export default function CVBuilderPage() {
   const [generatedLetter, setGeneratedLetter] = useState("");
   const [generatingLetter, setGeneratingLetter] = useState(false);
 
-  const [cv, setCv] = useState<CVData>({
-    fullName: "محمد أحمد",
-    jobTitle: "مطور برمجيات وواجهات أمامية",
-    email: "m.ahmad@example.nl",
-    phone: "+31 6 1234 5678",
-    city: "Utrecht, Nederland",
-    summary: "مهندس برمجيات سوري مقيم في هولندا، أمتلك خبرة تتجاوز ٥ سنوات في تطوير تطبيقات الويب الحديثة، شغوف بالعمل ضمن بيئة عمل هولندية متعددة الثقافات.",
-    experience: [
-      {
-        title: "Frontend Developer",
-        company: "Tech Solutions B.V. (Amsterdam)",
-        period: "2023 - Heden",
-        description: "تطوير واجهات المستخدم باستخدام React و Next.js و TypeScript، والعمل وفق منهجية Agile/Scrum.",
-      },
-      {
-        title: "Web Developer",
-        company: "Digital Horizon (Damascus)",
-        period: "2019 - 2022",
-        description: "بناء مواقع الشركات وتكامل واجهات البرمجة RESTful APIs وقواعد البيانات.",
-      },
-    ],
-    education: [
-      {
-        degree: "Bachelor of Computer Science (معادلة من Nuffic)",
-        school: "جامعة دمشق",
-        year: "2018",
-      },
-    ],
-    skills: "React, Next.js, TypeScript, Tailwind CSS, Git, Node.js, Agile/Scrum",
-    languages: "العربية (اللغة الأم)، الهولندية (B1 Inburgering)، الإنجليزية (ممتاز C1)",
+  const [cv, setCv] = useState<CVData>(() => {
+    if (locale === "en" || locale === "nl") {
+      return {
+        fullName: "Mohamed Ahmad",
+        jobTitle: "Software & Web Developer",
+        email: "m.ahmad@example.nl",
+        phone: "+31 6 1234 5678",
+        city: "Utrecht, Netherlands",
+        summary: "Software engineer living in the Netherlands with 5+ years of experience in modern web applications.",
+        experience: [
+          {
+            title: "Frontend Developer",
+            company: "Tech Solutions B.V. (Amsterdam)",
+            period: "2023 - Present",
+            description: "Developing responsive UI applications using React, Next.js and TypeScript.",
+          },
+          {
+            title: "Web Developer",
+            company: "Digital Horizon (Damascus)",
+            period: "2019 - 2022",
+            description: "Building scalable company websites and RESTful APIs.",
+          },
+        ],
+        education: [
+          {
+            degree: "B.Sc. Computer Engineering (Nuffic Evaluated)",
+            school: "Damascus University",
+            year: "2018",
+          },
+        ],
+        skills: "React, Next.js, TypeScript, Tailwind CSS, Git, Node.js",
+        languages: locale === "nl" ? "Nederlands (B1), Engels (Vloeiend), Arabisch (Moedertaal)" : "Dutch (B1), English (Fluent), Arabic (Native)",
+      };
+    }
+    return {
+      fullName: "محمد أحمد",
+      jobTitle: "مطور برمجيات وواجهات أمامية",
+      email: "m.ahmad@example.nl",
+      phone: "+31 6 1234 5678",
+      city: "أوتريخت، هولندا",
+      summary: "مهندس برمجيات سوري مقيم في هولندا، أمتلك خبرة تتجاوز ٥ سنوات في تطوير تطبيقات الويب الحديثة، شغوف بالعمل ضمن بيئة عمل هولندية متعددة الثقافات.",
+      experience: [
+        {
+          title: "Frontend Developer",
+          company: "Tech Solutions B.V. (Amsterdam)",
+          period: "2023 - Heden",
+          description: "تطوير واجهات المستخدم باستخدام React و Next.js و TypeScript، والعمل وفق منهجية Agile/Scrum.",
+        },
+        {
+          title: "Web Developer",
+          company: "Digital Horizon (Damascus)",
+          period: "2019 - 2022",
+          description: "بناء مواقع الشركات وتكامل واجهات البرمجة RESTful APIs وقواعد البيانات.",
+        },
+      ],
+      education: [
+        {
+          degree: "Bachelor of Computer Science (معادلة من Nuffic)",
+          school: "جامعة دمشق",
+          year: "2018",
+        },
+      ],
+      skills: "React, Next.js, TypeScript, Tailwind CSS, Git, Node.js, Agile/Scrum",
+      languages: "العربية (اللغة الأم)، الهولندية (B1 Inburgering)، الإنجليزية (ممتاز C1)",
+    };
   });
 
   const fillSample = () => {
