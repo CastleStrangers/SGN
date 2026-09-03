@@ -335,6 +335,29 @@ export default function BriefScannerPage() {
                   {result.legalTip}
                 </p>
               </div>
+
+              {/* Direct Quick Actions */}
+              <div className="pt-2 flex flex-wrap gap-3">
+                <a
+                  href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(result.subject)}&details=${encodeURIComponent(result.actionRequired)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-3 px-4 bg-slate-900 hover:bg-black dark:bg-slate-800 dark:hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <Calendar className="w-4 h-4 text-amber-400" />
+                  <span>{isAr ? "إضافة تذكير بالمهلة للتقويم (Google/Apple)" : isNl ? "Herinnering toevoegen aan agenda" : "Add Deadline to Calendar"}</span>
+                </a>
+
+                <a
+                  href={`https://wa.me/31612345678?text=${encodeURIComponent(isAr ? `مرحباً، أود استشارة قانونية عاجلة بخصوص خطاب من ${result.sender}` : `Hello, I need legal guidance regarding a letter from ${result.sender}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3 px-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>{isAr ? "استشارة محامي الجالية" : isNl ? "Juridisch advies vragen" : "Ask SGN Lawyer"}</span>
+                </a>
+              </div>
             </div>
           </div>
         )}
