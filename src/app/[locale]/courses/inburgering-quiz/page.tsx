@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useLocale } from "next-intl";
+import Link from "next/link";
 import { 
-  CheckCircle2, XCircle, HelpCircle, ArrowRight, RotateCcw, 
+  CheckCircle2, XCircle, HelpCircle, ArrowRight, ArrowLeft, RotateCcw, 
   Sparkles, Award, Clock, BookOpen, ChevronRight, Share2
 } from "lucide-react";
 import { formatLocalizedDigits } from "@/lib/language-guard";
