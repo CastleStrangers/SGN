@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
-import { Loader2, Printer, Share2, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { Loader2, Printer, Share2, CheckCircle2, ArrowLeft, ArrowRight } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { formatDate } from "@/lib/date";
 import { TopBar } from "@/components/home/top-bar";
