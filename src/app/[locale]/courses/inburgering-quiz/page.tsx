@@ -211,6 +211,17 @@ export default function InburgeringQuizPage() {
   return (
     <div dir={dir} className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 px-4">
       <div className="max-w-3xl mx-auto space-y-8">
+        {/* Back Navigation */}
+        <div>
+          <Link
+            href={`/${locale}/courses`}
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+          >
+            {isAr ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
+            <span>{isAr ? "العودة إلى الدورات والاندماج" : isNl ? "Terug naar Cursussen" : "Back to Courses"}</span>
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold px-4 py-1.5 rounded-full border border-blue-500/20">

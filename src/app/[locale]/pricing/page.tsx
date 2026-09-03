@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useLocale } from "next-intl";
+import Link from "next/link";
 import { 
   Crown, Check, Sparkles, Building2, ShieldCheck, CreditCard, 
-  ArrowRight, HeartHandshake, Zap, Bell, CheckCircle2, ChevronRight
+  ArrowRight, ArrowLeft, HeartHandshake, Zap, Bell, CheckCircle2, ChevronRight
 } from "lucide-react";
 import { formatLocalizedDigits } from "@/lib/language-guard";
 
@@ -44,6 +45,17 @@ export default function PricingPage() {
   return (
     <div dir={dir} className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 px-4">
       <div className="max-w-7xl mx-auto space-y-12">
+        {/* Back Navigation */}
+        <div>
+          <Link
+            href={`/${locale}`}
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+          >
+            {isAr ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
+            <span>{isAr ? "العودة إلى الرئيسية" : isNl ? "Terug naar Home" : "Back to Home"}</span>
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold px-4 py-1.5 rounded-full border border-amber-500/20">
