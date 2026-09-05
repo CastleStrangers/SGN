@@ -42,7 +42,8 @@
     "cvBuilderSub": "Build standard Dutch CV & resume",
     "discountsSub": "Exclusive member offers & discounts",
     "pricingSub": "Membership plans & support packages",
-    "gallerySub": "Archive of event photos & community gatherings"
+    "gallerySub": "Archive of event photos & community gatherings",
+    "servicesDesc": "Professional directory, smart AI tools, and exclusive member perks"
   },
   "topbar": {
     "about": "About Us",
