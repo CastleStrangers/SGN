@@ -1,2 +1,0 @@
-Status: 200
-Body: {"success":true,"results":[{"success":true,"source":"sy-nl.org","fetched":25,"new":0,"updated":0,"skipped":25,"errors":[],"duration":7439},{"success":true,"source":"youtube","fetched":15,"new":0,"updated":0,"skipped":15,"errors":[],"duration":3032},{"success":true,"source":"facebook-sgn","fetched":33,"new":2,"updated":0,"skipped":31,"errors":[],"duration":19757}]}

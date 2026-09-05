@@ -9,19 +9,23 @@ Antigravity/
 *.exe
 .env
 .env*.local
-*.log
-.env
 .env.*
 !.env.example
+*.log
 # Database files
 *.db.bak
 *.db-journal
 prisma/dev-check.db
 !prisma/dev.db
 
-# Log files
+# Log and dump files
 build-log*.txt
 build-imgfix-log.txt
+*-log.txt
+*-result.txt
+temp_*
+vercel-*.txt
+*.jar
 
 # Environment variables
 .env*.local
@@ -29,5 +33,7 @@ build-imgfix-log.txt
 # TypeScript cache
 *.tsbuildinfo
 
-# Cloned tools
+# Cloned tools & external
 OmniRoute/
+openrouter-agent-tui/
+awesome-freellm-apis/

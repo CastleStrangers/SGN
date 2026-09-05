@@ -420,5 +420,28 @@
     "promoTitle": "Looking for a developer for your project?",
     "promoDesc": "Get a free technical consultation for your website or mobile app from the studio that developed this platform.",
     "promoBtn": "View Developer Profile & Services"
+  },
+  "servicesDirectory": {
+    "title": "Professional Services Directory",
+    "subtitle": "Find Syrian professionals and craftspeople in the Netherlands, from skilled trades to legal and technical consulting.",
+    "viewGrid": "Grid View",
+    "viewMap": "Interactive Map",
+    "searchPlaceholder": "Search for: mechanic, barber, accountant...",
+    "cityPlaceholder": "City...",
+    "selectProvinceMap": "Select a province from the map below",
+    "clearProvince": "Clear province selection",
+    "promoteTitle": "Promote Your Service With Us 🚀",
+    "promoteBadge": "Services Directory",
+    "promoteDesc": "Double your client reach and appear at the top of search results and interactive map for the Syrian community in the Netherlands.",
+    "silverTier": "Silver Tier (Top Search)",
+    "silverPrice": "5€ / month",
+    "goldTier": "Gold Tier (Top Search + Map Pin)",
+    "goldPrice": "10€ / month",
+    "advertiseNow": "Advertise With Us Now",
+    "noServicesFound": "No services found matching your criteria",
+    "tryDifferentSearch": "Try modifying your search or clearing filters",
+    "contactProvider": "Contact Provider",
+    "rating": "Rating",
+    "reviews": "reviews"
   }
 }

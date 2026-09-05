@@ -1,3 +1,0 @@
-[main ffb633a] fix: update FACEBOOK_PAGE_TOKEN in Vercel production
- 1 file changed, 3 insertions(+)
- create mode 100644 git-commit-log.txt

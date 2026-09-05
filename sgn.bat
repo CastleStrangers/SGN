@@ -33,11 +33,13 @@ echo  [6]  AI News Re-classification (Ollama)
 echo  [7]  Generate Project Specifications PDF
 echo  [8]  Create Unified Control Panel Desktop Shortcut
 echo  [9]  Push Live News (Update Client Site)
+echo  [C]  Full Project Clean, Audit & Health Check (فحص وصيانة شاملة)
 echo  [0]  Exit
 echo.
 echo ======================================================
-set /p choice="Enter option (0-9): "
+set /p choice="Enter option (0-9, C): "
 
+if /i "%choice%"=="C" goto audit
 if "%choice%"=="1" goto dev
 if "%choice%"=="2" goto sync
 if "%choice%"=="3" goto mobile
@@ -154,6 +156,11 @@ echo ======================================================
 echo.
 call "%SCRIPTS_DIR%\sync-live-news.bat"
 goto end
+
+:audit
+cls
+call "%SCRIPTS_DIR%\full-clean-and-audit.bat"
+goto menu
 
 :end
 echo.

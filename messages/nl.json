@@ -1715,5 +1715,31 @@
     "accepted": "Goedgekeurd",
     "rejected": "Afgewezen",
     "registered": "Geregistreerd"
+  },
+  "settings": {
+    "darkMode": "Donkere Modus"
+  },
+  "servicesDirectory": {
+    "title": "Gids voor Professionele Diensten",
+    "subtitle": "Vind Syrische professionals en vakmensen in Nederland, van handwerk tot juridisch en technisch advies.",
+    "viewGrid": "Rasterweergave",
+    "viewMap": "Interactieve Kaart",
+    "searchPlaceholder": "Zoek naar: monteur, kapper, accountant...",
+    "cityPlaceholder": "Stad...",
+    "selectProvinceMap": "Selecteer een provincie op de onderstaande kaart",
+    "clearProvince": "Provincieselectie wissen",
+    "promoteTitle": "Promoot Uw Dienst Bij Ons 🚀",
+    "promoteBadge": "Dienstengids",
+    "promoteDesc": "Vergroot uw klantenbereik en verschijn bovenaan de zoekresultaten en interactieve kaart voor de Syrische gemeenschap in Nederland.",
+    "silverTier": "Zilveren Pakket (Topzoekpositie)",
+    "silverPrice": "5€ / maand",
+    "goldTier": "Gouden Pakket (Topzoekpositie + Kaartmarkering)",
+    "goldPrice": "10€ / maand",
+    "advertiseNow": "Adverteer Nu Bij Ons",
+    "noServicesFound": "Geen diensten gevonden die overeenkomen met uw zoekopdracht",
+    "tryDifferentSearch": "Probeer andere zoektermen of wis filters",
+    "contactProvider": "Contact Opnemen",
+    "rating": "Beoordeling",
+    "reviews": "beoordelingen"
   }
 }

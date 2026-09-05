@@ -6,6 +6,7 @@ import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
 import { Link } from "@/i18n/routing";
 import { NLMap } from "@/components/home/nl-map";
+import { formatLocalizedNumber, formatLocalizedDigits } from "@/lib/language-guard";
 
 interface ServiceMember {
   id: string;
@@ -22,25 +23,34 @@ interface ServiceMember {
 }
 
 export default function ServicesDirectoryPage() {
-  const t = useTranslations("directory");
+  const ts = useTranslations("servicesDirectory");
   const tm = useTranslations("memberProfilePage");
   const locale = useLocale();
   const [members, setMembers] = useState<ServiceMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
+  const [debouncedQ, setDebouncedQ] = useState("");
   const [city, setCity] = useState("");
   const [province, setProvince] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "map">("grid");
 
+  // Debounce search query to prevent excessive API requests
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQ(q);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [q]);
+
   useEffect(() => {
     fetchMembers();
-  }, [q, city, province]);
+  }, [debouncedQ, city, province]);
 
   const fetchMembers = async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
-      if (q) params.set("q", q);
+      if (debouncedQ) params.set("q", debouncedQ);
       if (city) params.set("city", city);
       if (province) params.set("province", province);
       const res = await fetch(`/api/members/services?${params}`);
@@ -53,16 +63,18 @@ export default function ServicesDirectoryPage() {
     }
   };
 
+  const isRtl = locale === "ar";
+
   return (
-    <div dir="auto" className="min-h-screen bg-slate-50">
+    <div dir={isRtl ? "rtl" : "ltr"} className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <TopBar />
       <SiteHeader />
 
       <main className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-black text-slate-900 mb-4">دليل الخدمات المهنية</h1>
-          <p className="text-slate-500 max-w-2xl mx-auto">
-            ابحث عن المهنيين والمبدعين السوريين في هولندا. من الحرف اليدوية إلى الاستشارات القانونية والتقنية.
+          <h1 className="text-4xl font-black text-slate-900 dark:text-white mb-4">{ts("title")}</h1>
+          <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+            {ts("subtitle")}
           </p>
         </div>
 
@@ -75,7 +87,7 @@ export default function ServicesDirectoryPage() {
                 ${viewMode === "grid" ? "bg-slate-900 dark:bg-slate-800 text-white shadow-lg" : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"}`}
             >
               <LayoutGrid className="w-4 h-4" />
-              عرض الشبكة
+              {ts("viewGrid")}
             </button>
             <button
               onClick={() => setViewMode("map")}
@@ -83,7 +95,7 @@ export default function ServicesDirectoryPage() {
                 ${viewMode === "map" ? "bg-emerald-700 text-white shadow-lg" : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"}`}
             >
               <MapIcon className="w-4 h-4" />
-              الخريطة التفاعلية
+              {ts("viewMap")}
             </button>
           </div>
         </div>
@@ -91,38 +103,38 @@ export default function ServicesDirectoryPage() {
         <div className="grid lg:grid-cols-12 gap-8">
           {/* Filters & Ad Card Sidebar */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 p-4 flex flex-col gap-4">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none p-4 flex flex-col gap-4">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 w-5 h-5" />
+                <Search className={`absolute ${isRtl ? "right-4" : "left-4"} top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 w-5 h-5`} />
                 <input
                   type="text"
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  placeholder="ابحث عن: ميكانيكي، حلاق، محاسب..."
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border border-transparent dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none text-slate-900 dark:text-slate-100 text-sm"
+                  placeholder={ts("searchPlaceholder")}
+                  className={`w-full ${isRtl ? "pr-12 pl-4" : "pl-12 pr-4"} py-4 bg-slate-50 dark:bg-slate-800 border border-transparent dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none text-slate-900 dark:text-slate-100 text-sm`}
                 />
               </div>
               <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 w-5 h-5" />
+                <MapPin className={`absolute ${isRtl ? "right-4" : "left-4"} top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 w-5 h-5`} />
                 <input
                   type="text"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  placeholder="المدينة..."
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border border-transparent dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none text-slate-900 dark:text-slate-100 text-sm"
+                  placeholder={ts("cityPlaceholder")}
+                  className={`w-full ${isRtl ? "pr-12 pl-4" : "pl-12 pr-4"} py-4 bg-slate-50 dark:bg-slate-800 border border-transparent dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none text-slate-900 dark:text-slate-100 text-sm`}
                 />
               </div>
 
               {viewMode === "map" && (
                 <div className="pt-4 border-t border-slate-50 dark:border-slate-800">
-                  <p className="text-[10px] uppercase font-black text-slate-400 dark:text-slate-500 mb-4 tracking-widest text-center">اختر المقاطعة من الخريطة أدناه</p>
+                  <p className="text-[10px] uppercase font-black text-slate-400 dark:text-slate-500 mb-4 tracking-widest text-center">{ts("selectProvinceMap")}</p>
                   <NLMap selectedProvince={province} onProvinceSelect={setProvince} />
                   {province && (
                     <button
                       onClick={() => setProvince("")}
                       className="mt-4 w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all"
                     >
-                      إلغاء تحديد المقاطعة
+                      {ts("clearProvince")}
                     </button>
                   )}
                 </div>
@@ -130,7 +142,7 @@ export default function ServicesDirectoryPage() {
             </div>
 
             {/* Advertise with us Card */}
-            <div className="bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent dark:from-amber-500/10 dark:to-slate-950 rounded-3xl border border-amber-500/20 dark:border-amber-500/30 p-6 text-slate-900 dark:text-slate-100 shadow-xl flex flex-col gap-4 relative overflow-hidden group">
+            <div className="bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent dark:from-amber-500/10 dark:to-slate-950 rounded-3xl border border-amber-500/20 dark:border-amber-500/30 p-6 text-slate-900 dark:text-slate-100 shadow-xl dark:shadow-none flex flex-col gap-4 relative overflow-hidden group">
               <div className="absolute -right-8 -bottom-8 w-24 h-24 bg-amber-500/10 rounded-full blur-xl group-hover:bg-amber-500/20 transition-all duration-500"></div>
               
               <div className="flex items-center gap-3">
@@ -138,33 +150,36 @@ export default function ServicesDirectoryPage() {
                   <Star className="w-5 h-5 fill-current animate-pulse" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-base font-black text-slate-900 dark:text-white">روّج لخدمتك معنا 🚀</h3>
-                  <p className="text-[10px] text-amber-600 dark:text-amber-400 font-bold uppercase tracking-wider">دليل الخدمات المهنية</p>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white">{ts("promoteTitle")}</h3>
+                  <p className="text-[10px] text-amber-600 dark:text-amber-400 font-bold uppercase tracking-wider">{ts("promoteBadge")}</p>
                 </div>
               </div>
 
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                ضاعف زبائنك واظهر في مقدمة نتائج البحث والخريطة التفاعلية للجالية السورية في هولندا.
+                {ts("promoteDesc")}
               </p>
 
               <div className="space-y-2 border-t border-slate-200 dark:border-slate-800 pt-3 text-[11px]">
                 <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
-                  <span>الباقة الفضية (صدارة البحث)</span>
-                  <span className="font-extrabold text-amber-600 dark:text-amber-400">5€ / شهر</span>
+                  <span>{ts("silverTier")}</span>
+                  <span className="font-extrabold text-amber-600 dark:text-amber-400">{ts("silverPrice")}</span>
                 </div>
                 <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
-                  <span>الباقة الذهبية (صدارة + تمييز الخريطة)</span>
-                  <span className="font-extrabold text-amber-600 dark:text-amber-400">10€ / شهر</span>
+                  <span>{ts("goldTier")}</span>
+                  <span className="font-extrabold text-amber-600 dark:text-amber-400">{ts("goldPrice")}</span>
                 </div>
               </div>
 
               <a
-                href="https://wa.me/31684603406?text=مرحباً، أريد الإعلان في دليل الخدمات المهنية للجالية السورية"
+                href={locale === "ar" 
+                  ? "https://wa.me/31684603406?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A5%D8%B9%D9%84%D8%A7%D9%86%20%D9%81%D9%8A%20%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%D8%A9%20%D9%84%D9%84%D8%AC%D8%A7%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9"
+                  : "https://wa.me/31684603406?text=Hello,%20I%20would%20like%20to%20advertise%20in%20the%20Syrian%20Community%20Services%20Directory"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-2xl text-center text-xs transition-all duration-300 shadow-lg shadow-amber-600/20 flex items-center justify-center gap-2 hover:scale-[1.02] border border-amber-500"
               >
-                <span>💬</span> أعلن معنا الآن
+                <span>💬</span> {ts("advertiseNow")}
               </a>
             </div>
 
@@ -182,20 +197,24 @@ export default function ServicesDirectoryPage() {
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center text-emerald-700 dark:text-emerald-400 font-black shrink-0 overflow-hidden border border-emerald-100 dark:border-emerald-900/50">
-                        {m.avatar ? <img src={m.avatar} alt="" className="w-full h-full object-cover" /> : m.nameAr.charAt(0)}
+                        {m.avatar ? <img src={m.avatar} alt="" className="w-full h-full object-cover" /> : (locale === "ar" ? m.nameAr.charAt(0) : m.nameNl.charAt(0))}
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-1.5 truncate">
-                          <h4 className="text-sm font-bold text-slate-900 dark:text-white truncate">{m.nameAr}</h4>
+                          <h4 className="text-sm font-bold text-slate-900 dark:text-white truncate">{locale === "ar" ? m.nameAr : (m.nameNl || m.nameAr)}</h4>
                           {m.isPremiumService && (
-                            <span className="px-1.5 py-0.5 bg-amber-500 text-white rounded text-[8px] font-black uppercase shrink-0 tracking-wider scale-95">تميز</span>
+                            <span className="px-1.5 py-0.5 bg-amber-500 text-white rounded text-[8px] font-black uppercase shrink-0 tracking-wider scale-95">
+                              {locale === "ar" ? "تميز" : "PRO"}
+                            </span>
                           )}
                         </div>
                         <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">{m.profession}</p>
                       </div>
                       <div className="flex items-center gap-0.5 text-amber-500">
                         <Star className="w-3 h-3 fill-current" />
-                        <span className="text-[10px] font-bold">{m.avgRating > 0 ? m.avgRating.toFixed(1) : "—"}</span>
+                        <span className="text-[10px] font-bold">
+                          {m.avgRating > 0 ? formatLocalizedDigits(m.avgRating.toFixed(1), locale) : "—"}
+                        </span>
                       </div>
                     </div>
                   </Link>
@@ -207,9 +226,11 @@ export default function ServicesDirectoryPage() {
           {/* Content Area */}
           <div className="lg:col-span-8">
             {viewMode === "map" ? (
-              <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl shadow-slate-200/50 p-8 h-full min-h-[600px] flex flex-col">
+              <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl shadow-slate-200/50 dark:shadow-none p-8 h-full min-h-[600px] flex flex-col">
                 <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl font-black text-slate-900 dark:text-white">توزع الخدمات في هولندا</h2>
+                  <h2 className="text-2xl font-black text-slate-900 dark:text-white">
+                    {locale === "ar" ? "توزع الخدمات في هولندا" : (locale === "nl" ? "Dienstenverdeling in Nederland" : "Services distribution in the Netherlands")}
+                  </h2>
                   {province && <span className="px-4 py-1.5 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 rounded-full text-xs font-black border border-emerald-100 dark:border-emerald-900/50">{province}</span>}
                 </div>
                 <div className="flex-1 flex items-center justify-center bg-slate-50/50 dark:bg-slate-800/30 rounded-3xl border border-slate-100/50 dark:border-slate-800/50">
@@ -226,7 +247,7 @@ export default function ServicesDirectoryPage() {
               ) : members.length === 0 ? (
                 <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
                   <User className="w-16 h-16 text-slate-200 dark:text-slate-700 mx-auto mb-4" />
-                  <p className="text-slate-400 dark:text-slate-500 font-bold">لا يوجد مزودي خدمات مطابقين لبحثك حالياً</p>
+                  <p className="text-slate-400 dark:text-slate-500 font-bold">{ts("noServicesFound")}</p>
                 </div>
               ) : (
                 <div className="grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -247,17 +268,19 @@ export default function ServicesDirectoryPage() {
                               : "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900/50"
                             }`}
                           >
-                            {member.avatar ? <img src={member.avatar} alt="" className="w-full h-full object-cover" /> : member.nameAr.charAt(0)}
+                            {member.avatar ? <img src={member.avatar} alt="" className="w-full h-full object-cover" /> : (locale === "ar" ? member.nameAr.charAt(0) : (member.nameNl || member.nameAr).charAt(0))}
                           </div>
                           <div className="flex flex-col items-end gap-1.5">
                             <div className="flex items-center gap-1">
                               <Star className={`w-3.5 h-3.5 ${member.avgRating > 0 ? "fill-amber-400 text-amber-400" : "text-slate-300"}`} />
-                              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{member.avgRating > 0 ? member.avgRating.toFixed(1) : "—"}</span>
-                              <span className="text-[10px] text-slate-400">({member.reviewCount})</span>
+                              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                                {member.avgRating > 0 ? formatLocalizedDigits(member.avgRating.toFixed(1), locale) : "—"}
+                              </span>
+                              <span className="text-[10px] text-slate-400">({formatLocalizedNumber(member.reviewCount, locale)})</span>
                             </div>
                             {member.isPremiumService ? (
                               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-black rounded-lg text-[9px] uppercase tracking-wider shadow-sm animate-pulse shrink-0">
-                                إعلان مميز 🚀
+                                {locale === "ar" ? "إعلان مميز 🚀" : (locale === "nl" ? "Uitgelicht 🚀" : "Featured 🚀")}
                               </span>
                             ) : (
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 rounded-lg text-[9px] font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-900/50 shrink-0">
@@ -268,9 +291,9 @@ export default function ServicesDirectoryPage() {
                         </div>
 
                         <h3 className="text-lg font-black text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mb-1">
-                          {member.nameAr}
+                          {locale === "ar" ? member.nameAr : (member.nameNl || member.nameAr)}
                         </h3>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mb-3" dir="ltr">{member.nameNl}</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mb-3" dir="ltr">{locale === "ar" ? member.nameNl : member.nameAr}</p>
 
                         <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 mb-4">
                           <Briefcase className={`w-4 h-4 ${member.isPremiumService ? "text-amber-500" : "text-emerald-600 dark:text-emerald-400"}`} />
@@ -291,7 +314,7 @@ export default function ServicesDirectoryPage() {
                             className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-slate-800 hover:bg-emerald-700 dark:hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-colors"
                           >
                             <MessageCircle className="w-3.5 h-3.5" />
-                            تواصل
+                            {ts("contactProvider")}
                           </Link>
                         </div>
                       </div>
