@@ -4,7 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { 
   Search, MapPin, Briefcase, Star, MessageCircle, Loader2, User, 
   Map as MapIcon, LayoutGrid, Sparkles, FileText, GraduationCap, 
-  HeartHandshake, Tag, QrCode 
+  HeartHandshake, Tag, QrCode, Calculator, Scale, ShoppingBag 
 } from "lucide-react";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
@@ -108,10 +108,31 @@ export default function ServicesDirectoryPage() {
     },
     {
       title: isRtl ? "صندوق التكافل (ANBI)" : isNl ? "Solidariteitsfonds" : "Solidarity Fund",
-      desc: isRtl ? "طوارئ الجالية ونقل الجثامين" : isNl ? "Noodhulp & Repatriëring" : "Emergency relief & repatriation",
+      desc: isRtl ? "مساندة الحالات الطارئة بشفافية" : isNl ? "Transparante noodhulp & ANBI" : "Transparent relief & aid",
       href: "/solidarity",
       icon: HeartHandshake,
       color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200/50",
+    },
+    {
+      title: isRtl ? "حاسبة المساعدات" : isNl ? "Toeslagen Calculator" : "Allowances Calculator",
+      desc: isRtl ? "حساب إعانات الصحة والسكن ٢٠٢٦" : isNl ? "Zorgtoeslag, huur & kind" : "Health, rent & child allowances",
+      href: "/services/toeslagen-calculator",
+      icon: Calculator,
+      color: "text-teal-600 bg-teal-50 dark:bg-teal-950/50 border-teal-200/50",
+    },
+    {
+      title: isRtl ? "عيادة الاستشارات" : isNl ? "Inloopspreekuur" : "Consultation Spreekuur",
+      desc: isRtl ? "حجز مواعيد مع محامين ومختصين" : isNl ? "Juridisch en sociaal spreekuur" : "Legal & community clinic",
+      href: "/spreekuur",
+      icon: Scale,
+      color: "text-blue-600 bg-blue-50 dark:bg-blue-950/50 border-blue-200/50",
+    },
+    {
+      title: isRtl ? "سوق التكافل (Markt)" : isNl ? "SGN Marktplaats" : "Community Marketplace",
+      desc: isRtl ? "أثاث مجاني ودليل الحرفيين" : isNl ? "Gratis meubels & vakmensen" : "Free furniture & craftsmen",
+      href: "/marktplaats",
+      icon: ShoppingBag,
+      color: "text-orange-600 bg-orange-50 dark:bg-orange-950/50 border-orange-200/50",
     },
   ];
 

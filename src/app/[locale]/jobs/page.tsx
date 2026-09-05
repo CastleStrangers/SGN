@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import { 
   Briefcase, Search, MapPin, Building2, Clock, Euro, Sparkles, 
   Filter, CheckCircle2, ArrowRight, ArrowLeft, FileText, Send, 
   ExternalLink, UserCheck, ShieldCheck, PlusCircle, X, ChevronRight,
-  GraduationCap, Utensils, Wrench, Laptop, HeartPulse, Truck
+  GraduationCap, Utensils, Wrench, Laptop, HeartPulse, Truck, Zap, User
 } from "lucide-react";
 import { formatLocalizedDigits } from "@/lib/language-guard";
 
@@ -200,6 +200,25 @@ export default function JobsHubPage() {
   const [hasCvReady, setHasCvReady] = useState(true);
   const [appliedSuccess, setAppliedSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [savedCv, setSavedCv] = useState<any | null>(null);
+
+  // Load saved CV from SGN CV Builder
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("sgn_cv_data");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setSavedCv(parsed);
+          if (parsed.fullName) setApplicantName(parsed.fullName);
+          if (parsed.email) setApplicantEmail(parsed.email);
+          if (parsed.phone) setApplicantPhone(parsed.phone);
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   // Post Job Modal State
   const [showPostModal, setShowPostModal] = useState(false);
@@ -231,13 +250,26 @@ export default function JobsHubPage() {
     }, 1000);
   };
 
+  const handleQuickApplyWithCv = () => {
+    if (!savedCv) return;
+    setApplicantName(savedCv.fullName || "");
+    setApplicantEmail(savedCv.email || "");
+    setApplicantPhone(savedCv.phone || "");
+    setApplicantNote(
+      isAr
+        ? `تقديم فوري بواسطة السيرة الذاتية ورسالة الدافع من منصة SGN (${savedCv.jobTitle} - ${savedCv.drivingLicense})`
+        : `Directe sollicitatie via SGN CV & Motivatiebrief (${savedCv.jobTitle} - ${savedCv.drivingLicense})`
+    );
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setAppliedSuccess(true);
+    }, 900);
+  };
+
   const closeApplyModal = () => {
     setActiveJob(null);
     setAppliedSuccess(false);
-    setApplicantName("");
-    setApplicantEmail("");
-    setApplicantPhone("");
-    setApplicantNote("");
   };
 
   const dir = isAr ? "rtl" : "ltr";
@@ -302,6 +334,33 @@ export default function JobsHubPage() {
 
           <div className="absolute -left-16 -bottom-16 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
         </div>
+
+        {/* Saved CV Banner */}
+        {savedCv && (
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/5 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <Zap className="w-5 h-5 text-amber-300 fill-amber-300" />
+              </div>
+              <div>
+                <h4 className="text-xs font-black text-slate-900 dark:text-white">
+                  {isAr ? `مرحباً ${savedCv.fullName}، ميزة التقديم الفوري بنقرة واحدة مفعلة!` : isNl ? `Welkom ${savedCv.fullName}, 1-klik solliciteren is actief!` : `Welcome ${savedCv.fullName}, 1-click apply is active!`}
+                </h4>
+                <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                  {isAr 
+                    ? `سيرتك الذاتية (${savedCv.jobTitle} - ${savedCv.drivingLicense}) جاهزة ومربوطة بحسابك.`
+                    : `Uw CV (${savedCv.jobTitle}) is gekoppeld en klaar voor directe verzending.`}
+                </p>
+              </div>
+            </div>
+            <Link
+              href={`/${locale}/services/cv-builder`}
+              className="text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline shrink-0"
+            >
+              {isAr ? "تعديل السيرة الذاتية ←" : "CV bewerken →"}
+            </Link>
+          </div>
+        )}
 
         {/* Search & Filter Bar */}
         <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
@@ -482,6 +541,47 @@ export default function JobsHubPage() {
                       {isAr ? "التقديم على الشاغر:" : "Apply for:"} {isAr ? activeJob.titleAr : activeJob.titleEn}
                     </h3>
                   </div>
+
+                  {/* 1-Click Apply with SGN CV */}
+                  {savedCv && (
+                    <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/30 space-y-2.5">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          {savedCv.photo ? (
+                            <img src={savedCv.photo} alt={savedCv.fullName} className="w-9 h-9 rounded-xl object-cover border border-emerald-500 shrink-0" />
+                          ) : (
+                            <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                              <User className="w-4 h-4" />
+                            </div>
+                          )}
+                          <div className="min-w-0">
+                            <span className="text-xs font-black text-slate-900 dark:text-white block truncate">
+                              {savedCv.fullName}
+                            </span>
+                            <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold block truncate">
+                              {savedCv.jobTitle} • {savedCv.drivingLicense}
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleQuickApplyWithCv}
+                          disabled={isSubmitting}
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-md cursor-pointer transition-all shrink-0"
+                        >
+                          <Zap className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+                          <span>{isAr ? "تقديم فوري بالـ CV" : isNl ? "Direct Solliciteren" : "1-Click Apply"}</span>
+                        </button>
+                      </div>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                        {isAr 
+                          ? "تم العثور على سيرتك الذاتية من SGN، اضغط على الزر أعلاه لإرسال التقديم بنقرة واحدة."
+                          : isNl 
+                          ? "Uw SGN CV is gereed. Klik hierboven om direct met 1 klik te solliciteren."
+                          : "Your SGN CV is ready. Click above to apply instantly with 1 click."}
+                      </p>
+                    </div>
+                  )}
 
                   <div className="space-y-3 text-xs">
                     <div>

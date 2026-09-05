@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import { 
@@ -157,6 +157,16 @@ export default function CVBuilderPage() {
       accentColor: "#1a5632",
     };
   });
+
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("sgn_cv_data", JSON.stringify(cv));
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [cv]);
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

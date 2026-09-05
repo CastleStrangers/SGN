@@ -6,7 +6,8 @@ import Link from "next/link";
 import { 
   FileText, Upload, Sparkles, AlertTriangle, CheckCircle2, 
   Calendar, CreditCard, ShieldCheck, Crown, ArrowRight, ArrowLeft,
-  RefreshCw, Building2, HelpCircle, FileSearch
+  RefreshCw, Building2, HelpCircle, FileSearch, Camera, Copy, Check,
+  Printer, Scale, Clock, X, ChevronDown
 } from "lucide-react";
 import { formatLocalizedDigits } from "@/lib/language-guard";
 
@@ -16,22 +17,37 @@ interface ScanResult {
   urgency: "high" | "medium" | "low";
   subject: string;
   deadline: string | null;
+  daysLeft?: number;
   amount: string | null;
   summary: string[];
   actionRequired: string;
   legalTip: string;
+  referenceNumber?: string;
 }
 
 export default function BriefScannerPage() {
   const locale = useLocale() as "ar" | "en" | "nl";
   const isAr = locale === "ar";
   const isNl = locale === "nl";
+  const dir = isAr ? "rtl" : "ltr";
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ScanResult | null>(null);
   const [selectedDemo, setSelectedDemo] = useState<string | null>(null);
   const [freeScansLeft, setFreeScansLeft] = useState(3);
   const [showVipModal, setShowVipModal] = useState(false);
+  const [uploadedImagePreview, setUploadedImagePreview] = useState<string | null>(null);
+
+  // Bezwaar & Betalingsregeling Generator state
+  const [showBezwaarModal, setShowBezwaarModal] = useState(false);
+  const [bezwaarType, setBezwaarType] = useState<"bezwaar" | "betalingsregeling" | "uitstel">("bezwaar");
+  const [citizenName, setCitizenName] = useState("");
+  const [citizenBsn, setCitizenBsn] = useState("");
+  const [referenceNumber, setReferenceNumber] = useState("");
+  const [disputeReason, setDisputeReason] = useState(
+    isAr ? "الدخل المقدر غير صحيح ويختلف عن الواقع" : "Het geschatte inkomen is onjuist vastgesteld"
+  );
+  const [copiedLetter, setCopiedLetter] = useState(false);
 
   const handleScan = async (letterType?: string) => {
     if (freeScansLeft <= 0) {
@@ -48,7 +64,11 @@ export default function BriefScannerPage() {
       });
       const data = await res.json();
       if (data.success) {
-        setResult(data);
+        setResult({
+          ...data,
+          daysLeft: data.urgency === "high" ? 14 : 42,
+          referenceNumber: data.referenceNumber || "SGN-2026-BR-9941",
+        });
         setFreeScansLeft((prev) => Math.max(0, prev - 1));
       }
     } catch (err) {
@@ -61,22 +81,85 @@ export default function BriefScannerPage() {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // Create local preview
+    const reader = new FileReader();
+    reader.onload = (uploadEvent) => {
+      setUploadedImagePreview(uploadEvent.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+
     handleScan("general");
   };
 
-  const dir = isAr ? "rtl" : "ltr";
+  // Generate formal Dutch letter
+  const generatedDutchLetter = `Aan: ${result?.sender || "De bevoegde instantie"}
+Betreft: ${
+    bezwaarType === "bezwaar"
+      ? "Bezwaarschrift tegen beschikking / besluit"
+      : bezwaarType === "betalingsregeling"
+      ? "Verzoek om betalingsregeling in termijnen"
+      : "Verzoek om uitstel van betaling"
+  }
+Kenmerk / Referentie: ${referenceNumber || result?.referenceNumber || "N.v.t."}
+Datum: ${new Date().toLocaleDateString("nl-NL")}
+
+Geachte heer/mevrouw,
+
+Hierbij ${
+    bezwaarType === "bezwaar"
+      ? `teken ik bezwaar aan tegen uw besluit met betrekking tot: ${result?.subject || "de recente beschikking"}.`
+      : bezwaarType === "betalingsregeling"
+      ? `verzoek ik u vriendelijk om een passende betalingsregeling toe te staan voor het verschuldigde bedrag (${result?.amount || "zoals vermeld in uw brief"}).`
+      : `verzoek ik u vriendelijk om uitstel van betaling voor de gestelde termijn.`
+  }
+
+Mijn persoonsgegevens:
+- Naam: ${citizenName || "Betrokkene"}
+- BSN: ${citizenBsn || "Op aanvraag beschikbaar"}
+
+Motivering van mijn verzoek:
+${disputeReason}
+
+${
+  bezwaarType === "betalingsregeling"
+    ? "Wegens mijn huidige financiële omstandigheden ben ik helaas niet in staat om het volledige bedrag in één keer te voldoen. Ik stel voor om het bedrag in maandelijkse termijnen van € 50,- af te lossen."
+    : bezwaarType === "uitstel"
+    ? "Ik vraag u om een uitstel van 4 weken, zodat ik de benodigde bewijsstukken kan verzamelen en overleggen."
+    : "Ik verzoek u om het besluit te heroverwegen en in te trekken dan wel aan te passen op basis van de juiste feitelijke gegevens."
+}
+
+In afwachting van uw schriftelijke reactie en beslissing.
+
+Met vriendelijke groet,
+
+${citizenName || "[Uw handtekening / Handtekening]"}
+Lid van de Syrische Gemeenschap in Nederland (SGN)`;
+
+  const handleCopyLetter = () => {
+    navigator.clipboard.writeText(generatedDutchLetter);
+    setCopiedLetter(true);
+    setTimeout(() => setCopiedLetter(false), 2000);
+  };
 
   return (
     <div dir={dir} className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 px-4">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Back Navigation */}
-        <div>
+        <div className="flex items-center justify-between">
           <Link
             href={`/${locale}/services`}
             className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
           >
             {isAr ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
             <span>{isAr ? "العودة إلى الخدمات" : isNl ? "Terug naar Diensten" : "Back to Services"}</span>
+          </Link>
+          <Link
+            href={`/${locale}/services/toeslagen-calculator`}
+            className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
+          >
+            <span>{isAr ? "حاسبة المساعدات (Toeslagen)" : "Toeslagen Calculator"}</span>
+            {isAr ? <ArrowLeft className="w-3.5 h-3.5" /> : <ArrowRight className="w-3.5 h-3.5" />}
           </Link>
         </div>
 
@@ -85,7 +168,7 @@ export default function BriefScannerPage() {
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold px-4 py-1.5 rounded-full border border-emerald-500/20">
             <Sparkles className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: "3s" }} />
             <span>
-              {isAr ? "مفسر الخطابات والرسائل الحكومية بالذكاء الاصطناعي" : isNl ? "AI Document & Brieven Scanner" : "AI Official Letters & Document Scanner"}
+              {isAr ? "مفسر الخطابات الهولندي والرد الآلي الذكي" : isNl ? "AI Document & Brieven Scanner + Bezwaar" : "AI Official Letters Scanner & Objection Generator"}
             </span>
           </div>
 
@@ -99,10 +182,10 @@ export default function BriefScannerPage() {
 
           <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base max-w-2xl mx-auto">
             {isAr
-              ? "ارفع صورة أي رسالة ورقية من البلدية، الضرائب، الـ IND، أو مصلحة العمل، وسيقوم الذكاء الاصطناعي بتلخيصها بدقة وتحديد المهل والإجراء المطلوب منك."
+              ? "التقط صورة الخطاب بكاميرا الموبايل، وسيقوم الذكاء الاصطناعي بتلخيص المطلوب منك بدقة، تحديد تاريخ الاستحقاق، وتوليد خطاب اعتراض أو طلب تقسيط رسمي بنقرة واحدة."
               : isNl
-              ? "Upload een foto van uw brief van de Belastingdienst, IND, Gemeente of UWV en ontvang direct een duidelijke samenvatting met deadlines en actiepunten."
-              : "Upload a photo of your letter from Dutch tax, IND, municipality, or UWV and receive an instant clear summary with deadlines and action steps."}
+              ? "Scan uw brief met de camera en ontvang direct een samenvatting, deadline en genereer een formeel bezwaarschrift of betalingsregeling met 1 klik."
+              : "Scan your letter with your phone camera to get instant action steps, deadline alerts, and generate formal objection or installment requests in Dutch."}
           </p>
 
           {/* Usage Badge */}
@@ -125,27 +208,49 @@ export default function BriefScannerPage() {
           </div>
         </div>
 
-        {/* Upload Box */}
+        {/* Upload & Camera Box */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border-2 border-dashed border-emerald-500/30 hover:border-emerald-500 transition-all shadow-sm text-center">
           <div className="max-w-md mx-auto space-y-4">
-            <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
-              <Upload className="w-8 h-8" />
-            </div>
+            {uploadedImagePreview ? (
+              <div className="relative max-w-xs mx-auto rounded-2xl overflow-hidden border border-emerald-500 shadow-md">
+                <img src={uploadedImagePreview} alt="Letter preview" className="w-full h-44 object-cover" />
+                <button
+                  onClick={() => setUploadedImagePreview(null)}
+                  className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-black cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
+                <Camera className="w-8 h-8" />
+              </div>
+            )}
 
             <div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                {isAr ? "اختر صورة الخطاب أو اسحبها هنا" : isNl ? "Kies een foto of sleep deze hierheen" : "Select or drag your letter image here"}
+                {isAr ? "صوّر الخطاب بالكاميرا أو ارفع صورة" : isNl ? "Maak een foto of upload een bestand" : "Take a photo or upload letter"}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                {isAr ? "يدعم صور الموبايل (JPG, PNG) أو ملفات PDF" : isNl ? "Ondersteunt foto's (JPG, PNG) of PDF" : "Supports camera photos (JPG, PNG) or PDF"}
+                {isAr ? "يدعم كاميرا الجوال مباشرة، صور JPG، PNG أو ملفات PDF" : isNl ? "Ondersteunt mobiele camera, foto's (JPG, PNG) of PDF" : "Supports direct mobile camera, JPG, PNG or PDF"}
               </p>
             </div>
 
-            <label className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3 rounded-xl cursor-pointer shadow-md hover:shadow-lg transition-all">
-              <FileSearch className="w-4 h-4" />
-              <span>{isAr ? "اختيار صورة أو تصوير بالكاميرا" : isNl ? "Bestand kiezen / Camera" : "Choose File / Take Photo"}</span>
-              <input type="file" accept="image/*,application/pdf" className="hidden" onChange={handleFileUpload} />
-            </label>
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              {/* Direct Camera Capture */}
+              <label className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold px-5 py-3 rounded-xl cursor-pointer shadow-md transition-all">
+                <Camera className="w-4 h-4" />
+                <span>{isAr ? "فتح الكاميرا والتقاط صورة" : isNl ? "Camera openen" : "Take Photo"}</span>
+                <input type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileUpload} />
+              </label>
+
+              {/* Upload File */}
+              <label className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs md:text-sm font-bold px-5 py-3 rounded-xl cursor-pointer transition-all">
+                <Upload className="w-4 h-4" />
+                <span>{isAr ? "اختيار من المعرض / PDF" : isNl ? "Bestand kiezen" : "Select File"}</span>
+                <input type="file" accept="image/*,application/pdf" className="hidden" onChange={handleFileUpload} />
+              </label>
+            </div>
           </div>
         </div>
 
@@ -237,7 +342,7 @@ export default function BriefScannerPage() {
         {/* Analysis Result Card */}
         {result && !loading && (
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Card Header with Urgency Badge */}
+            {/* Card Header with Urgency Badge & Days Remaining */}
             <div className={`px-6 py-4 border-b flex items-center justify-between ${
               result.urgency === "high" 
                 ? "bg-red-50 dark:bg-red-950/40 border-red-100 dark:border-red-900/40" 
@@ -249,20 +354,37 @@ export default function BriefScannerPage() {
                 ) : (
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 )}
-                <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
-                  {result.sender}
-                </span>
+                <div>
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white block">
+                    {result.sender}
+                  </span>
+                  <span className="text-[10px] text-slate-500">
+                    Kenmerk: {result.referenceNumber}
+                  </span>
+                </div>
               </div>
 
-              <span className={`text-[10px] font-black px-2.5 py-1 rounded-full ${
-                result.urgency === "high"
-                  ? "bg-red-600 text-white"
-                  : "bg-emerald-600 text-white"
-              }`}>
-                {result.urgency === "high" 
-                  ? (isAr ? "هام وعاجل" : isNl ? "Urgent" : "Urgent")
-                  : (isAr ? "إشعار اعتيادي" : isNl ? "Regulier" : "Standard Notice")}
-              </span>
+              <div className="flex items-center gap-2">
+                {result.daysLeft && (
+                  <span className="text-[10px] font-bold px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-amber-500" />
+                    <span>
+                      {isAr 
+                        ? `باقي ${formatLocalizedDigits(result.daysLeft, "ar")} يوماً` 
+                        : isNl 
+                        ? `Nog ${result.daysLeft} dagen` 
+                        : `${result.daysLeft} days remaining`}
+                    </span>
+                  </span>
+                )}
+                <span className={`text-[10px] font-black px-2.5 py-1 rounded-full ${
+                  result.urgency === "high" ? "bg-red-600 text-white" : "bg-emerald-600 text-white"
+                }`}>
+                  {result.urgency === "high" 
+                    ? (isAr ? "هام وعاجل" : isNl ? "Urgent" : "Urgent")
+                    : (isAr ? "إشعار اعتيادي" : isNl ? "Regulier" : "Standard Notice")}
+                </span>
+              </div>
             </div>
 
             <div className="p-6 md:p-8 space-y-6">
@@ -348,6 +470,30 @@ export default function BriefScannerPage() {
                 </p>
               </div>
 
+              {/* SGN Bezwaarschrift Generator Button */}
+              <div className="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0">
+                    <Scale className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black text-indigo-950 dark:text-indigo-200">
+                      {isAr ? "توليد خطاب اعتراض أو طلب تقسيط رسمي (Bezwaar / Uitstel)" : isNl ? "Bezwaarschrift of betalingsregeling genereren" : "Generate Objection or Payment Plan Letter"}
+                    </h4>
+                    <p className="text-[11px] text-indigo-800 dark:text-indigo-300">
+                      {isAr ? "صياغة قانونية بالهولندية الرسمية جاهزة للإرسال أو الطباعة بنقرة واحدة" : "Officiële juridische brief in het Nederlands klaar om te versturen"}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowBezwaarModal(true)}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black shrink-0 transition-all shadow-md cursor-pointer"
+                >
+                  {isAr ? "إنشاء الخطاب الآن" : isNl ? "Brief opstellen" : "Draft Letter"}
+                </button>
+              </div>
+
               {/* Direct Quick Actions */}
               <div className="pt-2 flex flex-wrap gap-3">
                 <a
@@ -360,101 +506,138 @@ export default function BriefScannerPage() {
                   <span>{isAr ? "إضافة تذكير بالمهلة للتقويم (Google/Apple)" : isNl ? "Herinnering toevoegen aan agenda" : "Add Deadline to Calendar"}</span>
                 </a>
 
-                <a
-                  href={`https://wa.me/31612345678?text=${encodeURIComponent(isAr ? `مرحباً، أود استشارة قانونية عاجلة بخصوص خطاب من ${result.sender}` : `Hello, I need legal guidance regarding a letter from ${result.sender}`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href={`/${locale}/spreekuur`}
                   className="py-3 px-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm"
                 >
                   <ShieldCheck className="w-4 h-4" />
-                  <span>{isAr ? "استشارة محامي الجالية" : isNl ? "Juridisch advies vragen" : "Ask SGN Lawyer"}</span>
-                </a>
+                  <span>{isAr ? "حجز استشارة قانونية (Spreekuur)" : isNl ? "Spreekuur inplannen" : "Book Legal Spreekuur"}</span>
+                </Link>
               </div>
             </div>
           </div>
         )}
 
-        {/* SGN VIP Upsell Card */}
-        <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 text-white rounded-3xl p-8 border border-emerald-500/20 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-3 text-center md:text-start">
-              <div className="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 text-xs font-black px-3 py-1 rounded-full border border-amber-500/30">
-                <Crown className="w-3.5 h-3.5" />
-                <span>SGN VIP Membership</span>
-              </div>
-              <h3 className="text-2xl md:text-3xl font-black tracking-tight">
-                {isAr ? "احصل على فحص غير محدود للرسائل وخصومات الجالية" : isNl ? "Onbeperkt brieven scannen & exclusieve kortingen" : "Unlimited Letter Scanning & Exclusive Discounts"}
-              </h3>
-              <p className="text-xs md:text-sm text-slate-300 max-w-xl">
-                {isAr 
-                  ? "اشترك في العضوية الذهبية بـ ٢.٩٩ يورو فقط شهرياً، واحصل على فحص فوري لجميع خطاباتك، استشارات قانونية، وبطاقة الخصومات لدى المتاجر والمطاعم السورية في هولندا."
-                  : isNl
-                  ? "Word VIP-lid voor slechts € 2,99 per maand: onbeperkt scannen, juridische adviezen en kortingen bij aangesloten bedrijven."
-                  : "Become a VIP member for only € 2.99/month: unlimited scans, legal advice, and discounts at partner community businesses."}
-              </p>
-            </div>
-
-            <button
-              onClick={() => setShowVipModal(true)}
-              className="px-8 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-black text-sm rounded-2xl shadow-lg hover:shadow-xl transition-all whitespace-nowrap flex items-center gap-2 shrink-0 cursor-pointer"
-            >
-              <span>{isAr ? "الاشتراك بـ ٢.٩٩ € / شهر" : isNl ? "Start voor € 2,99 / mnd" : "Join for € 2.99 / mo"}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* VIP Modal */}
-        {showVipModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 space-y-6 border border-slate-200 dark:border-slate-800 shadow-2xl animate-in zoom-in-95 duration-200">
-              <div className="text-center space-y-2">
-                <div className="w-14 h-14 bg-amber-100 dark:bg-amber-950/60 text-amber-600 rounded-2xl flex items-center justify-center mx-auto">
-                  <Crown className="w-7 h-7" />
+        {/* Bezwaar Generator Modal */}
+        {showBezwaarModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+            <div dir={dir} className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 flex items-center justify-center">
+                    <Scale className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white">
+                    {isAr ? "مولد الخطابات والردود الرسمية (Nederlands)" : "Officiële Juridische Brieven Generator"}
+                  </h3>
                 </div>
-                <h3 className="text-xl font-black text-slate-900 dark:text-white">
-                  {isAr ? "الترقية إلى عضوية SGN الذهبية" : isNl ? "Word SGN VIP Lid" : "Upgrade to SGN VIP"}
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  {isAr ? "دعم مستمر لك ولعائلتك ودعم لصندوق الجالية" : isNl ? "Ondersteun uzelf en de gemeenschap" : "Continuous support for you and the community fund"}
-                </p>
-              </div>
-
-              <div className="space-y-3 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border text-xs">
-                <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200 font-semibold">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{isAr ? "تحليل وفحص غير محدود لجميع الخطابات الحكومية" : isNl ? "Onbeperkt brieven scannen via AI" : "Unlimited AI letter & document analysis"}</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200 font-semibold">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{isAr ? "بطاقة الخصومات الذكية (٥٪ إلى ١٥٪ في المتاجر والمطاعم)" : isNl ? "Exclusieve kortingskaart bij aangesloten zaken" : "Community discount card (5% to 15% off)"}</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200 font-semibold">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{isAr ? "أولوية الحجز في فعاليات ومؤتمرات الجالية" : isNl ? "Voorrang bij evenementen en workshops" : "Priority access to community events"}</span>
-                </div>
-              </div>
-
-              <div className="space-y-2">
                 <button
-                  onClick={() => {
-                    alert(isAr ? "جاري تحويلك لبوابة الدفع الهولندية الآمنة iDEAL..." : "Doorsturen naar beveiligde iDEAL betaling...");
-                    setShowVipModal(false);
-                  }}
-                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={() => setShowBezwaarModal(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center hover:bg-slate-200 cursor-pointer"
                 >
-                  <CreditCard className="w-4 h-4" />
-                  <span>{isAr ? "الدفع الآمن عبر iDEAL (٢.٩٩ € / شهر)" : isNl ? "Veilig betalen met iDEAL (€ 2,99 / mnd)" : "Pay Securely via iDEAL (€ 2.99 / mo)"}</span>
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Form Options */}
+              <div className="space-y-4 text-xs">
+                {/* Letter Type */}
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                    {isAr ? "نوع الخطاب المطلوب:" : "Type brief:"}
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { id: "bezwaar", ar: "اعتراض (Bezwaar)", nl: "Bezwaarschrift" },
+                      { id: "betalingsregeling", ar: "طلب تقسيط (Regeling)", nl: "Betalingsregeling" },
+                      { id: "uitstel", ar: "طلب مهلة (Uitstel)", nl: "Uitstel betaling" },
+                    ].map((type) => (
+                      <button
+                        key={type.id}
+                        type="button"
+                        onClick={() => setBezwaarType(type.id as any)}
+                        className={`p-2.5 rounded-xl border font-bold text-center transition-all cursor-pointer ${
+                          bezwaarType === type.id
+                            ? "bg-indigo-600 text-white border-indigo-600"
+                            : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100"
+                        }`}
+                      >
+                        {isAr ? type.ar : type.nl}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Citizen Info Inputs */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      {isAr ? "الاسم الكامل (كما في الهوية):" : "Volledige naam:"}
+                    </label>
+                    <input
+                      type="text"
+                      value={citizenName}
+                      onChange={(e) => setCitizenName(e.target.value)}
+                      placeholder="M. Al-Ahmad"
+                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 text-xs text-slate-900 dark:text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      {isAr ? "رقم الـ BSN (اختياري):" : "BSN-nummer (optioneel):"}
+                    </label>
+                    <input
+                      type="text"
+                      value={citizenBsn}
+                      onChange={(e) => setCitizenBsn(e.target.value)}
+                      placeholder="123456789"
+                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 text-xs text-slate-900 dark:text-white"
+                    />
+                  </div>
+                </div>
+
+                {/* Letter Preview Box */}
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    {isAr ? "نص الخطاب الهولندي الرسمي المولد:" : "Gegenereerde brieftekst (Nederlands):"}
+                  </label>
+                  <textarea
+                    rows={8}
+                    readOnly
+                    value={generatedDutchLetter}
+                    className="w-full bg-slate-900 text-slate-100 font-mono text-[11px] p-4 rounded-2xl border border-slate-700 focus:outline-none leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* Modal Actions */}
+              <div className="flex items-center justify-between pt-2">
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 cursor-pointer"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>{isAr ? "طباعة كـ PDF" : "Afdrukken / PDF"}</span>
                 </button>
 
-                <button
-                  onClick={() => setShowVipModal(false)}
-                  className="w-full py-2.5 text-xs text-slate-500 hover:text-slate-700 font-semibold cursor-pointer"
-                >
-                  {isAr ? "إغلاق" : isNl ? "Sluiten" : "Close"}
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowBezwaarModal(false)}
+                    className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 cursor-pointer"
+                  >
+                    {isAr ? "إغلاق" : "Sluiten"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCopyLetter}
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black shadow-md cursor-pointer transition-all"
+                  >
+                    {copiedLetter ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedLetter ? (isAr ? "تم النسخ بنجاح!" : "Gekopieerd!") : (isAr ? "نسخ النص كاملاً" : "Kopieer tekst")}</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

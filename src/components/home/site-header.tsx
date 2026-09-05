@@ -19,6 +19,9 @@ import {
   QrCode,
   GraduationCap,
   HeartHandshake,
+  Calculator,
+  Scale,
+  ShoppingBag,
 } from "lucide-react";
 import LanguageSwitcher from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -128,11 +131,35 @@ const serviceGroups: ServiceGroup[] = [
         badge: "JOBS",
         iconColor: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 border-indigo-200/60 dark:border-indigo-800/40",
       },
+      {
+        key: "nav.toeslagenCalculator",
+        subKey: "nav.toeslagenCalculatorSub",
+        href: "/services/toeslagen-calculator",
+        icon: Calculator,
+        badge: "2026",
+        iconColor: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200/60 dark:border-emerald-800/40",
+      },
+      {
+        key: "nav.spreekuur",
+        subKey: "nav.spreekuurSub",
+        href: "/spreekuur",
+        icon: Scale,
+        badge: "CONSULT",
+        iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border-blue-200/60 dark:border-blue-800/40",
+      },
     ],
   },
   {
     titleKey: "nav.perksAndMediaGroup",
     items: [
+      {
+        key: "nav.marktplaats",
+        subKey: "nav.marktplaatsSub",
+        href: "/marktplaats",
+        icon: ShoppingBag,
+        badge: "MARKT",
+        iconColor: "text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/50 border-teal-200/60 dark:border-teal-800/40",
+      },
       {
         key: "nav.discounts",
         subKey: "nav.discountsSub",
