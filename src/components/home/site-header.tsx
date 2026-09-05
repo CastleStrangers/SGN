@@ -155,6 +155,59 @@ const serviceGroups: ServiceGroup[] = [
     ],
   },
   {
+    titleKey: "nav.economicEmpowermentGroup",
+    items: [
+      {
+        key: "nav.zzp",
+        subKey: "nav.zzpSub",
+        href: "/services/zzp",
+        icon: Coins,
+        badge: "ZZP",
+        iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 border-amber-200/60 dark:border-amber-800/40",
+      },
+      {
+        key: "nav.besparen",
+        subKey: "nav.besparenSub",
+        href: "/services/besparen",
+        icon: TrendingDown,
+        badge: "-600€",
+        iconColor: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200/60 dark:border-emerald-800/40",
+      },
+      {
+        key: "nav.bazaar",
+        subKey: "nav.bazaarSub",
+        href: "/services/bazaar",
+        icon: ChefHat,
+        badge: "BAZAAR",
+        iconColor: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border-rose-200/60 dark:border-rose-800/40",
+      },
+      {
+        key: "nav.b2b",
+        subKey: "nav.b2bSub",
+        href: "/services/b2b",
+        icon: Truck,
+        badge: "B2B",
+        iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border-blue-200/60 dark:border-blue-800/40",
+      },
+      {
+        key: "nav.academy",
+        subKey: "nav.academySub",
+        href: "/services/academy",
+        icon: Award,
+        badge: "VCA",
+        iconColor: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 border-indigo-200/60 dark:border-indigo-800/40",
+      },
+      {
+        key: "nav.cashback",
+        subKey: "nav.cashbackSub",
+        href: "/services/cashback",
+        icon: CreditCard,
+        badge: "CASHBACK",
+        iconColor: "text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-950/50 border-yellow-200/60 dark:border-yellow-800/40",
+      },
+    ],
+  },
+  {
     titleKey: "nav.perksAndMediaGroup",
     items: [
       {
@@ -342,9 +395,9 @@ export function SiteHeader() {
                   onMouseLeave={() => setServicesMenuOpen(false)}
                   className={`absolute top-full mt-2 ${
                     isRtl ? "left-0" : "right-0"
-                  } w-[940px] max-w-[95vw] bg-card/95 backdrop-blur-xl border border-border shadow-2xl rounded-2xl p-6 z-50 animate-in fade-in slide-in-from-top-2 duration-150`}
+                  } w-[1100px] max-w-[96vw] bg-card/95 backdrop-blur-xl border border-border shadow-2xl rounded-2xl p-6 z-50 animate-in fade-in slide-in-from-top-2 duration-150`}
                 >
-                  <div className="grid grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {serviceGroups.map(group => (
                       <div key={group.titleKey} className="space-y-3">
                         <h4 className="text-[11px] font-black uppercase tracking-wider text-muted-foreground/80 pb-1.5 border-b border-border/50 flex items-center gap-1.5">
