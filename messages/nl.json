@@ -30,7 +30,19 @@
     "membershipCard": "Smart Lidmaatschapspas",
     "services": "Dienstengids",
     "donate": "Doneren",
-    "gallery": "Fotogalerij"
+    "gallery": "Fotogalerij",
+    "allServices": "Diensten & Tools",
+    "communityServicesGroup": "Gemeenschapsdiensten",
+    "smartToolsGroup": "Slimme AI Tools",
+    "perksAndMediaGroup": "Voordelen & Media",
+    "servicesSub": "Vind Syrische vakmensen & professionals",
+    "membersSub": "Netwerk van gemeenschapsleden in Nederland",
+    "membershipCardSub": "Digitale lidmaatschapspas met QR-code",
+    "briefScannerSub": "Vertaal en begrijp officiële brieven met AI",
+    "cvBuilderSub": "Maak een professioneel Nederlands cv",
+    "discountsSub": "Exclusieve ledenkortingen & deals",
+    "pricingSub": "Lidmaatschapspakketten & gemeenschapssteun",
+    "gallerySub": "Archief van evenementenfoto's en bijeenkomsten"
   },
   "topbar": {
     "about": "Over Ons",
