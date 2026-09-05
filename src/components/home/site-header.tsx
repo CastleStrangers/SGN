@@ -33,6 +33,7 @@ const mainNav = [
   { key: "nav.culture", href: "/news?category=%D8%AB%D9%82%D8%A7%D9%81%D8%A9%20%D9%88%D9%81%D9%86" },
   { key: "nav.videos", href: "/news?category=%D9%81%D9%8A%D8%AF%D9%8A%D9%88%D9%87%D8%A7%D8%AA" },
   { key: "nav.events", href: "/events" },
+  { key: "nav.gallery", href: "/gallery" },
 ];
 
 interface ServiceItem {
@@ -112,13 +113,6 @@ const serviceGroups: ServiceGroup[] = [
         href: "/pricing",
         icon: Crown,
         iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 border-amber-200/60 dark:border-amber-800/40",
-      },
-      {
-        key: "nav.gallery",
-        subKey: "nav.gallerySub",
-        href: "/gallery",
-        icon: ImageIcon,
-        iconColor: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 border-indigo-200/60 dark:border-indigo-800/40",
       },
     ],
   },
