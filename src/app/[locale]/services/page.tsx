@@ -23,7 +23,6 @@ interface ServiceMember {
 
 export default function ServicesDirectoryPage() {
   const t = useTranslations("directory");
-  const tm = useTranslations("memberProfilePage");
   const locale = useLocale();
   const [members, setMembers] = useState<ServiceMember[]>([]);
   const [loading, setLoading] = useState(true);

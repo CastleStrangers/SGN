@@ -42,7 +42,6 @@ export default function ProfilePage() {
   const { data: session } = useSession();
   const currentUserId = session?.user?.id;
   const t = useTranslations("userProfile");
-  const tm = useTranslations("memberProfilePage");
   const tCard = useTranslations("membershipCard");
   const locale = useLocale();
   const [user, setUser] = useState<UserProfile | null>(null);
