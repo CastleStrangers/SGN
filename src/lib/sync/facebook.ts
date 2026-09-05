@@ -193,7 +193,8 @@ export async function extractFacebook(
   since?: Date
 ): Promise<ExtractedArticle[]> {
   const pageId = process.env.FACEBOOK_PAGE_ID
-  const token = process.env.FACEBOOK_PAGE_TOKEN
+  const rawToken = process.env.FACEBOOK_PAGE_TOKEN || ""
+  const token = rawToken.replace(/^(?:FACEBOOK_PAGE_TOKEN=)+/, "").replace(/["']/g, "").trim()
 
   if (!pageId || !token) {
     throw new Error(
