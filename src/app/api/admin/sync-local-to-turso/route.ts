@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
         for (const row of rows.rows) {
           const values = cols.map((c) => (row as Record<string, any>)[c]);
           await turso.execute({
-            sql: `INSERT INTO "${table}" (${colList}) VALUES (${placeholders})`,
+            sql: `INSERT OR REPLACE INTO "${table}" (${colList}) VALUES (${placeholders})`,
             args: values as any[],
           });
         }
