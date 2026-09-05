@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Search, MapPin, Briefcase, Star, MessageCircle, Loader2, User, Map as MapIcon, LayoutGrid } from "lucide-react";
+import { 
+  Search, MapPin, Briefcase, Star, MessageCircle, Loader2, User, 
+  Map as MapIcon, LayoutGrid, Sparkles, FileText, GraduationCap, 
+  HeartHandshake, Tag, QrCode 
+} from "lucide-react";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
 import { Link } from "@/i18n/routing";
@@ -64,22 +68,94 @@ export default function ServicesDirectoryPage() {
   };
 
   const isRtl = locale === "ar";
+  const isNl = locale === "nl";
+
+  const smartTools = [
+    {
+      title: isRtl ? "مفسر الخطابات (AI)" : isNl ? "Brieven Scanner (AI)" : "Brief Scanner (AI)",
+      desc: isRtl ? "ترجمة وفهم رسائل الضرائب والبلديات" : isNl ? "Brieven van Belastingdienst & CJIB" : "Understand official Dutch letters",
+      href: "/services/brief-scanner",
+      icon: Sparkles,
+      color: "text-purple-600 bg-purple-50 dark:bg-purple-950/50 border-purple-200/50",
+    },
+    {
+      title: isRtl ? "صانع الـ CV الهولندي" : isNl ? "Nederlands CV Maker" : "Dutch CV Builder",
+      desc: isRtl ? "إنشاء سيرة ذاتية متوافقة مع معايير هولندا" : isNl ? "Professioneel CV & Motivatiebrief" : "Standard Dutch resume & motivation letter",
+      href: "/services/cv-builder",
+      icon: FileText,
+      color: "text-teal-600 bg-teal-50 dark:bg-teal-950/50 border-teal-200/50",
+    },
+    {
+      title: isRtl ? "سوق العمل والوظائف" : isNl ? "Vacatures & Stages" : "Jobs & Internships",
+      desc: isRtl ? "فرص توظيف وتدريب مهني حية" : isNl ? "Actuele banen en stageplekken" : "Verified vacancies and internships",
+      href: "/jobs",
+      icon: Briefcase,
+      color: "text-indigo-600 bg-indigo-50 dark:bg-indigo-950/50 border-indigo-200/50",
+    },
+    {
+      title: isRtl ? "مركز الاندماج و KNM" : isNl ? "Inburgering Portaal" : "Inburgering Hub",
+      desc: isRtl ? "امتحانات تجريبية لـ KNM و ONA" : isNl ? "Oefenexamens KNM, ONA & Taal" : "Practice exams for KNM & ONA",
+      href: "/inburgering",
+      icon: GraduationCap,
+      color: "text-amber-600 bg-amber-50 dark:bg-amber-950/50 border-amber-200/50",
+    },
+    {
+      title: isRtl ? "خريطة الجالية التفاعلية" : isNl ? "Gemeenschapskaart" : "Community Map",
+      desc: isRtl ? "المراكز والخصومات في ١٢ مقاطعة" : isNl ? "Locaties in 12 provincies" : "Hubs across 12 provinces",
+      href: "/map",
+      icon: MapPin,
+      color: "text-rose-600 bg-rose-50 dark:bg-rose-950/50 border-rose-200/50",
+    },
+    {
+      title: isRtl ? "صندوق التكافل (ANBI)" : isNl ? "Solidariteitsfonds" : "Solidarity Fund",
+      desc: isRtl ? "طوارئ الجالية ونقل الجثامين" : isNl ? "Noodhulp & Repatriëring" : "Emergency relief & repatriation",
+      href: "/solidarity",
+      icon: HeartHandshake,
+      color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200/50",
+    },
+  ];
 
   return (
     <div dir={isRtl ? "rtl" : "ltr"} className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <TopBar />
       <SiteHeader />
 
-      <main className="max-w-7xl mx-auto px-4 py-12">
-        <div className="text-center mb-12">
+      <main className="max-w-7xl mx-auto px-4 py-12 space-y-10">
+        <div className="text-center">
           <h1 className="text-4xl font-black text-slate-900 dark:text-white mb-4">{ts("title")}</h1>
           <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             {ts("subtitle")}
           </p>
         </div>
 
+        {/* Smart Tools Hub Shortcuts */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {smartTools.map((tool) => {
+            const Icon = tool.icon;
+            return (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-emerald-500/40 transition-all flex flex-col justify-between group space-y-2"
+              >
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center border shrink-0 ${tool.color}`}>
+                  <Icon className="w-4 h-4" />
+                </div>
+                <div className="space-y-0.5">
+                  <h3 className="text-xs font-black text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">
+                    {tool.title}
+                  </h3>
+                  <p className="text-[10px] text-slate-400 line-clamp-2">
+                    {tool.desc}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
         {/* View Toggle */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center">
           <div className="bg-white dark:bg-slate-900 p-1 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex gap-1">
             <button
               onClick={() => setViewMode("grid")}
