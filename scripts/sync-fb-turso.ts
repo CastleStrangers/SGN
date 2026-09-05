@@ -1,5 +1,7 @@
 import { createClient } from "@libsql/client";
-import "dotenv/config";
+import { config } from "dotenv";
+config({ path: ".env.production" });
+config({ path: ".env" });
 
 async function main() {
   const local = createClient({ url: "file:./prisma/dev.db" });
