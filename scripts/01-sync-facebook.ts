@@ -14,7 +14,7 @@
  */
 
 import "dotenv/config"
-import { runSync } from "../src/lib/sync"
+import { runSync, DEFAULT_SOURCES } from "../src/lib/sync"
 import { execSync } from "child_process"
 
 interface SyncResult {
@@ -36,8 +36,9 @@ async function main() {
   const startTime = Date.now()
 
   try {
-    // تشغيل المزامنة
-    const results: SyncResult[] = await runSync()
+    // تشغيل مزامنة Facebook فقط
+    const fbSources = DEFAULT_SOURCES.filter(s => s.type === "facebook")
+    const results: SyncResult[] = await runSync(fbSources)
 
     // عرض النتائج
     console.log(`\n📊 نتائج المزامنة:`)
