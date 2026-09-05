@@ -22,6 +22,11 @@ import {
   Calculator,
   Scale,
   ShoppingBag,
+  Coins,
+  TrendingDown,
+  ChefHat,
+  Truck,
+  Award,
 } from "lucide-react";
 import LanguageSwitcher from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";

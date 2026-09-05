@@ -4,7 +4,8 @@ import { useTranslations, useLocale } from "next-intl";
 import { 
   Search, MapPin, Briefcase, Star, MessageCircle, Loader2, User, 
   Map as MapIcon, LayoutGrid, Sparkles, FileText, GraduationCap, 
-  HeartHandshake, Tag, QrCode, Calculator, Scale, ShoppingBag 
+  HeartHandshake, Tag, QrCode, Calculator, Scale, ShoppingBag,
+  Coins, TrendingDown, ChefHat, Truck, Award, CreditCard
 } from "lucide-react";
 import { TopBar } from "@/components/home/top-bar";
 import { SiteHeader } from "@/components/home/site-header";
@@ -71,6 +72,48 @@ export default function ServicesDirectoryPage() {
   const isNl = locale === "nl";
 
   const smartTools = [
+    {
+      title: isRtl ? "دليل المهنيين ومولد الفواتير (ZZP)" : isNl ? "ZZP Hub & Factuur Maker" : "ZZP Freelancer Hub",
+      desc: isRtl ? "دليل موثق لأصحاب المهن الحرة ومولد فواتير معتمد متوافق مع مصلحة الضرائب" : isNl ? "Belastingdienst-proof facturen & gids" : "Verified freelancers & tax-compliant invoice builder",
+      href: "/services/zzp",
+      icon: Coins,
+      color: "text-amber-600 bg-amber-50 dark:bg-amber-950/50 border-amber-200/50",
+    },
+    {
+      title: isRtl ? "العقود الجماعية وحاسبة التوفير" : isNl ? "Collectief Besparen" : "Collective Household Savings",
+      desc: isRtl ? "توفير حتى ٦٠٠€ سنوياً في فواتير الطاقة والتأمين الصحي والإنترنت" : isNl ? "Tot €600 p/j op energie & zorg" : "Save up to €600/yr on energy, health & internet",
+      href: "/services/besparen",
+      icon: TrendingDown,
+      color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200/50",
+    },
+    {
+      title: isRtl ? "بازار الأسر المنتجة ومطابخ المنازل" : isNl ? "Thuiskeukens & Ambachten" : "Home Kitchens & Crafts",
+      desc: isRtl ? "أشهى الأطعمة والحلويات والأشغال اليدوية المنزلية مع طلب فوري عبر الواتساب" : isNl ? "Ambachtelijke gerechten & WhatsApp bestelling" : "Authentic home cooking & direct WhatsApp orders",
+      href: "/services/bazaar",
+      icon: ChefHat,
+      color: "text-rose-600 bg-rose-50 dark:bg-rose-950/50 border-rose-200/50",
+    },
+    {
+      title: isRtl ? "شبكة التوريد والصفقات بالجملة (B2B)" : isNl ? "B2B Groothandel Netwerk" : "B2B Wholesale Network",
+      desc: isRtl ? "ربط المطاعم والمتاجر بأفضل موردي المواد الغذائية والمعدات بأسعار الجملة" : isNl ? "Scherpe inkoopprijzen & leveranciers" : "Wholesale food supplies & equipment quotes",
+      href: "/services/b2b",
+      icon: Truck,
+      color: "text-blue-600 bg-blue-50 dark:bg-blue-950/50 border-blue-200/50",
+    },
+    {
+      title: isRtl ? "أكاديمية التدريب المهني ورخص VCA" : isNl ? "Vakacademie & VCA" : "Skills Academy & Certifications",
+      desc: isRtl ? "نماذج اختبارات تفاعلية لرخص السلامة المهنية VCA، كود الهاسب HACCP وشهادات الرافعات" : isNl ? "Oefenexamens VCA & HACCP gids" : "Interactive VCA safety exams & HACCP guide",
+      href: "/services/academy",
+      icon: Award,
+      color: "text-indigo-600 bg-indigo-50 dark:bg-indigo-950/50 border-indigo-200/50",
+    },
+    {
+      title: isRtl ? "بطاقة العضوية الذهبية والكاش باك" : isNl ? "Ledenpas & Cashback" : "Member Pass & Cashback",
+      desc: isRtl ? "خصومات فورية ٥٪-٢٠٪ واسترداد نقدي لدى أكثر من ٨٥ متجر وشركة شريكة" : isNl ? "5%-20% korting bij aangesloten partners" : "5%-20% instant discount at 85+ partner stores",
+      href: "/services/cashback",
+      icon: CreditCard,
+      color: "text-yellow-600 bg-yellow-50 dark:bg-yellow-950/50 border-yellow-200/50",
+    },
     {
       title: isRtl ? "قارئ ومترجم الرسائل الرسمية" : isNl ? "Brieven Scanner (AI)" : "Brief Scanner (AI)",
       desc: isRtl ? "مسح وترجمة رسائل البلدية والضرائب والـ IND وفهم المطلوب والمهل فوراً" : isNl ? "Brieven van Belastingdienst & CJIB" : "Understand official Dutch letters",
