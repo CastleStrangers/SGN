@@ -30,7 +30,19 @@
     "membershipCard": "بطاقة العضوية الذكية",
     "services": "دليل الخدمات",
     "donate": "تبرع",
-    "gallery": "معرض الصور"
+    "gallery": "معرض الصور",
+    "allServices": "خدمات وميزات",
+    "communityServicesGroup": "خدمات الأعضاء",
+    "smartToolsGroup": "الأدوات الذكية الرقمية",
+    "perksAndMediaGroup": "المزايا والأنشطة",
+    "servicesSub": "ابحث عن الحرفيين وأصحاب المهن",
+    "membersSub": "شبكة وتواصل أعضاء الجالية",
+    "membershipCardSub": "بطاقتك الرقمية مع رمز QR",
+    "briefScannerSub": "ترجمة وتفسير الرسائل الرسمية بالذكاء الاصطناعي",
+    "cvBuilderSub": "أنشئ سيرتك الذاتية المتوافقة مع السوق الهولندي",
+    "discountsSub": "عروض وتخفيضات حصرية للأعضاء",
+    "pricingSub": "باقات الاشتراك ودعم الجالية",
+    "gallerySub": "أرشيف صور الفعاليات والمناسبات"
   },
   "topbar": {
     "about": "من نحن",

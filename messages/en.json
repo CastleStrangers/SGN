@@ -30,7 +30,19 @@
     "membershipCard": "Smart ID Card",
     "services": "Services Directory",
     "donate": "Donate",
-    "gallery": "Photo Gallery"
+    "gallery": "Photo Gallery",
+    "allServices": "Services & Tools",
+    "communityServicesGroup": "Community Services",
+    "smartToolsGroup": "Smart AI Tools",
+    "perksAndMediaGroup": "Perks & Media",
+    "servicesSub": "Find Syrian professionals & artisans",
+    "membersSub": "Syrian community members network",
+    "membershipCardSub": "Digital membership card with QR code",
+    "briefScannerSub": "Translate & explain Dutch letters with AI",
+    "cvBuilderSub": "Build standard Dutch CV & resume",
+    "discountsSub": "Exclusive member offers & discounts",
+    "pricingSub": "Membership plans & support packages",
+    "gallerySub": "Archive of event photos & community gatherings"
   },
   "topbar": {
     "about": "About Us",
