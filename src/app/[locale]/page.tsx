@@ -29,13 +29,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       prisma.post.findMany({
         where: { published: true, locale },
         orderBy: { createdAt: "desc" },
-        take: 30,
+        take: 100,
         select: LIST_SELECT,
       }),
       prisma.post.findMany({
         where: { published: true, source: "youtube", locale },
         orderBy: { createdAt: "desc" },
-        take: 10,
+        take: 20,
         select: LIST_SELECT,
       }),
     ]);
