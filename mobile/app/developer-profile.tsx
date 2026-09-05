@@ -40,7 +40,7 @@ export default function DeveloperProfileScreen() {
             <Image
               source={{ uri: "https://sgn-indol.vercel.app/images/board/Mohammad_Salim_Aziza.png" }}
               style={styles.avatar}
-              defaultSource={require("../assets/images/icon.png")}
+              defaultSource={require("../assets/icon.png")}
             />
           </View>
           <Text style={styles.name}>{t("dev.name")}</Text>
@@ -74,7 +74,7 @@ export default function DeveloperProfileScreen() {
             <Image
               source={{ uri: "https://sgn-indol.vercel.app/images/board/raed_kaakeh.png" }}
               style={styles.avatar}
-              defaultSource={require("../assets/images/icon.png")}
+              defaultSource={require("../assets/icon.png")}
             />
           </View>
           <Text style={styles.name}>{t("dev.member2Name")}</Text>
