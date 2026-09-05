@@ -87,6 +87,12 @@ export async function runSync(
                 : mediaResult.thumbnail || finalArticle.image
             }
 
+            // Never save untranslated non-Arabic text into Arabic locale
+            if (targetLocale === "ar" && !/[\u0600-\u06FF]/.test(finalArticle.title)) {
+              console.warn(`[Sync] Skipping untranslated non-Arabic article for locale ar: "${finalArticle.title.slice(0, 40)}"`)
+              continue
+            }
+
             const syncResult = await syncArticleToDb(finalArticle, category, targetLocale)
             if (syncResult.status === "new") result.new++
             else if (syncResult.status === "updated") result.updated++
