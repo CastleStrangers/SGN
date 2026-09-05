@@ -24,6 +24,7 @@ interface Doc {
 export default function VaultPage() {
   const { id } = useParams<{ id: string }>();
   const t = useTranslations("userProfile");
+  const tm = useTranslations("memberProfilePage");
   const locale = useLocale();
   const isRtl = locale === "ar";
 
