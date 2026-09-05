@@ -15,8 +15,10 @@ import {
   FileText,
   Tag,
   Crown,
-  Image as ImageIcon,
-  Sparkle,
+  MapPin,
+  QrCode,
+  GraduationCap,
+  HeartHandshake,
 } from "lucide-react";
 import LanguageSwitcher from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -75,6 +77,21 @@ const serviceGroups: ServiceGroup[] = [
         icon: CreditCard,
         iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 border-amber-200/60 dark:border-amber-800/40",
       },
+      {
+        key: "nav.communityMap",
+        subKey: "nav.communityMapSub",
+        href: "/map",
+        icon: MapPin,
+        iconColor: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border-rose-200/60 dark:border-rose-800/40",
+      },
+      {
+        key: "nav.verifyPass",
+        subKey: "nav.verifyPassSub",
+        href: "/verify-pass",
+        icon: QrCode,
+        badge: "PARTNER",
+        iconColor: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200/60 dark:border-emerald-800/40",
+      },
     ],
   },
   {
@@ -95,6 +112,22 @@ const serviceGroups: ServiceGroup[] = [
         icon: FileText,
         iconColor: "text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/50 border-teal-200/60 dark:border-teal-800/40",
       },
+      {
+        key: "nav.inburgering",
+        subKey: "nav.inburgeringSub",
+        href: "/inburgering",
+        icon: GraduationCap,
+        badge: "KNM",
+        iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 border-amber-200/60 dark:border-amber-800/40",
+      },
+      {
+        key: "nav.jobs",
+        subKey: "nav.jobsSub",
+        href: "/jobs",
+        icon: Briefcase,
+        badge: "JOBS",
+        iconColor: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 border-indigo-200/60 dark:border-indigo-800/40",
+      },
     ],
   },
   {
@@ -113,6 +146,14 @@ const serviceGroups: ServiceGroup[] = [
         href: "/pricing",
         icon: Crown,
         iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 border-amber-200/60 dark:border-amber-800/40",
+      },
+      {
+        key: "nav.solidarity",
+        subKey: "nav.solidaritySub",
+        href: "/solidarity",
+        icon: HeartHandshake,
+        badge: "ANBI",
+        iconColor: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200/60 dark:border-emerald-800/40",
       },
     ],
   },
@@ -269,7 +310,7 @@ export function SiteHeader() {
                   onMouseLeave={() => setServicesMenuOpen(false)}
                   className={`absolute top-full mt-2 ${
                     isRtl ? "left-0" : "right-0"
-                  } w-[680px] bg-card/95 backdrop-blur-xl border border-border shadow-2xl rounded-2xl p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-150`}
+                  } w-[760px] bg-card/95 backdrop-blur-xl border border-border shadow-2xl rounded-2xl p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-150`}
                 >
                   <div className="grid grid-cols-3 gap-5">
                     {serviceGroups.map(group => (
