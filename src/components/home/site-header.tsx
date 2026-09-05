@@ -337,15 +337,15 @@ export function SiteHeader() {
                   onMouseLeave={() => setServicesMenuOpen(false)}
                   className={`absolute top-full mt-2 ${
                     isRtl ? "left-0" : "right-0"
-                  } w-[760px] bg-card/95 backdrop-blur-xl border border-border shadow-2xl rounded-2xl p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-150`}
+                  } w-[940px] max-w-[95vw] bg-card/95 backdrop-blur-xl border border-border shadow-2xl rounded-2xl p-6 z-50 animate-in fade-in slide-in-from-top-2 duration-150`}
                 >
-                  <div className="grid grid-cols-3 gap-5">
+                  <div className="grid grid-cols-3 gap-6">
                     {serviceGroups.map(group => (
-                      <div key={group.titleKey} className="space-y-2.5">
+                      <div key={group.titleKey} className="space-y-3">
                         <h4 className="text-[11px] font-black uppercase tracking-wider text-muted-foreground/80 pb-1.5 border-b border-border/50 flex items-center gap-1.5">
                           <span>{t(group.titleKey)}</span>
                         </h4>
-                        <div className="space-y-1">
+                        <div className="space-y-1.5">
                           {group.items.map(item => {
                             const IconComponent = item.icon;
                             return (
@@ -359,8 +359,8 @@ export function SiteHeader() {
                                   <IconComponent className="w-4 h-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="text-xs font-bold text-card-foreground group-hover:text-primary transition-colors truncate">
+                                  <div className="flex items-center gap-1.5 flex-wrap">
+                                    <span className="text-xs font-bold text-card-foreground group-hover:text-primary transition-colors leading-snug">
                                       {t(item.key)}
                                     </span>
                                     {item.badge && (
@@ -369,7 +369,7 @@ export function SiteHeader() {
                                       </span>
                                     )}
                                   </div>
-                                  <p className="text-[10px] text-muted-foreground line-clamp-1 mt-0.5">
+                                  <p className="text-[10px] text-muted-foreground line-clamp-2 leading-normal mt-0.5">
                                     {t(item.subKey)}
                                   </p>
                                 </div>
@@ -443,7 +443,7 @@ export function SiteHeader() {
                       <div className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 ${item.iconColor}`}>
                         <IconComponent className="w-3.5 h-3.5" />
                       </div>
-                      <span className="truncate">{t(item.key)}</span>
+                      <span className="leading-snug">{t(item.key)}</span>
                       {item.badge && (
                         <span className="px-1.5 py-0.2 bg-purple-600 text-white font-black rounded text-[8px] uppercase tracking-wider mr-auto rtl:mr-auto rtl:ml-0 ltr:ml-auto">
                           {item.badge}
